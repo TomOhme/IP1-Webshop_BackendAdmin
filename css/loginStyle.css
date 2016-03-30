@@ -1,0 +1,48 @@
+h1 {
+     color:black;
+     font-size:30pt;
+     font-family:Helvetica, sans-serif;
+     text-align:center; 
+     font-weight:bold;        
+}
+
+
+#Logo {
+	display: block;
+	margin-top: 20px;
+	margin-left: auto;
+	margin-right: auto;
+	z-index: -1;
+}
+
+#mond {
+	top:0;
+    left:0;
+	position: absolute; /* Hintergrundbild */
+	width: 100%;
+	height: 100%;
+	z-index: -1;
+}
+
+#buttonSpezial {
+	
+	margin-left: auto;
+    margin-right: auto;
+	width: 300px;
+	padding-top: 10px;
+    padding-bottom: 10px;
+	overflow: hidden;
+	opacity: 1;
+}
+
+#inhalt {
+	
+	margin-top: auto;
+	margin-bottom: auto;
+	margin-left: auto;
+	margin-right: auto;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	opacity: 1;
+}

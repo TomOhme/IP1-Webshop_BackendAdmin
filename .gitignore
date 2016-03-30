@@ -1,2 +1,6 @@
 .idea/
+vendor
+composer.json
+composer.lock
+composer.phar
 magento_BackendAdmin.iml

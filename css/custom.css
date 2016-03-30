@@ -1,0 +1,333 @@
+@CHARSET "UTF-8";
+
+/* Breite von Textfelder flex
+.input-group {
+	position: relative;
+	display: flex;
+	border-collapse: separate
+} */
+
+
+.footer {
+	position: fixed !important;
+	height: 30px !important;
+}
+
+p.text-muted {
+	text-align: center;
+}
+
+/* kategorie bearbeiten label */
+.labelkat {
+	margin-left: 15px;
+	padding-top: 10px;
+	margin-bottom: 0px;
+	padding: .2em .6em .3em;
+	color: #fff;
+	background-color: #5e5e5e;
+	border-radius: .25em .25em .25em .25em;
+}
+
+/* button margin bottom für kategorie page */
+.btnmarg {
+	margin-bottom: 20px;
+}
+
+/* bilder square */
+.img-thumbnail{
+	height: 70px;
+	object-fit: cover;
+	object-position: top 75%;
+	overflow: hidden;
+}
+
+/* css für select dropdown*/
+select#select2 {
+	display: block;
+	width: 100%;
+	height: 34px;
+	padding: 6px 12px;
+	font-size: 14px;
+	line-height: 1.42857143;
+	color: #555;
+	background-color: #fff;
+	background-image: none;
+	border: 1px solid #ccc;
+	-webkit-border-radius: 0 4px 4px 4px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+	-webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow
+		ease-in-out .15s;
+	-o-transition: border-color ease-in-out .15s, box-shadow ease-in-out
+		.15s;
+	transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+/* Margins für Textfelder */
+.input-group .form-control {
+	position: relative;
+	z-index: 2;
+	float: left;
+	width: 100%;
+	margin-bottom: 0;
+	border-radius: 0 4px 4px 4px;
+}
+
+/* Css für Labels von Textfelder */
+.label2 {
+	margin-bottom: 0px;
+	padding: .2em .6em .3em;
+	color: #fff;
+	background-color: #5e5e5e;
+	border-radius: .25em .25em 0em 0em;
+}
+
+/* Table head fett */
+.tablebold {
+	font-weight: bold;
+}
+
+/* table nth-child background color 
+.table-striped>tbody>tr:nth-child(odd)>td, .table-striped>tbody>tr:nth-child(odd)>th {
+	background-color: #f4f4f4;
+}*/
+
+/* Table hover farbe */
+.table-hover>tbody>tr:hover>td, .table-hover>tbody>tr:hover>th {
+	background-color: #e3e3e3;
+	cursor: pointer;
+}
+
+/* vertikale Anordung */
+.table>tbody>tr>td {
+	vertical-align: middle;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: #f5f5f5;
+}
+
+span {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+/* Dropzone customizing */
+.dropzone {
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+	background: #f9f9f9;
+}
+div.dz-preview.dz-processing.dz-success.dz-complete.dz-image-preview {
+	background: #f9f9f9;
+}
+a.dz-remove {
+	margin-top: 10px;
+	border: 1px solid transparent;
+}
+a.dz-remove.btn.btn-danger:hover {
+	text-decoration: none;
+}
+.dropzone .dz-preview .dz-success-mark, .dropzone .dz-preview .dz-error-mark {
+	margin-top: -45px;
+}
+.dropzone .dz-preview.dz-image-preview {
+	background: none;
+}
+.dropzone .dz-preview .dz-progress {
+	margin-top: -27px;
+}
+
+.dropzone .dz-preview .dz-image img {
+	display: block;
+    max-width: none;
+ 	max-height: 120px;
+ 	width: auto;
+ 	height: auto;
+ 	position: absolute;
+	top: 50%;
+	bottom: 0;
+	left: 50%;
+	right: 0;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+}
+
+.dropzone .dz-preview .dz-details .dz-size {
+	visibility: hidden;
+}
+
+.dropzone .dz-preview .dz-details .dz-filename {
+	visibility: hidden;
+}
+
+.dropzone .dz-preview:hover .dz-image img {
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	-webkit-filter: blur(0px);
+	filter: blur(0px); 
+}
+
+.dropzone .dz-preview .dz-image {
+	text-align: center;
+}
+
+.settings-dz.dropzone .dz-preview .dz-success-mark,
+.settings-dz.dropzone .dz-preview .dz-error-mark {
+	margin-top: -27px;
+}
+
+.settings-logo {
+	width: 224px;
+  	float: left;
+  	position: relative;
+  	min-height: 1px;
+  	padding-right: 15px;
+  	padding-left: 15px;
+}
+
+.tree, .tree ul {
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+
+.tree ul {
+  margin-left:1em; /* indentation */
+  position:relative;
+}
+
+.tree ul ul {margin-left:.5em} /* (indentation/2) */
+
+.tree ul:before {
+  content:"";
+  display:block;
+  width:0;
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  border-left:1px solid;
+}
+
+.tree li {
+  margin:0;
+  padding:0 1.5em; /* indentation + .5em */
+  line-height:2em; /* default list item's `line-height` */
+  color:#369;
+  font-weight:bold;
+  position:relative;
+}
+
+.tree li a{
+  background: #5ab65a;
+  background-image: -webkit-linear-gradient(top, #5ab65a, #419641);
+  background-image: -moz-linear-gradient(top, #5ab65a, #419641);
+  background-image: -ms-linear-gradient(top, #5ab65a, #419641);
+  background-image: -o-linear-gradient(top, #5ab65a, #419641);
+  background-image: linear-gradient(to bottom, #5ab65a, #419641);
+  -webkit-border-radius: 3;
+  -moz-border-radius: 3;
+  border-radius: 3px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 14px;
+  padding: 4px 6px 4px 6px;
+  text-decoration: none;
+}
+
+.tree li a:hover {
+  background: #328013;
+  text-decoration: none;
+  cursor: pointer;
+  cursor: hand;
+}
+
+.tree ul li:before {
+  content:"";
+  display:block;
+  width:10px; /* same with indentation */
+  height:0;
+  border-top:1px solid;
+  margin-top:-1px; /* border top width */
+  position:absolute;
+  top:1em; /* (line-height/2) */
+  left:0;
+}
+
+.tree ul li:last-child:before {
+  background:white; /* same with body background */
+  height:auto;
+  top:1em; /* (line-height/2) */
+  bottom:0;
+}
+
+.rwd-article {
+	border: none;
+}
+
+.searchfix {
+	padding-bottom: 11px;
+	padding-right: 5px;
+	padding-left: 5px;
+}
+
+.clickZone *{
+	cursor: pointer !important;
+}
+
+.loggedinuser {
+	cursor: default;
+}
+
+.navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-nav>li>a:focus {
+  color: #777;
+  background-color: transparent;
+}
+
+#content_pane {
+	padding-top: 41px;
+}
+.nav-pills>li>a {
+	border-radius: 4px;
+	background-color: #ddd;
+}
+
+#loginlog a:hover, #articlelog a:hover, #categorylog a:hover, #userlog a:hover {
+	background-color: #428bca;
+	color: #fff;
+}
+
+.nav-pills>li.active>a, .nav-pills>li.active>a:hover, .nav-pills>li.active>a:focus {
+	background-color: #428bca;
+}
+
+/*
+#loginlog {
+	padding-right: 5px;
+}
+
+#articlelog {
+	padding-right: 5px;
+	padding-left: 5px;
+}
+
+#categorylog {
+	padding-right: 5px;
+	padding-left: 5px;
+}
+
+#userlog {
+	padding-left: 5px;
+}*/
