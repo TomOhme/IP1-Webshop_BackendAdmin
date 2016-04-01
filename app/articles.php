@@ -1,12 +1,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <!--<link rel="apple-touch-icon" sizes="300x300" href="../images/apple-touch-icon-300x300.png">-->
-    <!--<link rel="icon" sizes="300x300" href="../images/apple-touch-icon-300x300.png">-->
-    <title>BackendAdmin</title>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="apple-touch-icon" sizes="300x300" href="apple-touch-icon-300x300.png" />
+    <link rel="icon" sizes="300x300" href="apple-touch-icon-300x300.png">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>EasyAdmin Login</title>
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="../css/dropzone.css">
@@ -14,99 +16,17 @@
     <link rel="stylesheet" href="../css/bootstrapValidator.css">
     <link rel="stylesheet" href="../css/bootstrap-colorpicker.min.css">
     <link rel="stylesheet" href="../css/custom.css">
-    <link rel="shortcut icon" href="app/favicon.ico" type="image/x-icon">
-    <!--<link rel="icon" href="../images/favicon.ico" type="image/x-icon">-->
-    <meta name="apple-mobile-web-app-title" content="BackendAdmin">
+
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <script src="../js/jquery-2.2.2.min.js"></script>
+    <script src="../js/notify.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <meta name="apple-mobile-web-app-title" content="EasyAdmin">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <!--<link href="http://linux203.cs.technik.fhnw.ch/easyadmin/app/img/apple-touch-startup-image-1536x2008.png" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" rel="apple-touch-startup-image">
-    <link href="http://linux203.cs.technik.fhnw.ch/easyadmin/app/img/apple-touch-startup-image-1496x2048.png" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" rel="apple-touch-startup-image">
-    <link href="http://linux203.cs.technik.fhnw.ch/easyadmin/app/img/apple-touch-startup-image-768x1004.png" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 1) and (orientation: portrait)" rel="apple-touch-startup-image">
-    <link href="http://linux203.cs.technik.fhnw.ch/easyadmin/app/img/apple-touch-startup-image-748x1024.png" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 1) and (orientation: landscape)" rel="apple-touch-startup-image">
-    <link href="http://linux203.cs.technik.fhnw.ch/easyadmin/app/img/apple-touch-startup-image-1242x2148.png" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" rel="apple-touch-startup-image">
-    <link href="http://linux203.cs.technik.fhnw.ch/easyadmin/app/img/apple-touch-startup-image-1182x2208.png" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" rel="apple-touch-startup-image">
-    <link href="http://linux203.cs.technik.fhnw.ch/easyadmin/app/img/apple-touch-startup-image-750x1294.png" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
-    <link href="http://linux203.cs.technik.fhnw.ch/easyadmin/app/img/apple-touch-startup-image-640x1096.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
-    <link href="http://linux203.cs.technik.fhnw.ch/easyadmin/app/img/apple-touch-startup-image-640x920.png" media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
-    <link href="http://linux203.cs.technik.fhnw.ch/easyadmin/app/img/apple-touch-startup-image-320x460.png" media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 1)" rel="apple-touch-startup-image">-->
     <style>html{ -webkit-text-size-adjust: 100%;}</style>
-    <style type="text/css" id="notify-bootstrap">.notifyjs-bootstrap-base {
-        font-weight: bold;
-        padding: 8px 15px 8px 14px;
-        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-        background-color: #fcf8e3;
-        border: 1px solid #fbeed5;
-        -webkit-border-radius: 4px;
-        -moz-border-radius: 4px;
-        border-radius: 4px;
-        white-space: nowrap;
-        padding-left: 25px;
-        background-repeat: no-repeat;
-        background-position: 3px 7px;
-    }
-    .notifyjs-bootstrap-error {
-        color: #B94A48;
-        background-color: #F2DEDE;
-        border-color: #EED3D7;
-    }
-    .notifyjs-bootstrap-success {
-        color: #468847;
-        background-color: #DFF0D8;
-        border-color: #D6E9C6;
-    }
-    .notifyjs-bootstrap-info {
-        color: #3A87AD;
-        background-color: #D9EDF7;
-        border-color: #BCE8F1;
-    }
-    .notifyjs-bootstrap-warn {
-        color: #C09853;
-        background-color: #FCF8E3;
-        border-color: #FBEED5;
-    }
-    </style><style>.cke{visibility:hidden;}</style><style type="text/css" id="core-notify">.notifyjs-corner {
-    position: fixed;
-    margin: 5px;
-    z-index: 1050;
-}
-
-.notifyjs-corner .notifyjs-wrapper,
-.notifyjs-corner .notifyjs-container {
-    position: relative;
-    display: block;
-    height: inherit;
-    width: inherit;
-    margin: 3px;
-}
-
-.notifyjs-wrapper {
-    z-index: 1;
-    position: absolute;
-    display: inline-block;
-    height: 0;
-    width: 0;
-}
-
-.notifyjs-container {
-    display: none;
-    z-index: 1;
-    position: absolute;
-}
-
-.notifyjs-hidable {
-    cursor: pointer;
-}
-
-[data-notify-text],[data-notify-html] {
-    position: relative;
-}
-
-.notifyjs-arrow {
-    position: absolute;
-    z-index: 2;
-    width: 0;
-    height: 0;
-}</style></head>
+</head>
 <body>
 <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
@@ -137,8 +57,8 @@
                 <li onclick="logout();" class="visible-xs" id="action_logout"><a href="#"><img src="../img/logout.png" width="25" height="25" title="Logout">&nbsp;Logout</a></li>
                 <li onclick="logout();" class="hidden-xs" id="action_logout2"><a href="#"><img src="../img/logout.png" width="25" height="25" title="Logout"></a></li>
             </ul>
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
+        </div>
+    </div>
 </nav>
 <div id="content" style="padding-left:10px; padding-right:10px;">
     <script type="text/javascript">

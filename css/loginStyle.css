@@ -24,19 +24,17 @@ h1 {
 	z-index: -1;
 }
 
-#buttonSpezial {
-	
+#loginButton {
 	margin-left: auto;
     margin-right: auto;
-	width: 300px;
+	width: 320px;
 	padding-top: 10px;
     padding-bottom: 10px;
 	overflow: hidden;
 	opacity: 1;
 }
 
-#inhalt {
-	
+#page-content {
 	margin-top: auto;
 	margin-bottom: auto;
 	margin-left: auto;

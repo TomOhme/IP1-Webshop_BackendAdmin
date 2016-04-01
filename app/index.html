@@ -12,8 +12,7 @@
         <title>EasyAdmin Login</title>
         <link rel="stylesheet" href="../css/bootstrap.min.css" />
         <link rel="stylesheet" href="../css/bootstrap-theme.min.css" />
-        <link rel="stylesheet
-        " href="../css/loginStyle.css" />
+        <link rel="stylesheet" href="../css/loginStyle.css" />
         <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
         <link rel="icon" href="favicon.ico" type="image/x-icon">
         <script src="../js/jquery-2.2.2.min.js"></script>
@@ -41,22 +40,20 @@
         <div>
             <img id="Logo"  src="../img/Logo.png" alt="" title="">
         </div>
-        <div id="inhalt" onKeyPress="return checkSubmit(event)" style="width:320px;">
+        <div id="page-content" onKeyPress="return checkSubmit(event)" style="width:320px;">
             <form method="post" action="">
+                <span id="error" style="display: none"></span>
                 <h1>Easy Admin</h1>
                 <br />
-                <center>
                 <div class="input-group" style="width: 100%;">
-                    <input type="text" class="form-control" name="login" id="username"  placeholder="Benutzername">
+                    <input class="form-control required" type="text" name="username" id="username"  placeholder="Benutzername" autofocus>
                 </div>
-                <p> <div class="input-group" style="width: 100%;">
-                    <input type="password" class="form-control"
-                    name="password" id="password" size="40" placeholder="Passwort">
-                </div> </p>
-                </center>
+                <p><div class="input-group" style="width: 100%;">
+                    <input class="form-control required" type="password" name="password" id="password" size="40" placeholder="Passwort">
+                </div></p>
                 <br />
-                <div id="buttonspezial">
-                    <a href="#" id="login_btn" class="btn btn-success btn-block"  role="button" onclick="proceedLogin();">Login</a>
+                <div id="loginButton">
+                    <a href="#" id="login_btn" class="btn btn-primary btn-block" role="button" onclick="proceedLogin();">Login</a>
                     <br />
                 </div>
                 <div style="text-align:center">
@@ -65,47 +62,44 @@
             </form>
         </div>
         <script type="text/javascript">
-        function checkSubmit(e)
-        {
-          if(e && e.keyCode == 13)
-          {
-            proceedLogin();
-          }
+        function checkSubmit(e) {
+            if(e && e.keyCode == 13) {
+                proceedLogin();
+            }
         }
-        $.fn.serializeObject = function()
-        {
+        $.fn.serializeObject = function() {
           var o = {};
           var a = this.serializeArray();
           $.each(a, function() {
-            if (o[this.name] !== undefined) {
-              if (!o[this.name].push) {
-                o[this.name] = [o[this.name]];
+              if (o[this.name] !== undefined) {
+                  if (!o[this.name].push) {
+                      o[this.name] = [o[this.name]];
+                  }
+                  o[this.name].push(this.value || '');
+              } else {
+                  o[this.name] = this.value || '';
               }
-              o[this.name].push(this.value || '');
-            } else {
-              o[this.name] = this.value || '';
-            }
           });
-          return o;
+            return o;
         };
 
         function proceedLogin(){
-          var payload = JSON.stringify($('form').serializeObject());
-          $.ajax({
-            url : '../api/login.php',
-            type: 'POST',
-            data: payload,
-            success: function(data){
-              location.reload();
-            },
-            error: function(){
-              $("#login_btn").notify(
-              "Ungültiger Login",
-              { position:"right",
-              className: "error"}
-              );
-            }
-          });
+            var payload = JSON.stringify($('form').serializeObject());
+            $.ajax({
+                url : '../api/login.php',
+                type: 'POST',
+                data: payload,
+                success: function(data){
+                    location.reload();
+                    //location -> articles.php
+                },
+                error: function(){
+                    $("#login_btn").notify("Ungültiger Login", {
+                        position:"right",
+                        className: "error"}
+                    );
+                }
+            });
         };
         </script>
     </body>
