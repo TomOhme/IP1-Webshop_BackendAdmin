@@ -1,7 +1,3 @@
-body {
-    background-color: #e6e6e6;
-}
-
 h1 {
      color:black;
      font-size:30pt;
@@ -20,6 +16,15 @@ h1 {
 .middle {
     display: table-cell;
     vertical-align: middle;
+
+    background: rgba(246,246,246,1);
+    background: -moz-linear-gradient(top, rgba(246,246,246,1) 0%, rgba(246,246,246,1) 1%, rgba(237,237,237,1) 20%, rgba(246,246,246,1) 51%, rgba(246,246,246,1) 98%, rgba(237,237,237,1) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(246,246,246,1)), color-stop(1%, rgba(246,246,246,1)), color-stop(20%, rgba(237,237,237,1)), color-stop(51%, rgba(246,246,246,1)), color-stop(98%, rgba(246,246,246,1)), color-stop(100%, rgba(237,237,237,1)));
+    background: -webkit-linear-gradient(top, rgba(246,246,246,1) 0%, rgba(246,246,246,1) 1%, rgba(237,237,237,1) 20%, rgba(246,246,246,1) 51%, rgba(246,246,246,1) 98%, rgba(237,237,237,1) 100%);
+    background: -o-linear-gradient(top, rgba(246,246,246,1) 0%, rgba(246,246,246,1) 1%, rgba(237,237,237,1) 20%, rgba(246,246,246,1) 51%, rgba(246,246,246,1) 98%, rgba(237,237,237,1) 100%);
+    background: -ms-linear-gradient(top, rgba(246,246,246,1) 0%, rgba(246,246,246,1) 1%, rgba(237,237,237,1) 20%, rgba(246,246,246,1) 51%, rgba(246,246,246,1) 98%, rgba(237,237,237,1) 100%);
+    background: linear-gradient(to bottom, rgba(246,246,246,1) 0%, rgba(246,246,246,1) 1%, rgba(237,237,237,1) 20%, rgba(246,246,246,1) 51%, rgba(246,246,246,1) 98%, rgba(237,237,237,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6f6f6', endColorstr='#ededed', GradientType=0 );
 }
 
 .inner {
