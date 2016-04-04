@@ -34,32 +34,34 @@
         <style>html{ -webkit-text-size-adjust: 100%;}</style>
     </head>
     <body>
-        <div>
-            <img id="mond" src="../img/moon.jpg" alt="" title="">
-        </div>
-        <div>
-            <img id="Logo"  src="../img/Logo.png" alt="" title="">
-        </div>
-        <div id="page-content" onKeyPress="return checkSubmit(event)" style="width:320px;">
-            <form method="post" action="">
-                <span id="error" style="display: none"></span>
-                <h1>Easy Admin</h1>
-                <br />
-                <div class="input-group" style="width: 100%;">
-                    <input class="form-control required" type="text" name="username" id="username"  placeholder="Benutzername" autofocus>
+        <div class="outer">
+            <div class="middle">
+                <div class="inner">
+                    <div>
+                        <img id="logo"  src="../img/logo.png" alt="" title="">
+                    </div>
+                    <div id="page-content" onKeyPress="return checkSubmit(event)" style="width:320px;">
+                        <form method="post" action="">
+                            <span id="error" style="display: none"></span>
+                            <br />
+                            <div class="input-group" style="width: 100%;">
+                                <input class="form-control required" type="text" name="username" id="username"  placeholder="Benutzername" autofocus>
+                            </div>
+                            <p><div class="input-group" style="width: 100%;">
+                                <input class="form-control required" type="password" name="password" id="password" size="40" placeholder="Passwort">
+                            </div></p>
+                            <br />
+                            <div id="loginButton">
+                                <a href="#" id="login_btn" class="btn btn-primary btn-block" role="button" onclick="proceedLogin();">Login</a>
+                                <br />
+                            </div>
+                            <div style="text-align:center">
+                                <a href="/../magento/index.php/admin/index/forgotpassword/">Passwort vergessen?</a>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <p><div class="input-group" style="width: 100%;">
-                    <input class="form-control required" type="password" name="password" id="password" size="40" placeholder="Passwort">
-                </div></p>
-                <br />
-                <div id="loginButton">
-                    <a href="#" id="login_btn" class="btn btn-primary btn-block" role="button" onclick="proceedLogin();">Login</a>
-                    <br />
-                </div>
-                <div style="text-align:center">
-                    <a href="/../magento/index.php/admin/index/forgotpassword/">Passwort vergessen?</a>
-                </div>
-            </form>
+            </div>
         </div>
         <script type="text/javascript">
         function checkSubmit(e) {
