@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="./api/unit.php">
+	<filter>
+		<whitelist>
+			<directory>./app</directory>
+		</whitelist>
+	</filter>
+	<testsuites>
+		<testsuite name="Unit Testing">
+			<directory suffix="Test.php">./tests/</directory>
+		</testsuite>
+	</testsuites>
+	<php>
+		<ini name="display_errors" value="true"/>
+	</php>
+</phpunit>
