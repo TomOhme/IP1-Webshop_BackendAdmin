@@ -94,8 +94,6 @@ class Product {
             'name' => $name
         );
 
-        var_dump($file);
-
         return $this->client->call(
             'catalog_product_attribute_media.create',
             array(

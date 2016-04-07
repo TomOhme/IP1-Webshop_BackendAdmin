@@ -51,6 +51,8 @@ class ProductTest extends PHPUnit_Framework_TestCase{
         $this -> assertTrue($this -> soap -> updateProductByID($pid, $productEntity));
         $file = urlencode("http://images.eatsmarter.de/sites/default/files/styles/576x432/public/birne.jpg");
         $mime = 'image/jpg';
+        $file = urlencode("http://www.theredcow.com.au/wp-content/uploads/2012/10/Sbrinz_MG_7707_W1-72dpi_large.png");
+        $mime = 'image/png';
         $img = $this->soap->updateProductImage($file, $mime, 'birne', $img[0]['file'], $pid);
         $this->assertContains('birne',$img);
 
