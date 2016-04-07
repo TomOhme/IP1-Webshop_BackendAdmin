@@ -1,13 +1,17 @@
 <?php
 /**
  * Created by IntelliJ IDEA.
- * Author: Yanick Schraner
- * Date: 4.04.16
+ * Author: Yanick Schraner, Tom Ohme
+ * Date: 04.04.16
  * Time: 07:31
  */
 require_once '../vendor/autoload.php';
 require_once '../api/dbconnect.php';
 use Magento\Client\Xmlrpc\MagentoXmlrpcClient;
+
+session_start();
+session_destroy();
+session_start();
 
 $data = json_decode(file_get_contents('php://input'), true);
 
@@ -22,4 +26,5 @@ if(isset($data['username']) && isset($data['password'])) {
     if(!($hashArr[0] === md5($hashArr[1].$api_key))){
    		http_response_code(403);
    	}
+    $_SESSION['username'] = $username;
 }
