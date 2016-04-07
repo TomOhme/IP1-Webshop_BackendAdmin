@@ -5,6 +5,13 @@
  * Date: 07.04.2016
  * Time: 15:36
  */
+
+session_start();
+
+if(!isset($_SESSION['id'])) {
+    //return header('Location: index.php');
+}
+
 include("header.php");
 include("menu.php");
 ?>

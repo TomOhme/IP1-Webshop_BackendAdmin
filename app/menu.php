@@ -37,4 +37,29 @@
         </div>
     </div>
 </nav>
+<script type="text/javascript">
+
+    function logout(){
+        $.ajax({
+            url : 'rest/logout/',
+            type: 'POST',
+            success: function(data){
+                window.location = "http://127.0.0.1/magento_backendAdmin/app/index.php";
+            },
+             error: function(){
+                $.notify("Server error", "error");
+            }
+        });
+    };
+
+    function changeSite(site) {
+        $.ajax({
+            url : 'pages.php?site=' + site,
+            type: 'GET',
+            success: function(data){
+                $('#content').html(data);
+            }
+        });
+    };
+</script>
 

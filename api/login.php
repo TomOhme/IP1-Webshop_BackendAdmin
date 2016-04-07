@@ -26,5 +26,5 @@ if(isset($data['username']) && isset($data['password'])) {
     if(!($hashArr[0] === md5($hashArr[1].$api_key))){
    		http_response_code(403);
    	}
-    $_SESSION['username'] = $username;
+    $_SESSION['id'] = $customer['id'];
 }

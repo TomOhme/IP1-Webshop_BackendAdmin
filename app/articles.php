@@ -8,8 +8,8 @@
 
 session_start();
 
-if(isset($_SESSION['username'])) {
-
+if(!isset($_SESSION['id'])) {
+    //return header('Location: index.php');
 }
 
 include("header.php");
@@ -163,16 +163,6 @@ include("menu.php");
 <script src="../js/ckeditor.js"></script>
 <script type="text/javascript">
 
-    function changeSite(site) {
-        $.ajax({
-            url : 'pages.php?site=' + site,
-            type: 'GET',
-            success: function(data){
-                $('#content').html(data);
-            }
-        });
-    };
-
     function loadItem(site, placeholder, id) {
         $.ajax({
             url : 'pages.php?site=' + site + '&placeholder=' + placeholder + '&id=' + id,
@@ -193,19 +183,6 @@ include("menu.php");
                 }else if(site == 'import_article_csv'){
                     import_articles_validation();
                 }
-            }
-        });
-    };
-
-    function logout(){
-        $.ajax({
-            url : 'rest/logout/',
-            type: 'POST',
-            success: function(data){
-                location.reload();
-            },
-            error: function(){
-                $.notify("Server error", "error");
             }
         });
     };
@@ -237,8 +214,6 @@ include("menu.php");
         }
         return false;
     };
-
-    changeSite('articles');
 
 </script>
 </body>
