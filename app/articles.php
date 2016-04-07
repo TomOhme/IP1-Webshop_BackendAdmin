@@ -1,3 +1,11 @@
+<?php
+/**
+ * Created by IntelliJ IDEA.
+ * User: Tom
+ * Date: 07.04.2016
+ * Time: 15:36
+ */
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -16,7 +24,6 @@
     <link rel="stylesheet" href="../css/bootstrapValidator.css">
     <link rel="stylesheet" href="../css/bootstrap-colorpicker.min.css">
     <link rel="stylesheet" href="../css/custom.css">
-
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <script src="../js/jquery-2.2.2.min.js"></script>
@@ -48,7 +55,6 @@
                 <!--  <li onclick='changeSite("orders");'><a href="#">Bestellungen <span class="badge">1</span></a></li> -->
                 <li onclick="changeSite('sales');"><a href="#">Bestellungen</a></li>
                 <li onclick="changeSite('settings');"><a href="#">Einstellungen</a></li>
-                <li onclick="changeSite('logs');"><a href="#">Verlauf</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li title="Eingeloggter Benutzer"><a class="loggedinuser" href="#"><img src="../img/profile.png" width="25" height="25">&nbsp;????</a></li>
