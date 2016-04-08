@@ -40,16 +40,16 @@
 <script type="text/javascript">
 
     function logout(){
-        $.ajax({
+        /*$.ajax({
             url : 'rest/logout/',
             type: 'POST',
-            success: function(data){
+            success: function(data){*/
                 window.location = "http://127.0.0.1/magento_backendAdmin/app/index.php";
-            },
+            /*},
              error: function(){
-                $.notify("Server error", "error");
+                //$.notify("Server error", "error");
             }
-        });
+        });*/
     };
 
     function changeSite(site) {
