@@ -16,10 +16,6 @@ include("header.php");
 include("menu.php");
 ?>
     <div id="content" style="padding-left:50px; padding-right:50px;">
-        <script type="text/javascript">
-            loadItem('articles', 'content_table', 1);
-        </script>
-
         <br><br>
         <div id="content_table">
             <div class="table-responsive rwd-article">
@@ -111,108 +107,25 @@ include("menu.php");
             <button id="articles_create" type="button" onclick="loadItem('update_article','content','-1');" class="btn btn-success">Neuer Artikel</button>
             <button id="articles_import" type="button" onclick="loadItem('import_article_overview','content','-1');" class="btn btn-success">Excel-Tabelle</button>
 
-
-        <script type="text/javascript">
-            $(document).ready(function() {
-
-                $('#data-table').DataTable({
-                    "language": {
-                        "sEmptyTable":      "Keine Daten in der Tabelle vorhanden",
-                        "sInfo":            "_START_ bis _END_ von _TOTAL_ Einträgen",
-                        "sInfoEmpty":       "0 bis 0 von 0 Einträgen",
-                        "sInfoFiltered":    "(gefiltert von _MAX_ Einträgen)",
-                        "sInfoPostFix":     "",
-                        "sInfoThousands":   ".",
-                        "sLengthMenu":      "_MENU_ Einträge anzeigen",
-                        "sLoadingRecords":  "Wird geladen...",
-                        "sProcessing":      "Bitte warten...",
-                        "sSearch":          "Suchen",
-                        "sZeroRecords":     "Keine Einträge vorhanden.",
-                        "oLanguage": {
-                            "sProcessing": "loading data..."
-                        },
-                        "oPaginate": {
-                            "sFirst":       "Erste",
-                            "sPrevious":    "Zurück",
-                            "sNext":        "Nächste",
-                            "sLast":        "Letzte"
-                        },
-                        "oAria": {
-                            "sSortAscending":  ": aktivieren, um Spalte aufsteigend zu sortieren",
-                            "sSortDescending": ": aktivieren, um Spalte absteigend zu sortieren"
-                        }
-                    },
-                    "bLengthChange": false,
-                    "pageLength": 10,
-                    "aoColumnDefs": [
-                        { "bSortable": false, "aTargets": [ 3, 4, 5 ] } ]
-                });
-            } );
-        </script>
     </div>
 </div>
-<script src="../js/jquery-2.2.2.min.js"></script>
-<script src="../js/jquery.dataTables.js"></script>
-<script src="../js/dataTables.bootstrap.js"></script>
-<script src="../js/bootstrap.min.js"></script>
-<script src="../js/notify.min.js"></script>
-<script src="../js/dropzone.js"></script>
-<script src="../js/bootstrapValidator.min.js"></script>
-<script src="../js/form_validation.js"></script>
-<script src="../js/bootstrap-colorpicker.min.js"></script>
-<script src="../js/ckeditor.js"></script>
+
 <script type="text/javascript">
 
-    function loadItem(site, placeholder, id) {
+    //changeSite("articles");
+
+    function changeSite(page) {
         $.ajax({
-            url : 'pages.php?site=' + site + '&placeholder=' + placeholder + '&id=' + id,
+            url : 'pages.php?page=' + page,
             type: 'GET',
             success: function(data){
-                $('#' + placeholder).html(data);
-                if(site == 'update_article'){
-                    update_article_validation();
-                }else if(site == 'categories' & placeholder == 'content_edit'){
-                    update_category_validation();
-                }else if(site == 'users' & placeholder == 'content_edit'){
-                    update_user_validation();
-                    if(id == '-1'){
-                        $('form').bootstrapValidator('enableFieldValidators', 'password', true);
-                    }else{
-                        $('form').bootstrapValidator('enableFieldValidators', 'password', false);
-                    }
-                }else if(site == 'import_article_csv'){
-                    import_articles_validation();
-                }
+                $('#content').html(data);
             }
         });
     };
 
-    $.fn.serializeObject = function() {
-        var o = {};
-        var a = this.serializeArray();
-        $.each(a, function() {
-            if (o[this.name] !== undefined) {
-                if (!o[this.name].push) {
-                    o[this.name] = [o[this.name]];
-                }
-                o[this.name].push(this.value || '');
-            } else {
-                o[this.name] = this.value || '';
-            }
-        });
-        return o;
-    };
-
-
-
-    function isImage(name){
-        var suffix = [".jpg", ".png", ".gif", ".jpeg"];
-        for (i = 0; i < suffix.length; i++) {
-            if(name.indexOf(suffix[i].toLowerCase(), name.length - suffix[i].length) !== -1){
-                return true;
-            }
-        }
-        return false;
+    function logout() {
+        window.location = "http://127.0.0.1/magento_backendAdmin/app/index.php";
     };
 
 </script>
