@@ -8,8 +8,8 @@
 
 session_start();
 
-if(!isset($_SESSION['id'])) {
-    //return header('Location: index.php');
+if(!isset($_SESSION['username'])) {
+    return header('Location: index.php');
 }
 
 include("header.php");

@@ -18,7 +18,6 @@ $data = json_decode(file_get_contents('php://input'), true);
 if(isset($data['username']) && isset($data['password'])) {
     $api_user = $data['username'];
     $api_key = $data['password'];
-
     $result = $mysqli->query("SELECT * FROM magento.admin_user WHERE `username` = '$api_user'");
     $customer = $result->fetch_array();
     $hash = $customer['password'];
@@ -26,5 +25,5 @@ if(isset($data['username']) && isset($data['password'])) {
     if(!($hashArr[0] === md5($hashArr[1].$api_key))){
    		http_response_code(403);
    	}
-    $_SESSION['id'] = $customer['id'];
+    $_SESSION['username'] = $customer['username'];
 }
