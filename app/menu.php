@@ -22,10 +22,11 @@
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul id="nav_site" class="nav navbar-nav">
-                <li onclick="changeSite('articles');"><a href="#">Artikel</a></li>
-                <li onclick="changeSite('categories');"><a href="#">Kategorien</a></li>
-                <li onclick="changeSite('orders');"><a href="#">Bestellungen</a></li>
-                <li onclick="changeSite('settings');"><a href="#">Einstellungen</a></li>
+                <li onclick="changeSite('articles');"><a href="">Artikel</a></li>
+                <li onclick="changeSite('categories');"><a href="">Kategorien</a></li>
+                <li onclick="changeSite('users');><a href="">Benutzer</a></li>
+                <li onclick="changeSite('orders');"><a href="">Bestellungen</a></li>
+                <li onclick="changeSite('settings');"><a href="">Einstellungen</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li title="Eingeloggter Benutzer"><a class="loggedinuser" href="#"><img src="../img/profile.png" width="25" height="25">&nbsp;Benutzer</a></li>
