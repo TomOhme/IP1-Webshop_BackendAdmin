@@ -24,7 +24,7 @@
             <ul id="nav_site" class="nav navbar-nav">
                 <li onclick="changeSite('articles');"><a href="">Artikel</a></li>
                 <li onclick="changeSite('categories');"><a href="">Kategorien</a></li>
-                <li onclick="changeSite('users');><a href="">Benutzer</a></li>
+                <li onclick="changeSite('users');"><a href="">Benutzer</a></li>
                 <li onclick="changeSite('orders');"><a href="">Bestellungen</a></li>
                 <li onclick="changeSite('settings');"><a href="">Einstellungen</a></li>
             </ul>

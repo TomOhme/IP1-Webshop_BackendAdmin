@@ -48,11 +48,15 @@ if(!isset($_SESSION['username'])) {
 	    </tr>
 	</tbody></table>
 </div></div>
-	<div id="content_table" class="col-md-6"><div class="table-responsive rwd-article">
-<div id="data-table-sales_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer"><div class="row"><div class="col-sm-6"></div><div class="col-sm-6"><div id="data-table-sales_filter" class="dataTables_filter"><label>Suchen<input type="search" class="form-control input-sm" placeholder="" aria-controls="data-table-sales"></label></div></div></div><div class="row"><div class="col-sm-12"><table class="table table-hover table-striped table-bordered dataTable no-footer" id="data-table-sales" style="width: 100%;" role="grid" aria-describedby="data-table-sales_info">
-
-<thead class="tablebold">
-	<tr role="row"><td class="sorting_asc" tabindex="0" aria-controls="data-table-sales" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Datum und Zeit: aktivieren, um Spalte absteigend zu sortieren" style="width: 382px;">Datum und Zeit</td><td class="sorting" tabindex="0" aria-controls="data-table-sales" rowspan="1" colspan="1" aria-label="Käufer: aktivieren, um Spalte aufsteigend zu sortieren" style="width: 229px;">Käufer</td><td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Gesamtbetrag" style="width: 282px;">Gesamtbetrag</td></tr></thead>
+	
+<div id="content_table" class="col-md-6"><div class="table-responsive rwd-article">
+	<div id="data-table-sales_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer"><div class="row"><div class="col-sm-6"></div><div class="col-sm-6"><div id="data-table-sales_filter" class="dataTables_filter"><label>Suchen<input type="search" class="form-control input-sm" placeholder="" aria-controls="data-table-sales"></label></div></div></div><div class="row"><div class="col-sm-12"><table class="table table-hover table-striped table-bordered dataTable no-footer" id="data-table-sales" style="width: 100%;" role="grid" aria-describedby="data-table-sales_info">
+				
+		<table>				
+			<thead class="tablebold">
+				<tr role="row">
+					<td class="sorting_asc" tabindex="0" aria-controls="data-table-sales" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Datum und Zeit: aktivieren, um Spalte absteigend zu sortieren" style="width: 382px;">Datum und Zeit</td>
+					<td class="sorting" tabindex="0" aria-controls="data-table-sales" rowspan="1" colspan="1" aria-label="Käufer: aktivieren, um Spalte aufsteigend zu sortieren" style="width: 229px;">Käufer</td><td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Gesamtbetrag" style="width: 282px;">Gesamtbetrag</td></tr></thead>
 
 
 
@@ -64,7 +68,13 @@ if(!isset($_SESSION['username'])) {
     <td class="sorting_1">2015-06-03 12:56:50</td>
     <td>Paula Meier</td>
     <td>0.50</td>
-</tr></tbody></table></div></div><div class="row"><div class="col-sm-5"><div class="dataTables_info" id="data-table-sales_info" role="status" aria-live="polite">1 bis 1 von 1 Einträgen</div></div><div class="col-sm-7"><div class="dataTables_paginate paging_simple_numbers" id="data-table-sales_paginate"><ul class="pagination"><li class="paginate_button previous disabled" id="data-table-sales_previous"><a href="#" aria-controls="data-table-sales" data-dt-idx="0" tabindex="0">Zurück</a></li><li class="paginate_button active"><a href="#" aria-controls="data-table-sales" data-dt-idx="1" tabindex="0">1</a></li><li class="paginate_button next disabled" id="data-table-sales_next"><a href="#" aria-controls="data-table-sales" data-dt-idx="2" tabindex="0">Nächste</a></li></ul></div></div></div></div>
+</tr>
+</tbody>
+			</table>
+		</div>
+	</div>
+
+<div class="row"><div class="col-sm-5"><div class="dataTables_info" id="data-table-sales_info" role="status" aria-live="polite">1 bis 1 von 1 Einträgen</div></div><div class="col-sm-7"><div class="dataTables_paginate paging_simple_numbers" id="data-table-sales_paginate"><ul class="pagination"><li class="paginate_button previous disabled" id="data-table-sales_previous"><a href="#" aria-controls="data-table-sales" data-dt-idx="0" tabindex="0">Zurück</a></li><li class="paginate_button active"><a href="#" aria-controls="data-table-sales" data-dt-idx="1" tabindex="0">1</a></li><li class="paginate_button next disabled" id="data-table-sales_next"><a href="#" aria-controls="data-table-sales" data-dt-idx="2" tabindex="0">Nächste</a></li></ul></div></div></div></div>
 </div>
 
 <script type="text/javascript">
