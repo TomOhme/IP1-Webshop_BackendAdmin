@@ -4,3 +4,4 @@ composer.json
 composer.lock
 composer.phar
 magento_BackendAdmin.iml
+.DS_Store

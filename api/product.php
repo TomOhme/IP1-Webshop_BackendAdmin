@@ -11,7 +11,6 @@ use Magento\Client\Xmlrpc\MagentoXmlrpcClient;
 
 class Product {
 
-    private $session;
     private $client;
     
     public function openSoap(){
