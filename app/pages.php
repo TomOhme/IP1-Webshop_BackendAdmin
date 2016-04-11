@@ -44,4 +44,8 @@ if ($page == 'articles') {
         });
     };
 
+    function logout() {
+        window.location = "http://127.0.0.1/magento_backendAdmin/app/index.php";
+    }
+
 </script>
