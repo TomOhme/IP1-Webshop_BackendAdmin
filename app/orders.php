@@ -5,9 +5,15 @@
  * Date: 07.04.2016
  * Time: 15:38
  */
+
+session_start();
+
+if(!isset($_SESSION['username'])) {
+    return header('Location: index.php');
+}
 ?>
 
-<div id="content" style="padding-left:10px; padding-right:10px;"><div class="row">
+<div id="content" style="padding-left:50px; padding-right:50px;"><div class="row">
 	<div id="content_pane" class="col-md-6"><div class="panel panel-default">
 	<!-- Default panel contents -->
 	<div class="panel-heading">Bestellnummer: 100000060</div>
@@ -99,19 +105,5 @@ $(document).ready(function() {
         { "bSortable": false, "aTargets": [ 2 ] } ]
      });
 } );
-
-</script>
-<script type="text/javascript">
-
-function changeSite(site)
-{
-    $.ajax({
-        url : 'pages.php?site=' + site,
-        type: 'GET',
-        success: function(data){
-            $('#content').html(data);
-        }
-    });
-};
 
 </script>

@@ -11,23 +11,11 @@ session_start();
 if(!isset($_SESSION['username'])) {
     return header('Location: index.php');
 }
-
-include("header.php");
-include("menu.php");
 ?>
 
-<script type="text/javascript">
+<div id="content" style="padding-left:50px; padding-right:50px;">
+    <img src="img/loader.gif">
+</div>
 
-    function changeSite(page) {
-        $.ajax({
-            url : 'pages.php?page=' + page,
-            type: 'GET',
-            success: function(data){
-                $('#content').html(data);
-            }
-        });
-    };
-
-</script>
 </body>
 </html>
