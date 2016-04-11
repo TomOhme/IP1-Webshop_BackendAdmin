@@ -50,13 +50,30 @@ if(!isset($_SESSION['username'])) {
 </div></div>
 	
 <div id="content_table" class="col-md-6"><div class="table-responsive rwd-article">
-	<div id="data-table-sales_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer"><div class="row"><div class="col-sm-6"></div><div class="col-sm-6"><div id="data-table-sales_filter" class="dataTables_filter"><label>Suchen<input type="search" class="form-control input-sm" placeholder="" aria-controls="data-table-sales"></label></div></div></div><div class="row"><div class="col-sm-12"><table class="table table-hover table-striped table-bordered dataTable no-footer" id="data-table-sales" style="width: 100%;" role="grid" aria-describedby="data-table-sales_info">
+	<div id="data-table-sales_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+		<div class="row">
+			<div class="col-sm-6">
+				
+			</div>
+			<div class="col-sm-6">
+				<div id="data-table-sales_filter" class="dataTables_filter">
+					<label>Suchen<input type="search" class="form-control input-sm" placeholder="" aria-controls="data-table-sales"></label>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-sm-12">
+				<table class="table table-hover table-striped table-bordered dataTable no-footer" id="data-table-sales" style="width: 100%;" role="grid" aria-describedby="data-table-sales_info">
 				
 		<table>				
 			<thead class="tablebold">
 				<tr role="row">
 					<td class="sorting_asc" tabindex="0" aria-controls="data-table-sales" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Datum und Zeit: aktivieren, um Spalte absteigend zu sortieren" style="width: 382px;">Datum und Zeit</td>
-					<td class="sorting" tabindex="0" aria-controls="data-table-sales" rowspan="1" colspan="1" aria-label="Käufer: aktivieren, um Spalte aufsteigend zu sortieren" style="width: 229px;">Käufer</td><td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Gesamtbetrag" style="width: 282px;">Gesamtbetrag</td></tr></thead>
+					<td class="sorting" tabindex="0" aria-controls="data-table-sales" rowspan="1" colspan="1" aria-label="Käufer: aktivieren, um Spalte aufsteigend zu sortieren" style="width: 229px;">Käufer</td>
+					<td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Gesamtbetrag" style="width: 282px;">Gesamtbetrag</td><
+				/tr>
+		</thead>
 
 
 
