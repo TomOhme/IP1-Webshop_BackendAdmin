@@ -15,11 +15,11 @@ if(!isset($_SESSION['username'])) {
 }
 
 ?>
-    <div id="content" style="padding-left:50px; padding-right:50px;">
+    <div id="content">
         <br><br>
         <div id="content_table">
             <div class="table-responsive rwd-article">
-                <div id="data-table_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer" style="width: 1673px;">
+                <div id="data-table_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                     <div class="row" style="padding-bottom: 20px;">
                         <div class="col-sm-6" style="padding-top: 10px;">
                             <div id="data-table_filter" class="dataTables_filter pull-left">
@@ -27,101 +27,8 @@ if(!isset($_SESSION['username'])) {
                             </div>
                         </div>
                         <div class="col-sm-6 text-right">
-
-                            <!--<button id="articles_create" type="button" onclick="loadItem('update_article','content','-1');" class="btn btn-success">Neuer Artikel</button>-->
                             <!-- Trigger the modal with a button -->
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="width:160px; height:45px;"; >Neuer Artikel</button>
-
-                            <!-- Modal -->
-                            <div class="modal fade" id="myModal" role="dialog">
-                                <div class="modal-dialog">
-
-                                    <!-- Modal content-->
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                            <h4 class="modal-title">Artikel erfassen</h4>
-                                        </div>
-                                        <div class="modal-body">
-
-                                            <div class="form-horizontal">
-                                                <div class="form-group">
-                                                    <label class="col-sm-3 control-label">Bilder</label>
-                                                    <div class="col-sm-6">
-                                                        <form action="upload.php" class="dropzone dz-clickable" id="picture"><div class="dz-default dz-message"><span>Ziehen Sie Ihre Bilder hierhin oder klicken Sie hier, um ein Bild hochzuladen.</span></div></form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <form mehtod="post" id="create" class="form-horizontal registerForm bv-form" novalidate="novalidate"><button type="submit" class="bv-hidden-submit" style="display: none; width: 0px; height: 0px;"></button>
-                                                <input type="hidden" class="form-control" id="sku" name="sku" value="-1">
-                                                <!-- Titel Input -->
-                                                <div class="form-group has-feedback">
-                                                    <label class="col-sm-3 control-label">Titel</label>
-                                                    <div class="col-sm-6">
-                                                        <input id="article_update_title" type="text" class="form-control" name="title" value="" placeholder="Titel" data-bv-field="title"><i class="form-control-feedback" data-bv-icon-for="title" style="display: none;"></i>
-                                                        <small class="help-block" data-bv-validator="notEmpty" data-bv-for="title" data-bv-result="NOT_VALIDATED" style="display: none;">Bitte Artikelname angeben</small><small class="help-block" data-bv-validator="remote" data-bv-for="title" data-bv-result="NOT_VALIDATED" style="display: none;">Ein Artikel mit diesem Titel existiert bereits</small><small class="help-block" data-bv-validator="stringLength" data-bv-for="title" data-bv-result="NOT_VALIDATED" style="display: none;">Artikelname muss zwischen 2 und 50 Zeichen sein</small></div>
-                                                </div>
-
-                                                <!-- Kategorie Select -->
-                                                <div class="form-group">
-                                                    <label class="col-sm-3 control-label">Kategorie</label>
-                                                    <div class="col-sm-6">
-                                                        <select name="category" id="category" class="form-control">
-                                                            <option value="1">Apfel</option>
-                                                            <option value="1">-Apfell</option>
-                                                            <option value="1">Apfel</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Beschreibung Input -->
-                                                <div class="form-group has-feedback">
-                                                    <label class="col-sm-3 control-label">Beschreibung</label>
-                                                    <div class="col-sm-6">
-                                                        <textarea id="article_update_description" class="form-control" rows="5" name="description" placeholder="Beschreibung" data-bv-field="description"></textarea><i class="form-control-feedback" data-bv-icon-for="description" style="display: none;"></i>
-                                                        <small class="help-block" data-bv-validator="stringLength" data-bv-for="description" data-bv-result="NOT_VALIDATED" style="display: none;">Beschreibung darf nicht länger als 250 Zeichen sein</small></div>
-                                                </div>
-
-                                                <!-- Anzahl Input -->
-                                                <div class="form-group has-feedback">
-                                                    <label class="col-sm-3 control-label">Anzahl</label>
-                                                    <div class="col-sm-6">
-                                                        <input id="article_update_amount" type="text" class="form-control" name="stock" value="" placeholder="Anzahl" data-bv-field="stock"><i class="form-control-feedback" data-bv-icon-for="stock" style="display: none;"></i>
-                                                        <small class="help-block" data-bv-validator="notEmpty" data-bv-for="stock" data-bv-result="NOT_VALIDATED" style="display: none;">Bitte Anzahl angeben</small><small class="help-block" data-bv-validator="digits" data-bv-for="stock" data-bv-result="NOT_VALIDATED" style="display: none;">Anzahl kann nur Zahlen enthalten</small></div>
-                                                </div>
-
-                                                <!-- Preis Input -->
-                                                <div class="form-group has-feedback">
-                                                    <label class="col-sm-3 control-label">Preis</label>
-                                                    <div class="col-sm-6">
-                                                        <input id="article_update_price" type="text" class="form-control" name="price" value="" placeholder="Preis" data-bv-field="price"><i class="form-control-feedback" data-bv-icon-for="price" style="display: none;"></i>
-                                                        <small class="help-block" data-bv-validator="notEmpty" data-bv-for="price" data-bv-result="NOT_VALIDATED" style="display: none;">Bitte Preis angeben</small><small class="help-block" data-bv-validator="regexp" data-bv-for="price" data-bv-result="NOT_VALIDATED" style="display: none;">Preis kann nur Zahlen enthalten</small></div>
-                                                </div>
-
-                                                <!-- Button Speichern/Abbrechen/Löschen -->
-                                                <div class="form-group">
-                                                    <div class="col-sm-9 col-sm-offset-3">
-                                                        <button id="article_update_save" class="btn btn-success" role="button">Speichern</button>
-                                                        <button id="article_update_abort" class="btn btn-warning" role="button" onclick="changeSite('articles');">Abbrechen</button>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Hidden inputs -->
-                                                <input type="hidden" id="hiddenInput1" name="hiddenInput1" value="">
-                                                <input type="hidden" id="hiddenInput2" name="hiddenInput2" value="">
-                                                <input type="hidden" id="hiddenInput3" name="hiddenInput3" value="">
-                                                <input type="hidden" id="hiddenInput4" name="hiddenInput4" value="">
-                                            </form>
-
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-
+                            <button id="articles_create" type="button" onclick="loadItem('create_article','content,'-1')" class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="width:160px; height:45px;"; >Neuer Artikel</button>
 
                             <button id="articles_import" type="button" onclick="loadItem('import_article_overview','content','-1');" class="btn btn-primary" style="width:160px; height:45px";>Excel-Tabelle</button>
                         </div>
@@ -235,5 +142,134 @@ if(!isset($_SESSION['username'])) {
         </div>
     </div>
 
+    <!-- Modal create/update article-->
+    <div class="modal fade" id="myModal" role="dialog" style="display: none;">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Artikel erfassen</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Bilder</label>
+                            <div class="col-sm-6">
+                                <form action="upload.php" class="dropzone dz-clickable" id="picture"><div class="dz-default dz-message"><span>Ziehen Sie Ihre Bilder hierhin oder klicken Sie hier, um ein Bild hochzuladen.</span></div></form>
+                            </div>
+                        </div>
+                    </div>
+                    <form mehtod="post" id="create" class="form-horizontal registerForm bv-form" novalidate="novalidate"><button type="submit" class="bv-hidden-submit" style="display: none; width: 0px; height: 0px;"></button>
+                        <input type="hidden" class="form-control" id="sku" name="sku" value="-1">
+                        <!-- Titel Input -->
+                        <div class="form-group has-feedback">
+                            <label class="col-sm-3 control-label">Titel</label>
+                            <div class="col-sm-6">
+                                <input id="article_update_title" type="text" class="form-control" name="title" value="" placeholder="Titel" data-bv-field="title"><i class="form-control-feedback" data-bv-icon-for="title" style="display: none;"></i>
+                                <small class="help-block" data-bv-validator="notEmpty" data-bv-for="title" data-bv-result="NOT_VALIDATED" style="display: none;">Bitte Artikelname angeben</small><small class="help-block" data-bv-validator="remote" data-bv-for="title" data-bv-result="NOT_VALIDATED" style="display: none;">Ein Artikel mit diesem Titel existiert bereits</small><small class="help-block" data-bv-validator="stringLength" data-bv-for="title" data-bv-result="NOT_VALIDATED" style="display: none;">Artikelname muss zwischen 2 und 50 Zeichen sein</small></div>
+                        </div>
+
+                        <!-- Kategorie Select -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Kategorie</label>
+                            <div class="col-sm-6">
+                                <select name="category" id="category" class="form-control">
+                                    <option value="1">Apfel</option>
+                                    <option value="1">- Apfell</option>
+                                    <option value="1">Apfel</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Beschreibung Input -->
+                        <div class="form-group has-feedback">
+                            <label class="col-sm-3 control-label">Beschreibung</label>
+                            <div class="col-sm-6">
+                                <textarea id="article_update_description" class="form-control" rows="5" name="description" placeholder="Beschreibung" data-bv-field="description"></textarea><i class="form-control-feedback" data-bv-icon-for="description" style="display: none;"></i>
+                                <small class="help-block" data-bv-validator="stringLength" data-bv-for="description" data-bv-result="NOT_VALIDATED" style="display: none;">Beschreibung darf nicht länger als 250 Zeichen sein</small></div>
+                        </div>
+
+                        <!-- Anzahl Input -->
+                        <div class="form-group has-feedback">
+                            <label class="col-sm-3 control-label">Anzahl</label>
+                            <div class="col-sm-6">
+                                <input id="article_update_amount" type="text" class="form-control" name="stock" value="" placeholder="Anzahl" data-bv-field="stock"><i class="form-control-feedback" data-bv-icon-for="stock" style="display: none;"></i>
+                                <small class="help-block" data-bv-validator="notEmpty" data-bv-for="stock" data-bv-result="NOT_VALIDATED" style="display: none;">Bitte Anzahl angeben</small><small class="help-block" data-bv-validator="digits" data-bv-for="stock" data-bv-result="NOT_VALIDATED" style="display: none;">Anzahl kann nur Zahlen enthalten</small></div>
+                        </div>
+
+                        <!-- Preis Input -->
+                        <div class="form-group has-feedback">
+                            <label class="col-sm-3 control-label">Preis</label>
+                            <div class="col-sm-6">
+                                <input id="article_update_price" type="text" class="form-control" name="price" value="" placeholder="Preis" data-bv-field="price"><i class="form-control-feedback" data-bv-icon-for="price" style="display: none;"></i>
+                                <small class="help-block" data-bv-validator="notEmpty" data-bv-for="price" data-bv-result="NOT_VALIDATED" style="display: none;">Bitte Preis angeben</small><small class="help-block" data-bv-validator="regexp" data-bv-for="price" data-bv-result="NOT_VALIDATED" style="display: none;">Preis kann nur Zahlen enthalten</small></div>
+                        </div>
+
+                        <!-- Button Speichern/Abbrechen/Löschen -->
+                        <div class="form-group">
+                            <div class="col-sm-9 col-sm-offset-3">
+                                <button id="article_update_save" class="btn btn-primary" role="button">Speichern</button>
+                                <button id="article_update_abort" class="btn" role="button" onclick="changeSite('articles');">Abbrechen</button>
+                            </div>
+                        </div>
+
+                        <!-- Hidden inputs -->
+                        <input type="hidden" id="hiddenInput1" name="hiddenInput1" value="">
+                        <input type="hidden" id="hiddenInput2" name="hiddenInput2" value="">
+                        <input type="hidden" id="hiddenInput3" name="hiddenInput3" value="">
+                        <input type="hidden" id="hiddenInput4" name="hiddenInput4" value="">
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+        function loadItem(page) {
+            //Inputparameter updateArticle id
+            if (page == 'create_article') {
+                $("#myModal").modal();
+            } else if (page == 'update_article') {
+                $("#myModal").modal(); //load with article id
+            } else if (page == 'import_article_overview') {
+
+            }
+        }
+
+        /*function loadItem(page, placeholder, id) {
+            $.ajax({
+                url : 'pages.php?page=' + page + '&placeholder=' + placeholder + '&id=' + id,
+                type: 'GET',
+                success: function(data){
+                    $('#' + placeholder).html(data);
+
+                    if(site == 'update_article'){
+                        update_article_validation();
+                    } else if(site == 'categories' & placeholder == 'content_edit'){
+                        update_category_validation();
+                    } else if(site == 'users' & placeholder == 'content_edit'){
+                        update_user_validation();
+                        if(id == '-1'){
+                            $('form').bootstrapValidator('enableFieldValidators', 'password', true);
+                        } else{
+                            $('form').bootstrapValidator('enableFieldValidators', 'password', false);
+                        }
+                    } else if(site == 'import_article_csv'){
+                        import_articles_validation();
+                    }
+                }
+            });
+        };*/
+
+    </script>
 </body>
 </html>

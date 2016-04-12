@@ -24,7 +24,7 @@ if ($page == 'articles') {
 }*/
 
 ?>
-<div id="content" style="padding-left:50px; padding-right:50px;">
+<div id="content">
 
 </div>
 <script type="text/javascript">

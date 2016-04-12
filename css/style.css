@@ -1,0 +1,9 @@
+#content {
+    padding-left:50px;
+    padding-right:50px;
+}
+
+.table-responsive {
+    overflow-x: hidden;
+    width: 100%;
+}

@@ -13,7 +13,7 @@ if(!isset($_SESSION['username'])) {
 }
 ?>
 
-<div id="content" style="padding-left:50px; padding-right:50px;"><div class="row">
+<div id="content"><div class="row">
 	<div id="content_pane" class="col-md-6"><div class="panel panel-default">
 	<!-- Default panel contents -->
 	<div class="panel-heading">Bestellnummer: 100000060</div>
