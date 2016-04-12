@@ -28,9 +28,9 @@ if(!isset($_SESSION['username'])) {
                         </div>
                         <div class="col-sm-6 text-right">
                             <!-- Trigger the modal with a button -->
-                            <button id="articles_create" type="button" onclick="loadItem('create_article','content,'-1')" class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="width:160px; height:45px;"; >Neuer Artikel</button>
+                            <button id="create_article" type="button" onclick="loadItem('create_article','content,'-1')" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Neuer Artikel</button>
 
-                            <button id="articles_import" type="button" onclick="loadItem('import_article_overview','content','-1');" class="btn btn-primary" style="width:160px; height:45px";>Excel-Tabelle</button>
+                            <button id="import_article" type="button" onclick="loadItem('import_article_overview','content','-1');" class="btn btn-primary">Excel-Tabelle</button>
                         </div>
                     </div>
                     <div class="row">
