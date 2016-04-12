@@ -14,12 +14,11 @@ class Product {
     private $client;
     
     public function openSoap(){
-
-    $this -> client = MagentoXmlrpcClient::factory(array(
-        'base_url' => 'http://127.0.0.1/magento/',
-        'api_user' => 'soap',
-        'api_key'  => 'webshop12',
-    ));
+        $this -> client = MagentoXmlrpcClient::factory(array(
+            'base_url' => 'http://127.0.0.1/magento/',
+            'api_user' => 'soap',
+            'api_key'  => 'webshop12',
+        ));
     }
 
     /**
@@ -30,7 +29,6 @@ class Product {
     public function getAllProducts()
     {
         return $this->client->call('product.list', array());
-
     }
 
     /**
@@ -42,6 +40,10 @@ class Product {
     public function getProductByID($ID)
     {
         return $this->client->call('catalog_product.info', array($ID));
+    }
+
+    public function getProductStock($ID){
+        return $this->client->call('cataloginventory_stock_item.list', array($ID));
     }
     /**
      * Get all product images of a specific product by it's id

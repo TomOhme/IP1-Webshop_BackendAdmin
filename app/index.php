@@ -6,9 +6,6 @@
  * Time: 15:44
  */
 
-session_start();
-session_destroy();
-
 include("header.php");
 ?>
 <link rel="stylesheet" href="../css/loginStyle.css" />

@@ -6,6 +6,8 @@
  * Time: 15:36
  */
 
+include("../api/product.php");
+
 session_start();
 
 if(!isset($_SESSION['username'])) {
@@ -139,6 +141,29 @@ if(!isset($_SESSION['username'])) {
                                 </thead>
 
                                 <tbody>
+                                    <?php
+                                        $soap = new Product();
+                                        $soap -> openSoap();
+                                        $articles = $soap -> getAllProducts();
+                                        $i = 1;
+                                        foreach ($articles as $article) {
+                                            $img = $soap -> getProductImage($article['product_id']);
+                                            $stock = $soap -> getProductStock($article['product_id']);
+                                            ?>
+                                            <tr>
+                                                <td class='sorting_1'><?php echo $i  ?></td>
+                                                <td><?php echo $article['name'] ?></td>
+                                                <td><?php $article['category_ids'][0] ?></td>
+                                                <td><a href="#" class="thumbnail"><img src="<?php echo $img[0]['url'] ?>" alt="..."></a></td>
+                                                <td><?php echo $stock[0]['qty'] ?></td>
+                                                <td><?php echo $article['price'] ?></td>
+                                                <td></td>
+                                            </tr>
+                                            <?php
+                                            $i++;
+                                        }
+                                    ?>
+                                    <!--
                                     <tr onclick="loadItem('update_article','content', '556ef5fe881b3');" role="row" class="odd">
                                         <td class="sorting_1">1</td>
                                         <td>Apfel</td>
@@ -180,6 +205,7 @@ if(!isset($_SESSION['username'])) {
                                         <td>3.95</td>
                                         <td>10%</td>
                                     </tr>
+                                    -->
                                 </tbody>
                             </table>
                         </div>
