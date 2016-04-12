@@ -13,7 +13,7 @@ if(!isset($_SESSION['username'])) {
 }
 ?>
 
-<div id="content" style="padding-left:50px; padding-right:50px;"><div class="row">
+<div id="content"><div class="row">
 	<div id="" class="col-sm-3">
 	    <label class="col-sm-3 control-label">Shopname</label>
 	    <div class="col-sm-9">

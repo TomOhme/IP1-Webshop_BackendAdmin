@@ -13,7 +13,7 @@ if(!isset($_SESSION['username'])) {
 }
 ?>
 
-<div id="content" style="padding-left:50px; padding-right:50px;">
+<div id="content">
         <script type="text/javascript">
             loadItem('users', 'content_table', 1);
         </script>

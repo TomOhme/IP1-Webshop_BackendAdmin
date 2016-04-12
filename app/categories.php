@@ -13,7 +13,7 @@ if(!isset($_SESSION['username'])) {
 }
 ?>
 
-<div id="content" style="padding-left:50px; padding-right:50px;">
+<div id="content">
     <br><br>
     <div id="content_edit" class="col-sm-7">
         <form mehtod="post" id="create" class="form-horizontal categoryForm bv-form" novalidate="novalidate"><button type="submit" class="bv-hidden-submit" style="display: none; width: 0px; height: 0px;"></button>
