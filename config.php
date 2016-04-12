@@ -1,5 +1,5 @@
 <?php
-define("dbuser", "test");
-define("dbpwd", "webshop12");
+define("dbuser", "root");
+define("dbpwd", "");
 define("soapUser", "magento");
 define("soapwd", "webshop12");
