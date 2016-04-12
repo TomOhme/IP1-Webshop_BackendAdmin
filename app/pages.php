@@ -37,15 +37,13 @@ if ($page == 'articles') {
             url : page + ".php",
             type: 'GET',
             success: function(data){
-                //alert(data);
-                //$('#content').html(data);
                 $('#content').append(data);
             }
         });
     };
 
     function logout() {
-        window.location = "http://127.0.0.1/magento_backendAdmin/app/index.php";
+        window.location = "./index.php";
     }
 
 </script>
