@@ -57,11 +57,11 @@ if(!isset($_SESSION['username'])) {
                                             $img = $soap -> getProductImage($article['product_id']);
                                             $stock = $soap -> getProductStock($article['product_id']);
                                             ?>
-                                            <tr>
-                                                <td class='sorting_1'><?php echo $i  ?></td>
+                                            <tr onclick="loadItem('update_article','content', '556ef5fe881b3');" role="row" class="odd"><!--odd/even default -->
+                                                <td class='sorting_1'><?php echo $i ?></td>
                                                 <td><?php echo $article['name'] ?></td>
-                                                <td><?php $article['category_ids'][0] ?></td>
-                                                <td><a href="#" class="thumbnail"><img src="<?php echo $img[0]['url'] ?>" alt="..."></a></td>
+                                                <td class="col-sm-3 hidden-xs"><?php $article['category_ids'][0] ?></td>
+                                                <td class="col-sm-3 hidden-xs"><img src="<?php echo $img[0]['url'] ?>" width="70px" class="img-thumbnail" alt="Thumbnail Image"></td>
                                                 <td><?php echo $stock[0]['qty'] ?></td>
                                                 <td><?php echo $article['price'] ?></td>
                                                 <td></td>
