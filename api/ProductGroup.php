@@ -5,19 +5,19 @@
  * Date: 01.04.16
  * Time: 11:59
  */
-class Webshop_BackendProductgroupmanager_Helper_Data extends Mage_Core_Helper_Abstract {
-    private $session;
+
+include('../vendor/autoload.php');
+use Magento\Client\Xmlrpc\MagentoXmlrpcClient;
+
+class Productgroup {
     private $client;
 
     public function openSoap(){
-        $soap = Mage::helper("soaphelper");
-        $this -> session = $soap->initSoap();
-        $this -> client = new SoapClient('http://127.0.0.1/magento/api/soap/?wsdl=1');
-    }
-
-    public function closeSoap(){
-        $soap = Mage::helper("soaphelper");
-        $this -> session = $soap->closeSoap();
+        $this -> client = MagentoXmlrpcClient::factory(array(
+            'base_url' => 'http://127.0.0.1/magento/',
+            'api_user' => 'soap',
+            'api_key'  => 'webshop12',
+        ));
     }
 
     /**
@@ -28,7 +28,7 @@ class Webshop_BackendProductgroupmanager_Helper_Data extends Mage_Core_Helper_Ab
      * More: http://devdocs.magento.com/guides/m1x/api/soap/catalog/catalogCategory/catalog_category.create.html
      */
     public function createCategory($name, $parentID){
-        return $this->client->call($this->session, 'catalog_category.create', array($parentID, array(
+        return $this->client->call('catalog_category.create', array($parentID, array(
             'name' => $name,
             'is_active' => 1,
             'position' => 1,
@@ -46,7 +46,18 @@ class Webshop_BackendProductgroupmanager_Helper_Data extends Mage_Core_Helper_Ab
      * More: http://devdocs.magento.com/guides/m1x/api/soap/catalog/catalogCategory/catalog_category.info.html
      */
     public function getCategory($id){
-        return $this->client->call($this->session, 'catalog_category.info', $id);
+        /*
+        $all = $this -> getTree();
+        if(in_array($id, $all)){
+            foreach ($categorys as $category) {
+                if($category['category_id'] == $id){
+                    return $category;
+                }
+            }
+        } else {
+            return null;
+        }*/
+        return $this->client->call('catalog_category.info', array($id));
     }
 
     /**
@@ -56,7 +67,7 @@ class Webshop_BackendProductgroupmanager_Helper_Data extends Mage_Core_Helper_Ab
      * @return boolean
      */
     public function moveCategory($id, $parentID){
-        return $this->client->call($this->session, 'catalog_category.move', array('categoryId' => $id, 'parentId' => $parentID));
+        return $this->client->call('catalog_category.move', array($id, $parentID));
     }
 
     /**
@@ -66,7 +77,7 @@ class Webshop_BackendProductgroupmanager_Helper_Data extends Mage_Core_Helper_Ab
      * @return boolean
      */
     public function updateCategory($id, $name){
-        return $this->client->call($this->session, 'catalog_category.update',array($id, array('name' => $name,)));
+        return $this->client->call('catalog_category.update',array($id, array('name' => $name,)));
     }
 
     /**
@@ -75,7 +86,7 @@ class Webshop_BackendProductgroupmanager_Helper_Data extends Mage_Core_Helper_Ab
      * More: http://devdocs.magento.com/guides/m1x/api/soap/catalog/catalogCategory/catalog_category.tree.html
      */
     public function getTree(){
-        return $this->client->call($this->session, 'catalog_category.tree');
+        return $this->client->call('catalog_category.tree');
     }
 
     /**
@@ -84,7 +95,7 @@ class Webshop_BackendProductgroupmanager_Helper_Data extends Mage_Core_Helper_Ab
      * @return boolean
      */
     public function deleteCategory($id){
-        return $this->client->call($this->session, 'catalog_category.delete', $id);
+        return $this->client->call('catalog_category.delete', array($id));
     }
 
 }

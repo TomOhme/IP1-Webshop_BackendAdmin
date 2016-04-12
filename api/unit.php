@@ -5,3 +5,4 @@ set_include_path(dirname(__FILE__));
 //Set custom memory limit
 ini_set('memory_limit', '512M');
 include('Product.php');
+include('ProductGroup.php');

@@ -6,9 +6,6 @@
  * Time: 15:44
  */
 
-session_start();
-session_destroy();
-
 include("header.php");
 ?>
 <link rel="stylesheet" href="../css/loginStyle.css" />
@@ -73,7 +70,7 @@ include("header.php");
                 data: payload,
                 success: function(data){
                     //location.reload();
-                    window.location = "http://127.0.0.1/magento_backendAdmin/app/pages.php";
+                    window.location = "./pages.php";
                 },
                 error: function(){
                     $("#login_btn").notify("Ungültiger Login", {
