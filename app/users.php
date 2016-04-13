@@ -1,6 +1,6 @@
 <?php
 /**
- * Created by IntelliJ IDEA.
+ * Created by IntelliJ IDEA
  * User: Janis
  * Date: 08.04.2016
  * Time: 20:44
@@ -9,7 +9,7 @@
 session_start();
 
 if(!isset($_SESSION['username'])) {
- /*return header('Location: index.php'); */
+ return header('Location: index.php'); 
 }
 ?>
 
