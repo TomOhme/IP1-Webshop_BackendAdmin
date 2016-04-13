@@ -14,6 +14,9 @@ if(!isset($_SESSION['username'])) {
     return header('Location: index.php');
 }
 
+$soap = new Product();
+$soap -> openSoap();
+
 ?>
     <div id="content">
         <br><br>
@@ -34,7 +37,7 @@ if(!isset($_SESSION['username'])) {
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-12">
+                        <class="col-sm-12">
                             <table class="table table-responsive table-hover table-striped table-bordered dataTable no-footer" id="data-table" style="width: 100%;" role="grid" aria-describedby="data-table_info">
                                 <thead class="tablebold">
                                     <tr role="row">
@@ -49,27 +52,26 @@ if(!isset($_SESSION['username'])) {
 
                                 <tbody>
                                     <?php
-                                        $soap = new Product();
-                                        $soap -> openSoap();
-                                        $articles = $soap -> getAllProducts();
-                                        $i = 1;
-                                        foreach ($articles as $article) {
-                                            $img = $soap -> getProductImage($article['product_id']);
-                                            $stock = $soap -> getProductStock($article['product_id']);
-                                            ?>
-                                            <tr onclick="loadItem('update_article','content', '556ef5fe881b3');" role="row" class="odd"><!--odd/even default -->
-                                                <td class='sorting_1'><?php echo $i ?></td>
-                                                <td><?php echo $article['name'] ?></td>
-                                                <td class="col-sm-3 hidden-xs"><?php $article['category_ids'][0] ?></td>
-                                                <td class="col-sm-3 hidden-xs"><img src="<?php echo $img[0]['url'] ?>" width="70px" class="img-thumbnail" alt="Thumbnail Image"></td>
-                                                <td><?php echo $stock[0]['qty'] ?></td>
-                                                <td><?php echo $article['price'] ?></td>
-                                                <td></td>
-                                            </tr>
-                                            <?php
-                                            $i++;
-                                        }
+                                    $articles = $soap -> getAllProducts();
+                                    $i = 1;
+                                    foreach ($articles as $article) {
+                                        $img = $soap -> getProductImage($article['product_id']);
+                                        $stock = $soap -> getProductStock($article['product_id']);
+                                        ?>
+                                        <tr onclick="loadItem('update_article', '<?php echo $article['product_id'] ?>');" role="row" class="odd"><!--odd/even default -->
+                                            <td class='sorting_1'><?php echo $i ?></td>
+                                            <td><?php echo $article['name'] ?></td>
+                                            <td class="col-sm-3 hidden-xs"><?php $article['category_ids'][0] ?></td>
+                                            <td class="col-sm-3 hidden-xs"><img src="<?php echo $img[0]['url'] ?>" width="70px" class="img-thumbnail" alt="Thumbnail Image"></td>
+                                            <td><?php echo $stock[0]['qty'] ?></td>
+                                            <td><?php echo $article['price'] ?></td>
+                                            <td></td>
+                                        </tr>
+                                        <?php
+                                        $i++;
+                                    }
                                     ?>
+
                                     <!--
                                     <tr onclick="loadItem('update_article','content', '556ef5fe881b3');" role="row" class="odd">
                                         <td class="sorting_1">1</td>
@@ -153,7 +155,19 @@ if(!isset($_SESSION['username'])) {
                     <h4 class="modal-title">Artikel erfassen</h4>
                 </div>
                 <div class="modal-body">
+                    <?php
+                    $data = json_decode(file_get_contents('php://input'), true);
+                    var_dump($data);
+                    $a = isset($data['articleId']) ? $data['articleId']:'not yet';
+                    echo $a ;
+                    /*if (isset($_POST['articleId'])) {
+                        $articleId = isset($_POST['articleId']) ? $_POST['articleId'] : null;
+                        $update_article = $soap -> getProductByID($articleId);
+                        $update_img = $soap -> getProductImage($update_article['product_id']);
+                        $update_stock = $soap -> getProductStock($update_article['product_id']);
 
+                    }*/
+                    ?>
                     <div class="form-horizontal">
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Bilder</label>
@@ -168,7 +182,7 @@ if(!isset($_SESSION['username'])) {
                         <div class="form-group has-feedback">
                             <label class="col-sm-3 control-label">Titel</label>
                             <div class="col-sm-6">
-                                <input id="article_update_title" type="text" class="form-control" name="title" value="" placeholder="Titel" data-bv-field="title"><i class="form-control-feedback" data-bv-icon-for="title" style="display: none;"></i>
+                                <input id="article_update_title" type="text" class="form-control" name="title" value="<?php if (!empty($_POST['articleId'])) { echo $update_article['name']; } else { echo ""; } ?>" placeholder="Titel" data-bv-field="title"><i class="form-control-feedback" data-bv-icon-for="title" style="display: none;"></i>
                                 <small class="help-block" data-bv-validator="notEmpty" data-bv-for="title" data-bv-result="NOT_VALIDATED" style="display: none;">Bitte Artikelname angeben</small><small class="help-block" data-bv-validator="remote" data-bv-for="title" data-bv-result="NOT_VALIDATED" style="display: none;">Ein Artikel mit diesem Titel existiert bereits</small><small class="help-block" data-bv-validator="stringLength" data-bv-for="title" data-bv-result="NOT_VALIDATED" style="display: none;">Artikelname muss zwischen 2 und 50 Zeichen sein</small></div>
                         </div>
 
@@ -196,7 +210,7 @@ if(!isset($_SESSION['username'])) {
                         <div class="form-group has-feedback">
                             <label class="col-sm-3 control-label">Anzahl</label>
                             <div class="col-sm-6">
-                                <input id="article_update_amount" type="text" class="form-control" name="stock" value="" placeholder="Anzahl" data-bv-field="stock"><i class="form-control-feedback" data-bv-icon-for="stock" style="display: none;"></i>
+                                <input id="article_update_amount" type="text" class="form-control" name="stock" value="<?php if (!empty($_POST['articleId'])) { echo $update_stock[0]['qty']; } else { echo ""; } ?>" placeholder="Anzahl" data-bv-field="stock"><i class="form-control-feedback" data-bv-icon-for="stock" style="display: none;"></i>
                                 <small class="help-block" data-bv-validator="notEmpty" data-bv-for="stock" data-bv-result="NOT_VALIDATED" style="display: none;">Bitte Anzahl angeben</small><small class="help-block" data-bv-validator="digits" data-bv-for="stock" data-bv-result="NOT_VALIDATED" style="display: none;">Anzahl kann nur Zahlen enthalten</small></div>
                         </div>
 
@@ -204,7 +218,7 @@ if(!isset($_SESSION['username'])) {
                         <div class="form-group has-feedback">
                             <label class="col-sm-3 control-label">Preis</label>
                             <div class="col-sm-6">
-                                <input id="article_update_price" type="text" class="form-control" name="price" value="" placeholder="Preis" data-bv-field="price"><i class="form-control-feedback" data-bv-icon-for="price" style="display: none;"></i>
+                                <input id="article_update_price" type="text" class="form-control" name="price" value="<?php if (!empty($_POST['articleId'])) { echo $update_article['price']; } else { echo ""; } ?>" placeholder="Preis" data-bv-field="price"><i class="form-control-feedback" data-bv-icon-for="price" style="display: none;"></i>
                                 <small class="help-block" data-bv-validator="notEmpty" data-bv-for="price" data-bv-result="NOT_VALIDATED" style="display: none;">Bitte Preis angeben</small><small class="help-block" data-bv-validator="regexp" data-bv-for="price" data-bv-result="NOT_VALIDATED" style="display: none;">Preis kann nur Zahlen enthalten</small></div>
                         </div>
 
@@ -234,15 +248,29 @@ if(!isset($_SESSION['username'])) {
 
     <script type="text/javascript">
 
-        function loadItem(page) {
-            //Inputparameter updateArticle id
+        function loadItem(page, articleId) {
             if (page == 'create_article') {
                 $("#myModal").modal();
             } else if (page == 'update_article') {
-                $("#myModal").modal(); //load with article id
+                update_article(articleId);
             } else if (page == 'import_article_overview') {
 
             }
+        }
+
+        function update_article(articleId) {
+            $.ajax({
+                url: 'articles.php',
+                type: 'POST',
+                data: { articleId : "fdfdfdsf" },
+                success: function() {
+                    $("#myModal").modal();
+                }
+            });
+            /*$.post('articles.php', function (response) {
+                articleId : articleId
+
+            });*/
         }
 
         /*function loadItem(page, placeholder, id) {
