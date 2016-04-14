@@ -1,6 +1,6 @@
 <?php
 /**
- * Created by IntelliJ IDEA.
+ * Created by IntelliJ IDEA
  * User: Janis
  * Date: 08.04.2016
  * Time: 20:44
@@ -9,19 +9,19 @@
 session_start();
 
 if(!isset($_SESSION['username'])) {
- return header('Location: index.php');
+ return header('Location: index.php'); 
 }
 ?>
 
-<div id="content">
-        <script type="text/javascript">
-            loadItem('users', 'content_table', 1);
-        </script>
+<div id="content" style="padding-left:50px; padding-right:50px;">
+    <script type="text/javascript">
+        loadItem('users', 'content_table', 1);
+    </script>
 
-        <br><br>
+    <br><br>
         <div id="content_table">
             <div class="table-responsive rwd-article">
-                <div id="data-table_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                <div id="data-table_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer" style="width:1600px;">
                     <div class="row">
                         <div class="col-sm-6"></div>
                         <div class="col-sm-6">
@@ -43,8 +43,8 @@ if(!isset($_SESSION['username'])) {
                                     <td class="sorting" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Titel: aktivieren, um Spalte aufsteigend zu sortieren" style="width: 242px;">Telefonnr.</td>
                                     <td class="sorting" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Titel: aktivieren, um Spalte aufsteigend zu sortieren" style="width: 242px;">E-Mail</td>
                                     <td class="sorting" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Titel: aktivieren, um Spalte aufsteigend zu sortieren" style="width: 242px;">Geburtstagsdatum</td>
-                                    <td class="sorting" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Titel: aktivieren, um Spalte aufsteigend zu sortieren" style="width: 242px;">Newsletter</td>
-                                    <td class="sorting" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Titel: aktivieren, um Spalte aufsteigend zu sortieren" style="width: 242px;">Einstellung</td>
+                                    <td class="sorting" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Titel: aktivieren, um Spalte aufsteigend zu sortieren" style="width: 150px;">Newsletter</td>
+                                    <td class="sorting" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Titel: aktivieren, um Spalte aufsteigend zu sortieren" style="width: 150px;">Einstellung</td>
                                 </tr>
                                 </thead>
 
@@ -80,18 +80,18 @@ if(!isset($_SESSION['username'])) {
                     </div>
                     <div class="row">
                         <div class="col-sm-5">
-                            <div class="dataTables_info" id="data-table_info" role="status" aria-live="polite">1 bis 2 von 2 Eintr�gen</div>
+                            <div class="dataTables_info" id="data-table_info" role="status" aria-live="polite">1 bis 2 von 2 Einträgen</div>
                         </div><div class="col-sm-7">
                         <div class="dataTables_paginate paging_simple_numbers" id="data-table_paginate">
                             <ul class="pagination">
                                 <li class="paginate_button previous disabled" id="data-table_previous">
-                                    <a href="#" aria-controls="data-table" data-dt-idx="0" tabindex="0">Zur�ck</a>
+                                    <a href="#" aria-controls="data-table" data-dt-idx="0" tabindex="0">Zurück</a>
                                 </li>
                                 <li class="paginate_button active">
                                     <a href="#" aria-controls="data-table" data-dt-idx="1" tabindex="0">1</a>
                                 </li>
                                 <li class="paginate_button next disabled" id="data-table_next">
-                                    <a href="#" aria-controls="data-table" data-dt-idx="2" tabindex="0">N�chste</a>
+                                    <a href="#" aria-controls="data-table" data-dt-idx="2" tabindex="0">Nächste</a>
                                 </li>
                             </ul>
                         </div>
@@ -100,33 +100,29 @@ if(!isset($_SESSION['username'])) {
                 </div>
             </div>
 
-            <button id="articles_create" type="button" onclick="loadItem('update_article','content','-1');" class="btn btn-success">Neuer Artikel</button>
-            <button id="articles_import" type="button" onclick="loadItem('import_article_overview','content','-1');" class="btn btn-success">Excel-Tabelle</button>
-
-
         <script type="text/javascript">
             $(document).ready(function() {
 
                 $('#data-table').DataTable({
                     "language": {
                         "sEmptyTable":      "Keine Daten in der Tabelle vorhanden",
-                        "sInfo":            "_START_ bis _END_ von _TOTAL_ Eintr�gen",
-                        "sInfoEmpty":       "0 bis 0 von 0 Eintr�gen",
-                        "sInfoFiltered":    "(gefiltert von _MAX_ Eintr�gen)",
+                        "sInfo":            "_START_ bis _END_ von _TOTAL_ Einträgen",
+                        "sInfoEmpty":       "0 bis 0 von 0 Einträgen",
+                        "sInfoFiltered":    "(gefiltert von _MAX_ Einträgen)",
                         "sInfoPostFix":     "",
                         "sInfoThousands":   ".",
-                        "sLengthMenu":      "_MENU_ Eintr�ge anzeigen",
+                        "sLengthMenu":      "_MENU_ Einträge anzeigen",
                         "sLoadingRecords":  "Wird geladen...",
                         "sProcessing":      "Bitte warten...",
                         "sSearch":          "Suchen",
-                        "sZeroRecords":     "Keine Eintr�ge vorhanden.",
+                        "sZeroRecords":     "Keine Einträge vorhanden.",
                         "oLanguage": {
                             "sProcessing": "loading data..."
                         },
                         "oPaginate": {
                             "sFirst":       "Erste",
-                            "sPrevious":    "Zur�ck",
-                            "sNext":        "N�chste",
+                            "sPrevious":    "Zurück",
+                            "sNext":        "Nächste",
                             "sLast":        "Letzte"
                         },
                         "oAria": {
@@ -142,3 +138,4 @@ if(!isset($_SESSION['username'])) {
             } );
         </script>
     </div>
+</div>

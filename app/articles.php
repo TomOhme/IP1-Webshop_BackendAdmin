@@ -31,9 +31,9 @@ $soap -> openSoap();
                         </div>
                         <div class="col-sm-6 text-right">
                             <!-- Trigger the modal with a button -->
-                            <button id="create_article" type="button" onclick="loadItem('create_article','content,'-1')" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Neuer Artikel</button>
+                            <button id="create_article" type="button" onclick="loadItem('create_article','newArticleId')" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Neuer Artikel</button>
 
-                            <button id="import_article" type="button" data-toggle="modal" data-target="#excelImportModal" class="btn btn-primary">Excel-Import</button>
+                            <button id="import_article" type="button" onclick="loadItem('import_article_overview','');" class="btn btn-primary">Excel-Tabelle</button>
                         </div>
                     </div>
                     <div class="row">
@@ -155,20 +155,6 @@ $soap -> openSoap();
                     <h4 class="modal-title">Artikel erfassen</h4>
                 </div>
                 <div class="modal-body">
-                    <?php
-                    $data = json_decode(file_get_contents('php://input'), true);
-                    var_dump($data);
-                    var_dump($_POST);
-                    $a = isset($data['articleId']) ? $data['articleId']:'not yet';
-                    echo $a ;
-                    /*if (isset($_POST['articleId'])) {
-                        $articleId = isset($_POST['articleId']) ? $_POST['articleId'] : null;
-                        $update_article = $soap -> getProductByID($articleId);
-                        $update_img = $soap -> getProductImage($update_article['product_id']);
-                        $update_stock = $soap -> getProductStock($update_article['product_id']);
-
-                    }*/
-                    ?>
                     <div class="form-horizontal">
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Bilder</label>
@@ -183,7 +169,7 @@ $soap -> openSoap();
                         <div class="form-group has-feedback">
                             <label class="col-sm-3 control-label">Titel</label>
                             <div class="col-sm-6">
-                                <input id="article_update_title" type="text" class="form-control" name="title" value="<?php if (!empty($_POST['articleId'])) { echo $update_article['name']; } else { echo ""; } ?>" placeholder="Titel" data-bv-field="title"><i class="form-control-feedback" data-bv-icon-for="title" style="display: none;"></i>
+                                <input id="article_update_title" type="text" class="form-control" name="title" value="" placeholder="Titel" data-bv-field="title"><i class="form-control-feedback" data-bv-icon-for="title" style="display: none;"></i>
                                 <small class="help-block" data-bv-validator="notEmpty" data-bv-for="title" data-bv-result="NOT_VALIDATED" style="display: none;">Bitte Artikelname angeben</small><small class="help-block" data-bv-validator="remote" data-bv-for="title" data-bv-result="NOT_VALIDATED" style="display: none;">Ein Artikel mit diesem Titel existiert bereits</small><small class="help-block" data-bv-validator="stringLength" data-bv-for="title" data-bv-result="NOT_VALIDATED" style="display: none;">Artikelname muss zwischen 2 und 50 Zeichen sein</small></div>
                         </div>
 
@@ -211,7 +197,7 @@ $soap -> openSoap();
                         <div class="form-group has-feedback">
                             <label class="col-sm-3 control-label">Anzahl</label>
                             <div class="col-sm-6">
-                                <input id="article_update_amount" type="text" class="form-control" name="stock" value="<?php if (!empty($_POST['articleId'])) { echo $update_stock[0]['qty']; } else { echo ""; } ?>" placeholder="Anzahl" data-bv-field="stock"><i class="form-control-feedback" data-bv-icon-for="stock" style="display: none;"></i>
+                                <input id="article_update_amount" type="text" class="form-control" name="stock" value="" placeholder="Anzahl" data-bv-field="stock"><i class="form-control-feedback" data-bv-icon-for="stock" style="display: none;"></i>
                                 <small class="help-block" data-bv-validator="notEmpty" data-bv-for="stock" data-bv-result="NOT_VALIDATED" style="display: none;">Bitte Anzahl angeben</small><small class="help-block" data-bv-validator="digits" data-bv-for="stock" data-bv-result="NOT_VALIDATED" style="display: none;">Anzahl kann nur Zahlen enthalten</small></div>
                         </div>
 
@@ -219,7 +205,7 @@ $soap -> openSoap();
                         <div class="form-group has-feedback">
                             <label class="col-sm-3 control-label">Preis</label>
                             <div class="col-sm-6">
-                                <input id="article_update_price" type="text" class="form-control" name="price" value="<?php if (!empty($_POST['articleId'])) { echo $update_article['price']; } else { echo ""; } ?>" placeholder="Preis" data-bv-field="price"><i class="form-control-feedback" data-bv-icon-for="price" style="display: none;"></i>
+                                <input id="article_update_price" type="text" class="form-control" name="price" value="" placeholder="Preis" data-bv-field="price"><i class="form-control-feedback" data-bv-icon-for="price" style="display: none;"></i>
                                 <small class="help-block" data-bv-validator="notEmpty" data-bv-for="price" data-bv-result="NOT_VALIDATED" style="display: none;">Bitte Preis angeben</small><small class="help-block" data-bv-validator="regexp" data-bv-for="price" data-bv-result="NOT_VALIDATED" style="display: none;">Preis kann nur Zahlen enthalten</small></div>
                         </div>
 
@@ -247,25 +233,6 @@ $soap -> openSoap();
         </div>
     </div>
 
-    <!-- Excel Import Modal -->
-    <div class="modal fade" tabindex="-1" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Modal title</h4>
-                </div>
-                <div class="modal-body">
-                    <p>One fine body&hellip;</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
     <script type="text/javascript">
 
         function loadItem(page, articleId) {
@@ -280,12 +247,18 @@ $soap -> openSoap();
 
         function update_article(articleId) {
             $.ajax({
-                url: 'articles.php',
+                url: 'updateArticle.php',
                 type: 'POST',
-                data: { 'articleId' : "fdfdfdsf" },
-                success: function(data) {
+                data: { articleId : articleId },
+                success: function(result) {
+                    var data = result;
+                    var json = JSON.parse(data);
+                    //$("#picture")
+                    $("#article_update_title").val(json.update_article.name);
+                    //alert(json);
+                    //$("#article_update_amount").val(json.update_stock.qty);
+                    $("#article_update_price").val(json.update_article.price);
                     $("#myModal").modal();
-
                 }
             });
             /*$.post('articles.php', function (response) {

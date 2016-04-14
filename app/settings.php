@@ -1,6 +1,6 @@
 <?php
 /**
- * Created by IntelliJ IDEA.
+ * Created by IntelliJ IDEA
  * User: Tom
  * Date: 07.04.2016
  * Time: 15:37
@@ -13,63 +13,84 @@ if(!isset($_SESSION['username'])) {
 }
 ?>
 
-<div id="content"><div class="row">
-	<div id="" class="col-sm-3">
-	    <label class="col-sm-3 control-label">Shopname</label>
-	    <div class="col-sm-9">
-	        <input type="text" class="form-control" name="title" placeholder="Webshop Name" value="Mein Bauernhof">
-	    </div>
-	    <label class="col-sm-3 control-label">Name</label>
-	    <div class="col-sm-9">
-        	<input type="text" class="form-control" name="name" placeholder="Max Mustermann" value="Max Mustermann">
-        </div>
-        <label class="col-sm-3 control-label">Strasse</label>
-        <div class="col-sm-9">
-            <input type="text" class="form-control" name="street" placeholder="Musterstrasse 1" value="Musterstrasse 1">
-        </div>
-        <label class="col-sm-3 control-label">PLZ</label>
-        <div class="col-sm-9">
-            <input type="text" class="form-control" name="plz" placeholder="1234" value="1234" onkeydown="return isNumberKey(event)">
-        </div>
-        <label class="col-sm-3 control-label">Ort</label>
-        <div class="col-sm-9">
-            <input type="text" class="form-control" name="city" placeholder="Musteren" value="Musteren">
-        </div>
-	</div>
+<div id="content" style="padding-left:50px; padding-right:50px;">
+    <div class="row">
+        <table>
+            <td style="width: 800px;">
+                <label class="col-sm-3 control-label">Shopname</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="title" placeholder="Webshop Name" value="Mein Bauernhof">
+                </div>
+                <label class="col-sm-3 control-label">Name</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="name" placeholder="Max Mustermann" value="Max Mustermann">
+                </div>
+                <label class="col-sm-3 control-label">Strasse</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="street" placeholder="Musterstrasse 1" value="Musterstrasse 1">
+                </div>
+                <label class="col-sm-3 control-label">PLZ</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="plz" placeholder="1234" value="1234" onkeydown="return isNumberKey(event)">
+                </div>
+                <label class="col-sm-3 control-label">Ort</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="city" placeholder="Musteren" value="Musteren">
+                </div>
+            </td>
 
-	<div class="form-group" class="col-sm-7">
-	    <label class="col-sm-12 control-label">Über Uns</label>
-	    <div class="col-sm-12">
-	        <textarea rows="5" class="form-control editme" name="aboutUs" id="aboutUs" placeholder="Über Uns">
-	        </textarea>
-	    </div>
-	    <label class="col-sm-12 control-label">Öffnungszeiten</label>
-	    <div class="col-sm-12">
-	        <textarea rows="3" class="form-control editme" name="opening" id="opening" placeholder="Öffnungszeiten">
-	        </textarea>
-	    </div>
-	</div>
+            <td style="width: 1000px;">
+                <div class="form-group" class="col-sm-7">
+                    <label class="col-sm-12 control-label">Über Uns</label>
+                    <div class="col-sm-12">
+                        <textarea rows="5" class="form-control editme" name="aboutUs" id="aboutUs" placeholder="Über Uns">
+                        </textarea>
+                    </div>
+                    <label class="col-sm-12 control-label">Öffnungszeiten</label>
+                    <div class="col-sm-12">
+                        <textarea rows="3" class="form-control editme" name="opening" id="opening" placeholder="Öffnungszeiten">
+                        </textarea>
+                    </div>
+                </div>
+            </td>
 
-	<div id="" class="col-sm-2">
-        <label class="col-sm-12 control-label">Logo</label>
-        <div class="col-sm-12">
-            <input type="text" class="form-control" name="logo" placeholder="" value="">
-        </div>
-        <div class="col-sm-4 col-sm-offset-3">
-            <button type="file" class="btn" name="logo" accept="image">Durchsuchen...</button>
-        </div>
-        <label class="col-sm-12 control-label">Farbe</label>
-        <div class="col-sm-12">
-            <form>
-                <input type="radio" name="color" value="red" checked>Rot</input>
-                <input type="radio" name="color" value="blue">Blau</input><br />
-                <input type="radio" name="color" value="green">Grün</input>
-                <input type="radio" name="color" value="yellow">Gelb</input><br />
-                <input type="radio" name="color" value="gray">Grau</input>
-            </form>
-        </div>
-	</div>
+            <td style="width: 800px;">
+                <div id="" class="col-sm-12">
+                    <label class="col-sm-12 control-label">Logo</label>
+                    <div class="col-sm-12">
+                        <table>
+                            <tr>
+                                <td><input type="text" class="form-control" name="logo" placeholder="" value=""></td>
+                                <td><button type="file" class="btn" name="logo" accept="image" style="margin-left: 5px;">Durchsuchen...</button></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-sm-4 col-sm-offset-3">
 
+                    </div>
+                    <label class="col-sm-12 control-label">Farbe</label>
+                    <div class="col-sm-12">
+                        <form>
+                            <table>
+                                <tr>
+                                    <td style="width: 100px;"><input type="radio" name="color" value="red" checked>Rot</input></td>
+                                <td><input type="radio" name="color" value="blue">Blau</input></td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 100px;"><input type="radio" name="color" value="green">Grün</input></td>
+                                    <td><input type="radio" name="color" value="yellow">Gelb</input></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="radio" name="color" value="gray">Grau</input></td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </td>
+
+        </table>
+    </div>
 <script type="text/javascript">
 
 function isNumberKey(evt){
