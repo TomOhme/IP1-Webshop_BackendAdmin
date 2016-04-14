@@ -33,7 +33,7 @@ $soap -> openSoap();
                             <!-- Trigger the modal with a button -->
                             <button id="create_article" type="button" onclick="loadItem('create_article','content,'-1')" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Neuer Artikel</button>
 
-                            <button id="import_article" type="button" onclick="loadItem('import_article_overview','content','-1');" class="btn btn-primary">Excel-Tabelle</button>
+                            <button id="import_article" type="button" data-toggle="modal" data-target="#excelImportModal" class="btn btn-primary">Excel-Import</button>
                         </div>
                     </div>
                     <div class="row">
@@ -158,6 +158,7 @@ $soap -> openSoap();
                     <?php
                     $data = json_decode(file_get_contents('php://input'), true);
                     var_dump($data);
+                    var_dump($_POST);
                     $a = isset($data['articleId']) ? $data['articleId']:'not yet';
                     echo $a ;
                     /*if (isset($_POST['articleId'])) {
@@ -246,6 +247,25 @@ $soap -> openSoap();
         </div>
     </div>
 
+    <!-- Excel Import Modal -->
+    <div class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    <p>One fine body&hellip;</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
     <script type="text/javascript">
 
         function loadItem(page, articleId) {
@@ -262,9 +282,10 @@ $soap -> openSoap();
             $.ajax({
                 url: 'articles.php',
                 type: 'POST',
-                data: { articleId : "fdfdfdsf" },
-                success: function() {
+                data: { 'articleId' : "fdfdfdsf" },
+                success: function(data) {
                     $("#myModal").modal();
+
                 }
             });
             /*$.post('articles.php', function (response) {
