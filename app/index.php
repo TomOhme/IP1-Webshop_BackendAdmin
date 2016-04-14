@@ -15,7 +15,7 @@ include("header.php");
             <div class="middle">
                 <div class="inner">
                     <div>
-                        <img id="logo"  src="../img/logo.png" alt="" title="">
+                        <img id="logo"  src="../img/Logo.png" alt="" title="">
                     </div>
                     <div id="page-content" onKeyPress="return checkSubmit(event)" style="width:320px;">
                         <form method="post" action="">

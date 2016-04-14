@@ -7,6 +7,7 @@
  */
 
 include('../vendor/autoload.php');
+include('../config.php');
 use Magento\Client\Xmlrpc\MagentoXmlrpcClient;
 
 class Productgroup {
@@ -14,9 +15,9 @@ class Productgroup {
 
     public function openSoap(){
         $this -> client = MagentoXmlrpcClient::factory(array(
-            'base_url' => 'http://127.0.0.1/magento/',
-            'api_user' => 'soap',
-            'api_key'  => 'webshop12',
+            'base_url' => constant("soapURL"),
+            'api_user' => constant("soapUser"),
+            'api_key'  => constant("soapwd")
         ));
     }
 

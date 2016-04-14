@@ -16,7 +16,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#" onclick="changeSite('articles');"><img src="../img/logo.png" width="100" height="30" alt="BackendAdmin"></a>
+            <a class="navbar-brand" href="#" onclick="changeSite('articles');"><img src="../img/Logo.png" width="100" height="30" alt="BackendAdmin"></a>
             <a class="navbar-brand" href="#" onclick="changeSite('articles');">&nbsp;Backend Admin</a>
         </div>
 
