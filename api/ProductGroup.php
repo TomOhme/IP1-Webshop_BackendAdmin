@@ -7,17 +7,22 @@
  */
 
 include('../vendor/autoload.php');
-include('../config.php');
 use Magento\Client\Xmlrpc\MagentoXmlrpcClient;
 
 class Productgroup {
     private $client;
+    private $ini_array;
+
+    public function __construct()
+    {
+        $this->ini_array = parse_ini_file("../php.ini");
+    }
 
     public function openSoap(){
-        $this -> client = MagentoXmlrpcClient::factory(array(
-            'base_url' => constant("soapURL"),
-            'api_user' => constant("soapUser"),
-            'api_key'  => constant("soapwd")
+         $this -> client = MagentoXmlrpcClient::factory(array(
+            'base_url' => $this->ini_array['SOAPURL'],
+            'api_user' => $this->ini_array['SOAPUSER'],
+            'api_key'  => $this->ini_array['SOAPPWD'],
         ));
     }
 
@@ -47,17 +52,6 @@ class Productgroup {
      * More: http://devdocs.magento.com/guides/m1x/api/soap/catalog/catalogCategory/catalog_category.info.html
      */
     public function getCategory($id){
-        /*
-        $all = $this -> getTree();
-        if(in_array($id, $all)){
-            foreach ($categorys as $category) {
-                if($category['category_id'] == $id){
-                    return $category;
-                }
-            }
-        } else {
-            return null;
-        }*/
         return $this->client->call('catalog_category.info', array($id));
     }
 
@@ -97,6 +91,16 @@ class Productgroup {
      */
     public function deleteCategory($id){
         return $this->client->call('catalog_category.delete', array($id));
+    }
+
+    /**
+    * Assigns a category a product
+    * @param $categoryID
+    * @param $productID
+    * @return boolean
+    */
+    public function assignProduct($categoryID, $productID){
+        return $this ->client->call($session, 'catalog_category.assignProduct', array('categoryId' => $categoryID, 'product' => $productID));
     }
 
 }

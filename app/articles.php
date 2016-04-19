@@ -33,7 +33,7 @@ $soap -> openSoap();
                             <!-- Trigger the modal with a button -->
                             <button id="create_article" type="button" onclick="loadItem('create_article','newArticleId')" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Neuer Artikel</button>
 
-                            <button id="import_article" type="button" onclick="loadItem('import_article_overview','');" class="btn btn-primary">Excel-Tabelle</button>
+                            <button id="import_article" type="button" class="btn btn-primary" data-toggle="modal" data-target="#importExcel">Excel-Tabelle</button>
                         </div>
                     </div>
                     <div class="row">
@@ -71,50 +71,6 @@ $soap -> openSoap();
                                         $i++;
                                     }
                                     ?>
-
-                                    <!--
-                                    <tr onclick="loadItem('update_article','content', '556ef5fe881b3');" role="row" class="odd">
-                                        <td class="sorting_1">1</td>
-                                        <td>Apfel</td>
-                                        <td class="col-sm-3 hidden-xs">&Auml;pfel</td>
-                                        <td class="col-sm-3 hidden-xs"><img src="../img/testBild.png" width="70px" class="img-thumbnail" alt="Thumbnail Image"></td>
-                                        <td>1</td>
-                                        <td>3.95</td>
-                                        <td>10%</td>
-                                    </tr><tr onclick="loadItem('update_article','content', '556ef6c0d5778');" role="row" class="even">
-                                        <td class="sorting_1">2</td>
-                                        <td>Apfel</td>
-                                        <td class="col-sm-3 hidden-xs">&Auml;pfel</td>
-                                        <td class="col-sm-3 hidden-xs"><img src="../img/testBild.png" width="70px" class="img-thumbnail" alt="Thumbnail Image"></td>
-                                        <td>1</td>
-                                        <td>3.95</td>
-                                        <td>10%</td>
-                                    </tr><tr onclick="loadItem('update_article','content', '556ef6f58d622');" role="row" class="odd">
-                                        <td class="sorting_1">3</td>
-                                        <td>Apfel</td>
-                                        <td class="col-sm-3 hidden-xs">&Auml;pfel</td>
-                                        <td class="col-sm-3 hidden-xs"><img src="../img/testBild.png" width="70px" class="img-thumbnail" alt="Thumbnail Image"></td>
-                                        <td>1</td>
-                                        <td>3.95</td>
-                                        <td>10%</td>
-                                    </tr><tr onclick="loadItem('update_article','content', '556ef7663c56');" role="row" class="even">
-                                        <td class="sorting_1">4</td>
-                                        <td>Apfel</td>
-                                        <td class="col-sm-3 hidden-xs">&Auml;pfel</td>
-                                        <td class="col-sm-3 hidden-xs"><img src="../img/testBild.png" width="70px" class="img-thumbnail" alt="Thumbnail Image"></td>
-                                        <td>1</td>
-                                        <td>3.95</td>
-                                        <td>10%</td>
-                                    </tr><tr onclick="loadItem('update_article','content', '560bb3682c7db');" role="row" class="odd">
-                                        <td class="sorting_1">5</td>
-                                        <td>Apfel</td>
-                                        <td class="col-sm-3 hidden-xs">&Auml;pfel</td>
-                                        <td class="col-sm-3 hidden-xs"><img src="../img/testBild.png" width="70px" class="img-thumbnail" alt="Thumbnail Image"></td>
-                                        <td>1</td>
-                                        <td>3.95</td>
-                                        <td>10%</td>
-                                    </tr>
-                                    -->
                                 </tbody>
                             </table>
                         </div>
@@ -233,6 +189,31 @@ $soap -> openSoap();
         </div>
     </div>
 
+    <div class="modal fade" tabindex="-1" role="dialog" id="importExcel" role="dialog" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Produkte via Excel importieren</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Bitte w&auml;hlen Sie die Excel Datei mit den zu importierenden Daten aus</p>
+                    <form id="excelUpload" role="form" method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="ProductFile">Dateiimport</label>
+                            <input type="file" id="ProductFile" name="file" accept=".csv">
+                            <p class="help-block">Die Excel Datei mit den Eingetragenen Produkten ausw&auml;hlen oder in diesne Bereich ziehen.</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Schliessen</button>
+                        <button type="button" class="btn btn-info" onclick="uploadExcel(this);">Hochladen</button>
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
     <script type="text/javascript">
 
         function loadItem(page, articleId) {
@@ -265,6 +246,26 @@ $soap -> openSoap();
                 articleId : articleId
 
             });*/
+        }
+
+        function uploadExcel(form) {
+            var data = new FormData();
+            jQuery.each(jQuery('#ProductFile')[0].files, function(i, file) {
+                data.append('file-'+i, file);
+            });
+            //var form = new FormData(); 
+            //form.append("video", $("#ProductFile")[0].files[0]);
+            $.ajax({
+                url: "../api/excelUpload.php",
+                type: 'POST',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: data,
+                success: function (data) {
+                    alert(data)
+                }
+            });
         }
 
         /*function loadItem(page, placeholder, id) {
