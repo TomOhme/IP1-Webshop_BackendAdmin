@@ -7,18 +7,26 @@
  */
 
 include('../vendor/autoload.php');
-include('../config.php');
 use Magento\Client\Xmlrpc\MagentoXmlrpcClient;
 
-class Product {
-
+class product
+{
     private $client;
-    
-    public function openSoap(){
+    private $mysqli;
+    private $ini_array;
+
+    public function __construct()
+    {
+        $this->ini_array = parse_ini_file("../php.ini");
+        $this->mysqli = new mysqli("localhost", $this->ini_array['DBUSER'], $this->ini_array['DBPWD'], "magento");
+    }
+
+    public function openSoap()
+    {      
         $this -> client = MagentoXmlrpcClient::factory(array(
-            'base_url' => constant("soapURL"),
-            'api_user' => constant("soapUser"),
-            'api_key'  => constant("soapwd")
+            'base_url' => $this->ini_array['SOAPURL'],
+            'api_user' => $this->ini_array['SOAPUSER'],
+            'api_key'  => $this->ini_array['SOAPPWD'],
         ));
     }
 
@@ -43,7 +51,8 @@ class Product {
         return $this->client->call('catalog_product.info', array($ID));
     }
 
-    public function getProductStock($ID){
+    public function getProductStock($ID)
+    {
         return $this->client->call('cataloginventory_stock_item.list', array($ID));
     }
     /**
@@ -67,6 +76,17 @@ class Product {
     {
         $attributeSets = $this->client->call('product_attribute_set.list');
         $attributeSet = current($attributeSets);
+        $categoryIDs = array();
+        foreach ($productData['category_ids'] as $category) {
+            $stmt = $this -> mysqli->prepare("SELECT DISTINCT catalog_category_entity_varchar.entity_id FROM catalog_category_entity_varchar WHERE VALUE=?;");
+            $stmt->bind_param("s", $category);
+            $stmt->execute();
+            $stmt->bind_result($categoryID);
+            $stmt->fetch();
+            array_push($categoryIDs, $categoryID);
+            $stmt->close();
+        }
+        $productData['category_ids'] = $categoryIDs;
         return $this->client->call('catalog_product.create', array('simple', $attributeSet['set_id'], $sku, $productData));
     }
 
@@ -81,12 +101,12 @@ class Product {
      */
     public function createProductImage($filename, $mime, $name, $productId)
     {
-        if(pathinfo(urldecode($filename), PATHINFO_EXTENSION) == "jpg"){
+        if (pathinfo(urldecode($filename), PATHINFO_EXTENSION) == "jpg") {
             $img = imagecreatefromstring(file_get_contents(urldecode($filename)));
-            imagepng($img,$name . ".png");
+            imagepng($img, $name . ".png");
             $content = base64_encode($name . ".png");
             $mime = "image/png";
-        } else{
+        } else {
             $content = base64_encode(file_get_contents(urldecode($filename)));
         }
 
@@ -100,7 +120,7 @@ class Product {
             'catalog_product_attribute_media.create',
             array(
                 $productId,
-                array('file'=>$file, 'label'=>$name, 'position'=>'1', 'types'=>array('image','small_image','thumbnail'), 'exclude'=>null)
+                array('file'=>$file, 'label'=>$name, 'position'=>'1', 'types'=>array('image', 'small_image', 'thumbnail'), 'exclude'=>null)
             )
         );
     }
@@ -127,8 +147,8 @@ class Product {
      */
     public function updateProductImage($newFilename, $mime, $name, $oldFilename, $productId)
     {
-        $this->removeProductImage($productId,$oldFilename);
-        return $this->createProductImage($newFilename,$mime,$name,$productId);
+        $this->removeProductImage($productId, $oldFilename);
+        return $this->createProductImage($newFilename, $mime, $name, $productId);
     }
 
     /**
@@ -170,12 +190,12 @@ class Product {
      * @param $stock            String
      * @return array with all product values
      */
-    public function createCatalogProductEntity($categories, $unit, $prodName, $shortDescription, $weight, $price, $stock
-        , $websites = array("1"), $description = '', $status = '1', $visibility = "4", $special_price = '', $special_from_date = '', $special_to_date = '')
+    public function createCatalogProductEntity($categories, $unit, $prodName, $shortDescription, $price, $stock,
+        $weight = "1", $websites = array("1"), $description = '', $status = '1', $visibility = "4", $special_price = '', $special_from_date = '', $special_to_date = '')
     {
         $prodNameURL = strtolower($prodName);
         return array(
-            'categories' => $categories,
+            'category_ids' => $categories,
             'unit' => $unit,
             'websites' => $websites,
             'name' => $prodName,
@@ -193,9 +213,22 @@ class Product {
             'meta_title' => $prodName,
             'meta_keyword' => $prodName,
             'meta_description' => $shortDescription,
-            array(
+            'stock_data' => array(
                 'qty' => $stock,
-                'is_in_stock' => "1"
+                'is_in_stock' => 1,
+                'manage_stock' => 1,
+                'use_config_manage_stock' => 1,
+                'min_qty' => 0,
+                'use_config_min_qty' => 1,
+                'min_sale_qty' => 0,
+                'use_config_min_sale_qty' => 1,
+                'max_sale_qty' => 100000000,
+                'use_config_max_sale_qty' => 1,
+                'is_qty_decimal' => 0,
+                'backorders' => 0,
+                'use_config_backorders' => 1,
+                'notify_stock_qty' => 1,
+                'use_config_notify_stock_qty' => 1
             )
         );
     }
