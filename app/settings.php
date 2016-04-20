@@ -11,6 +11,9 @@ session_start();
 if(!isset($_SESSION['username'])) {
     return header('Location: index.php');
 }
+
+$soap = new Settings();
+$soap -> openSoap();
 ?>
 
 <div id="content" style="padding-left:50px; padding-right:50px;">

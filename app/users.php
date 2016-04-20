@@ -11,6 +11,9 @@ session_start();
 if(!isset($_SESSION['username'])) {
  return header('Location: index.php'); 
 }
+
+$soap = new User();
+$soap -> openSoap();
 ?>
 
 <div id="content" style="padding-left:50px; padding-right:50px;">
@@ -49,6 +52,41 @@ if(!isset($_SESSION['username'])) {
                                 </thead>
 
                                 <tbody>
+
+                                <?php
+                                $users = $soap -> getAllUsers();
+                                $count = count($users);
+                                $i = 0;
+
+                                foreach ($users as $user)
+                                {
+                                    if($i % 2 == 0)
+                                    {
+                                        ?><tr role="row" class="even"><?php
+                                    }
+                                    else
+                                    {
+                                        ?><tr role="row" class="odd"><?php
+                                    }
+                                    ?>
+
+                                    <td class="sorting_1"><?php echo $user['firstname'] ?></td>
+                                    <td class="sorting_1"><?php echo $user['lastname'] ?></td>
+                                    <td class="sorting_1"><?php echo $user['street'] ?></td>
+                                    <td class="sorting_1"><?php echo $user['postcode'] ?></td>
+                                    <td class="sorting_1"><?php echo $user['city'] ?></td>
+                                    <td class="sorting_1"><?php echo $user['telephone'] ?></td>
+                                    <td class="sorting_1"><?php echo $user[''] ?></td> <!-- email -->
+                                    <td class="sorting_1"><?php echo $user[''] ?></td> <!-- date of birth -->
+                                    <td class="sorting_1"><?php echo $user[''] ?></td> <!-- newsletter -->
+                                    <td><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></td>
+                                    </tr><?php
+                                }
+
+
+                                ?>
+
+                                <!--
                                 <tr role="row" class="odd">
                                     <td class="sorting_1">Max</td>
                                     <td>Mustermann</td>
@@ -74,6 +112,7 @@ if(!isset($_SESSION['username'])) {
                                     <td><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
                                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
                                 </tr>
+                                -->
                                 </tbody>
                             </table>
                         </div>
@@ -136,6 +175,7 @@ if(!isset($_SESSION['username'])) {
                         { "bSortable": false, "aTargets": [ 3, 4, 5 ] } ]
                 });
             } );
+
         </script>
     </div>
 </div>
