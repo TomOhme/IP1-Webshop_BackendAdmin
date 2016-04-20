@@ -16,10 +16,22 @@ if(!isset($_SESSION['username'])) {
 
 $soap = new Product();
 $soap -> openSoap();
-
 ?>
     <div id="content">
-        <br><br>
+        <!-- Alerts -->
+        <div class="alert alert-success alert-dismissible" role="alert" style="display: none;" id="alertExcelImportSuccess">
+        <span class="glyphicon glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>Erfolgreich!</strong><p id="excelImportSuccess"></p>
+        </div>
+
+        <div class="alert alert-danger alert-dismissible" role="alert" style="display: none;" id="alertExcelImportError">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>Fehler!</strong><p id="excelImportError"></p>
+        </div>
+        <!-- Fertig mit Alerts -->
+
         <div id="content_table">
             <div class="table-responsive rwd-article">
                 <div id="data-table_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
@@ -253,8 +265,6 @@ $soap -> openSoap();
             jQuery.each(jQuery('#ProductFile')[0].files, function(i, file) {
                 data.append('file-'+i, file);
             });
-            //var form = new FormData(); 
-            //form.append("video", $("#ProductFile")[0].files[0]);
             $.ajax({
                 url: "../api/excelUpload.php",
                 type: 'POST',
@@ -263,7 +273,20 @@ $soap -> openSoap();
                 processData: false,
                 data: data,
                 success: function (data) {
-                    alert(data)
+                    $('#excelImportSuccess').append(data['responseText']);
+                    $('#importExcel').modal('toggle');
+                    $("#alertExcelImportSuccess").alert();
+                    $("#alertExcelImportSuccess").fadeTo(10000, 500).slideUp(500, function(){
+                        $("#alertExcelImportSuccess").alert('close');
+                    });
+                },
+                error: function(data){
+                    $('#excelImportError').append(data['responseText']);
+                    $('#importExcel').modal('toggle');
+                    $("#alertExcelImportSuccess").alert();
+                    $("#alertExcelImportError").fadeTo(10000, 500).slideUp(500, function(){
+                        $("#alertExcelImportError").alert('close');
+                    });
                 }
             });
         }

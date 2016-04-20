@@ -23,9 +23,11 @@ if (isset($_FILES['file-0'])) {
         && in_array($extension, $allowedExts)) {
         //Store the file or print an error if validation failed
         if ($_FILES["file-0"]["error"] > 0) {
+            http_response_code(403);
             echo "Error: " . $_FILES["file-0"]["error"] . "<br>";
         } else {
             if (file_exists("upload/" . $_FILES["file-0"]["name"])) {
+                http_response_code(403);
                 echo $_FILES["file-0"]["name"] . " already exists. ";
             } else {
                 move_uploaded_file($_FILES["file-0"]["tmp_name"], "upload/" . $_FILES["file-0"]["name"]);
@@ -42,21 +44,22 @@ if (isset($_FILES['file-0'])) {
                 }
                 array_push($products, $line);
 			}
-            if(validateData($products, $prodAPI, $prodGrpAPI) !== true){ 
-                echo validateData($products, $prodAPI, $prodGrpAPI);
+            $valid = validateData($products, $prodAPI, $prodGrpAPI);
+            if($valid !== true){
                 unlink('upload/' . $_FILES['file-0']['name']);
-                return null;
+                http_response_code(403);
+                echo $valid;
+            } else{
+                uploadData($products, $prodAPI, $prodGrpAPI);    
+                fclose($handle);
+                echo "Alle Produkte wurden erfolgreich importiert!";
+                unlink('upload/' . $_FILES['file-0']['name']);
             }
-            uploadData($products, $prodAPI, $prodGrpAPI);    
-
-            fclose($handle);
-            unlink('upload/' . $_FILES['file-0']['name']);
         }
     } else {
+        http_response_code(403);
         echo "Ung&uuml;ltiger Dateityp";
     }
-} else{
-    echo "not ok";
 }
 
 /**
