@@ -96,7 +96,7 @@ $soapProductGroup -> openSoap();
                                             <td><?php echo $productStock[0]['qty'] ?></td>
                                             <td><?php echo $product['price'] ?></td>
                                             <td></td>
-                                            <td><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
+                                            <td onclick="deleteProduct('<?php echo $product['product_id'] ?>');"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
                                         </tr>
                                         <?php
                                         $i++;
@@ -245,7 +245,9 @@ $soapProductGroup -> openSoap();
             $.ajax({
                 url: 'updateProduct.php',
                 type: 'POST',
-                data: { productId : productId },
+                data: { productId : productId,
+                        product : 'update'
+                },
                 success: function(result) {
                     var data = result;
                     var json = JSON.parse(data);
@@ -276,13 +278,22 @@ $soapProductGroup -> openSoap();
             $.ajax({
                 url: 'updateProduct.php',
                 type: 'POST',
-                data: { productId : productId },
+                data: { values : values },
                 //TODO wenn noch keine Id -> create sonst update product
             });
         }
 
         function deleteProduct(productId) {
-            //TODO delete product
+            $.ajax({
+                url: 'updateProdct.php',
+                type: 'POST',
+                data: { productId : productId,
+                        product : 'delete'
+                },
+                success: function(result) {
+                    //TODO reload product table
+                }
+            });
         }
 
         function clearModalFields() {
