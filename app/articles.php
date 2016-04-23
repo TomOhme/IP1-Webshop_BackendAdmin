@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by IntelliJ IDEA.
- * User: Tom
+ * User: Tom, Yanick
  * Date: 07.04.2016
  * Time: 15:36
  */
@@ -209,17 +209,18 @@ $soap -> openSoap();
                     <h4 class="modal-title">Produkte via Excel importieren</h4>
                 </div>
                 <div class="modal-body">
+                    <button type="button" class="btn btn-info"><a href="Import.csv" download="Beispiel-Import.csv">Excel Download</a></button>
                     <p>Bitte w&auml;hlen Sie die Excel Datei mit den zu importierenden Daten aus</p>
                     <form id="excelUpload" role="form" method="post" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="ProductFile">Dateiimport</label>
                             <input type="file" id="ProductFile" name="file" accept=".csv">
-                            <p class="help-block">Die Excel Datei mit den Eingetragenen Produkten ausw&auml;hlen oder in diesne Bereich ziehen.</p>
+                            <p class="help-block">Die Excel Datei mit den Eingetragenen Produkten ausw&auml;hlen.</p>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Schliessen</button>
-                        <button type="button" class="btn btn-info" onclick="uploadExcel(this);">Hochladen</button>
+                        <button type="button" class="btn btn-primary" onclick="uploadExcel(this);">Hochladen</button>
                     </form>
                 </div>
             </div><!-- /.modal-content -->
