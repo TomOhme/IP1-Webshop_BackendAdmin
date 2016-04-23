@@ -63,6 +63,7 @@ $soapProductGroup -> openSoap();
                                         <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Bestand" style="width: 150px;">Bestand</td>
                                         <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Preis" style="width: 100px;">Preis</td>
                                         <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Rabatt" style="width: 100px;">Rabatt</td>
+                                        <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Löschen" style="width: 100px;">L&ouml;schen</td>
                                     </tr>
                                 </thead>
 
@@ -95,6 +96,7 @@ $soapProductGroup -> openSoap();
                                             <td><?php echo $productStock[0]['qty'] ?></td>
                                             <td><?php echo $product['price'] ?></td>
                                             <td></td>
+                                            <td><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
                                         </tr>
                                         <?php
                                         $i++;
@@ -106,19 +108,14 @@ $soapProductGroup -> openSoap();
                     </div>
                     <div class="row">
                         <div class="col-sm-5">
-                            <div class="dataTables_info" id="data-table_info" role="status" aria-live="polite">1 bis 5 von 5 Eintr&auml;gen</div>
+                            <div class="dataTables_info" id="data-table_info" role="status" aria-live="polite"></div>
                         </div>
                         <div class="col-sm-7">
                             <div class="dataTables_paginate paging_simple_numbers" id="data-table_paginate">
                                 <ul class="pagination">
-                                    <li class="paginate_button previous disabled" id="data-table_previous">
-                                        <a href="#" aria-controls="data-table" data-dt-idx="0" tabindex="0">Zur&uuml;ck</a>
-                                    </li>
-                                    <li class="paginate_button active">
-                                        <a href="#" aria-controls="data-table" data-dt-idx="1" tabindex="0">1</a>
-                                    </li>
-                                    <li class="paginate_button next disabled" id="data-table_next">
-                                        <a href="#" aria-controls="data-table" data-dt-idx="2" tabindex="0">N&auml;chste</a>
+                                    <li class="paginate_button previous disabled" id="data-table_previous"></li>
+                                    <li class="paginate_button active"></li>
+                                    <li class="paginate_button next disabled" id="data-table_next"></a>
                                     </li>
                                 </ul>
                             </div>
@@ -244,10 +241,6 @@ $soapProductGroup -> openSoap();
             }
         }
 
-        function productUpdateSave() {
-
-        }
-
         function updateProduct(productId) {
             $.ajax({
                 url: 'updateProduct.php',
@@ -271,6 +264,7 @@ $soapProductGroup -> openSoap();
                         });
                     });
                     $("#category select").val(json.updateCategory.name); //TODO select current category in category dropdown list
+                    $("#article_update_description").val(json.updateProduct.description);
                     $("#article_update_amount").val(json.updateStock[0].qty);
                     $("#article_update_price").val(json.updateProduct.price);
                     $("#productModal").modal('toggle');
@@ -278,13 +272,29 @@ $soapProductGroup -> openSoap();
             });
         }
 
+        function productUpdateSave() {
+            $.ajax({
+                url: 'updateProduct.php',
+                type: 'POST',
+                data: { productId : productId },
+                //TODO wenn noch keine Id -> create sonst update product
+            });
+        }
+
+        function deleteProduct(productId) {
+            //TODO delete product
+        }
+
         function clearModalFields() {
             //TODO clear Picture
             $("#article_update_title").val('');
             $('#category').empty();
+            $('#article_update_description').val('');
             $("#article_update_amount").val('');
             $("#article_update_price").val('');
         }
+
+        //TODO js function for required fields
 
         function uploadExcel(form) {
             var data = new FormData();
@@ -316,6 +326,41 @@ $soapProductGroup -> openSoap();
                 }
             });
         }
+
+        $(document).ready(function() {
+            $('#data-table').DataTable({
+                "language": {
+                    "sEmptyTable":      "Keine Daten in der Tabelle vorhanden",
+                    "sInfo":            "_START_ bis _END_ von _TOTAL_ Eintr&auml;gen",
+                    "sInfoEmpty":       "0 bis 0 von 0 Eintr&auml;gen",
+                    "sInfoFiltered":    "(gefiltert von _MAX_ Eintr&auml;gen)",
+                    "sInfoPostFix":     "",
+                    "sInfoThousands":   ".",
+                    "sLengthMenu":      "_MENU_ Eintr&auml;ge anzeigen",
+                    "sLoadingRecords":  "Wird geladen...",
+                    "sProcessing":      "Bitte warten...",
+                    "sSearch":          "Suchen",
+                    "sZeroRecords":     "Keine Eintr&auml;ge vorhanden.",
+                    "oLanguage": {
+                        "sProcessing": "loading data..."
+                    },
+                    "oPaginate": {
+                        "sFirst":       "Erste",
+                        "sPrevious":    "Zur&uuml;ck",
+                        "sNext":        "N&auml;chste",
+                        "sLast":        "Letzte"
+                    },
+                    "oAria": {
+                        "sSortAscending":  ": aktivieren, um Spalte aufsteigend zu sortieren",
+                        "sSortDescending": ": aktivieren, um Spalte absteigend zu sortieren"
+                    }
+                },
+                "bLengthChange": false,
+                "pageLength": 10,
+                "aoColumnDefs": [
+                    { "bSortable": false, "aTargets": [ 3, 4, 5 ] } ]
+            });
+        });
 
     </script>
 </body>
