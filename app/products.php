@@ -285,7 +285,7 @@ $soapProductGroup -> openSoap();
 
         function deleteProduct(productId) {
             $.ajax({
-                url: 'updateProdct.php',
+                url: 'updateProduct.php',
                 type: 'POST',
                 data: { productId : productId,
                         product : 'delete'
