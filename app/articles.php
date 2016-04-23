@@ -209,8 +209,12 @@ $soap -> openSoap();
                     <h4 class="modal-title">Produkte via Excel importieren</h4>
                 </div>
                 <div class="modal-body">
-                    <button type="button" class="btn btn-info"><a href="Import.csv" download="Beispiel-Import.csv">Excel Download</a></button>
-                    <p>Bitte w&auml;hlen Sie die Excel Datei mit den zu importierenden Daten aus</p>
+                    <ol>
+                        <li>Laden Sie die Excel Vorlage hier herunter <a href="Import.csv" download="Beispiel-Import.csv" class="btn btn-primary btn-xs active" role="button">Excel Download</a></li>
+                        <li>F&uuml;llen Sie die Vorlage mit Ihren Produkten, l&ouml;schen Sie keine Elemente aus der Vorlage heraus!</li>
+                        <li>Laden Sie die Datei wie &uuml;ber die Funktion unten hoch, Ihre Produkte werden automatisch eingef&uuml;gt.</li>
+                    </ol>
+
                     <form id="excelUpload" role="form" method="post" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="ProductFile">Dateiimport</label>
