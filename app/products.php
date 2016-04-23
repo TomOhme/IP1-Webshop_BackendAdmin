@@ -295,7 +295,7 @@ $soapProductGroup -> openSoap();
                         product : 'delete'
                 },
                 success: function(result) {
-                    //TODO reload product table
+                    //TODO reload product table and alert
                 }
             });
         }
