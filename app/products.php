@@ -1,12 +1,13 @@
 <?php
 /**
  * Created by IntelliJ IDEA.
- * User: Tom, Yanick
+ * User: Tom Ohme, Yanick Schraner
  * Date: 07.04.2016
  * Time: 15:36
  */
 
 include("../api/product.php");
+include("../api/ProductGroup.php");
 
 session_start();
 
@@ -14,8 +15,10 @@ if(!isset($_SESSION['username'])) {
     return header('Location: index.php');
 }
 
-$soap = new Product();
-$soap -> openSoap();
+$soapProduct = new Product();
+$soapProductGroup = new ProductGroup();
+$soapProduct -> openSoap();
+$soapProductGroup -> openSoap();
 ?>
     <div id="content">
         <!-- Alerts -->
@@ -43,7 +46,7 @@ $soap -> openSoap();
                         </div>
                         <div class="col-sm-6 text-right">
                             <!-- Trigger the modal with a button -->
-                            <button id="create_article" type="button" onclick="loadItem('create_article','newArticleId')" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Neuer Artikel</button>
+                            <button id="create_article" type="button" onclick="loadItem('createProduct','newProductId')" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Neuer Artikel</button>
 
                             <button id="import_article" type="button" class="btn btn-primary" data-toggle="modal" data-target="#importExcel">Excel-Tabelle</button>
                         </div>
@@ -53,31 +56,47 @@ $soap -> openSoap();
                             <table class="table table-responsive table-hover table-striped table-bordered dataTable no-footer" id="data-table" style="width: 100%;" role="grid" aria-describedby="data-table_info">
                                 <thead class="tablebold">
                                     <tr role="row">
-                                        <td class="sorting_asc" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: aktivieren, um Spalte absteigend zu sortieren" style="width: 136px;"><div style="width: 48px;">ID</div></td>
-                                        <td class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Titel: aktivieren, um Spalte aufsteigend zu sortieren" style="width: 242px;">Titel</td>
-                                        <td class="col-sm-3 hidden-xs sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Kategorie: aktivieren, um Spalte aufsteigend zu sortieren" style="width: 335px;">Kategorie</td>
-                                        <td class="col-sm-3 hidden-xs sorting_disabled" rowspan="1" colspan="1" aria-label="Bild" style="width: 335px;">Bild</td><td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Bestand" style="width: 156px;">Bestand</td>
-                                        <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Preis" style="width: 105px;">Preis</td>
-                                        <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Rabatt" style="width: 105px;">Rabatt</td>
+                                        <td class="sorting_asc" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: aktivieren, um Spalte absteigend zu sortieren" style="width: 50px;"><div style="width: 48px;">ID</div></td>
+                                        <td class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Titel: aktivieren, um Spalte aufsteigend zu sortieren" style="width: 200px;">Titel</td>
+                                        <td class="col-sm-3 hidden-xs sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Kategorie: aktivieren, um Spalte aufsteigend zu sortieren" style="width: 330px;">Kategorie</td>
+                                        <td class="col-sm-3 hidden-xs sorting_disabled" rowspan="1" colspan="1" aria-label="Bild" style="width: 200px;">Bild</td>
+                                        <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Bestand" style="width: 150px;">Bestand</td>
+                                        <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Preis" style="width: 100px;">Preis</td>
+                                        <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Rabatt" style="width: 100px;">Rabatt</td>
+                                        <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Löschen" style="width: 100px;">L&ouml;schen</td>
                                     </tr>
                                 </thead>
 
                                 <tbody>
                                     <?php
-                                    $articles = $soap -> getAllProducts();
+                                    $products = $soapProduct -> getAllProducts();
                                     $i = 1;
-                                    foreach ($articles as $article) {
-                                        $img = $soap -> getProductImage($article['product_id']);
-                                        $stock = $soap -> getProductStock($article['product_id']);
+                                    foreach ($products as $product) {
+                                        $productImg = $soapProduct -> getProductImage($product['product_id']);
+                                        $productStock = $soapProduct -> getProductStock($product['product_id']);
                                         ?>
-                                        <tr onclick="loadItem('update_article', '<?php echo $article['product_id'] ?>');" role="row" class="odd"><!--odd/even default -->
+                                        <tr onclick="loadItem('updateProduct', '<?php echo $product['product_id'] ?>');" role="row" class="odd"><!--odd/even default -->
                                             <td class='sorting_1'><?php echo $i ?></td>
-                                            <td><?php echo $article['name'] ?></td>
-                                            <td class="col-sm-3 hidden-xs"><?php $article['category_ids'][0] ?></td>
-                                            <td class="col-sm-3 hidden-xs"><img src="<?php echo $img[0]['url'] ?>" width="70px" class="img-thumbnail" alt="Thumbnail Image"></td>
-                                            <td><?php echo $stock[0]['qty'] ?></td>
-                                            <td><?php echo $article['price'] ?></td>
+                                            <td><?php echo $product['name'] ?></td>
+                                            <td class="col-sm-3 hidden-xs">
+                                                <?php
+                                                    $numItems = count($product['category_ids']);
+                                                    $j = 0;
+                                                    foreach($product['category_ids'] as $productGroupId) {
+                                                        $productGroup = $soapProductGroup->getCategory($productGroupId);
+                                                        if (++$j !== $numItems) {
+                                                            echo $productGroup['name'] . ", ";
+                                                        } else {
+                                                            echo $productGroup['name'];
+                                                        }
+                                                    }
+                                                ?>
+                                            </td>
+                                            <td class="col-sm-3 hidden-xs"><img src="<?php echo $productImg[0]['url'] ?>" width="70px" class="img-thumbnail" alt="Thumbnail Image"></td>
+                                            <td><?php echo $productStock[0]['qty'] ?></td>
+                                            <td><?php echo $product['price'] ?></td>
                                             <td></td>
+                                            <td onclick="deleteProduct('<?php echo $product['product_id'] ?>');"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
                                         </tr>
                                         <?php
                                         $i++;
@@ -89,19 +108,14 @@ $soap -> openSoap();
                     </div>
                     <div class="row">
                         <div class="col-sm-5">
-                            <div class="dataTables_info" id="data-table_info" role="status" aria-live="polite">1 bis 5 von 5 Eintr&auml;gen</div>
+                            <div class="dataTables_info" id="data-table_info" role="status" aria-live="polite"></div>
                         </div>
                         <div class="col-sm-7">
                             <div class="dataTables_paginate paging_simple_numbers" id="data-table_paginate">
                                 <ul class="pagination">
-                                    <li class="paginate_button previous disabled" id="data-table_previous">
-                                        <a href="#" aria-controls="data-table" data-dt-idx="0" tabindex="0">Zur&uuml;ck</a>
-                                    </li>
-                                    <li class="paginate_button active">
-                                        <a href="#" aria-controls="data-table" data-dt-idx="1" tabindex="0">1</a>
-                                    </li>
-                                    <li class="paginate_button next disabled" id="data-table_next">
-                                        <a href="#" aria-controls="data-table" data-dt-idx="2" tabindex="0">N&auml;chste</a>
+                                    <li class="paginate_button previous disabled" id="data-table_previous"></li>
+                                    <li class="paginate_button active"></li>
+                                    <li class="paginate_button next disabled" id="data-table_next"></a>
                                     </li>
                                 </ul>
                             </div>
@@ -113,7 +127,7 @@ $soap -> openSoap();
     </div>
 
     <!-- Modal create/update article-->
-    <div class="modal fade" id="myModal" role="dialog" style="display: none;">
+    <div class="modal fade" id="productModal" role="dialog" style="display: none;">
         <div class="modal-dialog">
 
             <!-- Modal content-->
@@ -145,11 +159,7 @@ $soap -> openSoap();
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Kategorie</label>
                             <div class="col-sm-6">
-                                <select name="category" id="category" class="form-control">
-                                    <option value="1">Apfel</option>
-                                    <option value="1">- Apfell</option>
-                                    <option value="1">Apfel</option>
-                                </select>
+                                <select name="category" id="category" class="form-control"></select>
                             </div>
                         </div>
 
@@ -177,14 +187,6 @@ $soap -> openSoap();
                                 <small class="help-block" data-bv-validator="notEmpty" data-bv-for="price" data-bv-result="NOT_VALIDATED" style="display: none;">Bitte Preis angeben</small><small class="help-block" data-bv-validator="regexp" data-bv-for="price" data-bv-result="NOT_VALIDATED" style="display: none;">Preis kann nur Zahlen enthalten</small></div>
                         </div>
 
-                        <!-- Button Speichern/Abbrechen/Löschen -->
-                        <div class="form-group">
-                            <div class="col-sm-9 col-sm-offset-3">
-                                <button id="article_update_save" class="btn btn-primary" role="button">Speichern</button>
-                                <button id="article_update_abort" class="btn" role="button" onclick="changeSite('articles');">Abbrechen</button>
-                            </div>
-                        </div>
-
                         <!-- Hidden inputs -->
                         <input type="hidden" id="hiddenInput1" name="hiddenInput1" value="">
                         <input type="hidden" id="hiddenInput2" name="hiddenInput2" value="">
@@ -194,7 +196,8 @@ $soap -> openSoap();
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="productUpdateSave();">Speichern</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
                 </div>
             </div>
 
@@ -233,37 +236,80 @@ $soap -> openSoap();
 
     <script type="text/javascript">
 
-        function loadItem(page, articleId) {
-            if (page == 'create_article') {
-                $("#myModal").modal();
-            } else if (page == 'update_article') {
-                update_article(articleId);
-            } else if (page == 'import_article_overview') {
-
+        function loadItem(page, productId) {
+            clearModalFields();
+            if (page == 'createProduct') {
+                $("#productModal").modal('toggle');
+            } else if (page == 'updateProduct') {
+                updateProduct(productId);
             }
         }
 
-        function update_article(articleId) {
+        function updateProduct(productId) {
             $.ajax({
-                url: 'updateArticle.php',
+                url: 'updateProduct.php',
                 type: 'POST',
-                data: { articleId : articleId },
+                data: { productId : productId,
+                        product : 'update'
+                },
                 success: function(result) {
                     var data = result;
                     var json = JSON.parse(data);
-                    //$("#picture")
-                    $("#article_update_title").val(json.update_article.name);
-                    //alert(json);
-                    //$("#article_update_amount").val(json.update_stock.qty);
-                    $("#article_update_price").val(json.update_article.price);
-                    $("#myModal").modal();
+                    //$("#picture").val(json.updateImg[0].url); //TODO show image in form, not with value
+                    $("#article_update_title").val(json.updateProduct.name);
+                    $.each(json.allCategory.children, function (i, item) {
+                        $('#category').append($('<option>', {
+                            value: item.name,
+                            text: item.name
+                        }));
+                        $.each(item.children, function (i, item) {
+                            $('#category').append($('<option>', {
+                                value: item.name,
+                                text: "- " + item.name
+                            }));
+                        });
+                    });
+                    $("#category select").val(json.updateCategory.name); //TODO select current category in category dropdown list
+                    $("#article_update_description").val(json.updateProduct.description);
+                    $("#article_update_amount").val(json.updateStock[0].qty);
+                    $("#article_update_price").val(json.updateProduct.price);
+                    $("#productModal").modal('toggle');
                 }
             });
-            /*$.post('articles.php', function (response) {
-                articleId : articleId
-
-            });*/
         }
+
+        function productUpdateSave() {
+            $.ajax({
+                url: 'updateProduct.php',
+                type: 'POST',
+                data: { values : values },
+                //TODO wenn noch keine Id -> create sonst update product
+            });
+        }
+
+        function deleteProduct(productId) {
+            $.ajax({
+                url: 'updateProduct.php',
+                type: 'POST',
+                data: { productId : productId,
+                        product : 'delete'
+                },
+                success: function(result) {
+                    //TODO reload product table
+                }
+            });
+        }
+
+        function clearModalFields() {
+            //TODO clear Picture
+            $("#article_update_title").val('');
+            $('#category').empty();
+            $('#article_update_description').val('');
+            $("#article_update_amount").val('');
+            $("#article_update_price").val('');
+        }
+
+        //TODO js function for required fields
 
         function uploadExcel(form) {
             var data = new FormData();
@@ -296,30 +342,40 @@ $soap -> openSoap();
             });
         }
 
-        /*function loadItem(page, placeholder, id) {
-            $.ajax({
-                url : 'pages.php?page=' + page + '&placeholder=' + placeholder + '&id=' + id,
-                type: 'GET',
-                success: function(data){
-                    $('#' + placeholder).html(data);
-
-                    if(site == 'update_article'){
-                        update_article_validation();
-                    } else if(site == 'categories' & placeholder == 'content_edit'){
-                        update_category_validation();
-                    } else if(site == 'users' & placeholder == 'content_edit'){
-                        update_user_validation();
-                        if(id == '-1'){
-                            $('form').bootstrapValidator('enableFieldValidators', 'password', true);
-                        } else{
-                            $('form').bootstrapValidator('enableFieldValidators', 'password', false);
-                        }
-                    } else if(site == 'import_article_csv'){
-                        import_articles_validation();
+        $(document).ready(function() {
+            $('#data-table').DataTable({
+                "language": {
+                    "sEmptyTable":      "Keine Daten in der Tabelle vorhanden",
+                    "sInfo":            "_START_ bis _END_ von _TOTAL_ Eintr&auml;gen",
+                    "sInfoEmpty":       "0 bis 0 von 0 Eintr&auml;gen",
+                    "sInfoFiltered":    "(gefiltert von _MAX_ Eintr&auml;gen)",
+                    "sInfoPostFix":     "",
+                    "sInfoThousands":   ".",
+                    "sLengthMenu":      "_MENU_ Eintr&auml;ge anzeigen",
+                    "sLoadingRecords":  "Wird geladen...",
+                    "sProcessing":      "Bitte warten...",
+                    "sSearch":          "Suchen",
+                    "sZeroRecords":     "Keine Eintr&auml;ge vorhanden.",
+                    "oLanguage": {
+                        "sProcessing": "loading data..."
+                    },
+                    "oPaginate": {
+                        "sFirst":       "Erste",
+                        "sPrevious":    "Zur&uuml;ck",
+                        "sNext":        "N&auml;chste",
+                        "sLast":        "Letzte"
+                    },
+                    "oAria": {
+                        "sSortAscending":  ": aktivieren, um Spalte aufsteigend zu sortieren",
+                        "sSortDescending": ": aktivieren, um Spalte absteigend zu sortieren"
                     }
-                }
+                },
+                "bLengthChange": false,
+                "pageLength": 10,
+                "aoColumnDefs": [
+                    { "bSortable": false, "aTargets": [ 3, 4, 5 ] } ]
             });
-        };*/
+        });
 
     </script>
 </body>

@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by IntelliJ IDEA.
- * User: Tom
+ * User: Tom Ohme
  * Date: 07.04.2016
  * Time: 15:44
  */
@@ -15,7 +15,7 @@ include("header.php");
             <div class="middle">
                 <div class="inner">
                     <div>
-                        <img id="logo"  src="../img/Logo.png" alt="" title="">
+                        <img id="logo"  src="../img/logo.png" alt="" title="">
                     </div>
                     <div id="page-content" onKeyPress="return checkSubmit(event)" style="width:320px;">
                         <form method="post" action="">

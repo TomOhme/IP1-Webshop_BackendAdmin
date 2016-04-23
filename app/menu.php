@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by IntelliJ IDEA
- * User: Tom
+ * User: Tom Ohme
  * Date: 07.04.2016
  * Time: 20:21
  */
@@ -16,13 +16,13 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#" onclick="changeSite('articles');"><img src="../img/Logo.png" width="100" height="30" alt="BackendAdmin"></a>
-            <a class="navbar-brand" href="#" onclick="changeSite('articles');">&nbsp;Backend Admin</a>
+            <a class="navbar-brand" href="#" onclick="changeSite('products');"><img src="../img/Logo.png" width="100" height="30" alt="BackendAdmin"></a>
+            <a class="navbar-brand" href="#" onclick="changeSite('products');">&nbsp;Backend Admin</a>
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul id="nav_site" class="nav navbar-nav">
-                <li onclick="changeSite('articles');"><a href="#">Artikel</a></li>
+                <li onclick="changeSite('products');"><a href="#">Produkte</a></li>
                 <li onclick="changeSite('categories');"><a href="#">Kategorien</a></li>
                 <li onclick="changeSite('users');"><a href="#">Benutzer</a></li>
                 <li onclick="changeSite('orders');"><a href="#">Bestellungen</a></li>

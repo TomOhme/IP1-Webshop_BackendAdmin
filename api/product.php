@@ -9,8 +9,7 @@
 include('../vendor/autoload.php');
 use Magento\Client\Xmlrpc\MagentoXmlrpcClient;
 
-class product
-{
+class product {
     private $client;
     private $mysqli;
     private $ini_array;
