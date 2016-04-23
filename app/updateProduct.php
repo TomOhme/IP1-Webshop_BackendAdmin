@@ -25,5 +25,18 @@ if (isset($_POST['productId']) && $_POST['product'] == 'update') {
     $productId = isset($_POST['productId']) ? $_POST['productId'] : null;
     //$product = $soapProduct->getProductByID($productId);
     $soapProduct->deleteProductByID($productId);
+} else if (isset($_POST['productUpdateSave'])) {
+    $productId = isset($_POST['productId']) ? $_POST['productId'] : null;
+    $title = $_POST['title'];
+    $category = $_POST['category'];
+    $description = $_POST['description'];
+    $stock = $_POST['stock'];
+    $price = $_POST['price'];
+    //picture
+    if ($productId != null) {
+        //update product //TODO in preparation maybe some staff for Norina ;D
+    } else {
+        //create product //TODO in preparation maybe some staff for Norina ;D
+    }
 }
 ?>

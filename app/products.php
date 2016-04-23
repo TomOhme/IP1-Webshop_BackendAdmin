@@ -145,7 +145,7 @@ $soapProductGroup -> openSoap();
                             </div>
                         </div>
                     </div>
-                    <form mehtod="post" id="create" class="form-horizontal registerForm bv-form" novalidate="novalidate"><button type="submit" class="bv-hidden-submit" style="display: none; width: 0px; height: 0px;"></button>
+                    <form mehtod="post" id="productForm" class="form-horizontal registerForm bv-form" novalidate="novalidate"><button type="submit" class="bv-hidden-submit" style="display: none; width: 0px; height: 0px;"></button>
                         <input type="hidden" class="form-control" id="sku" name="sku" value="-1">
                         <!-- Titel Input -->
                         <div class="form-group has-feedback">
@@ -188,15 +188,12 @@ $soapProductGroup -> openSoap();
                         </div>
 
                         <!-- Hidden inputs -->
-                        <input type="hidden" id="hiddenInput1" name="hiddenInput1" value="">
-                        <input type="hidden" id="hiddenInput2" name="hiddenInput2" value="">
-                        <input type="hidden" id="hiddenInput3" name="hiddenInput3" value="">
-                        <input type="hidden" id="hiddenInput4" name="hiddenInput4" value="">
+                        <input type="hidden" id="productId" name="productId" value="">
                     </form>
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick="productUpdateSave();">Speichern</button>
+                    <button type="button" class="btn btn-primary" name="productUpdateSave">Speichern</button><!--onclick="productUpdateSave();"-->
                     <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
                 </div>
             </div>
@@ -255,6 +252,8 @@ $soapProductGroup -> openSoap();
                 success: function(result) {
                     var data = result;
                     var json = JSON.parse(data);
+                    //hidden field productId
+                    $('#productId').val(json.id);
                     //$("#picture").val(json.updateImg[0].url); //TODO show image in form, not with value
                     $("#article_update_title").val(json.updateProduct.name);
                     $.each(json.allCategory.children, function (i, item) {
@@ -278,14 +277,28 @@ $soapProductGroup -> openSoap();
             });
         }
 
-        function productUpdateSave() {
+        $('#productForm').on('submit', function(e) {
+            e.preventDefault();
+            $.ajax({
+                url : 'updateProduct.php',
+                type: "GET",
+                data: $(this).serialize(),
+                success: function (data) {
+                    //TODO in preparation maybe some staff for Norina ;D
+                },
+                error: function (jXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
+                }
+            });
+        });
+        /*function productUpdateSave() { //params
             $.ajax({
                 url: 'updateProduct.php',
                 type: 'POST',
                 data: { values : values },
-                //TODO wenn noch keine Id -> create sonst update product
+                //wenn noch keine Id -> create sonst update product
             });
-        }
+        }*/
 
         function deleteProduct(productId) {
             $.ajax({
