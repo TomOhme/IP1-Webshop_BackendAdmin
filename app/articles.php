@@ -130,7 +130,7 @@ $soapProductGroup -> openSoap();
     </div>
 
     <!-- Modal create/update article-->
-    <div class="modal fade" id="myModal" role="dialog" style="display: none;">
+    <div class="modal fade" id="productModal" role="dialog" style="display: none;">
         <div class="modal-dialog">
 
             <!-- Modal content-->
@@ -245,7 +245,7 @@ $soapProductGroup -> openSoap();
         function loadItem(page, articleId) {
             clearModalFields();
             if (page == 'create_article') {
-                $("#myModal").modal();
+                $("#productModal").modal('toggle');
             } else if (page == 'update_article') {
                 update_article(articleId);
             }
@@ -276,7 +276,7 @@ $soapProductGroup -> openSoap();
                     $("#category select").val(json.updateCategory.name); //TODO select current category in category dropdown list
                     $("#article_update_amount").val(json.updateStock[0].qty);
                     $("#article_update_price").val(json.updateProduct.price);
-                    $("#myModal").modal();
+                    $("#productModal").modal('toggle');
                 }
             });
         }
