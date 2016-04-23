@@ -41,7 +41,7 @@ $soapProductGroup -> openSoap();
                     <div class="row" style="padding-bottom: 20px;">
                         <div class="col-sm-6" style="padding-top: 10px;">
                             <div id="data-table_filter" class="dataTables_filter pull-left">
-                                <label><b>Suchen</b><input type="search" class="form-control input-sm" placeholder="" aria-controls="data-table" style="width: 250px;"></label>
+                                <!--<label><b>Suchen</b><input type="search" class="form-control input-sm" placeholder="" aria-controls="data-table" style="width: 250px;"></label>-->
                             </div>
                         </div>
                         <div class="col-sm-6 text-right">
