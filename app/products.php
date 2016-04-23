@@ -46,7 +46,7 @@ $soapProductGroup -> openSoap();
                         </div>
                         <div class="col-sm-6 text-right">
                             <!-- Trigger the modal with a button -->
-                            <button id="create_article" type="button" onclick="loadItem('create_article','newArticleId')" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Neuer Artikel</button>
+                            <button id="create_article" type="button" onclick="loadItem('createProduct','newProductId')" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Neuer Artikel</button>
 
                             <button id="import_article" type="button" class="btn btn-primary" data-toggle="modal" data-target="#importExcel">Excel-Tabelle</button>
                         </div>
@@ -74,7 +74,7 @@ $soapProductGroup -> openSoap();
                                         $productImg = $soapProduct -> getProductImage($product['product_id']);
                                         $productStock = $soapProduct -> getProductStock($product['product_id']);
                                         ?>
-                                        <tr onclick="loadItem('update_article', '<?php echo $product['product_id'] ?>');" role="row" class="odd"><!--odd/even default -->
+                                        <tr onclick="loadItem('updateProduct', '<?php echo $product['product_id'] ?>');" role="row" class="odd"><!--odd/even default -->
                                             <td class='sorting_1'><?php echo $i ?></td>
                                             <td><?php echo $product['name'] ?></td>
                                             <td class="col-sm-3 hidden-xs">
@@ -190,14 +190,6 @@ $soapProductGroup -> openSoap();
                                 <small class="help-block" data-bv-validator="notEmpty" data-bv-for="price" data-bv-result="NOT_VALIDATED" style="display: none;">Bitte Preis angeben</small><small class="help-block" data-bv-validator="regexp" data-bv-for="price" data-bv-result="NOT_VALIDATED" style="display: none;">Preis kann nur Zahlen enthalten</small></div>
                         </div>
 
-                        <!-- Button Speichern/Abbrechen/Löschen -->
-                        <div class="form-group">
-                            <div class="col-sm-9 col-sm-offset-3">
-                                <button id="article_update_save" class="btn btn-primary" role="button">Speichern</button>
-                                <button id="article_update_abort" class="btn" role="button" onclick="changeSite('articles');">Abbrechen</button>
-                            </div>
-                        </div>
-
                         <!-- Hidden inputs -->
                         <input type="hidden" id="hiddenInput1" name="hiddenInput1" value="">
                         <input type="hidden" id="hiddenInput2" name="hiddenInput2" value="">
@@ -207,7 +199,8 @@ $soapProductGroup -> openSoap();
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="productUpdateSave();">Speichern</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
                 </div>
             </div>
 
@@ -242,20 +235,24 @@ $soapProductGroup -> openSoap();
 
     <script type="text/javascript">
 
-        function loadItem(page, articleId) {
+        function loadItem(page, productId) {
             clearModalFields();
-            if (page == 'create_article') {
+            if (page == 'createProduct') {
                 $("#productModal").modal('toggle');
-            } else if (page == 'update_article') {
-                update_article(articleId);
+            } else if (page == 'updateProduct') {
+                updateProduct(productId);
             }
         }
 
-        function update_article(articleId) {
+        function productUpdateSave() {
+
+        }
+
+        function updateProduct(productId) {
             $.ajax({
-                url: 'updateArticle.php',
+                url: 'updateProduct.php',
                 type: 'POST',
-                data: { articleId : articleId },
+                data: { productId : productId },
                 success: function(result) {
                     var data = result;
                     var json = JSON.parse(data);

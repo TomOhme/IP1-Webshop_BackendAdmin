@@ -13,8 +13,8 @@ $soapProduct = new Product();
 $soapProduct -> openSoap();
 $soapProductGroup = new Productgroup();
 $soapProductGroup -> openSoap();
-if (isset($_POST['articleId'])) {
-    $productId = isset($_POST['articleId']) ? $_POST['articleId'] : null;
+if (isset($_POST['productId'])) {
+    $productId = isset($_POST['productId']) ? $_POST['productId'] : null;
     $updateProduct = $soapProduct->getProductByID($productId);
     $updateImg = $soapProduct->getProductImage($updateProduct['product_id']);
     $updateStock = $soapProduct->getProductStock($updateProduct['product_id']);
