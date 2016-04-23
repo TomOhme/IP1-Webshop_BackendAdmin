@@ -7,14 +7,19 @@
  */
 
 include("../api/product.php");
+include("../api/ProductGroup.php");
 
-$soap = new Product();
-$soap -> openSoap();
+$soapProduct = new Product();
+$soapProduct -> openSoap();
+$soapProductGroup = new Productgroup();
+$soapProductGroup -> openSoap();
 if (isset($_POST['articleId'])) {
-    $articleId = isset($_POST['articleId']) ? $_POST['articleId'] : null;
-    $update_article = $soap->getProductByID($articleId);
-    $update_img = $soap->getProductImage($update_article['product_id']);
-    $update_stock = $soap->getProductStock($update_article['product_id']);
-    echo json_encode(array('id' => $articleId, 'update_article' => $update_article, 'update_img' => $update_img, 'update_stock' => $update_stock));
+    $productId = isset($_POST['articleId']) ? $_POST['articleId'] : null;
+    $updateProduct = $soapProduct->getProductByID($productId);
+    $updateImg = $soapProduct->getProductImage($updateProduct['product_id']);
+    $updateStock = $soapProduct->getProductStock($updateProduct['product_id']);
+    $updateCategory = $soapProductGroup->getCategory(end($updateProduct['category_ids']));
+    $allCategory = $soapProductGroup->getTree();
+    echo json_encode(array('id' => $productId, 'updateProduct' => $updateProduct, 'updateImg' => $updateImg, 'updateStock' => $updateStock, 'updateCategory' => $updateCategory, 'allCategory' => $allCategory));
 }
 ?>

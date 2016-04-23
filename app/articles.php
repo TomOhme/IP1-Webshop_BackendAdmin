@@ -1,12 +1,13 @@
 <?php
 /**
  * Created by IntelliJ IDEA.
- * User: Tom, Yanick
+ * User: Tom Ohme, Yanick Schraner
  * Date: 07.04.2016
  * Time: 15:36
  */
 
 include("../api/product.php");
+include("../api/ProductGroup.php");
 
 session_start();
 
@@ -14,8 +15,10 @@ if(!isset($_SESSION['username'])) {
     return header('Location: index.php');
 }
 
-$soap = new Product();
-$soap -> openSoap();
+$soapProduct = new Product();
+$soapProductGroup = new ProductGroup();
+$soapProduct -> openSoap();
+$soapProductGroup -> openSoap();
 ?>
     <div id="content">
         <!-- Alerts -->
@@ -53,30 +56,44 @@ $soap -> openSoap();
                             <table class="table table-responsive table-hover table-striped table-bordered dataTable no-footer" id="data-table" style="width: 100%;" role="grid" aria-describedby="data-table_info">
                                 <thead class="tablebold">
                                     <tr role="row">
-                                        <td class="sorting_asc" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: aktivieren, um Spalte absteigend zu sortieren" style="width: 136px;"><div style="width: 48px;">ID</div></td>
-                                        <td class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Titel: aktivieren, um Spalte aufsteigend zu sortieren" style="width: 242px;">Titel</td>
-                                        <td class="col-sm-3 hidden-xs sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Kategorie: aktivieren, um Spalte aufsteigend zu sortieren" style="width: 335px;">Kategorie</td>
-                                        <td class="col-sm-3 hidden-xs sorting_disabled" rowspan="1" colspan="1" aria-label="Bild" style="width: 335px;">Bild</td><td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Bestand" style="width: 156px;">Bestand</td>
-                                        <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Preis" style="width: 105px;">Preis</td>
-                                        <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Rabatt" style="width: 105px;">Rabatt</td>
+                                        <td class="sorting_asc" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: aktivieren, um Spalte absteigend zu sortieren" style="width: 50px;"><div style="width: 48px;">ID</div></td>
+                                        <td class="sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Titel: aktivieren, um Spalte aufsteigend zu sortieren" style="width: 200px;">Titel</td>
+                                        <td class="col-sm-3 hidden-xs sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Kategorie: aktivieren, um Spalte aufsteigend zu sortieren" style="width: 330px;">Kategorie</td>
+                                        <td class="col-sm-3 hidden-xs sorting_disabled" rowspan="1" colspan="1" aria-label="Bild" style="width: 200px;">Bild</td>
+                                        <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Bestand" style="width: 150px;">Bestand</td>
+                                        <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Preis" style="width: 100px;">Preis</td>
+                                        <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Rabatt" style="width: 100px;">Rabatt</td>
                                     </tr>
                                 </thead>
 
                                 <tbody>
                                     <?php
-                                    $articles = $soap -> getAllProducts();
+                                    $products = $soapProduct -> getAllProducts();
                                     $i = 1;
-                                    foreach ($articles as $article) {
-                                        $img = $soap -> getProductImage($article['product_id']);
-                                        $stock = $soap -> getProductStock($article['product_id']);
+                                    foreach ($products as $product) {
+                                        $productImg = $soapProduct -> getProductImage($product['product_id']);
+                                        $productStock = $soapProduct -> getProductStock($product['product_id']);
                                         ?>
-                                        <tr onclick="loadItem('update_article', '<?php echo $article['product_id'] ?>');" role="row" class="odd"><!--odd/even default -->
+                                        <tr onclick="loadItem('update_article', '<?php echo $product['product_id'] ?>');" role="row" class="odd"><!--odd/even default -->
                                             <td class='sorting_1'><?php echo $i ?></td>
-                                            <td><?php echo $article['name'] ?></td>
-                                            <td class="col-sm-3 hidden-xs"><?php $article['category_ids'][0] ?></td>
-                                            <td class="col-sm-3 hidden-xs"><img src="<?php echo $img[0]['url'] ?>" width="70px" class="img-thumbnail" alt="Thumbnail Image"></td>
-                                            <td><?php echo $stock[0]['qty'] ?></td>
-                                            <td><?php echo $article['price'] ?></td>
+                                            <td><?php echo $product['name'] ?></td>
+                                            <td class="col-sm-3 hidden-xs">
+                                                <?php
+                                                    $numItems = count($product['category_ids']);
+                                                    $j = 0;
+                                                    foreach($product['category_ids'] as $productGroupId) {
+                                                        $productGroup = $soapProductGroup->getCategory($productGroupId);
+                                                        if (++$j !== $numItems) {
+                                                            echo $productGroup['name'] . ", ";
+                                                        } else {
+                                                            echo $productGroup['name'];
+                                                        }
+                                                    }
+                                                ?>
+                                            </td>
+                                            <td class="col-sm-3 hidden-xs"><img src="<?php echo $productImg[0]['url'] ?>" width="70px" class="img-thumbnail" alt="Thumbnail Image"></td>
+                                            <td><?php echo $productStock[0]['qty'] ?></td>
+                                            <td><?php echo $product['price'] ?></td>
                                             <td></td>
                                         </tr>
                                         <?php
@@ -145,11 +162,7 @@ $soap -> openSoap();
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Kategorie</label>
                             <div class="col-sm-6">
-                                <select name="category" id="category" class="form-control">
-                                    <option value="1">Apfel</option>
-                                    <option value="1">- Apfell</option>
-                                    <option value="1">Apfel</option>
-                                </select>
+                                <select name="category" id="category" class="form-control"></select>
                             </div>
                         </div>
 
@@ -230,12 +243,11 @@ $soap -> openSoap();
     <script type="text/javascript">
 
         function loadItem(page, articleId) {
+            clearModalFields();
             if (page == 'create_article') {
                 $("#myModal").modal();
             } else if (page == 'update_article') {
                 update_article(articleId);
-            } else if (page == 'import_article_overview') {
-
             }
         }
 
@@ -247,18 +259,34 @@ $soap -> openSoap();
                 success: function(result) {
                     var data = result;
                     var json = JSON.parse(data);
-                    //$("#picture")
-                    $("#article_update_title").val(json.update_article.name);
-                    //alert(json);
-                    //$("#article_update_amount").val(json.update_stock.qty);
-                    $("#article_update_price").val(json.update_article.price);
+                    //$("#picture").val(json.updateImg[0].url); //TODO show image in form, not with value
+                    $("#article_update_title").val(json.updateProduct.name);
+                    $.each(json.allCategory.children, function (i, item) {
+                        $('#category').append($('<option>', {
+                            value: item.name,
+                            text: item.name
+                        }));
+                        $.each(item.children, function (i, item) {
+                            $('#category').append($('<option>', {
+                                value: item.name,
+                                text: "- " + item.name
+                            }));
+                        });
+                    });
+                    $("#category select").val(json.updateCategory.name); //TODO select current category in category dropdown list
+                    $("#article_update_amount").val(json.updateStock[0].qty);
+                    $("#article_update_price").val(json.updateProduct.price);
                     $("#myModal").modal();
                 }
             });
-            /*$.post('articles.php', function (response) {
-                articleId : articleId
+        }
 
-            });*/
+        function clearModalFields() {
+            //TODO clear Picture
+            $("#article_update_title").val('');
+            $('#category').empty();
+            $("#article_update_amount").val('');
+            $("#article_update_price").val('');
         }
 
         function uploadExcel(form) {
@@ -291,31 +319,6 @@ $soap -> openSoap();
                 }
             });
         }
-
-        /*function loadItem(page, placeholder, id) {
-            $.ajax({
-                url : 'pages.php?page=' + page + '&placeholder=' + placeholder + '&id=' + id,
-                type: 'GET',
-                success: function(data){
-                    $('#' + placeholder).html(data);
-
-                    if(site == 'update_article'){
-                        update_article_validation();
-                    } else if(site == 'categories' & placeholder == 'content_edit'){
-                        update_category_validation();
-                    } else if(site == 'users' & placeholder == 'content_edit'){
-                        update_user_validation();
-                        if(id == '-1'){
-                            $('form').bootstrapValidator('enableFieldValidators', 'password', true);
-                        } else{
-                            $('form').bootstrapValidator('enableFieldValidators', 'password', false);
-                        }
-                    } else if(site == 'import_article_csv'){
-                        import_articles_validation();
-                    }
-                }
-            });
-        };*/
 
     </script>
 </body>

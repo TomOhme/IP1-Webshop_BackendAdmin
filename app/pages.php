@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by IntelliJ IDEA.
- * User: Tom
+ * User: Tom Ohme
  * Date: 08.04.2016
  * Time: 14:18
  */
