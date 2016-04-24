@@ -9,8 +9,11 @@
 session_start();
 
 if(!isset($_SESSION['username'])) {
-    return header('Location: index.php'); 
+    return header('Location: index.php');
 }
+
+$soap = new Orders();
+$soap -> openSoap();
 ?>
 
 <div id="content" style="padding-left:50px; padding-right:50px;">
@@ -37,6 +40,28 @@ if(!isset($_SESSION['username'])) {
 					</tr>
 					</thead>
 					<tbody>
+					<?php
+					$orders = $soap -> getAllOrders();
+					$count = count($orders);
+					$i = 0;
+
+					foreach ($orders as $order) {
+						if($i % 2 == 0)
+						{
+							?><tr role="row" class="even"><?php
+						}
+						else
+						{
+							?><tr role="row" class="odd"><?php
+						}
+						?>
+
+						<td class="sorting_1"><?php echo $order[''] ?></td>
+						</tr><?php
+					}
+					?>
+
+						<!--
 						<tr>
 							<td>Bananen</td>
 							<td>2</td>
@@ -49,6 +74,7 @@ if(!isset($_SESSION['username'])) {
 							<td></td>
 							<td>1.00</td>
 						</tr>
+						-->
 					</tbody>
 				</table>
 			</div>

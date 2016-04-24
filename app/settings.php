@@ -14,6 +14,110 @@ if(!isset($_SESSION['username'])) {
 
 $soap = new Settings();
 $soap -> openSoap();
+
+
+
+if(isset($_POST["submit"]))
+{
+    $img = array_filter($_FILES["uploadImgBtn"]);
+
+    if(empty($img)) {
+        $target_dir = "../../magento/skin/frontend/webshop/default/images/";
+        $target_file = $target_dir . basename($_FILES["uploadImgBtn"]["name"]);
+        $uploadOk = 1;
+        $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
+
+        $errorMsg = "";
+
+        $check = getimagesize($_FILES["uploadImgBtn"]["tmp_name"]);
+
+        if ($check == false) {
+            $uploadOk = 0;
+            $errorMsg .= "Die Datei ist kein Bild!\n";
+        }
+
+        if ($_FILES["uploadImgBtn"]["size"] > 500000) {
+            $uploadOk = 0;
+            $errorMsg .= "Das Bild ist zu gross.\n";
+        }
+
+        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
+            $uploadOk = 0;
+            $errorMsg .= "Nur JPG, PNG & GIF Dateien sind erlaubt.\n";
+        }
+
+        if ($uploadOk == 0) {
+            $errorMsg .= "Bild wurde nicht hochgeladen";
+
+
+        } else {
+            foreach (glob("../../magento/skin/frontend/webshop/default/images/logo_bh.jpg") as $file) {
+                unlink($file);
+            }
+
+            foreach (glob("../../magento/skin/frontend/webshop/default/images/logo_bh.jpeg") as $file) {
+                unlink($file);
+            }
+
+            foreach (glob("../../magento/skin/frontend/webshop/default/images/logo_bh.png") as $file) {
+                unlink($file);
+            }
+
+            foreach (glob("../../magento/skin/frontend/webshop/default/images/logo_bh.gif") as $file) {
+                unlink($file);
+            }
+
+            //   unlink("img/logo_bh");
+            move_uploaded_file($_FILES["uploadImgBtn"]["tmp_name"], "../../magento/skin/frontend/webshop/default/images/logo_bh." . $imageFileType);
+        }
+    }
+
+    $color = $_POST["color"];
+    $destCss = "../../magento/skin\frontend/webshop/default/css/webshop.css";
+
+
+    if($color == "blue")
+    {
+        $targetCss = "../css/blue.css";
+
+        unlink($destCss);
+
+        copy($targetCss, $destCss);
+    }
+    else if($color == "red")
+    {
+        $targetCss = "../css/red.css";
+
+        unlink($destCss);
+
+        copy($targetCss, $destCss);
+    }
+    else if($color == "green")
+    {
+        $targetCss = "../css/green.css";
+
+        unlink($destCss);
+
+        copy($targetCss, $destCss);
+    }
+    else if($color == "beige")
+    {
+        $targetCss = "../css/beige.css";
+
+        unlink($destCss);
+
+        copy($targetCss, $destCss);
+    }
+    else if($color == "gray")
+    {
+        $targetCss = "../css/gray.css";
+
+        unlink($destCss);
+
+        copy($targetCss, $destCss);
+    }
+}
+
 ?>
 
 <div id="content" style="padding-left:50px; padding-right:50px;">
@@ -59,12 +163,20 @@ $soap -> openSoap();
 
             <td style="width: 800px;">
                 <div id="" class="col-sm-12">
+                    <form action="upload.php" method="post" enctype="multipart/form-data">
+                    <div id="" class="col-sm-12">
+                        <img src="../../magento/skin/frontend/webshop/default/images/logo_bh.png" height="100px" />
+                    </div>
                     <label class="col-sm-12 control-label">Logo</label>
                     <div class="col-sm-12">
                         <table>
                             <tr>
-                                <td><input type="text" class="form-control" name="logo" placeholder="" value=""></td>
-                                <td><button type="file" class="btn" name="logo" accept="image" style="margin-left: 5px;">Durchsuchen...</button></td>
+                                <td><input type="text" class="file-upload" id="uploadImgPath" name="logo" placeholder="" value=""></td>
+                                <td>
+                                    <button class="file-upload">
+                                        <input type="file" id="uploadImgBtn" class="file-input">Durchsuchen...
+                                    </button>
+                                </td>
                             </tr>
                         </table>
                     </div>
@@ -81,7 +193,7 @@ $soap -> openSoap();
                                 </tr>
                                 <tr>
                                     <td style="width: 100px;"><input type="radio" name="color" value="green">Grün</input></td>
-                                    <td><input type="radio" name="color" value="yellow">Gelb</input></td>
+                                    <td><input type="radio" name="color" value="beige">Beige</input></td>
                                 </tr>
                                 <tr>
                                     <td><input type="radio" name="color" value="gray">Grau</input></td>
@@ -89,12 +201,20 @@ $soap -> openSoap();
                             </table>
                         </form>
                     </div>
+                    <div class="col-sm-6" style="margin-top: 10px">
+                        <input type="submit" name="submit" value="Speichern" >
+                    </div>
+                    </form>
                 </div>
             </td>
 
         </table>
     </div>
 <script type="text/javascript">
+
+document.getElementById("uploadImgBtn").onchange = function() {
+    document.getElementById("uploadImgPath").value = this.value;
+};
 
 function isNumberKey(evt){
     var charCode = (evt.which) ? evt.which : event.keyCode
