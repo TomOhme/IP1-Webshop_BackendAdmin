@@ -6,11 +6,13 @@
  * Time: 20:44
  */
 
+include("../api/users.php");
+
 session_start();
 
-if(!isset($_SESSION['username'])) {
- return header('Location: index.php'); 
-}
+//if(!isset($_SESSION['username'])) {
+// return header('Location: index.php');
+//}
 
 $soap = new User();
 $soap -> openSoap();
@@ -47,7 +49,7 @@ $soap -> openSoap();
                                     <td class="sorting" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Titel: aktivieren, um Spalte aufsteigend zu sortieren" style="width: 242px;">E-Mail</td>
                                     <td class="sorting" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Titel: aktivieren, um Spalte aufsteigend zu sortieren" style="width: 242px;">Geburtstagsdatum</td>
                                     <td class="sorting" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Titel: aktivieren, um Spalte aufsteigend zu sortieren" style="width: 150px;">Newsletter</td>
-                                    <td class="sorting" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Titel: aktivieren, um Spalte aufsteigend zu sortieren" style="width: 150px;">Einstellung</td>
+                                    <td class="sorting" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Titel: aktivieren, um Spalte aufsteigend zu sortieren" style="width: 150px;">Löschen</td>
                                 </tr>
                                 </thead>
 
@@ -60,6 +62,8 @@ $soap -> openSoap();
 
                                 foreach ($users as $user)
                                 {
+                                    $userid = $user['customer_id'];
+
                                     if($i % 2 == 0)
                                     {
                                         ?><tr role="row" class="even"><?php
@@ -72,14 +76,14 @@ $soap -> openSoap();
 
                                     <td class="sorting_1"><?php echo $user['firstname'] ?></td>
                                     <td class="sorting_1"><?php echo $user['lastname'] ?></td>
-                                    <td class="sorting_1"><?php echo $user['street'] ?></td>
-                                    <td class="sorting_1"><?php echo $user['postcode'] ?></td>
-                                    <td class="sorting_1"><?php echo $user['city'] ?></td>
-                                    <td class="sorting_1"><?php echo $user['telephone'] ?></td>
-                                    <td class="sorting_1"><?php echo $user[''] ?></td> <!-- email -->
+                                    <td class="sorting_1"><?php echo $user['0'] ?></td>
+                                    <td class="sorting_1"><?php echo $user['1'] ?></td>
+                                    <td class="sorting_1"><?php echo $user['2'] ?></td>
+                                    <td class="sorting_1"><?php echo $user['3'] ?></td>
+                                    <td class="sorting_1"><?php echo $user['email'] ?></td> <!-- email -->
                                     <td class="sorting_1"><?php echo $user[''] ?></td> <!-- date of birth -->
                                     <td class="sorting_1"><?php echo $user[''] ?></td> <!-- newsletter -->
-                                    <td><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></td>
+                                    <td><span class="glyphicon glyphicon-remove" aria-hidden="true" onclick="delete_user(<?php echo $userid; ?>)"></span></td>
                                     </tr><?php
                                 }
 
@@ -138,8 +142,27 @@ $soap -> openSoap();
                     </div>
                 </div>
             </div>
-
         <script type="text/javascript">
+
+            function delete_user(userId) {
+                $.ajax({
+                    url: 'deleteUser.php',
+                    type: 'POST',
+                    data: { userId : userId },
+                    success: function(result) {
+                        var data = result;
+                        var json = JSON.parse(data);
+                        //$("#picture")
+                        $("#article_update_title").val(json.update_article.name);
+                        //alert(json);
+                        //$("#article_update_amount").val(json.update_stock.qty);
+                        $("#article_update_price").val(json.update_article.price);
+                        $("#myModal").modal();
+                    }
+                });
+
+            }
+
             $(document).ready(function() {
 
                 $('#data-table').DataTable({
@@ -175,6 +198,7 @@ $soap -> openSoap();
                         { "bSortable": false, "aTargets": [ 3, 4, 5 ] } ]
                 });
             } );
+
 
         </script>
     </div>
