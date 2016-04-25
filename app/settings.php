@@ -21,7 +21,7 @@ if(isset($_POST["submit"]))
     $img = array_filter($_FILES["uploadImgBtn"]);
 
     if(empty($img)) {
-        $target_dir = "../../magento/skin/frontend/webshop/default/images/";
+        $target_dir = "../../skin/frontend/webshop/default/images/";
         $target_file = $target_dir . basename($_FILES["uploadImgBtn"]["name"]);
         $uploadOk = 1;
         $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
@@ -50,29 +50,29 @@ if(isset($_POST["submit"]))
 
 
         } else {
-            foreach (glob("../../magento/skin/frontend/webshop/default/images/logo_bh.jpg") as $file) {
+            foreach (glob("../../skin/frontend/webshop/default/images/logo_bh.jpg") as $file) {
                 unlink($file);
             }
 
-            foreach (glob("../../magento/skin/frontend/webshop/default/images/logo_bh.jpeg") as $file) {
+            foreach (glob("../../skin/frontend/webshop/default/images/logo_bh.jpeg") as $file) {
                 unlink($file);
             }
 
-            foreach (glob("../../magento/skin/frontend/webshop/default/images/logo_bh.png") as $file) {
+            foreach (glob("../../skin/frontend/webshop/default/images/logo_bh.png") as $file) {
                 unlink($file);
             }
 
-            foreach (glob("../../magento/skin/frontend/webshop/default/images/logo_bh.gif") as $file) {
+            foreach (glob("../../skin/frontend/webshop/default/images/logo_bh.gif") as $file) {
                 unlink($file);
             }
 
             //   unlink("img/logo_bh");
-            move_uploaded_file($_FILES["uploadImgBtn"]["tmp_name"], "../../magento/skin/frontend/webshop/default/images/logo_bh." . $imageFileType);
+            move_uploaded_file($_FILES["uploadImgBtn"]["tmp_name"], "../../skin/frontend/webshop/default/images/logo_bh." . $imageFileType);
         }
     }
 
     $color = $_POST["color"];
-    $destCss = "../../magento/skin\frontend/webshop/default/css/webshop.css";
+    $destCss = "../../skin/frontend/webshop/default/css/webshop.css";
 
 
     if($color == "blue")
