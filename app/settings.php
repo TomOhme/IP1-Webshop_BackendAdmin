@@ -16,8 +16,6 @@ if(!isset($_SESSION['username'])) {
 $soap = new Settings();
 $soap -> openSoap();
 
-
-
 if(isset($_POST["submit"]))
 {
     $img = array_filter($_FILES["uploadImgBtn"]);
