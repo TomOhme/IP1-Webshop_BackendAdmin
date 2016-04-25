@@ -50,24 +50,11 @@ if(isset($_POST["submit"]))
 
 
         } else {
-            foreach (glob("../../skin/frontend/webshop/default/images/logo_bh.jpg") as $file) {
-                unlink($file);
-            }
-
-            foreach (glob("../../skin/frontend/webshop/default/images/logo_bh.jpeg") as $file) {
-                unlink($file);
-            }
-
             foreach (glob("../../skin/frontend/webshop/default/images/logo_bh.png") as $file) {
                 unlink($file);
             }
 
-            foreach (glob("../../skin/frontend/webshop/default/images/logo_bh.gif") as $file) {
-                unlink($file);
-            }
-
-            //   unlink("img/logo_bh");
-            move_uploaded_file($_FILES["uploadImgBtn"]["tmp_name"], "../../skin/frontend/webshop/default/images/logo_bh." . $imageFileType);
+            move_uploaded_file($_FILES["uploadImgBtn"]["tmp_name"], "../../skin/frontend/webshop/default/images/logo_bh.png");
         }
     }
 
@@ -114,6 +101,16 @@ if(isset($_POST["submit"]))
         unlink($destCss);
 
         copy($targetCss, $destCss);
+    }
+
+    foreach (glob("../../var/cache/*", GLOB_ONLYDIR) as $dir)
+    {
+        foreach(glob($dir . "/*") as $file)
+        {
+            unlink($file);
+        }
+        
+        rmdir($dir);
     }
 }
 
