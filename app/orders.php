@@ -19,75 +19,12 @@ $soap -> openSoap();
 
 <div id="content" style="padding-left:50px; padding-right:50px;">
 	<div class="row">
-		<div id="content_pane" class="col-md-6">
-			<div class="panel panel-default">
-				<!-- Default panel contents -->
-				<div class="panel-heading">Bestellnummer: 100000060</div>
-				<div class="panel-body">
-
-				<p><label style="width:70px; font-weight:normal;">Käufer:</label><label style="text-indent: 5em;">Paula Meier</label></p>
-				<p><label style="width:70px; font-weight:normal;">Email:</label><label style="text-indent: 5em;">paula@meier.ch</label></p>
-				<p><label style="width:70px; font-weight:normal;">Datum und Zeit:</label><label style="text-indent: 5em;">2015-06-03 12:56:50</label></p>
-				</div>
-
-				<!-- Table -->
-				<table class="table">
-					<thead class="tablebold">
-					<tr>
-						<td>Artikel Name</td>
-						<td>Anzahl</td>
-						<td>Einzelpreis</td>
-						<td>Gesamtpreis</td>
-					</tr>
-					</thead>
-					<tbody>
-					<?php
-					$orders = $soap -> getAllOrders();
-					$count = count($orders);
-					$i = 0;
-
-					foreach ($orders as $order) {
-						if($i % 2 == 0)
-						{
-							?><tr role="row" class="even"><?php
-						}
-						else
-						{
-							?><tr role="row" class="odd"><?php
-						}
-						?>
-
-						<td class="sorting_1"><?php echo $order[''] ?></td>
-						</tr><?php
-					}
-					?>
-
-						<!--
-						<tr>
-							<td>Bananen</td>
-							<td>2</td>
-							<td>0.50</td>
-							<td>1.00</td>
-						</tr>
-						<tr style="border-top:2px solid #666666;">
-							<td>Total</td>
-							<td></td>
-							<td></td>
-							<td>1.00</td>
-						</tr>
-						-->
-					</tbody>
-				</table>
-			</div>
-		</div>
-
 		<div id="content_table" class="col-md-6">
 			<div class="table-responsive rwd-article">
 				<div id="data-table-sales_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer" style="width: 800px;">
 					<div class="row">
 						<div class="col-sm-10">
 							<div id="data-table-sales_filter" class="dataTables_filter">
-								<label>Suchen<input type="search" class="form-control input-sm" placeholder="" aria-controls="data-table-sales"></label>
 							</div>
 						</div>
 					</div>
@@ -104,11 +41,17 @@ $soap -> openSoap();
 								</tr>
 								</thead>
 								<tbody>
-								<tr onclick="loadItem('sales','content_pane','60');" role="row" class="odd">
-									<td class="sorting_1">2015-06-03 12:56:50</td>
-									<td>Paula Meier</td>
-									<td>0.50</td>
+								<?php
+								$orders = $soap -> getAllOrders();
+								foreach($orders as $order){?>
+								<tr onclick="loadItem('sales','content_pane','60');" role="row">
+									<td class="sorting_1"><?php echo $order['created_at']; ?></td>
+									<td><?php echo $order['billing_firstname']. " " .$order['billing_lastname']; ?></td>
+									<td><?php echo $order['base_grand_total']; ?></td>
 								</tr>
+									<?php
+								}
+								?>
 								</tbody>
 							</table>
 						</div>
@@ -130,6 +73,66 @@ $soap -> openSoap();
 					</div>
 				</div>
 			</div>
+		</div>
+		<div id="content_pane" class="col-md-6">
+			<div class="panel panel-default">
+				<!-- Default panel contents -->
+				<?php
+				if(!is_null($orders)){
+					?>
+				<div class="panel-heading">Bestellnummer: <?php echo $orders[0]['increment_id']; ?></div>
+				<div class="panel-body">
+
+				<p><label style="width:70px; font-weight:normal;">Käufer:</label><label style="text-indent: 5em;"><?php echo $orders[0]['billing_firstname']. " " .$orders[0]['billing_lastname'] ?></label></p>
+				<p><label style="width:70px; font-weight:normal;">Email:</label><label style="text-indent: 5em;"><?php echo $orders[0]['customer_email']; ?></label></p>
+				<p><label style="width:70px; font-weight:normal;">Datum und Zeit:</label><label style="text-indent: 5em;"><?php echo $orders[0]['created_at']; ?></label></p>
+				</div>
+
+				<!-- Table -->
+				<table class="table">
+					<thead class="tablebold">
+					<tr>
+						<td>Artikel Name</td>
+						<td>Anzahl</td>
+						<td>Einzelpreis</td>
+						<td>Gesamtpreis</td>
+					</tr>
+					</thead>
+					<tbody>
+					<?php
+					$order = $soap -> getOrderByID($orders[0]['increment_id']);
+					$items = $order['items'];
+					foreach ($items as $item) {
+					?>
+						<tr>
+							<td><?php echo $item['name']; ?></td>
+							<td><?php echo $item['qty_ordered']; ?></td>
+							<td><?php echo $item['base_price']; ?></td>
+							<td><?php echo $item['base_row_total']; ?></td>
+						</tr>
+						<?php
+					}
+					?>
+						<!--
+						<tr>
+							<td>Bananen</td>
+							<td>2</td>
+							<td>0.50</td>
+							<td>1.00</td>
+						</tr>
+						<tr style="border-top:2px solid #666666;">
+							<td>Total</td>
+							<td></td>
+							<td></td>
+							<td>1.00</td>
+						</tr>
+						-->
+					</tbody>
+				</table>
+			</div>
+			<?php
+			}
+			?>
 		</div>
 	</div>
 </div>
