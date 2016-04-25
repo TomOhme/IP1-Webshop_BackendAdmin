@@ -343,6 +343,7 @@ $soapProductGroup -> openSoap();
                     $("#alertExcelImportSuccess").fadeTo(10000, 500).slideUp(500, function(){
                         $("#alertExcelImportSuccess").alert('close');
                     });
+                    $('#excelImportSuccess').empty;
                 },
                 error: function(data){
                     $('#excelImportError').append(data['responseText']);

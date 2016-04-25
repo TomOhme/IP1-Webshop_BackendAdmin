@@ -7,19 +7,24 @@
  */
 
 include('../vendor/autoload.php');
-include('../config.php');
 use Magento\Client\Xmlrpc\MagentoXmlrpcClient;
 
 class Settings
 {
     private $client;
+    private $ini_array;
+
+    public function __construct()
+    {
+        $this->ini_array = parse_ini_file("../php.ini");
+    }
 
     public function openSoap()
-    {
-        $this->client = MagentoXmlrpcClient::factory(array(
-            'base_url' => constant("soapURL"),
-            'api_key' => constant("soapUser"),
-            'api_key' => constant("soapwd")
+    {      
+        $this -> client = MagentoXmlrpcClient::factory(array(
+            'base_url' => $this->ini_array['SOAPURL'],
+            'api_user' => $this->ini_array['SOAPUSER'],
+            'api_key'  => $this->ini_array['SOAPPWD'],
         ));
     }
 

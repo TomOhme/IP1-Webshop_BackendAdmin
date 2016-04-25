@@ -5,6 +5,7 @@
  * Date: 07.04.2016
  * Time: 15:37
  */
+include("../api/settings.php");
 
 session_start();
 
@@ -14,8 +15,6 @@ if(!isset($_SESSION['username'])) {
 
 $soap = new Settings();
 $soap -> openSoap();
-
-
 
 if(isset($_POST["submit"]))
 {

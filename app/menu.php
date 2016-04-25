@@ -29,8 +29,8 @@
                 <li onclick="changeSite('settings');"><a href="#">Einstellungen</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="http://127.0.0.1/magento/" target="_blank" class="visible-xs"><img src="../img/shop.png" width="25" height="25" title="Zum Webshop">&nbsp;Zum Webshop</a></li>
-                <li><a href="http://127.0.0.1/magento/" target="_blank" class="hidden-xs"><img src="../img/shop.png" width="25" height="25" title="Zum Webshop"></a></li>
+                <li><a href="../.." target="_blank" class="visible-xs"><img src="../img/shop.png" width="25" height="25" title="Zum Webshop">&nbsp;Zum Webshop</a></li>
+                <li><a href="../.." target="_blank" class="hidden-xs"><img src="../img/shop.png" width="25" height="25" title="Zum Webshop"></a></li>
                 <li onclick="logout();" class="visible-xs" id="action_logout"><a href="#"><img src="../img/logout.png" width="25" height="25" title="Logout">&nbsp;Logout</a></li>
                 <li onclick="logout();" class="hidden-xs" id="action_logout2"><a href="#"><img src="../img/logout.png" width="25" height="25" title="Logout"></a></li>
             </ul>

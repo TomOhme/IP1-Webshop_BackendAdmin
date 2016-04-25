@@ -1,11 +1,10 @@
 <?php
 /**
  * Created by IntelliJ IDEA
- * User: Janis
- * Date: 08.04.2016
+ * User: Patrick
+ * Date: 22.04.2016
  * Time: 20:44
  */
-
 include("../api/users.php");
 
 session_start();
@@ -15,13 +14,10 @@ session_start();
 //}
 
 $soap = new User();
-$soap -> openSoap();
+$soap->openSoap();
 ?>
 
 <div id="content" style="padding-left:50px; padding-right:50px;">
-    <script type="text/javascript">
-        loadItem('users', 'content_table', 1);
-    </script>
 
     <br><br>
         <div id="content_table">
@@ -31,7 +27,6 @@ $soap -> openSoap();
                         <div class="col-sm-6"></div>
                         <div class="col-sm-6">
                             <div id="data-table_filter" class="dataTables_filter">
-                                <label>Suchen<input type="search" class="form-control input-sm" placeholder="" aria-controls="data-table"></label>
                             </div>
                         </div>
                     </div>
@@ -56,7 +51,7 @@ $soap -> openSoap();
                                 <tbody>
 
                                 <?php
-                                $users = $soap -> getAllUsers();
+                                $users = $soap->getAllUsers();
                                 $count = count($users);
                                 $i = 0;
 
@@ -89,53 +84,18 @@ $soap -> openSoap();
 
 
                                 ?>
-
-                                <!--
-                                <tr role="row" class="odd">
-                                    <td class="sorting_1">Max</td>
-                                    <td>Mustermann</td>
-                                    <td>Musterstrasse 14</td>
-                                    <td>1010</td>
-                                    <td>Musteren</td>
-                                    <td>041 414 32 10</td>
-                                    <td>max@muster.ch</td>
-                                    <td>26.05.1986</td>
-                                    <td><input type="checkbox" name="newsletter" checked></td>
-                                    <td><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
-                                </tr><tr role="row" class="even">
-                                    <td class="sorting_1">Lea</td>
-                                    <td>Mustermann</td>
-                                    <td>Musterstrasse 16</td>
-                                    <td>1010</td>
-                                    <td>Musteren</td>
-                                    <td>041 414 43 21</td>
-                                    <td>lea@muster.ch</td>
-                                    <td>06.09.1981</td>
-                                    <td><input type="checkbox" name="newsletter" ></td>
-                                    <td><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
-                                </tr>
-                                -->
                                 </tbody>
                             </table>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-5">
-                            <div class="dataTables_info" id="data-table_info" role="status" aria-live="polite">1 bis 2 von 2 Einträgen</div>
                         </div><div class="col-sm-7">
                         <div class="dataTables_paginate paging_simple_numbers" id="data-table_paginate">
                             <ul class="pagination">
-                                <li class="paginate_button previous disabled" id="data-table_previous">
-                                    <a href="#" aria-controls="data-table" data-dt-idx="0" tabindex="0">Zurück</a>
-                                </li>
-                                <li class="paginate_button active">
-                                    <a href="#" aria-controls="data-table" data-dt-idx="1" tabindex="0">1</a>
-                                </li>
-                                <li class="paginate_button next disabled" id="data-table_next">
-                                    <a href="#" aria-controls="data-table" data-dt-idx="2" tabindex="0">Nächste</a>
-                                </li>
+                                <li class="paginate_button previous disabled" id="data-table_previous"></li>
+                                <li class="paginate_button active"></li>
+                                <li class="paginate_button next disabled" id="data-table_next"></li>
                             </ul>
                         </div>
                     </div>
@@ -150,14 +110,7 @@ $soap -> openSoap();
                     type: 'POST',
                     data: { userId : userId },
                     success: function(result) {
-                        var data = result;
-                        var json = JSON.parse(data);
-                        //$("#picture")
-                        $("#article_update_title").val(json.update_article.name);
-                        //alert(json);
-                        //$("#article_update_amount").val(json.update_stock.qty);
-                        $("#article_update_price").val(json.update_article.price);
-                        $("#myModal").modal();
+                        //TODO reload product table and alert
                     }
                 });
 
