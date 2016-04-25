@@ -35,7 +35,7 @@ class User
      */
     public function getAllUsers()
     {
-        return $this -> client -> call('customer_adress.list', array());
+        return $this -> client -> call('customer.list');
     }
 
     /**
