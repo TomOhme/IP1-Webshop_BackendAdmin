@@ -10,7 +10,7 @@ include("../api/settings.php");
 session_start();
 
 if(!isset($_SESSION['username'])) {
-    return header('Location: index.php');
+//    return header('Location: index.php');
 }
 
 $soap = new Settings();
@@ -164,7 +164,7 @@ if(isset($_POST["submit"]))
                 <div id="" class="col-sm-12">
                     <form action="upload.php" method="post" enctype="multipart/form-data">
                     <div id="" class="col-sm-12">
-                        <img src="../../magento/skin/frontend/webshop/default/images/logo_bh.png" height="100px" />
+                        <img src="../../skin/frontend/webshop/default/images/logo_bh.png" height="100px" />
                     </div>
                     <label class="col-sm-12 control-label">Logo</label>
                     <div class="col-sm-12">
