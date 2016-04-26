@@ -49,15 +49,64 @@ class Orders
     * @return bool
     */
     public function cancleOrder($ID) {
-        return $this -> client -> call($session, 'sales_order.cancel', $ID);
+        $orderStatus = 'cancelled';
+        $comment = 'Die Bestellung wurde durch easy admin storniert.';
+        $sendEmailToCustomer = true;
+        return $this -> client -> call('sales_order.addComment', array($ID, $orderStatus, $comment, $sendEmailToCustomer));
     }
 
-    public function getOrderStatus($ID) {
-        $order = $this -> client -> call($session, 'sales_order.cancel', $ID);
-        return $order['status'];
+    /**
+    * Currently not activ!
+    * cancel a specific order
+    * @param Order ID
+    * @return bool
+    */
+    public function reopenOrder($ID) {
+        $orderStatus = 'reopen';
+        $comment = 'Die Bestellung wurde durch easy admin wieder eröffnet.';
+        $sendEmailToCustomer = true;
+        return $this -> client -> call('sales_order.addComment', array($ID, $orderStatus, $comment, $sendEmailToCustomer));
     }
 
+    /**
+    * close a specific order
+    * @param Order ID
+    * @return bool
+    */
     public function closeOrder($ID){
-        return $this -> client -> call($session, 'sales_order_shipment.create', $ID);
+        $orderStatus = 'closed';
+        $comment = 'Die Bestellung wurde durch easy admin geschlossen.';
+        $sendEmailToCustomer = true;
+        return $this -> client -> call('sales_order.addComment', array($ID, $orderStatus, $comment, $sendEmailToCustomer));
+    }
+
+    /**
+    * Translates the order status and adjusts it to match the simple order process
+    * @param Order Array
+    * @return german order status
+    */
+    public function getOrderStatus($order) {
+        $status = $order['status'];
+        switch ($order['status']) {
+            case "pending":
+                $status = "Offen";
+                break;
+            case "processing":
+                $status = "Offen";
+                break;
+            case "reopen":
+                $status = "Wiedereröffnet";
+                break;
+            case "complete":
+                $status = "Abgeschlossen";
+                break;
+            case "closed":
+                $status = "Abgeschlossen";
+                break;
+            case "cancelled":
+                $status = "Storniert";
+                break;
+        }
+        return $status;
     }
 }

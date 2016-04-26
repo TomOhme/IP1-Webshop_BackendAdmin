@@ -10,19 +10,38 @@ include("../api/orders.php");
 session_start();
 
 if(!isset($_SESSION['username'])) {
-    return header('Location: index.php');
+	return header('Location: index.php');
 }
-
 $soap = new Orders();
 $soap -> openSoap();
+
+if(isset($_POST['cancleOrderID'])){
+	$soap->cancleOrder($_POST['cancleOrderID']);
+}
+if(isset($_POST['reopenOrderID'])){
+	$soap->reopenOrder($_POST['reopenOrderID']);
+}
+
+if(isset($_POST['closeOrderID'])){
+	echo $soap->closeOrder($_POST['closeOrderID']);
+}
+
 $orders = $soap -> getAllOrders();
 ?>
 
 <div id="content" style="padding-left:50px; padding-right:50px;">
+	<!-- Alerts -->
+    <div class="alert alert-success alert-dismissible" role="alert" style="display: none;" id="alertOrderSuccess">
+    <span class="glyphicon glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>Erfolgreich!</strong><p id="orderSuccess"></p>
+    </div>
+    <!-- Fertig mit Alerts -->
+
 	<div class="row">
 		<div id="content_table" class="col-md-6">
 			<div class="table-responsive rwd-article">
-				<div id="data-table-sales_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer" style="width: 800px;">
+				<div id="data-table-sales_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 					<div class="row">
 						<div class="col-sm-10">
 							<div id="data-table-sales_filter" class="dataTables_filter">
@@ -31,14 +50,15 @@ $orders = $soap -> getAllOrders();
 					</div>
 
 					<div class="row">
-						<div class="col-sm-10">
+						<div class="col-sd-10">
 							<table class="table table-hover table-striped table-bordered dataTable no-footer" id="data-table-sales" style="width: 100%;" role="grid" aria-describedby="data-table-sales_info">
 
 								<thead class="tablebold">
 								<tr role="row">
-									<td class="sorting_asc" tabindex="0" aria-controls="data-table-sales" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Datum und Zeit: aktivieren, um Spalte absteigend zu sortieren" style="width: 300px;">Datum und Zeit</td>
+									<td class="sorting_asc" tabindex="0" aria-controls="data-table-sales" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Datum und Zeit: aktivieren, um Spalte absteigend zu sortieren" style="width: 300px;">Datum</td>
 									<td class="sorting" tabindex="0" aria-controls="data-table-sales" rowspan="1" colspan="1" aria-label="Käufer: aktivieren, um Spalte aufsteigend zu sortieren" style="width: 229px;">Käufer</td>
 									<td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Gesamtbetrag" style="width: 282px;">Gesamtbetrag</td>
+									<td class="sorting" tabindex="0" aria-controls="data-table-sales" rowspan="1" colspan="1" aria-label="Bestellstatus" style="width: 230px;">Bestellstatus</td>
 								</tr>
 								</thead>
 								<tbody>
@@ -48,27 +68,13 @@ $orders = $soap -> getAllOrders();
 									<td class="sorting_1"><?php echo $order['created_at']; ?></td>
 									<td><?php echo $order['billing_firstname']. " " .$order['billing_lastname']; ?></td>
 									<td><?php echo $order['base_grand_total']; ?></td>
+									<td><?php echo $soap->getOrderStatus($order); ?></td>
 								</tr>
 									<?php
 								}
 								?>
 								</tbody>
 							</table>
-						</div>
-					</div>
-
-					<div class="row">
-						<div class="col-sm-5">
-							<div class="dataTables_info" id="data-table-sales_info" role="status" aria-live="polite">1 bis 1 von 1 Einträgen</div>
-						</div>
-						<div class="col-sm-5">
-							<div class="dataTables_paginate paging_simple_numbers" id="data-table-sales_paginate">
-								<ul class="pagination">
-									<li class="paginate_button previous disabled" id="data-table-sales_previous"><a href="#" aria-controls="data-table-sales" data-dt-idx="0" tabindex="0">Zurück</a></li>
-									<li class="paginate_button active"><a href="#" aria-controls="data-table-sales" data-dt-idx="1" tabindex="0">1</a></li>
-									<li class="paginate_button next disabled" id="data-table-sales_next"><a href="#" aria-controls="data-table-sales" data-dt-idx="2" tabindex="0">Nächste</a></li>
-								</ul>
-							</div>
 						</div>
 					</div>
 				</div>
@@ -80,6 +86,7 @@ $orders = $soap -> getAllOrders();
 		if(!is_null($orders)){
 			foreach ($orders as $order) {
 				$order = $soap -> getOrderByID($order['increment_id']);
+				$orderStatus = $soap->getOrderStatus($order);
 		?>
 		<div id="order_store">
 			<div class="panel panel-default" id="order_<?php echo $order['increment_id'];?>" style="display: none;">
@@ -89,7 +96,18 @@ $orders = $soap -> getAllOrders();
 					<p><label style="width:70px; font-weight:normal;">Käufer:</label><label style="text-indent: 5em;"><?php echo $order['customer_firstname']. " " .$order['customer_lastname'] ?></label></p>
 					<p><label style="width:70px; font-weight:normal;">Email:</label><label style="text-indent: 5em;"><?php echo $order['customer_email']; ?></label></p>
 					<p><label style="width:70px; font-weight:normal;">Datum und Zeit:</label><label style="text-indent: 5em;"><?php echo $order['created_at']; ?></label></p>
-					<p><label style="width:70px; font-weight:normal;">Status:</label><label style="text-indent: 5em;"><?php echo $order['status']; ?></label></p>
+					<p><label style="width:70px; font-weight:normal;">Status:</label><label style="text-indent: 5em;"><?php echo $orderStatus; ?></label></p>
+					<?php
+					if($orderStatus != "Abgeschlossen" && $orderStatus != "Storniert"){
+					?>
+					<button type="button" class="btn btn-default btn-sm" onclick="cancleOrder(<?php echo $order['increment_id'];?>);">Stornieren</button>
+					<button type="button" class="btn btn-default btn-sm" onclick="closeOrder(<?php echo $order['increment_id'];?>);">Abschliessen</button>
+					<?php 
+					}
+					if($orderStatus == "Abgeschlossen" || $orderStatus == "Storniert"){
+					?>
+					<button type="button" class="btn btn-default btn-sm" onclick="reopenOrder(<?php echo $order['increment_id'];?>);">Wiederer&ouml;ffnen</button>
+					<?php }?>
 				</div>
 
 				<!-- Table -->
@@ -131,45 +149,88 @@ $orders = $soap -> getAllOrders();
 <script type="text/javascript">
 function loadItem(id){
 	$("#order_store").append($("#content_pane").children().hide());
-
 	$("#content_pane").append($("#order_"+id));
 	$("#order_"+id).show();
 }
 
-$(document).ready(function() {
+function cancleOrder(id){
+	$.ajax({
+		url : 'orders.php',
+		type: 'POST',
+		data: {"cancleOrderID": id},
+		success: function (data) {
+			//TODO
+		}
+	});
+}
 
-    $('#data-table-sales').DataTable({
-     	"language": {
-                "sEmptyTable":      "Keine Daten in der Tabelle vorhanden",
-			    "sInfo":            "_START_ bis _END_ von _TOTAL_ Eintr&auml;gen",
-			    "sInfoEmpty":       "0 bis 0 von 0 Einträgen",
-			    "sInfoFiltered":    "(gefiltert von _MAX_ Eintr&auml;gen)",
-			    "sInfoPostFix":     "",
-			    "sInfoThousands":   ".",
-			    "sLengthMenu":      "_MENU_ Eintr&auml;ge anzeigen",
-			    "sLoadingRecords":  "Wird geladen...",
-			    "sProcessing":      "Bitte warten...",
-			    "sSearch":          "Suchen",
-			    "sZeroRecords":     "Keine Eintr&auml;ge vorhanden.",
-			     "oLanguage": {
-          "sProcessing": "loading data..."
+function closeOrder(id){
+	$.ajax({
+		url : 'orders.php',
+		type: 'POST',
+		data: {"closeOrderID": id},
+		success: function (data) {
+			$('#orderSuccess').text("Die Bestellung wurde abgeschlossen.");
+            $("#alertOrderSuccess").toggle();
+            $("#alertOrderSuccess").fadeTo(10000, 500).slideUp(500, function(){
+                $("#alertOrderSuccess").toggle();
+            });
+            $('#orderSuccess').empty();
+		}
+	});
+}
+
+function reopenOrder(id){
+	$.ajax({
+		url : 'orders.php',
+		type: 'POST',
+		data: {"reopenOrderID": id},
+		success: function (data) {
+			$('#orderSuccess').text("Die Bestellung wurde erneut ge&ouml;ffnet.");
+            $("#alertOrderSuccess").toggle();
+            $("#alertOrderSuccess").fadeTo(10000, 500).slideUp(500, function(){
+                $("#alertOrderSuccess").toggle();
+            });
+            $('#orderSuccess').empty();
+		}
+	});
+}
+
+$(document).ready(function() {
+	loadItem(100000001);
+
+	$('#data-table-sales').DataTable({
+		"language": {
+				"sEmptyTable":      "Keine Daten in der Tabelle vorhanden",
+				"sInfo":            "_START_ bis _END_ von _TOTAL_ Eintr&auml;gen",
+				"sInfoEmpty":       "0 bis 0 von 0 Einträgen",
+				"sInfoFiltered":    "(gefiltert von _MAX_ Eintr&auml;gen)",
+				"sInfoPostFix":     "",
+				"sInfoThousands":   ".",
+				"sLengthMenu":      "_MENU_ Eintr&auml;ge anzeigen",
+				"sLoadingRecords":  "Wird geladen...",
+				"sProcessing":      "Bitte warten...",
+				"sSearch":          "Suchen",
+				"sZeroRecords":     "Keine Eintr&auml;ge vorhanden.",
+				 "oLanguage": {
+		  "sProcessing": "loading data..."
    },
-			    "oPaginate": {
-			        "sFirst":       "Erste",
-			        "sPrevious":    "Zur&uuml;ck",
-			        "sNext":        "N&auml;chste",
-			        "sLast":        "Letzte"
-			    },
-			    "oAria": {
-			        "sSortAscending":  ": aktivieren, um Spalte aufsteigend zu sortieren",
-			        "sSortDescending": ": aktivieren, um Spalte absteigend zu sortieren"
-			    }
-        },
-        "bLengthChange": false,
-        "pageLength": 15,
-        "aoColumnDefs": [
-        { "bSortable": false, "aTargets": [ 2 ] } ]
-     });
+				"oPaginate": {
+					"sFirst":       "Erste",
+					"sPrevious":    "Zur&uuml;ck",
+					"sNext":        "N&auml;chste",
+					"sLast":        "Letzte"
+				},
+				"oAria": {
+					"sSortAscending":  ": aktivieren, um Spalte aufsteigend zu sortieren",
+					"sSortDescending": ": aktivieren, um Spalte absteigend zu sortieren"
+				}
+		},
+		"bLengthChange": false,
+		"pageLength": 15,
+		"aoColumnDefs": [
+		{ "bSortable": false, "aTargets": [ 2 ] } ]
+	 });
 } );
 
 </script>

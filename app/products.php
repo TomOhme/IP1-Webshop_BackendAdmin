@@ -357,7 +357,7 @@ $soapProductGroup -> openSoap();
                     $("#alertExcelImportSuccess").fadeTo(10000, 500).slideUp(500, function(){
                         $("#alertExcelImportSuccess").alert('close');
                     });
-                    $('#excelImportSuccess').empty;
+                    $('#excelImportSuccess').empty();
                 },
                 error: function(data){
                     $('#excelImportError').append(data['responseText']);
@@ -366,6 +366,7 @@ $soapProductGroup -> openSoap();
                     $("#alertExcelImportError").fadeTo(10000, 500).slideUp(500, function(){
                         $("#alertExcelImportError").alert('close');
                     });
+                    $('#excelImportError').empty();
                 }
             });
         }
