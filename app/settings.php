@@ -10,7 +10,7 @@ include("../api/settings.php");
 session_start();
 
 if(!isset($_SESSION['username'])) {
-//    return header('Location: index.php');
+    return header('Location: index.php');
 }
 
 $soap = new Settings();
