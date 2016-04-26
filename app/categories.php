@@ -6,11 +6,16 @@
  * Time: 15:36
  */
 
+include("../api/ProductGroup.php");
+
 session_start();
 
 if(!isset($_SESSION['username'])) {
     return header('Location: index.php');
 }
+
+$soapProductGroup = new ProductGroup();
+$soapProductGroup -> openSoap();
 ?>
 
 <div id="content">
@@ -28,10 +33,16 @@ if(!isset($_SESSION['username'])) {
             <div class="form-group">
                 <label class="col-sm-3 control-label">&Uuml;berkategorie</label>
                 <div class="col-sm-6">
+                    <?php $categories = $soapProductGroup->getTree(); ?>
                     <select name="categoryId" id="categoryId" class="form-control">
-                        <option value="1">Apfel</option>
-                        <option value="2">- Apfel</option>
-                        <option value="3">- Apfel</option>
+                        <?php
+                            foreach($categories['children'] as $category) {
+                                echo "<option value=". $category['name'] . ">" . $category['name'] . "</option>";
+                                foreach($category['children'] as $subCategory) {
+                                    echo "<option value=". $subCategory['name'] . "> - " . $subCategory['name'] . "</option>";
+                                } //TODO can have more sub categories
+                            }
+                        ?>
                     </select>
                 </div>
             </div>

@@ -159,7 +159,17 @@ $soapProductGroup -> openSoap();
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Kategorie</label>
                             <div class="col-sm-6">
-                                <select multiple="multiple" name="category" id="category" class="form-control"></select>
+                                <?php $categories = $soapProductGroup->getTree(); ?>
+                                <select multiple="multiple" name="category" id="category" class="form-control">
+                                    <?php
+                                        foreach($categories['children'] as $category) {
+                                            echo "<option value=". $category['name'] . ">" . $category['name'] . "</option>";
+                                            foreach($category['children'] as $subCategory) {
+                                                echo "<option value=". $subCategory['name'] . "> - " . $subCategory['name'] . "</option>";
+                                            } //TODO can have more sub categories
+                                        }
+                                    ?>
+                                </select>
                             </div>
                         </div>
 
@@ -259,7 +269,7 @@ $soapProductGroup -> openSoap();
                     $('#productId').val(json.id);
                     //$("#picture").val(json.updateImg[0].url); //TODO show image in form, not with value
                     $("#article_update_title").val(json.updateProduct.name);
-                    $.each(json.allCategory.children, function (i, item) {
+                    /*$.each(json.allCategory.children, function (i, item) {
                         $('#category').append($('<option>', {
                             value: item.name,
                             text: item.name
@@ -270,7 +280,7 @@ $soapProductGroup -> openSoap();
                                 text: "- " + item.name
                             }));
                         });
-                    });
+                    });*/
                     $("#category").val(json.updateCategory.name);
                     $("#article_update_description").val(json.updateProduct.description);
                     $("#article_update_amount").val(json.updateStock[0].qty);
@@ -287,7 +297,7 @@ $soapProductGroup -> openSoap();
                 type: "GET",
                 data: $(this).serialize(),
                 success: function (data) {
-                    //TODO in preparation maybe some staff for Norina ;D
+                    //TODO
                 },
                 error: function (jXHR, textStatus, errorThrown) {
                     alert(errorThrown);
