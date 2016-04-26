@@ -48,13 +48,24 @@ if(isset($_POST["submit"]))
         if ($uploadOk == 0) {
             $errorMsg .= "Bild wurde nicht hochgeladen";
 
+            echo '<script language="javascript">';
+            echo 'alert(' . $errorMsg . ')';
+            echo '</script>';
 
         } else {
             foreach (glob("../../skin/frontend/webshop/default/images/logo_bh.png") as $file) {
                 unlink($file);
             }
 
+            echo '<script language="javascript">';
+            echo 'alert("logo removed")';
+            echo '</script>';
+
             move_uploaded_file($_FILES["uploadImgBtn"]["tmp_name"], "../../skin/frontend/webshop/default/images/logo_bh.png");
+
+            echo '<script language="javascript">';
+            echo 'alert("neues Logo gespeichert")';
+            echo '</script>';
         }
     }
 
@@ -69,6 +80,10 @@ if(isset($_POST["submit"]))
         unlink($destCss);
 
         copy($targetCss, $destCss);
+
+        echo '<script language="javascript">';
+        echo 'alert("Copied blue css")';
+        echo '</script>';
     }
     else if($color == "red")
     {
@@ -77,6 +92,10 @@ if(isset($_POST["submit"]))
         unlink($destCss);
 
         copy($targetCss, $destCss);
+
+        echo '<script language="javascript">';
+        echo 'alert("Copied red css")';
+        echo '</script>';
     }
     else if($color == "green")
     {
@@ -85,6 +104,10 @@ if(isset($_POST["submit"]))
         unlink($destCss);
 
         copy($targetCss, $destCss);
+
+        echo '<script language="javascript">';
+        echo 'alert("Copied green css")';
+        echo '</script>';
     }
     else if($color == "beige")
     {
@@ -93,6 +116,10 @@ if(isset($_POST["submit"]))
         unlink($destCss);
 
         copy($targetCss, $destCss);
+
+        echo '<script language="javascript">';
+        echo 'alert("Copied beige css")';
+        echo '</script>';
     }
     else if($color == "gray")
     {
@@ -101,6 +128,10 @@ if(isset($_POST["submit"]))
         unlink($destCss);
 
         copy($targetCss, $destCss);
+
+        echo '<script language="javascript">';
+        echo 'alert("Copied gray css")';
+        echo '</script>';
     }
 
     foreach (glob("../../var/cache/*", GLOB_ONLYDIR) as $dir)
@@ -112,6 +143,10 @@ if(isset($_POST["submit"]))
         
         rmdir($dir);
     }
+
+    echo '<script language="javascript">';
+    echo 'alert("Cleared cache")';
+    echo '</script>';
 }
 
 ?>
