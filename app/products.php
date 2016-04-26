@@ -161,14 +161,12 @@ $soapProductGroup -> openSoap();
                             <div class="col-sm-6">
                                 <?php $categories = $soapProductGroup->getTree(); ?>
                                 <select multiple="multiple" name="category" id="category" class="form-control">
-                                    <?php
-                                        foreach($categories['children'] as $category) {
-                                            echo "<option value=". $category['name'] . ">" . $category['name'] . "</option>";
-                                            foreach($category['children'] as $subCategory) {
-                                                echo "<option value=". $subCategory['name'] . "> - " . $subCategory['name'] . "</option>";
-                                            } //TODO can have more sub categories
-                                        }
-                                    ?>
+                                    <?php foreach($categories['children'] as $category) { ?>
+                                            <option value=" <?php echo $category['name']; ?> "> <?php echo $category['name']; ?> </option>
+                                            <?php foreach($category['children'] as $subCategory) { ?>
+                                                <option value=" <?php echo $subCategory['name'] ?> "> <?php echo "- ". $subCategory['name']; ?> </option>
+                                            <?php } //TODO can have more sub categories ?>
+                                    <?php } ?>
                                 </select>
                             </div>
                         </div>
@@ -281,7 +279,10 @@ $soapProductGroup -> openSoap();
                             }));
                         });
                     });*/
-                    $("#category").val(json.updateCategory.name);
+                    $.each(json.updateCategory, function (i, item) {
+                        $('#category').multiSelect('select', item.text); //http://loudev.com/#home
+                    });
+                    //$("#category").val(json.updateCategory.name);
                     $("#article_update_description").val(json.updateProduct.description);
                     $("#article_update_amount").val(json.updateStock[0].qty);
                     $("#article_update_price").val(json.updateProduct.price);

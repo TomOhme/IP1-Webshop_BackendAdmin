@@ -19,9 +19,12 @@ if (isset($_POST['productId']) && $_POST['product'] == 'update') {
     $productImg = $soapProduct->getProductImage($product['product_id']);
     $productStock = $soapProduct->getProductStock($product['product_id']);
     //more category_ids foreach
-    $productCategory = $soapProductGroup->getCategory(end($product['category_ids']));
-    $allCategory = $soapProductGroup->getTree();
-    echo json_encode(array('id' => $productId, 'updateProduct' => $product, 'updateImg' => $productImg, 'updateStock' => $productStock, 'updateCategory' => $productCategory, 'allCategory' => $allCategory));
+    foreach($product['category_ids'] as $categoryId) {
+        $productCategory[] = $soapProductGroup->getCategory($categoryId);
+    }
+    //$productCategory = $soapProductGroup->getCategory(end($product['category_ids']));
+    //$allCategory = $soapProductGroup->getTree();
+    echo json_encode(array('id' => $productId, 'updateProduct' => $product, 'updateImg' => $productImg, 'updateStock' => $productStock, 'updateCategory' => $productCategory)); //allCategory' => $allCategory
 } else if (isset($_POST['productId']) && $_POST['product'] == 'delete') {
     $productId = isset($_POST['productId']) ? $_POST['productId'] : null;
     //$product = $soapProduct->getProductByID($productId);
@@ -29,7 +32,7 @@ if (isset($_POST['productId']) && $_POST['product'] == 'update') {
 } else if (isset($_POST['productUpdateSave'])) {
     $productId = isset($_POST['productId']) ? $_POST['productId'] : null;
     $title = $_POST['title'];
-    $category = $_POST['category'];
+    $category = $_POST['category']; //TODO can have more categories
     $description = $_POST['description'];
     $stock = $_POST['stock'];
     $price = $_POST['price'];
