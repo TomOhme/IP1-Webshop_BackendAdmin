@@ -159,7 +159,15 @@ $soapProductGroup -> openSoap();
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Kategorie</label>
                             <div class="col-sm-6">
-                                <select name="category" id="category" class="form-control"></select>
+                                <?php $categories = $soapProductGroup->getTree(); ?>
+                                <select multiple="multiple" name="category" id="category" class="form-control">
+                                    <?php foreach($categories['children'] as $category) { ?>
+                                            <option value=" <?php echo $category['name']; ?> "> <?php echo $category['name']; ?> </option>
+                                            <?php foreach($category['children'] as $subCategory) { ?>
+                                                <option value=" <?php echo $subCategory['name'] ?> "> <?php echo "- ". $subCategory['name']; ?> </option>
+                                            <?php } //TODO can have more sub categories ?>
+                                    <?php } ?>
+                                </select>
                             </div>
                         </div>
 
@@ -233,9 +241,14 @@ $soapProductGroup -> openSoap();
 
     <script type="text/javascript">
 
+        $('#category').multiSelect(); //http://loudev.com/#home
+
+        // var Dropzone = require("dropzone");in preparation //http://www.dropzonejs.com/#usage
+
         function loadItem(page, productId) {
             clearModalFields();
             if (page == 'createProduct') {
+                //ajax call -> read All Categories
                 $("#productModal").modal('toggle');
             } else if (page == 'updateProduct') {
                 updateProduct(productId);
@@ -256,7 +269,7 @@ $soapProductGroup -> openSoap();
                     $('#productId').val(json.id);
                     //$("#picture").val(json.updateImg[0].url); //TODO show image in form, not with value
                     $("#article_update_title").val(json.updateProduct.name);
-                    $.each(json.allCategory.children, function (i, item) {
+                    /*$.each(json.allCategory.children, function (i, item) {
                         $('#category').append($('<option>', {
                             value: item.name,
                             text: item.name
@@ -267,8 +280,12 @@ $soapProductGroup -> openSoap();
                                 text: "- " + item.name
                             }));
                         });
+                    });*/
+                    //set current product categories selected
+                    $.each(json.updateCategory, function (i, item) {
+                        $('#category').multiSelect('select', item.text);
                     });
-                    $("#category select").val(json.updateCategory.name); //TODO select current category in category dropdown list
+                    //$("#category").val(json.updateCategory.name);
                     $("#article_update_description").val(json.updateProduct.description);
                     $("#article_update_amount").val(json.updateStock[0].qty);
                     $("#article_update_price").val(json.updateProduct.price);
@@ -284,7 +301,7 @@ $soapProductGroup -> openSoap();
                 type: "GET",
                 data: $(this).serialize(),
                 success: function (data) {
-                    //TODO in preparation maybe some staff for Norina ;D
+                    //TODO
                 },
                 error: function (jXHR, textStatus, errorThrown) {
                     alert(errorThrown);
@@ -314,7 +331,7 @@ $soapProductGroup -> openSoap();
         }
 
         function clearModalFields() {
-            //TODO clear Picture
+            //TODO clear Picture and categories
             $("#article_update_title").val('');
             $('#category').empty();
             $('#article_update_description').val('');

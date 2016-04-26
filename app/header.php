@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="../css/bootstrap-colorpicker.min.css">
     <link rel="stylesheet" href="../css/custom.css">
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/multi-select.css">
     <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon">
     <link rel="icon" href="../img/favicon.ico" type="image/x-icon">
     <script src="../js/jquery-2.2.2.min.js"></script>
@@ -38,7 +39,7 @@
     <script src="../js/form_validation.js"></script>
     <script src="../js/bootstrap-colorpicker.min.js"></script>
     <script src="../js/ckeditor.js"></script>
-    <script type="text/javascript"></script>
+    <script src="../js/jquery.multi-select.js"></script>
     <meta name="apple-mobile-web-app-title" content="EasyAdmin">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
