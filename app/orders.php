@@ -15,6 +15,7 @@ if(!isset($_SESSION['username'])) {
 
 $soap = new Orders();
 $soap -> openSoap();
+$orders = $soap -> getAllOrders();
 ?>
 
 <div id="content" style="padding-left:50px; padding-right:50px;">
@@ -42,9 +43,8 @@ $soap -> openSoap();
 								</thead>
 								<tbody>
 								<?php
-								$orders = $soap -> getAllOrders();
 								foreach($orders as $order){?>
-								<tr onclick="loadItem('sales','content_pane','60');" role="row">
+								<tr onclick="loadItem(<?php echo $order['increment_id'];?>);" role="row">
 									<td class="sorting_1"><?php echo $order['created_at']; ?></td>
 									<td><?php echo $order['billing_firstname']. " " .$order['billing_lastname']; ?></td>
 									<td><?php echo $order['base_grand_total']; ?></td>
@@ -75,17 +75,21 @@ $soap -> openSoap();
 			</div>
 		</div>
 		<div id="content_pane" class="col-md-6">
-			<div class="panel panel-default">
+		</div>
+		<?php
+		if(!is_null($orders)){
+			foreach ($orders as $order) {
+				$order = $soap -> getOrderByID($order['increment_id']);
+		?>
+		<div id="order_store">
+			<div class="panel panel-default" id="order_<?php echo $order['increment_id'];?>" style="display: none;">
 				<!-- Default panel contents -->
-				<?php
-				if(!is_null($orders)){
-					?>
-				<div class="panel-heading">Bestellnummer: <?php echo $orders[0]['increment_id']; ?></div>
+				<div class="panel-heading">Bestellnummer: <?php echo $order['increment_id']; ?></div>
 				<div class="panel-body">
-
-				<p><label style="width:70px; font-weight:normal;">Käufer:</label><label style="text-indent: 5em;"><?php echo $orders[0]['billing_firstname']. " " .$orders[0]['billing_lastname'] ?></label></p>
-				<p><label style="width:70px; font-weight:normal;">Email:</label><label style="text-indent: 5em;"><?php echo $orders[0]['customer_email']; ?></label></p>
-				<p><label style="width:70px; font-weight:normal;">Datum und Zeit:</label><label style="text-indent: 5em;"><?php echo $orders[0]['created_at']; ?></label></p>
+					<p><label style="width:70px; font-weight:normal;">Käufer:</label><label style="text-indent: 5em;"><?php echo $order['customer_firstname']. " " .$order['customer_lastname'] ?></label></p>
+					<p><label style="width:70px; font-weight:normal;">Email:</label><label style="text-indent: 5em;"><?php echo $order['customer_email']; ?></label></p>
+					<p><label style="width:70px; font-weight:normal;">Datum und Zeit:</label><label style="text-indent: 5em;"><?php echo $order['created_at']; ?></label></p>
+					<p><label style="width:70px; font-weight:normal;">Status:</label><label style="text-indent: 5em;"><?php echo $order['status']; ?></label></p>
 				</div>
 
 				<!-- Table -->
@@ -100,7 +104,6 @@ $soap -> openSoap();
 					</thead>
 					<tbody>
 					<?php
-					$order = $soap -> getOrderByID($orders[0]['increment_id']);
 					$items = $order['items'];
 					foreach ($items as $item) {
 					?>
@@ -113,33 +116,25 @@ $soap -> openSoap();
 						<?php
 					}
 					?>
-						<!--
-						<tr>
-							<td>Bananen</td>
-							<td>2</td>
-							<td>0.50</td>
-							<td>1.00</td>
-						</tr>
-						<tr style="border-top:2px solid #666666;">
-							<td>Total</td>
-							<td></td>
-							<td></td>
-							<td>1.00</td>
-						</tr>
-						-->
 					</tbody>
 				</table>
 			</div>
-			<?php
-			}
-			?>
 		</div>
+		<?php
+			}
+		}
+		?>
 	</div>
 </div>
 
 
 <script type="text/javascript">
-loadItem('sales', 'content_pane', 60);
+function loadItem(id){
+	$("#order_store").append($("#content_pane").children().hide());
+
+	$("#content_pane").append($("#order_"+id));
+	$("#order_"+id).show();
+}
 
 $(document).ready(function() {
 
