@@ -141,7 +141,7 @@ $soapProductGroup -> openSoap();
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Bilder</label>
                             <div class="col-sm-6">
-                                <form action="upload.php" class="dropzone dz-clickable" id="picture"><div class="dz-default dz-message"><span>Ziehen Sie Ihre Bilder hierhin oder klicken Sie hier, um ein Bild hochzuladen.</span></div></form>
+                                <form action="" class="dropzone dz-clickable" id="picture"><div class="dz-default dz-message"><span>Ziehen Sie Ihre Bilder hierhin oder klicken Sie hier, um ein Bild hochzuladen.</span></div></form>
                             </div>
                         </div>
                     </div>
@@ -243,7 +243,7 @@ $soapProductGroup -> openSoap();
 
         $('#category').multiSelect(); //http://loudev.com/#home
 
-        // var Dropzone = require("dropzone");in preparation //http://www.dropzonejs.com/#usage
+        $("#picture").dropzone({ url: "/file/post" }); //http://www.dropzonejs.com/#usage
 
         function loadItem(page, productId) {
             clearModalFields();
@@ -407,6 +407,49 @@ $soapProductGroup -> openSoap();
                     { "bSortable": false, "aTargets": [ 3, 4, 5 ] } ]
             });
         });
+
+        Dropzone.options.mydropzone = {
+            maxFiles: 1,
+            maxFilesize: 10, //mb
+            acceptedFiles: 'image/*',
+            addRemoveLinks: true,
+            autoProcessQueue: false,// used for stopping auto processing uploads
+            autoDiscover: false,
+            paramName: 'prod_pic',
+            previewsContainer: '#dropzonePreview', //used for specifying the previews div
+            clickable: false, //used this but now i cannot click on previews div to showup the file select dialog box
+
+            accept: function(file, done) {
+                console.log("uploaded");
+                done();
+                //used for enabling the submit button if file exist
+                $( "#submitbtn" ).prop( "disabled", false );
+            },
+
+            init: function() {
+                this.on("maxfilesexceeded", function(file){
+                    alert("No more files please!Only One image file accepted.");
+                    this.removeFile(file);
+                });
+                var myDropzone = this;
+                $("#submitbtn").on('click',function(e) {
+                    e.preventDefault();
+                    myDropzone.processQueue();
+
+                });
+
+                this.on("reset", function (file) {
+                    //used for disabling the submit button if no file exist
+                    $( "#submitbtn" ).prop( "disabled", true );
+                });
+
+            }
+            /*
+            uploadprogress: function(file, progress, bytesSent) {
+                // Display the progress
+            }*/
+
+        };
 
     </script>
 </body>
