@@ -241,7 +241,7 @@ $soapProductGroup -> openSoap();
 
     <script type="text/javascript">
 
-        $('#category').multiSelect(); //http://loudev.com/#home
+        $('#category').multiSelect({ keepOrder:true }); //http://loudev.com/#home
 
         $("#picture").dropzone({ url: "/file/post" }); //http://www.dropzonejs.com/#usage
 
@@ -283,7 +283,7 @@ $soapProductGroup -> openSoap();
                     });*/
                     //set current product categories selected
                     $.each(json.updateCategory, function (i, item) {
-                        $('#category').multiSelect('select', item.text);
+                        $("#category").multiSelect('select', item.text); //TODO
                     });
                     //$("#category").val(json.updateCategory.name);
                     $("#article_update_description").val(json.updateProduct.description);
@@ -298,14 +298,11 @@ $soapProductGroup -> openSoap();
             e.preventDefault();
             $.ajax({
                 url : 'updateProduct.php',
-                type: "GET",
+                type: 'GET',
                 data: $(this).serialize(),
                 success: function (data) {
                     //TODO
                 },
-                error: function (jXHR, textStatus, errorThrown) {
-                    alert(errorThrown);
-                }
             });
         });
         /*function productUpdateSave() { //params
