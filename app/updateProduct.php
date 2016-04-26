@@ -18,6 +18,7 @@ if (isset($_POST['productId']) && $_POST['product'] == 'update') {
     $product = $soapProduct->getProductByID($productId);
     $productImg = $soapProduct->getProductImage($product['product_id']);
     $productStock = $soapProduct->getProductStock($product['product_id']);
+    //more category_ids foreach
     $productCategory = $soapProductGroup->getCategory(end($product['category_ids']));
     $allCategory = $soapProductGroup->getTree();
     echo json_encode(array('id' => $productId, 'updateProduct' => $product, 'updateImg' => $productImg, 'updateStock' => $productStock, 'updateCategory' => $productCategory, 'allCategory' => $allCategory));
@@ -34,9 +35,10 @@ if (isset($_POST['productId']) && $_POST['product'] == 'update') {
     $price = $_POST['price'];
     //picture
     if ($productId != null) {
-        //update product //TODO in preparation maybe some staff for Norina ;D
+        //$soapProduct->updateProductByID($productId, );
+        //update productCategory
     } else {
-        //create product //TODO in preparation maybe some staff for Norina ;D
+        //$soapProduct->createProduct();
     }
 }
 ?>

@@ -159,7 +159,7 @@ $soapProductGroup -> openSoap();
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Kategorie</label>
                             <div class="col-sm-6">
-                                <select name="category" id="category" class="form-control"></select>
+                                <select multiple="multiple" name="category" id="category" class="form-control"></select>
                             </div>
                         </div>
 
@@ -233,9 +233,12 @@ $soapProductGroup -> openSoap();
 
     <script type="text/javascript">
 
+        $('#category').multiSelect();
+
         function loadItem(page, productId) {
             clearModalFields();
             if (page == 'createProduct') {
+                //ajax call -> read All Categories
                 $("#productModal").modal('toggle');
             } else if (page == 'updateProduct') {
                 updateProduct(productId);
@@ -268,7 +271,7 @@ $soapProductGroup -> openSoap();
                             }));
                         });
                     });
-                    $("#category select").val(json.updateCategory.name); //TODO select current category in category dropdown list
+                    $("#category").val(json.updateCategory.name);
                     $("#article_update_description").val(json.updateProduct.description);
                     $("#article_update_amount").val(json.updateStock[0].qty);
                     $("#article_update_price").val(json.updateProduct.price);
