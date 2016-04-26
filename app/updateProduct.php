@@ -32,16 +32,16 @@ if (isset($_POST['productId']) && $_POST['product'] == 'update') {
 } else if (isset($_POST['productUpdateSave'])) {
     $productId = isset($_POST['productId']) ? $_POST['productId'] : null;
     $title = $_POST['title'];
-    $category = $_POST['category']; //TODO can have more categories
+    $category = $_POST['category'];
     $description = $_POST['description'];
     $stock = $_POST['stock'];
     $price = $_POST['price'];
-    //picture
+    //picture = $_POST['picture'];
+    $productData = array($category, $title, $description, $price, $stock); //TODO other fields empty
     if ($productId != null) {
-        //$soapProduct->updateProductByID($productId, );
-        //update productCategory
+        $soapProduct->updateProductByID($productId, $productData);
     } else {
-        //$soapProduct->createProduct();
+        $soapProduct->createProduct(9999999, $productData); //TODO new id - ongoing primary key id
     }
 }
 ?>
