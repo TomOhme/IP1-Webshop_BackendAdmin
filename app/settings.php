@@ -162,7 +162,7 @@ if(isset($_POST["submit"]))
 
             <td style="width: 800px;">
                 <div id="" class="col-sm-12">
-                    <form action="upload.php" method="post" enctype="multipart/form-data">
+                    <form action="" method="post" enctype="multipart/form-data">
                     <div id="" class="col-sm-12">
                         <img src="../../magento/skin/frontend/webshop/default/images/logo_bh.png" height="100px" />
                     </div>
