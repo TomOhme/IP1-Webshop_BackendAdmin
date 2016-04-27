@@ -20,6 +20,7 @@ $soapProductGroup = new ProductGroup();
 $soapProduct -> openSoap();
 $soapProductGroup -> openSoap();
 ?>
+    <link rel="stylesheet" href="../css/custom.css">
     <div id="content">
         <!-- Alerts -->
         <div class="alert alert-success alert-dismissible" role="alert" style="display: none;" id="alertExcelImportSuccess">
