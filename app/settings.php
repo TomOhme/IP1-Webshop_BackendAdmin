@@ -48,26 +48,24 @@ if(isset($_POST["submit"]))
         if ($uploadOk == 0) {
             $errorMsg .= "Bild wurde nicht hochgeladen";
 
+            echo '<script language="javascript">';
+            echo 'alert(' . $errorMsg . ')';
+            echo '</script>';
 
         } else {
-            foreach (glob("../../skin/frontend/webshop/default/images/logo_bh.jpg") as $file) {
-                unlink($file);
-            }
-
-            foreach (glob("../../skin/frontend/webshop/default/images/logo_bh.jpeg") as $file) {
-                unlink($file);
-            }
-
             foreach (glob("../../skin/frontend/webshop/default/images/logo_bh.png") as $file) {
                 unlink($file);
             }
 
-            foreach (glob("../../skin/frontend/webshop/default/images/logo_bh.gif") as $file) {
-                unlink($file);
-            }
+            echo '<script language="javascript">';
+            echo 'alert("logo removed")';
+            echo '</script>';
 
-            //   unlink("img/logo_bh");
-            move_uploaded_file($_FILES["uploadImgBtn"]["tmp_name"], "../../skin/frontend/webshop/default/images/logo_bh." . $imageFileType);
+            move_uploaded_file($_FILES["uploadImgBtn"]["tmp_name"], "../../skin/frontend/webshop/default/images/logo_bh.png");
+
+            echo '<script language="javascript">';
+            echo 'alert("neues Logo gespeichert")';
+            echo '</script>';
         }
     }
 
@@ -82,6 +80,10 @@ if(isset($_POST["submit"]))
         unlink($destCss);
 
         copy($targetCss, $destCss);
+
+        echo '<script language="javascript">';
+        echo 'alert("Copied blue css")';
+        echo '</script>';
     }
     else if($color == "red")
     {
@@ -90,6 +92,10 @@ if(isset($_POST["submit"]))
         unlink($destCss);
 
         copy($targetCss, $destCss);
+
+        echo '<script language="javascript">';
+        echo 'alert("Copied red css")';
+        echo '</script>';
     }
     else if($color == "green")
     {
@@ -98,6 +104,10 @@ if(isset($_POST["submit"]))
         unlink($destCss);
 
         copy($targetCss, $destCss);
+
+        echo '<script language="javascript">';
+        echo 'alert("Copied green css")';
+        echo '</script>';
     }
     else if($color == "beige")
     {
@@ -106,6 +116,10 @@ if(isset($_POST["submit"]))
         unlink($destCss);
 
         copy($targetCss, $destCss);
+
+        echo '<script language="javascript">';
+        echo 'alert("Copied beige css")';
+        echo '</script>';
     }
     else if($color == "gray")
     {
@@ -114,7 +128,25 @@ if(isset($_POST["submit"]))
         unlink($destCss);
 
         copy($targetCss, $destCss);
+
+        echo '<script language="javascript">';
+        echo 'alert("Copied gray css")';
+        echo '</script>';
     }
+
+    foreach (glob("../../var/cache/*", GLOB_ONLYDIR) as $dir)
+    {
+        foreach(glob($dir . "/*") as $file)
+        {
+            unlink($file);
+        }
+        
+        rmdir($dir);
+    }
+
+    echo '<script language="javascript">';
+    echo 'alert("Cleared cache")';
+    echo '</script>';
 }
 
 ?>
@@ -164,7 +196,7 @@ if(isset($_POST["submit"]))
                 <div id="" class="col-sm-12">
                     <form action="" method="post" enctype="multipart/form-data">
                     <div id="" class="col-sm-12">
-                        <img src="../../magento/skin/frontend/webshop/default/images/logo_bh.png" height="100px" />
+                        <img src="../../skin/frontend/webshop/default/images/logo_bh.png" height="100px" />
                     </div>
                     <label class="col-sm-12 control-label">Logo</label>
                     <div class="col-sm-12">

@@ -18,9 +18,13 @@ if (isset($_POST['productId']) && $_POST['product'] == 'update') {
     $product = $soapProduct->getProductByID($productId);
     $productImg = $soapProduct->getProductImage($product['product_id']);
     $productStock = $soapProduct->getProductStock($product['product_id']);
-    $productCategory = $soapProductGroup->getCategory(end($product['category_ids']));
-    $allCategory = $soapProductGroup->getTree();
-    echo json_encode(array('id' => $productId, 'updateProduct' => $product, 'updateImg' => $productImg, 'updateStock' => $productStock, 'updateCategory' => $productCategory, 'allCategory' => $allCategory));
+    //more category_ids foreach
+    foreach($product['category_ids'] as $categoryId) {
+        $productCategory[] = $soapProductGroup->getCategory($categoryId);
+    }
+    //$productCategory = $soapProductGroup->getCategory(end($product['category_ids']));
+    //$allCategory = $soapProductGroup->getTree();
+    echo json_encode(array('id' => $productId, 'updateProduct' => $product, 'updateImg' => $productImg, 'updateStock' => $productStock, 'updateCategory' => $productCategory)); //allCategory' => $allCategory
 } else if (isset($_POST['productId']) && $_POST['product'] == 'delete') {
     $productId = isset($_POST['productId']) ? $_POST['productId'] : null;
     //$product = $soapProduct->getProductByID($productId);
@@ -32,11 +36,12 @@ if (isset($_POST['productId']) && $_POST['product'] == 'update') {
     $description = $_POST['description'];
     $stock = $_POST['stock'];
     $price = $_POST['price'];
-    //picture
+    //picture = $_POST['picture'];
+    $productData = array($category, $title, $description, $price, $stock); //TODO other fields empty
     if ($productId != null) {
-        //update product //TODO in preparation maybe some staff for Norina ;D
+        $soapProduct->updateProductByID($productId, $productData);
     } else {
-        //create product //TODO in preparation maybe some staff for Norina ;D
+        $soapProduct->createProduct(9999999, $productData); //TODO new id - ongoing primary key id
     }
 }
 ?>

@@ -20,6 +20,7 @@ $soapProductGroup = new ProductGroup();
 $soapProduct -> openSoap();
 $soapProductGroup -> openSoap();
 ?>
+    <link rel="stylesheet" href="../css/custom.css">
     <div id="content">
         <!-- Alerts -->
         <div class="alert alert-success alert-dismissible" role="alert" style="display: none;" id="alertExcelImportSuccess">
@@ -141,7 +142,7 @@ $soapProductGroup -> openSoap();
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Bilder</label>
                             <div class="col-sm-6">
-                                <form action="upload.php" class="dropzone dz-clickable" id="picture"><div class="dz-default dz-message"><span>Ziehen Sie Ihre Bilder hierhin oder klicken Sie hier, um ein Bild hochzuladen.</span></div></form>
+                                <form action="" class="dropzone dz-clickable" id="picture"><div class="dz-default dz-message"><span>Ziehen Sie Ihre Bilder hierhin oder klicken Sie hier, um ein Bild hochzuladen.</span></div></form>
                             </div>
                         </div>
                     </div>
@@ -159,7 +160,15 @@ $soapProductGroup -> openSoap();
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Kategorie</label>
                             <div class="col-sm-6">
-                                <select name="category" id="category" class="form-control"></select>
+                                <?php $categories = $soapProductGroup->getTree(); ?>
+                                <select multiple="multiple" name="category" id="category" class="form-control">
+                                    <?php foreach($categories['children'] as $category) { ?>
+                                            <option value=" <?php echo $category['name']; ?> "> <?php echo $category['name']; ?> </option>
+                                            <?php foreach($category['children'] as $subCategory) { ?>
+                                                <option value=" <?php echo $subCategory['name'] ?> "> <?php echo "- ". $subCategory['name']; ?> </option>
+                                            <?php } //TODO can have more sub categories ?>
+                                    <?php } ?>
+                                </select>
                             </div>
                         </div>
 
@@ -233,9 +242,14 @@ $soapProductGroup -> openSoap();
 
     <script type="text/javascript">
 
+        $('#category').multiSelect({ keepOrder:true }); //http://loudev.com/#home
+
+        $("#picture").dropzone({ url: "/file/post" }); //http://www.dropzonejs.com/#usage
+
         function loadItem(page, productId) {
             clearModalFields();
             if (page == 'createProduct') {
+                //ajax call -> read All Categories
                 $("#productModal").modal('toggle');
             } else if (page == 'updateProduct') {
                 updateProduct(productId);
@@ -256,7 +270,7 @@ $soapProductGroup -> openSoap();
                     $('#productId').val(json.id);
                     //$("#picture").val(json.updateImg[0].url); //TODO show image in form, not with value
                     $("#article_update_title").val(json.updateProduct.name);
-                    $.each(json.allCategory.children, function (i, item) {
+                    /*$.each(json.allCategory.children, function (i, item) {
                         $('#category').append($('<option>', {
                             value: item.name,
                             text: item.name
@@ -267,8 +281,12 @@ $soapProductGroup -> openSoap();
                                 text: "- " + item.name
                             }));
                         });
+                    });*/
+                    //set current product categories selected
+                    $.each(json.updateCategory, function (i, item) {
+                        $("#category").multiSelect('select', item.text); //TODO
                     });
-                    $("#category select").val(json.updateCategory.name); //TODO select current category in category dropdown list
+                    //$("#category").val(json.updateCategory.name);
                     $("#article_update_description").val(json.updateProduct.description);
                     $("#article_update_amount").val(json.updateStock[0].qty);
                     $("#article_update_price").val(json.updateProduct.price);
@@ -281,14 +299,11 @@ $soapProductGroup -> openSoap();
             e.preventDefault();
             $.ajax({
                 url : 'updateProduct.php',
-                type: "GET",
+                type: 'GET',
                 data: $(this).serialize(),
                 success: function (data) {
-                    //TODO in preparation maybe some staff for Norina ;D
+                    //TODO
                 },
-                error: function (jXHR, textStatus, errorThrown) {
-                    alert(errorThrown);
-                }
             });
         });
         /*function productUpdateSave() { //params
@@ -314,7 +329,7 @@ $soapProductGroup -> openSoap();
         }
 
         function clearModalFields() {
-            //TODO clear Picture
+            //TODO clear Picture and categories
             $("#article_update_title").val('');
             $('#category').empty();
             $('#article_update_description').val('');
@@ -343,7 +358,7 @@ $soapProductGroup -> openSoap();
                     $("#alertExcelImportSuccess").fadeTo(10000, 500).slideUp(500, function(){
                         $("#alertExcelImportSuccess").alert('close');
                     });
-                    $('#excelImportSuccess').empty;
+                    $('#excelImportSuccess').empty();
                 },
                 error: function(data){
                     $('#excelImportError').append(data['responseText']);
@@ -352,6 +367,7 @@ $soapProductGroup -> openSoap();
                     $("#alertExcelImportError").fadeTo(10000, 500).slideUp(500, function(){
                         $("#alertExcelImportError").alert('close');
                     });
+                    $('#excelImportError').empty();
                 }
             });
         }
@@ -390,6 +406,49 @@ $soapProductGroup -> openSoap();
                     { "bSortable": false, "aTargets": [ 3, 4, 5 ] } ]
             });
         });
+
+        Dropzone.options.mydropzone = {
+            maxFiles: 1,
+            maxFilesize: 10, //mb
+            acceptedFiles: 'image/*',
+            addRemoveLinks: true,
+            autoProcessQueue: false,// used for stopping auto processing uploads
+            autoDiscover: false,
+            paramName: 'prod_pic',
+            previewsContainer: '#dropzonePreview', //used for specifying the previews div
+            clickable: false, //used this but now i cannot click on previews div to showup the file select dialog box
+
+            accept: function(file, done) {
+                console.log("uploaded");
+                done();
+                //used for enabling the submit button if file exist
+                $( "#submitbtn" ).prop( "disabled", false );
+            },
+
+            init: function() {
+                this.on("maxfilesexceeded", function(file){
+                    alert("No more files please!Only One image file accepted.");
+                    this.removeFile(file);
+                });
+                var myDropzone = this;
+                $("#submitbtn").on('click',function(e) {
+                    e.preventDefault();
+                    myDropzone.processQueue();
+
+                });
+
+                this.on("reset", function (file) {
+                    //used for disabling the submit button if no file exist
+                    $( "#submitbtn" ).prop( "disabled", true );
+                });
+
+            }
+            /*
+            uploadprogress: function(file, progress, bytesSent) {
+                // Display the progress
+            }*/
+
+        };
 
     </script>
 </body>

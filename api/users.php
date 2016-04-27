@@ -9,7 +9,7 @@
 include('../vendor/autoload.php');
 use Magento\Client\Xmlrpc\MagentoXmlrpcClient;
 
-class User
+class user
 {
     private $client;
     private $ini_array;
@@ -20,7 +20,7 @@ class User
     }
 
     public function openSoap()
-    {      
+    {
         $this -> client = MagentoXmlrpcClient::factory(array(
             'base_url' => $this->ini_array['SOAPURL'],
             'api_user' => $this->ini_array['SOAPUSER'],
@@ -35,7 +35,15 @@ class User
      */
     public function getAllUsers()
     {
-        return $this -> client -> call('customer.list');
+        $allusers = array();
+        $data = $this->client ->call('customer.list', array());
+        foreach($data as $line){
+            $user = $this->client->call('customer_address.list', array($line['customer_id']));
+            array_push($line, $user[0]['street'], $user[0]['postcode'], $user[0]['city'], $user[0]['telephone']);
+            array_push ($allusers, $line);
+        }
+        //var_dump($allusers);
+        return $allusers;
     }
 
     /**
@@ -45,7 +53,7 @@ class User
      */
     public function getUserByID($ID)
     {
-        return $this -> client -> call('customer_adress.info', array($ID));
+        return $this -> client -> call('customer_address.info', array($ID));
     }
 
     /**
