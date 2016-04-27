@@ -87,14 +87,31 @@ $soapProductGroup -> openSoap();
                     <?php
                         function getNextSubCategory($category) {
                             if ($category['children'] != null) {
-                                foreach ($category['children'] as $subCategory) { ?>
-                                    <ul><li><span id="<?php echo $subCategory['category_id'];?>"><i class="icon-minus-sign"></i> <?php echo $subCategory['name']; ?></span> <!-- TODO icon-leaf for last element -->
-                                    <?php if ($subCategory['children'] != null) {
-                                        getNextSubCategory($subCategory);
-                                    }
-                                    ?>
-                                    </li></ul>
-                              <?php  }
+                                $numItems = count($category['children']);
+                                $i = 0;
+                                foreach ($category['children'] as $subCategory) {
+                                    if (++$i === $numItems) { ?>
+                                        <ul>
+                                            <li><span id="<?php echo $subCategory['category_id']; ?>"><i
+                                                        class="icon-leaf"></i> <?php echo $subCategory['name']; ?></span>
+                                                <?php if ($subCategory['children'] != null) {
+                                                    getNextSubCategory($subCategory);
+                                                }
+                                                ?>
+                                            </li>
+                                        </ul>
+                                    <?php } else { ?>
+                                        <ul>
+                                            <li><span id="<?php echo $subCategory['category_id']; ?>"><i
+                                                        class="icon-minus-sign"></i> <?php echo $subCategory['name']; ?></span>
+                                                <?php if ($subCategory['children'] != null) {
+                                                    getNextSubCategory($subCategory);
+                                                }
+                                                ?>
+                                            </li>
+                                        </ul>
+                                    <?php }
+                                }
                             }
                         }
                     ?>
