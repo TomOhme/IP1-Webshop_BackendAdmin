@@ -213,7 +213,7 @@ $soapProductGroup -> openSoap();
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" name="productUpdateSave">Speichern</button><!--onclick="productUpdateSave();"-->
+                    <button type="button" class="btn btn-primary" name="productUpdateSave" onclick="productUpdateSave();">Speichern</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
                 </div>
             </div>
@@ -306,25 +306,19 @@ $soapProductGroup -> openSoap();
             });
         }
 
-        $('#productForm').on('submit', function(e) {
-            e.preventDefault();
+        function productUpdateSave() {
+            var fData = $("#productForm").serialize();
             $.ajax({
                 url : 'updateProduct.php',
-                type: 'GET',
-                data: $(this).serialize(),
+                type: 'POST',
+                data: { productId : fData['productId'],
+                        productUpdateSave : 'productUpdateSave'
+                },
                 success: function (data) {
-                    //TODO
+                    //TODO reload product table and alert
                 },
             });
-        });
-        /*function productUpdateSave() { //params
-            $.ajax({
-                url: 'updateProduct.php',
-                type: 'POST',
-                data: { values : values },
-                //wenn noch keine Id -> create sonst update product
-            });
-        }*/
+        }
 
         function deleteProduct(productId) {
             $.ajax({
@@ -334,7 +328,7 @@ $soapProductGroup -> openSoap();
                         product : 'delete'
                 },
                 success: function(result) {
-                    //TODO reload product table and alert
+                   //TODO reload product table and alert
                 }
             });
         }
