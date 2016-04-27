@@ -67,6 +67,23 @@ $soapProductGroup -> openSoap();
         <div id="right">
             <div class="tree well">
                 <ul>
+                    <?php $categories = $soapProductGroup->getTree();
+                          foreach($categories['children'] as $category) {
+                              echo $category['name'];
+                              getNextSubCategory($category);
+                          } ?>
+                    <?php
+                        function getNextSubCategory($category) {
+                            if ($category['children'] != null) {
+                                foreach ($category['children'] as $subCategory) {
+                                    echo $subCategory['name'];
+                                    if ($subCategory['children'] != null) {
+                                        getNextSubCategory($subCategory);
+                                    }
+                                }
+                            }
+                        }
+                    ?>
                     <li>
                         <span><i class="icon-folder-open"></i> Parent</span>
                         <ul>
