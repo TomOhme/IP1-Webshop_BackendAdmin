@@ -16,6 +16,15 @@ if(!isset($_SESSION['username'])) {
 
 $soapProductGroup = new ProductGroup();
 $soapProductGroup -> openSoap();
+
+if(isset($_POST['parentCategoryId']) && isset($_POST['categoryName']) && isset($_POST['categoryUpdateSave'])){
+    $soapProductGroup->createCategory($_POST['categoryName'], $_POST['parentCategoryId']);
+}
+
+if(isset($_POST['categoryId']) && isset($_POST['categoryDelete'])){
+    $soapProductGroup->deleteCategory($_POST['categoryId']);
+}
+
 ?>
 
     <link rel="stylesheet" href="../css/treeTable.css">
@@ -27,7 +36,7 @@ $soapProductGroup -> openSoap();
                     <div class="form-group has-feedback">
                         <label class="col-sm-3 control-label">Bezeichnung</label>
                         <div class="col-sm-6">
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="" data-bv-field="name"><i class="form-control-feedback" data-bv-icon-for="name" style="display: none;"></i>
+                            <input type="text" class="form-control" id="categoryName" name="categoryName" placeholder="Name" value="" data-bv-field="name"><i class="form-control-feedback" data-bv-icon-for="name" style="display: none;"></i>
                             <small class="help-block" data-bv-validator="notEmpty" data-bv-for="name" data-bv-result="NOT_VALIDATED" style="display: none;">Bitte einen Kategorienamen angeben</small><small class="help-block" data-bv-validator="stringLength" data-bv-for="name" data-bv-result="NOT_VALIDATED" style="display: none;">Kategoriename muss zwischen 2 und 50 Zeichen sein</small>
                         </div>
                     </div>
@@ -35,7 +44,7 @@ $soapProductGroup -> openSoap();
                         <label class="col-sm-3 control-label">&Uuml;berkategorie</label>
                         <div class="col-sm-6">
                             <?php $categories = $soapProductGroup->getTree(); ?>
-                            <select name="category" id="category" class="form-control">
+                            <select name="categoryId" id="categoryId" class="form-control">
                                 <option value=""></option>
                                 <?php
                                     foreach($categories['children'] as $category) { ?>
@@ -92,8 +101,7 @@ $soapProductGroup -> openSoap();
                                 foreach ($category['children'] as $subCategory) {
                                     if (++$i === $numItems) { ?>
                                         <ul>
-                                            <li><span id="<?php echo $subCategory['category_id']; ?>"><i
-                                                        class="icon-leaf"></i> <?php echo $subCategory['name']; ?></span>
+                                            <li><span id="<?php echo $subCategory['category_id']; ?>"><i class="icon-leaf"></i> <?php echo $subCategory['name']; ?></span>
                                                 <?php if ($subCategory['children'] != null) {
                                                     getNextSubCategory($subCategory);
                                                 }
@@ -102,8 +110,7 @@ $soapProductGroup -> openSoap();
                                         </ul>
                                     <?php } else { ?>
                                         <ul>
-                                            <li><span id="<?php echo $subCategory['category_id']; ?>"><i
-                                                        class="icon-minus-sign"></i> <?php echo $subCategory['name']; ?></span>
+                                            <li><span id="<?php echo $subCategory['category_id']; ?>"><i class="icon-minus-sign"></i> <?php echo $subCategory['name']; ?></span>
                                                 <?php if ($subCategory['children'] != null) {
                                                     getNextSubCategory($subCategory);
                                                 }
@@ -185,26 +192,26 @@ $soapProductGroup -> openSoap();
         $("#category_delete").addClass("disabled");
     });
 
-    $("#category").change(function(){
-        if ($("#category").val() != "") {
+    $("#categoryId").change(function(){
+        if ($("#categoryId").val() != "") {
             $("#category_delete").removeClass("disabled").addClass("btn-danger");
             $(".tree").find("span").css("background-color", "");
             $(".tree span").filter(function() {
-                return ($(this).attr("id") === $("#category").val())
+                return ($(this).attr("id") === $("#categoryId").val())
             }).css('background-color', 'yellow');
         } else {
             $("#category_delete").removeClass("btn-danger").addClass("disabled");
             $(".tree").find("span").css("background-color", "");
-
         }
     });
 
-    /*function categoryUpdateSave() {
+    function categoryUpdateSave() {
         var fData = $("#createCategoryForm").serialize();
         $.ajax({
             url : 'categories.php',
             type: 'POST',
-            data: { productId : fData['name'],
+            data: { categoryId : fData['categoryId'],
+                    categoryName : fData['categoryName'],
                     categoryUpdateSave : 'categoryUpdateSave'
             },
             success: function (data) {
@@ -218,14 +225,14 @@ $soapProductGroup -> openSoap();
         $.ajax({
             url : 'categories.php',
             type: 'POST',
-            data: { productId : fData['name'],
+            data: { parentCategoryId : fData['categoryId'],
                     categoryDelete : 'categoryDelete'
             },
             success: function (data) {
                 //TODO reload product table and alert
             },
         });
-    }*/
+    }
 
     $(function () {
         $('.tree li:has(ul)').addClass('parent_li').find(' > span').attr('title', 'Collapse this branch');
