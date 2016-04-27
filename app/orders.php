@@ -32,9 +32,8 @@ $orders = $soap -> getAllOrders();
 <div id="content" style="padding-left:50px; padding-right:50px;">
 	<!-- Alerts -->
     <div class="alert alert-success alert-dismissible" role="alert" style="display: none;" id="alertOrderSuccess">
-    <span class="glyphicon glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+    <span class="glyphicon glyphicon glyphicon-ok-sign" aria-hidden="true"></span> <p style="display:inline;" id="orderSuccess"></p>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <strong>Erfolgreich!</strong><p id="orderSuccess"></p>
     </div>
     <!-- Fertig mit Alerts -->
 
@@ -159,7 +158,13 @@ function cancleOrder(id){
 		type: 'POST',
 		data: {"cancleOrderID": id},
 		success: function (data) {
-			//TODO
+			changeSite("orders");
+			$('#orderSuccess').empty();
+			$('#orderSuccess').html("<strong>Erfolgreich!</strong> Die Bestellung wurde storniert.");
+            $("#alertOrderSuccess").toggle();
+            $("#alertOrderSuccess").fadeTo(10000, 500).slideUp(500, function(){
+                $("#alertOrderSuccess").hide();
+            });
 		}
 	});
 }
@@ -170,12 +175,13 @@ function closeOrder(id){
 		type: 'POST',
 		data: {"closeOrderID": id},
 		success: function (data) {
-			$('#orderSuccess').text("Die Bestellung wurde abgeschlossen.");
+			changeSite("orders");
+			$('#orderSuccess').empty();
+			$('#orderSuccess').html("<strong>Erfolgreich!</strong> Die Bestellung wurde abgeschlossen.");
             $("#alertOrderSuccess").toggle();
             $("#alertOrderSuccess").fadeTo(10000, 500).slideUp(500, function(){
-                $("#alertOrderSuccess").toggle();
+                $("#alertOrderSuccess").hide();
             });
-            $('#orderSuccess').empty();
 		}
 	});
 }
@@ -186,12 +192,13 @@ function reopenOrder(id){
 		type: 'POST',
 		data: {"reopenOrderID": id},
 		success: function (data) {
-			$('#orderSuccess').text("Die Bestellung wurde erneut ge&ouml;ffnet.");
+			changeSite("orders");
+			$('#orderSuccess').empty();
+			$('#orderSuccess').html("<strong>Erfolgreich!</strong> Die Bestellung wurde erneut er&ouml;ffnet.");
             $("#alertOrderSuccess").toggle();
             $("#alertOrderSuccess").fadeTo(10000, 500).slideUp(500, function(){
-                $("#alertOrderSuccess").toggle();
+                $("#alertOrderSuccess").hide();
             });
-            $('#orderSuccess').empty();
 		}
 	});
 }

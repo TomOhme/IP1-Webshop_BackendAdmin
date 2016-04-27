@@ -24,15 +24,13 @@ $soapProductGroup -> openSoap();
     <div id="content">
         <!-- Alerts -->
         <div class="alert alert-success alert-dismissible" role="alert" style="display: none;" id="alertExcelImportSuccess">
-        <span class="glyphicon glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+        <span class="glyphicon glyphicon glyphicon-ok-sign" aria-hidden="true"></span><p id="excelImportSuccess" style="display:inline;"></p>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <strong>Erfolgreich!</strong><p id="excelImportSuccess"></p>
         </div>
 
         <div class="alert alert-danger alert-dismissible" role="alert" style="display: none;" id="alertExcelImportError">
-            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><p id="excelImportError" style="display:inline;"></p>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <strong>Fehler!</strong><p id="excelImportError"></p>
         </div>
         <!-- Fertig mit Alerts -->
 
@@ -357,22 +355,23 @@ $soapProductGroup -> openSoap();
                 processData: false,
                 data: data,
                 success: function (data) {
-                    $('#excelImportSuccess').append(data['responseText']);
-                    $('#importExcel').modal('toggle');
-                    $("#alertExcelImportSuccess").alert();
-                    $("#alertExcelImportSuccess").fadeTo(10000, 500).slideUp(500, function(){
-                        $("#alertExcelImportSuccess").alert('close');
-                    });
+                    $("#importExcel").modal('toggle');
                     $('#excelImportSuccess').empty();
+                    //changeSite("products");
+                    $('#excelImportSuccess').html("<strong> Erfolgreich! </strong> Alle Produkte wurden erfolgreich importiert.");
+                    $("#alertExcelImportSuccess").toggle();
+                    $("#alertExcelImportSuccess").fadeTo(10000, 500).slideUp(500, function(){
+                        $("#alertExcelImportSuccess").hide();
+                    });
                 },
                 error: function(data){
-                    $('#excelImportError').append(data['responseText']);
-                    $('#importExcel').modal('toggle');
-                    $("#alertExcelImportSuccess").alert();
-                    $("#alertExcelImportError").fadeTo(10000, 500).slideUp(500, function(){
-                        $("#alertExcelImportError").alert('close');
-                    });
                     $('#excelImportError').empty();
+                    $("#importExcel").modal('toggle');
+                    $('#excelImportError').html("<strong> Fehler! </strong>"+data['responseText']);
+                    $("#alertExcelImportError").toggle();
+                    $("#alertExcelImportError").fadeTo(10000, 500).slideUp(500, function(){
+                        $("#alertExcelImportError").hide();
+                    });
                 }
             });
         }
