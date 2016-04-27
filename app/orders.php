@@ -54,7 +54,8 @@ $orders = $soap -> getAllOrders();
 
 								<thead class="tablebold">
 								<tr role="row">
-									<td class="sorting_asc" tabindex="0" aria-controls="data-table-sales" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Datum und Zeit: aktivieren, um Spalte absteigend zu sortieren" style="width: 300px;">Datum</td>
+									<td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Bestellnummer" style="width: 25px;">Bestellnummer</td>
+									<td class="sorting_asc" tabindex="0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Datum und Zeit: aktivieren, um Spalte absteigend zu sortieren" style="width: 300px;">Datum</td>
 									<td class="sorting" tabindex="0" aria-controls="data-table-sales" rowspan="1" colspan="1" aria-label="Käufer: aktivieren, um Spalte aufsteigend zu sortieren" style="width: 229px;">Käufer</td>
 									<td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Gesamtbetrag" style="width: 282px;">Gesamtbetrag</td>
 									<td class="sorting" tabindex="0" aria-controls="data-table-sales" rowspan="1" colspan="1" aria-label="Bestellstatus" style="width: 230px;">Bestellstatus</td>
@@ -64,7 +65,8 @@ $orders = $soap -> getAllOrders();
 								<?php
 								foreach($orders as $order){?>
 								<tr onclick="loadItem(<?php echo $order['increment_id'];?>);" role="row">
-									<td class="sorting_1"><?php echo $order['created_at']; ?></td>
+									<td><?php echo $order['increment_id']; ?></td>
+									<td><?php echo $order['created_at']; ?></td>
 									<td><?php echo $order['billing_firstname']. " " .$order['billing_lastname']; ?></td>
 									<td><?php echo $order['base_grand_total']; ?></td>
 									<td><?php echo $soap->getOrderStatus($order); ?></td>
