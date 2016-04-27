@@ -68,56 +68,56 @@ $soapProductGroup -> openSoap();
             <div class="tree well">
                 <ul>
                     <li>
-                        <span><i class="icon-folder-open"></i> Parent</span> <a href="">Goes somewhere</a>
+                        <span><i class="icon-folder-open"></i> Parent</span>
                         <ul>
                             <li>
-                                <span><i class="icon-minus-sign"></i> Child</span> <a href="">Goes somewhere</a>
+                                <span><i class="icon-minus-sign"></i> Child</span>
                                 <ul>
                                     <li>
-                                        <span><i class="icon-leaf"></i> Grand Child</span> <a href="">Goes somewhere</a>
+                                        <span><i class="icon-leaf"></i> Grand Child</span>
                                     </li>
                                 </ul>
                             </li>
                             <li>
-                                <span><i class="icon-minus-sign"></i> Child</span> <a href="">Goes somewhere</a>
+                                <span><i class="icon-minus-sign"></i> Child</span>
                                 <ul>
                                     <li>
-                                        <span><i class="icon-leaf"></i> Grand Child</span> <a href="">Goes somewhere</a>
+                                        <span><i class="icon-leaf"></i> Grand Child</span>
                                     </li>
                                     <li>
-                                        <span><i class="icon-minus-sign"></i> Grand Child</span> <a href="">Goes somewhere</a>
+                                        <span><i class="icon-minus-sign"></i> Grand Child</span>
                                         <ul>
                                             <li>
-                                                <span><i class="icon-minus-sign"></i> Great Grand Child</span> <a href="">Goes somewhere</a>
+                                                <span><i class="icon-minus-sign"></i> Great Grand Child</span>
                                                 <ul>
                                                     <li>
-                                                        <span><i class="icon-leaf"></i> Great great Grand Child</span> <a href="">Goes somewhere</a>
+                                                        <span><i class="icon-leaf"></i> Great great Grand Child</span>
                                                     </li>
                                                     <li>
-                                                        <span><i class="icon-leaf"></i> Great great Grand Child</span> <a href="">Goes somewhere</a>
+                                                        <span><i class="icon-leaf"></i> Great great Grand Child</span>
                                                     </li>
                                                 </ul>
                                             </li>
                                             <li>
-                                                <span><i class="icon-leaf"></i> Great Grand Child</span> <a href="">Goes somewhere</a>
+                                                <span><i class="icon-leaf"></i> Great Grand Child</span>
                                             </li>
                                             <li>
-                                                <span><i class="icon-leaf"></i> Great Grand Child</span> <a href="">Goes somewhere</a>
+                                                <span><i class="icon-leaf"></i> Great Grand Child</span>
                                             </li>
                                         </ul>
                                     </li>
                                     <li>
-                                        <span><i class="icon-leaf"></i> Grand Child</span> <a href="">Goes somewhere</a>
+                                        <span><i class="icon-leaf"></i> Grand Child</span>
                                     </li>
                                 </ul>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <span><i class="icon-folder-open"></i> Parent2</span> <a href="">Goes somewhere</a>
+                        <span><i class="icon-folder-open"></i> Parent2</span>
                         <ul>
                             <li>
-                                <span><i class="icon-leaf"></i> Child</span> <a href="">Goes somewhere</a>
+                                <span><i class="icon-leaf"></i> Child</span>
                             </li>
                         </ul>
                     </li>
