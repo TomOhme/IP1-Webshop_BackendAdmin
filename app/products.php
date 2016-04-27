@@ -162,12 +162,23 @@ $soapProductGroup -> openSoap();
                             <div class="col-sm-6">
                                 <?php $categories = $soapProductGroup->getTree(); ?>
                                 <select multiple="multiple" name="category" id="category" class="form-control">
-                                    <?php foreach($categories['children'] as $category) { ?>
-                                            <option value=" <?php echo $category['name']; ?> "> <?php echo $category['name']; ?> </option>
-                                            <?php foreach($category['children'] as $subCategory) { ?>
-                                                <option value=" <?php echo $subCategory['name'] ?> "> <?php echo "- ". $subCategory['name']; ?> </option>
-                                            <?php } //TODO can have more sub categories ?>
+                                    <?php
+                                    foreach($categories['children'] as $category) { ?>
+                                        <option value=" <?php echo $category['name']; ?> "> <?php echo $category['name']; ?> </option>
+                                        <?php getNextSubCategoryDropdown($category); ?>
                                     <?php } ?>
+                                    <?php
+                                    function getNextSubCategoryDropdown($category) {
+                                        if ($category['children'] != null) {
+                                            foreach ($category['children'] as $subCategory) { ?>
+                                                <option value=" <?php echo $subCategory['name']; ?> "> <?php echo "- ". $subCategory['name']; ?> </option> <!-- TODO indent sub categories -->
+                                                <?php if ($subCategory['children'] != null) {
+                                                    getNextSubCategoryDropdown($subCategory);
+                                                    ?>
+                                                <?php }
+                                            }
+                                        }
+                                    } ?>
                                 </select>
                             </div>
                         </div>
