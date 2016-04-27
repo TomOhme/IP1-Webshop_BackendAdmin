@@ -68,23 +68,26 @@ $soapProductGroup -> openSoap();
             <div class="tree well">
                 <ul>
                     <?php $categories = $soapProductGroup->getTree();
-                          foreach($categories['children'] as $category) {
-                              echo $category['name'];
-                              getNextSubCategory($category);
-                          } ?>
+                          foreach($categories['children'] as $category) { ?>
+                                <li><span><i class="icon-folder-open"></i><?php echo $category['name']; ?></span>
+                                <?php getNextSubCategory($category); ?>
+                                </li>
+                    <?php } ?>
                     <?php
                         function getNextSubCategory($category) {
                             if ($category['children'] != null) {
-                                foreach ($category['children'] as $subCategory) {
-                                    echo $subCategory['name'];
-                                    if ($subCategory['children'] != null) {
+                                foreach ($category['children'] as $subCategory) { ?>
+                                    <ul><li><span><i class="icon-minus-sign"></i> <?php echo $subCategory['name']; ?></span>
+                                    <?php if ($subCategory['children'] != null) {
                                         getNextSubCategory($subCategory);
                                     }
-                                }
+                                    ?>
+                                    </li></ul>
+                              <?php  }
                             }
                         }
                     ?>
-                    <li>
+                <!--<li> example
                         <span><i class="icon-folder-open"></i> Parent</span>
                         <ul>
                             <li>
@@ -140,7 +143,7 @@ $soapProductGroup -> openSoap();
                     </li>
                 </ul>
             </div>
-        </div>
+        </div>-->
 
     </div>
 
