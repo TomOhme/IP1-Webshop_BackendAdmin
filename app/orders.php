@@ -26,6 +26,19 @@ if(isset($_POST['closeOrderID'])){
 	echo $soap->closeOrder($_POST['closeOrderID']);
 }
 
+function formatDate($date){
+	return 	date_format(date_create($date), "d.m.Y");
+}
+
+function formatPrice($price){
+	setlocale(LC_MONETARY,"de_CH");
+	return money_format("%.2n", $price);
+}
+
+function formatAmount($amount){
+	return number_format($amount,0);
+}
+
 $orders = $soap -> getAllOrders();
 ?>
 
@@ -53,11 +66,11 @@ $orders = $soap -> getAllOrders();
 							<table class="table table-hover table-striped table-bordered dataTable no-footer" id="data-table-sales" style="width: 100%;" role="grid" aria-describedby="data-table-sales_info">
 								<thead class="tablebold">
 									<tr role="row">
-										<td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Bestellnummer" style="width: 25px;">Bestellnummer</td>
-										<td class="sorting_asc" tabindex="0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Datum und Zeit: aktivieren, um Spalte absteigend zu sortieren" style="width: 300px;">Datum</td>
-										<td class="sorting" tabindex="0" aria-controls="data-table-sales" rowspan="1" colspan="1" aria-label="Käufer: aktivieren, um Spalte aufsteigend zu sortieren" style="width: 229px;">Käufer</td>
-										<td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Gesamtbetrag" style="width: 282px;">Gesamtbetrag</td>
-										<td class="sorting" tabindex="0" aria-controls="data-table-sales" rowspan="1" colspan="1" aria-label="Bestellstatus" style="width: 230px;">Bestellstatus</td>
+										<td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Bestellnummer" style="width: 275px;">Bestellnummer</td>
+										<td class="sorting_asc" tabindex="0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Datum und Zeit: aktivieren, um Spalte absteigend zu sortieren" style="width: 250px;">Datum</td>
+										<td class="sorting" tabindex="0" aria-controls="data-table-sales" rowspan="1" colspan="1" aria-label="Käufer: aktivieren, um Spalte aufsteigend zu sortieren" style="width: 250px;">Käufer</td>
+										<td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Gesamtbetrag" style="width: 200px;">Betrag</td>
+										<td class="sorting" tabindex="0" aria-controls="data-table-sales" rowspan="1" colspan="1" aria-label="Bestellstatus" style="width: 220px;">Bestellstatus</td>
 									</tr>
 								</thead>
 								<tbody>
@@ -65,9 +78,9 @@ $orders = $soap -> getAllOrders();
 									foreach($orders as $order){?>
 									<tr onclick="loadItem(<?php echo $order['increment_id'];?>);" role="row">
 										<td><?php echo $order['increment_id']; ?></td>
-										<td><?php echo $order['created_at']; ?></td>
+										<td><?php echo formatDate($order['created_at']); ?></td>
 										<td><?php echo $order['billing_firstname']. " " .$order['billing_lastname']; ?></td>
-										<td><?php echo $order['base_grand_total']; ?></td>
+										<td><?php echo formatPrice($order['base_grand_total']); ?></td>
 										<td><?php echo $soap->getOrderStatus($order); ?></td>
 									</tr>
 								<?php
@@ -95,7 +108,7 @@ $orders = $soap -> getAllOrders();
 				<div class="panel-body">
 					<p><label style="width:70px; font-weight:normal;">Käufer:</label><label style="text-indent: 5em;"><?php echo $order['customer_firstname']. " " .$order['customer_lastname'] ?></label></p>
 					<p><label style="width:70px; font-weight:normal;">Email:</label><label style="text-indent: 5em;"><?php echo $order['customer_email']; ?></label></p>
-					<p><label style="width:70px; font-weight:normal;">Datum und Zeit:</label><label style="text-indent: 5em;"><?php echo $order['created_at']; ?></label></p>
+					<p><label style="width:70px; font-weight:normal;">Datum und Zeit:</label><label style="text-indent: 5em;"><?php echo formatDate($order['created_at']); ?></label></p>
 					<p><label style="width:70px; font-weight:normal;">Status:</label><label style="text-indent: 5em;"><?php echo $orderStatus; ?></label></p>
 					<?php
 					if($orderStatus != "Abgeschlossen" && $orderStatus != "Storniert"){
@@ -127,9 +140,9 @@ $orders = $soap -> getAllOrders();
 					?>
 						<tr>
 							<td><?php echo $item['name']; ?></td>
-							<td><?php echo $item['qty_ordered']; ?></td>
-							<td><?php echo $item['base_price']; ?></td>
-							<td><?php echo $item['base_row_total']; ?></td>
+							<td><?php echo formatAmount($item['qty_ordered']); ?></td>
+							<td><?php echo formatPrice($item['base_price']); ?></td>
+							<td><?php echo formatPrice($item['base_row_total']); ?></td>
 						</tr>
 						<?php
 					}

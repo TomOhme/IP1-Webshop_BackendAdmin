@@ -16,8 +16,10 @@ $soapProductGroup -> openSoap();
 if (isset($_POST['productId']) && $_POST['product'] == 'update') {
     $productId = isset($_POST['productId']) ? $_POST['productId'] : null;
     $product = $soapProduct->getProductByID($productId);
+    $product['price'] = formatPrice($product['price']);
     $productImg = $soapProduct->getProductImage($product['product_id']);
     $productStock = $soapProduct->getProductStock($product['product_id']);
+    $productStock[0]['qty'] = formatAmount($productStock[0]['qty']);
     //more category_ids foreach
     foreach($product['category_ids'] as $categoryId) {
         $productCategory[] = $soapProductGroup->getCategory($categoryId);
@@ -39,5 +41,18 @@ if (isset($_POST['productId']) && $_POST['product'] == 'update') {
         $product = $soapProduct->getProductByID(count($allProducts)-1); //for sku
         $soapProduct->createProduct($product['id']+1, $productData);
     }
+}
+
+function formatDate($date){
+    return  date_format(date_create($date), "d.m.Y");
+}
+
+function formatPrice($price){
+    setlocale(LC_MONETARY,"de_CH");
+    return money_format("%.2n", $price);
+}
+
+function formatAmount($amount){
+    return number_format($amount,0);
 }
 ?>

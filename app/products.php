@@ -19,6 +19,19 @@ $soapProduct = new Product();
 $soapProductGroup = new ProductGroup();
 $soapProduct -> openSoap();
 $soapProductGroup -> openSoap();
+
+function formatDate($date){
+    return  date_format(date_create($date), "d.m.Y");
+}
+
+function formatPrice($price){
+    setlocale(LC_MONETARY,"de_CH");
+    return money_format("%.2n", $price);
+}
+
+function formatAmount($amount){
+    return number_format($amount,0);
+}
 ?>
     <link rel="stylesheet" href="../css/custom.css">
     <div id="content">
@@ -90,9 +103,9 @@ $soapProductGroup -> openSoap();
                                                     }
                                                 ?>
                                             </td>
-                                            <td class="col-sm-3 hidden-xs"><img src="<?php echo $productImg[0]['url'] ?>" width="70px" class="img-thumbnail" alt="Thumbnail Image"></td>
-                                            <td><?php echo $productStock[0]['qty'] ?></td>
-                                            <td><?php echo $product['price'] ?></td>
+                                            <td class="col-sm-3 hidden-xs"><img src="<?php if(isset($productImg[0]['url'])){ echo $productImg[0]['url'];} else { echo "Kein Bild vorhanden"; } ?>" width="70px" class="img-thumbnail" alt="Thumbnail Image"></td>
+                                            <td><?php echo formatAmount($productStock[0]['qty']); ?></td>
+                                            <td><?php echo formatPrice($product['price']); ?></td>
                                             <td onclick="deleteProduct('<?php echo $product['product_id'] ?>');"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
                                         </tr>
                                         <?php
