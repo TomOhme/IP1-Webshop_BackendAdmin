@@ -77,7 +77,7 @@ $soapProductGroup -> openSoap();
                         function getNextSubCategory($category) {
                             if ($category['children'] != null) {
                                 foreach ($category['children'] as $subCategory) { ?>
-                                    <ul><li><span><i class="icon-minus-sign"></i> <?php echo $subCategory['name']; ?></span>
+                                    <ul><li><span><i class="icon-minus-sign"></i> <?php echo $subCategory['name']; ?></span> <!-- TODO icon-leaf for last element -->
                                     <?php if ($subCategory['children'] != null) {
                                         getNextSubCategory($subCategory);
                                     }
