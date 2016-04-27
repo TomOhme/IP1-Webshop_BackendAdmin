@@ -87,6 +87,8 @@ $soapProductGroup -> openSoap();
                             }
                         }
                     ?>
+                </ul>
+            </div>
                 <!--<li> example
                         <span><i class="icon-folder-open"></i> Parent</span>
                         <ul>
@@ -142,8 +144,8 @@ $soapProductGroup -> openSoap();
                         </ul>
                     </li>
                 </ul>
-            </div>
-        </div>-->
+            </div>-->
+        </div>
 
     </div>
 
