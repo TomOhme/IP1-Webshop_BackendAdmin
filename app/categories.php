@@ -23,8 +23,7 @@ $soapProductGroup -> openSoap();
         <div id="left">
             </br><br>
             <div id="content_edit" class="col-sm-7">
-                <form mehtod="post" id="create" class="form-horizontal categoryForm bv-form" novalidate="novalidate"><button type="submit" class="bv-hidden-submit" style="display: none; width: 0px; height: 0px;"></button>
-                <input type="hidden" class="form-control" id="id" name="id" value="-1">
+                <form method="post" id="createCategoryForm" class="form-horizontal" novalidate="novalidate">
                     <div class="form-group has-feedback">
                         <label class="col-sm-3 control-label">Bezeichnung</label>
                         <div class="col-sm-6">
@@ -36,17 +35,18 @@ $soapProductGroup -> openSoap();
                         <label class="col-sm-3 control-label">&Uuml;berkategorie</label>
                         <div class="col-sm-6">
                             <?php $categories = $soapProductGroup->getTree(); ?>
-                            <select name="categoryId" id="categoryId" class="form-control">
+                            <select name="category" id="category" class="form-control">
+                                <option value=""></option>
                                 <?php
                                     foreach($categories['children'] as $category) { ?>
-                                        <option value=" <?php echo $category['name']; ?> "> <?php echo $category['name']; ?> </option>
+                                        <option value="<?php echo $category['category_id']; ?>"> <?php echo $category['name']; ?> </option>
                                         <?php getNextSubCategoryDropdown($category); ?>
                                 <?php } ?>
                                 <?php
                                     function getNextSubCategoryDropdown($category) {
                                         if ($category['children'] != null) {
                                         foreach ($category['children'] as $subCategory) { ?>
-                                            <option value=" <?php echo $subCategory['name']; ?> "> <?php echo "- ". $subCategory['name']; ?> </option> <!-- TODO indent sub categories -->
+                                            <option value="<?php echo $subCategory['category_id']; ?>"> <?php echo "- ". $subCategory['name']; ?> </option> <!-- TODO indent sub categories -->
                                             <?php if ($subCategory['children'] != null) {
                                                 getNextSubCategoryDropdown($subCategory);
                                                 ?>
@@ -67,8 +67,8 @@ $soapProductGroup -> openSoap();
                     </div>
                     <div class="form-group">
                         <div class="col-sm-9 col-sm-offset-3">
-                            <button id="category_edit_save" class="btn btn-primary" role="button">Speichern</button>
-                            <button id="category_edit_cancel" class="btn btn-primary" role="button" onclick="abort();">Abbrechen</button>
+                            <button id="category_edit_save" class="btn btn-primary" role="button" onclick="categoryUpdateSave();">Speichern</button>
+                            <button id="category_delete" class="btn" role="button" onclick="categoryDelete();">L&ouml;schen</button>
                         </div>
                     </div>
                 </form>
@@ -80,7 +80,7 @@ $soapProductGroup -> openSoap();
                 <ul>
                     <?php $categories = $soapProductGroup->getTree();
                           foreach($categories['children'] as $category) { ?>
-                                <li><span><i class="icon-folder-open"></i><?php echo $category['name']; ?></span>
+                                <li><span id="<?php echo $category['category_id'];?>"><i class="icon-folder-open"></i><?php echo $category['name']; ?></span>
                                 <?php getNextSubCategory($category); ?>
                                 </li>
                     <?php } ?>
@@ -88,7 +88,7 @@ $soapProductGroup -> openSoap();
                         function getNextSubCategory($category) {
                             if ($category['children'] != null) {
                                 foreach ($category['children'] as $subCategory) { ?>
-                                    <ul><li><span><i class="icon-minus-sign"></i> <?php echo $subCategory['name']; ?></span> <!-- TODO icon-leaf for last element -->
+                                    <ul><li><span id="<?php echo $subCategory['category_id'];?>"><i class="icon-minus-sign"></i> <?php echo $subCategory['name']; ?></span> <!-- TODO icon-leaf for last element -->
                                     <?php if ($subCategory['children'] != null) {
                                         getNextSubCategory($subCategory);
                                     }
@@ -163,6 +163,53 @@ $soapProductGroup -> openSoap();
 
 
 <script type="text/javascript">
+
+    $(document).ready(function() {
+        $("#category_delete").addClass("disabled");
+    });
+
+    $("#category").change(function(){
+        if ($("#category").val() != "") {
+            $("#category_delete").removeClass("disabled").addClass("btn-danger");
+            $(".tree").find("span").css("background-color", "");
+            $(".tree span").filter(function() {
+                return ($(this).attr("id") === $("#category").val())
+            }).css('background-color', 'yellow');
+        } else {
+            $("#category_delete").removeClass("btn-danger").addClass("disabled");
+            $(".tree").find("span").css("background-color", "");
+
+        }
+    });
+
+    /*function categoryUpdateSave() {
+        var fData = $("#createCategoryForm").serialize();
+        $.ajax({
+            url : 'categories.php',
+            type: 'POST',
+            data: { productId : fData['name'],
+                    categoryUpdateSave : 'categoryUpdateSave'
+            },
+            success: function (data) {
+                //TODO reload product table and alert
+            },
+        });
+    }
+
+    function categoryDelete() {
+        var fData = $("#createCategoryForm").serialize();
+        $.ajax({
+            url : 'categories.php',
+            type: 'POST',
+            data: { productId : fData['name'],
+                    categoryDelete : 'categoryDelete'
+            },
+            success: function (data) {
+                //TODO reload product table and alert
+            },
+        });
+    }*/
+
     $(function () {
         $('.tree li:has(ul)').addClass('parent_li').find(' > span').attr('title', 'Collapse this branch');
         $('.tree li.parent_li > span').on('click', function (e) {

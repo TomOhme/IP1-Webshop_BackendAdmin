@@ -31,17 +31,13 @@ if (isset($_POST['productId']) && $_POST['product'] == 'update') {
     $soapProduct->deleteProductByID($productId);
 } else if (isset($_POST['productUpdateSave'])) {
     $productId = isset($_POST['productId']) ? $_POST['productId'] : null;
-    $title = $_POST['title'];
-    $category = $_POST['category'];
-    $description = $_POST['description'];
-    $stock = $_POST['stock'];
-    $price = $_POST['price'];
-    //picture = $_POST['picture'];
-    $productData = array($category, $title, $description, $price, $stock); //TODO other fields empty
+    $productData = array($_POST['category'], $_POST['unit'], $_POST['title'], $_POST['description'], $_POST['price'], $_POST['stock']); //TODO $_POST['picture']
     if ($productId != null) {
         $soapProduct->updateProductByID($productId, $productData);
     } else {
-        $soapProduct->createProduct(9999999, $productData); //TODO new id - ongoing primary key id
+        $allProducts = $soapProduct->getAllProducts(); //for sku
+        $product = $soapProduct->getProductByID(count($allProducts)-1); //for sku
+        $soapProduct->createProduct($product['id']+1, $productData);
     }
 }
 ?>

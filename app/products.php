@@ -61,7 +61,6 @@ $soapProductGroup -> openSoap();
                                         <td class="col-sm-3 hidden-xs sorting_disabled" rowspan="1" colspan="1" aria-label="Bild" style="width: 200px;">Bild</td>
                                         <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Bestand" style="width: 150px;">Bestand</td>
                                         <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Preis" style="width: 100px;">Preis</td>
-                                        <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Rabatt" style="width: 100px;">Rabatt</td>
                                         <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Löschen" style="width: 100px;">L&ouml;schen</td>
                                     </tr>
                                 </thead>
@@ -94,7 +93,6 @@ $soapProductGroup -> openSoap();
                                             <td class="col-sm-3 hidden-xs"><img src="<?php echo $productImg[0]['url'] ?>" width="70px" class="img-thumbnail" alt="Thumbnail Image"></td>
                                             <td><?php echo $productStock[0]['qty'] ?></td>
                                             <td><?php echo $product['price'] ?></td>
-                                            <td></td>
                                             <td onclick="deleteProduct('<?php echo $product['product_id'] ?>');"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
                                         </tr>
                                         <?php
@@ -144,7 +142,7 @@ $soapProductGroup -> openSoap();
                             </div>
                         </div>
                     </div>
-                    <form mehtod="post" id="productForm" class="form-horizontal registerForm bv-form" novalidate="novalidate"><button type="submit" class="bv-hidden-submit" style="display: none; width: 0px; height: 0px;"></button>
+                    <form method="post" id="productForm" class="form-horizontal registerForm bv-form" novalidate="novalidate"><button type="submit" class="bv-hidden-submit" style="display: none; width: 0px; height: 0px;"></button>
                         <input type="hidden" class="form-control" id="sku" name="sku" value="-1">
                         <!-- Titel Input -->
                         <div class="form-group has-feedback">
@@ -162,14 +160,14 @@ $soapProductGroup -> openSoap();
                                 <select multiple="multiple" name="category" id="category" class="form-control">
                                     <?php
                                     foreach($categories['children'] as $category) { ?>
-                                        <option value=" <?php echo $category['name']; ?> "> <?php echo $category['name']; ?> </option>
+                                        <option value="<?php echo $category['name']; ?>"> <?php echo $category['name']; ?> </option>
                                         <?php getNextSubCategoryDropdown($category); ?>
                                     <?php } ?>
                                     <?php
                                     function getNextSubCategoryDropdown($category) {
                                         if ($category['children'] != null) {
                                             foreach ($category['children'] as $subCategory) { ?>
-                                                <option value=" <?php echo $subCategory['name']; ?> "> <?php echo "- ". $subCategory['name']; ?> </option> <!-- TODO indent sub categories -->
+                                                <option value="<?php echo $subCategory['name']; ?>"> <?php echo "- ". $subCategory['name']; ?> </option> <!-- TODO indent sub categories -->
                                                 <?php if ($subCategory['children'] != null) {
                                                     getNextSubCategoryDropdown($subCategory);
                                                     ?>
@@ -186,15 +184,26 @@ $soapProductGroup -> openSoap();
                             <label class="col-sm-3 control-label">Beschreibung</label>
                             <div class="col-sm-6">
                                 <textarea id="article_update_description" class="form-control" rows="5" name="description" placeholder="Beschreibung" data-bv-field="description"></textarea><i class="form-control-feedback" data-bv-icon-for="description" style="display: none;"></i>
-                                <small class="help-block" data-bv-validator="stringLength" data-bv-for="description" data-bv-result="NOT_VALIDATED" style="display: none;">Beschreibung darf nicht länger als 250 Zeichen sein</small></div>
+                                <small class="help-block" data-bv-validator="stringLength" data-bv-for="description" data-bv-result="NOT_VALIDATED" style="display: none;">Beschreibung darf nicht länger als 250 Zeichen sein</small>
+                            </div>
                         </div>
 
                         <!-- Anzahl Input -->
                         <div class="form-group has-feedback">
-                            <label class="col-sm-3 control-label">Anzahl</label>
-                            <div class="col-sm-6">
+                            <label class="col-sm-3 control-label">Anzahl / Einheit</label>
+                            <div class="col-sm-3">
                                 <input id="article_update_amount" type="text" class="form-control" name="stock" value="" placeholder="Anzahl" data-bv-field="stock"><i class="form-control-feedback" data-bv-icon-for="stock" style="display: none;"></i>
-                                <small class="help-block" data-bv-validator="notEmpty" data-bv-for="stock" data-bv-result="NOT_VALIDATED" style="display: none;">Bitte Anzahl angeben</small><small class="help-block" data-bv-validator="digits" data-bv-for="stock" data-bv-result="NOT_VALIDATED" style="display: none;">Anzahl kann nur Zahlen enthalten</small></div>
+                                <small class="help-block" data-bv-validator="notEmpty" data-bv-for="stock" data-bv-result="NOT_VALIDATED" style="display: none;">Bitte Anzahl angeben</small><small class="help-block" data-bv-validator="digits" data-bv-for="stock" data-bv-result="NOT_VALIDATED" style="display: none;">Anzahl kann nur Zahlen enthalten</small>
+                            </div>
+                            <!-- Einheit Input -->
+                            <div class="col-sm-3">
+                                <select name="unit" id="unit" class="form-control">
+                                    <option value="Stueck">St&uuml;ck</option>
+                                    <option value="Liter">Liter</option>
+                                    <option value="Gramm">Gramm</option>
+                                    <option value="Kilogramm">Kilogramm</option>
+                                </select>
+                            </div>
                         </div>
 
                         <!-- Preis Input -->
@@ -202,7 +211,8 @@ $soapProductGroup -> openSoap();
                             <label class="col-sm-3 control-label">Preis</label>
                             <div class="col-sm-6">
                                 <input id="article_update_price" type="text" class="form-control" name="price" value="" placeholder="Preis" data-bv-field="price"><i class="form-control-feedback" data-bv-icon-for="price" style="display: none;"></i>
-                                <small class="help-block" data-bv-validator="notEmpty" data-bv-for="price" data-bv-result="NOT_VALIDATED" style="display: none;">Bitte Preis angeben</small><small class="help-block" data-bv-validator="regexp" data-bv-for="price" data-bv-result="NOT_VALIDATED" style="display: none;">Preis kann nur Zahlen enthalten</small></div>
+                                <small class="help-block" data-bv-validator="notEmpty" data-bv-for="price" data-bv-result="NOT_VALIDATED" style="display: none;">Bitte Preis angeben</small><small class="help-block" data-bv-validator="regexp" data-bv-for="price" data-bv-result="NOT_VALIDATED" style="display: none;">Preis kann nur Zahlen enthalten</small>
+                            </div>
                         </div>
 
                         <!-- Hidden inputs -->
@@ -293,7 +303,7 @@ $soapProductGroup -> openSoap();
                     });*/
                     //set current product categories selected
                     $.each(json.updateCategory, function (i, item) {
-                        $("#category").multiSelect('select', item.text); //TODO
+                        $("#category").multiSelect('select', item.name); //TODO
                     });
                     //$("#category").val(json.updateCategory.name);
                     $("#article_update_description").val(json.updateProduct.description);
