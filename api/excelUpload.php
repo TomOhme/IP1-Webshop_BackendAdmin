@@ -6,6 +6,19 @@
  */
 include("ProductGroup.php");
 include("product.php");
+include("../vendor/autoload.php");
+
+class SampleReadFilter implements PHPExcel_Reader_IReadFilter {
+    public function readCell($column, $row, $worksheetName = '') {
+        // Read afte 1st row and columns A to F only
+        if ($row >= 1) {
+           if (in_array($column,range('A','F'))) {
+             return true;
+           }
+        }
+        return false;
+    }
+}
 
 $prodGrpAPI = new Productgroup();
 $prodGrpAPI -> openSoap();
@@ -15,11 +28,10 @@ $prodAPI -> openSoap();
 //import handle
 if (isset($_FILES['file-0'])) {
     //check if file has the correct ending
-    $allowedExts = array("csv");
+    $allowedExts = array("xlsx");
     $temp        = explode(".", $_FILES["file-0"]["name"]);
     $extension   = end($temp);
-    if (($_FILES["file-0"]["type"] == "text/csv")
-        && ($_FILES["file-0"]["size"] < 10000) //file site maximum: 10000 kb
+    if (($_FILES["file-0"]["type"] == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
         && in_array($extension, $allowedExts)) {
         //Store the file or print an error if validation failed
         if ($_FILES["file-0"]["error"] > 0) {
@@ -33,25 +45,25 @@ if (isset($_FILES['file-0'])) {
                 move_uploaded_file($_FILES["file-0"]["tmp_name"], "upload/" . $_FILES["file-0"]["name"]);
             }
 
-            $products = array();
-            $handle = fopen("upload/" . $_FILES["file-0"]["name"], 'r');
+            //Prepare Excel File
+            $filename = ("./upload/" . $_FILES["file-0"]["name"]);
+            $excelReader = PHPExcel_IOFactory::createReaderForFile($filename);
+            $excelReader->setReadDataOnly();
+            $excelReader->setReadFilter(new SampleReadFilter());
 
-            // convert data to utf-8 and store them in an array
-            while (($line = fgetcsv($handle,0,";")) !== FALSE) {
-                //convert string to utf-8
-                foreach(array_keys($line) as $key){
-                    $line[$key] = iconv('windows-1252','UTF-8', $line[$key]);
-                }
-                array_push($products, $line);
-			}
-            $valid = validateData($products, $prodAPI, $prodGrpAPI);
+            $loadSheets = array('Import');
+            $excelReader->setLoadSheetsOnly($loadSheets);
+            $excelObj = $excelReader->load($filename);
+            $excelArray = $excelObj->getActiveSheet()->toArray(null, true,true,true);
+
+            //Validate excel file and upload data
+            $valid = validateData($excelArray, $prodAPI, $prodGrpAPI);
             if($valid !== true){
                 unlink('upload/' . $_FILES['file-0']['name']);
                 http_response_code(403);
                 echo $valid;
             } else{
-                uploadData($products, $prodAPI, $prodGrpAPI);    
-                fclose($handle);
+                uploadData($excelArray, $prodAPI, $prodGrpAPI);    
                 echo "Alle Produkte wurden erfolgreich importiert!";
                 unlink('upload/' . $_FILES['file-0']['name']);
             }
@@ -69,13 +81,13 @@ if (isset($_FILES['file-0'])) {
 */
 function validateData($products, $prodAPI, $prodGrpAPI){
     $valid = false;
-    for($i = 1; $i < count($products); $i++){
-        $name = $products[$i][0];
-        $description = $products[$i][1];
-        $unit = $products[$i][2];
-        $price = $products[$i][3];
-        $amount = $products[$i][4];
-        $categories = $products[$i][5];
+    for($i = 2; $i < count($products)+1; $i++){
+        $name = $products[$i]["A"];
+        $description = $products[$i]["B"];
+        $unit = $products[$i]["C"];
+        $price = $products[$i]["D"];
+        $amount = $products[$i]["E"];
+        $categories = $products[$i]["F"];
 
         //validate name:
         $valid = preg_match("/^[a-zA-ZäöüÄÖÜ ]+$/", $name);
@@ -126,13 +138,13 @@ function validateData($products, $prodAPI, $prodGrpAPI){
 function uploadData($products, $prodAPI, $prodGrpAPI){
     $magentoProducts = $prodAPI -> getAllProducts();
     $sku = $magentoProducts[count($magentoProducts) -1]['sku'];
-    for($i = 1; $i < count($products); $i++){
-        $name = $products[$i][0];
-        $description = $products[$i][1];
-        $unit = $products[$i][2];
-        $price = $products[$i][3];
-        $amount = $products[$i][4];
-        $categories = $products[$i][5];
+    for($i = 2; $i < count($products)+1; $i++){
+        $name = $products[$i]["A"];
+        $description = $products[$i]["B"];
+        $unit = $products[$i]["C"];
+        $price = $products[$i]["D"];
+        $amount = $products[$i]["E"];
+        $categories = $products[$i]["F"];
         $categories = explode(",", $categories);
         array_walk($categories, 'trim_value');
         $attributeSet = $prodAPI -> createCatalogProductEntity($categories,$unit, $name, $description, $price, $amount);

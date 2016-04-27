@@ -218,7 +218,7 @@ $soapProductGroup -> openSoap();
                 </div>
                 <div class="modal-body">
                     <ol>
-                        <li>Laden Sie die Excel Vorlage hier herunter <a href="Import.csv" download="Beispiel-Import.csv" class="btn btn-primary btn-xs active" role="button">Excel Download</a></li>
+                        <li>Laden Sie die Excel Vorlage hier herunter <a href="Import.xlsx" download="Beispiel-Import.xlsx" class="btn btn-primary btn-xs active" role="button">Excel Download</a></li>
                         <li>F&uuml;llen Sie die Vorlage mit Ihren Produkten, l&ouml;schen Sie keine Elemente aus der Vorlage heraus!</li>
                         <li>Laden Sie die Datei wie &uuml;ber die Funktion unten hoch, Ihre Produkte werden automatisch eingef&uuml;gt.</li>
                     </ol>
@@ -226,7 +226,7 @@ $soapProductGroup -> openSoap();
                     <form id="excelUpload" role="form" method="post" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="ProductFile">Dateiimport</label>
-                            <input type="file" id="ProductFile" name="file" accept=".csv">
+                            <input type="file" id="ProductFile" name="file" accept=".xlsx">
                             <p class="help-block">Die Excel Datei mit den Eingetragenen Produkten ausw&auml;hlen.</p>
                         </div>
                     </div>
