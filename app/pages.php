@@ -29,7 +29,7 @@ if ($page == 'articles') {
 </div>
 <script type="text/javascript">
 
-    //changeSite("articles");
+    //changeSite("articles"); TODO
 
     function changeSite(page) {
         $("#content").empty();

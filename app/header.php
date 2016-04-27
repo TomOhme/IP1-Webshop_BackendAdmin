@@ -24,9 +24,8 @@
     <link rel="stylesheet" href="../css/dataTables.bootstrap.css">
     <link rel="stylesheet" href="../css/bootstrapValidator.css">
     <link rel="stylesheet" href="../css/bootstrap-colorpicker.min.css">
-    <link rel="stylesheet" href="../css/custom.css">
-    <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/multi-select.css">
+    <link rel="stylesheet" href="../css/style.css">
     <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon">
     <link rel="icon" href="../img/favicon.ico" type="image/x-icon">
     <script src="../js/jquery-2.2.2.min.js"></script>

@@ -20,6 +20,7 @@ $soapProductGroup = new ProductGroup();
 $soapProduct -> openSoap();
 $soapProductGroup -> openSoap();
 ?>
+    <link rel="stylesheet" href="../css/custom.css">
     <div id="content">
         <!-- Alerts -->
         <div class="alert alert-success alert-dismissible" role="alert" style="display: none;" id="alertExcelImportSuccess">
@@ -161,12 +162,23 @@ $soapProductGroup -> openSoap();
                             <div class="col-sm-6">
                                 <?php $categories = $soapProductGroup->getTree(); ?>
                                 <select multiple="multiple" name="category" id="category" class="form-control">
-                                    <?php foreach($categories['children'] as $category) { ?>
-                                            <option value=" <?php echo $category['name']; ?> "> <?php echo $category['name']; ?> </option>
-                                            <?php foreach($category['children'] as $subCategory) { ?>
-                                                <option value=" <?php echo $subCategory['name'] ?> "> <?php echo "- ". $subCategory['name']; ?> </option>
-                                            <?php } //TODO can have more sub categories ?>
+                                    <?php
+                                    foreach($categories['children'] as $category) { ?>
+                                        <option value=" <?php echo $category['name']; ?> "> <?php echo $category['name']; ?> </option>
+                                        <?php getNextSubCategoryDropdown($category); ?>
                                     <?php } ?>
+                                    <?php
+                                    function getNextSubCategoryDropdown($category) {
+                                        if ($category['children'] != null) {
+                                            foreach ($category['children'] as $subCategory) { ?>
+                                                <option value=" <?php echo $subCategory['name']; ?> "> <?php echo "- ". $subCategory['name']; ?> </option> <!-- TODO indent sub categories -->
+                                                <?php if ($subCategory['children'] != null) {
+                                                    getNextSubCategoryDropdown($subCategory);
+                                                    ?>
+                                                <?php }
+                                            }
+                                        }
+                                    } ?>
                                 </select>
                             </div>
                         </div>
@@ -201,7 +213,7 @@ $soapProductGroup -> openSoap();
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" name="productUpdateSave">Speichern</button><!--onclick="productUpdateSave();"-->
+                    <button type="button" class="btn btn-primary" name="productUpdateSave" onclick="productUpdateSave();">Speichern</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
                 </div>
             </div>
@@ -294,25 +306,19 @@ $soapProductGroup -> openSoap();
             });
         }
 
-        $('#productForm').on('submit', function(e) {
-            e.preventDefault();
+        function productUpdateSave() {
+            var fData = $("#productForm").serialize();
             $.ajax({
                 url : 'updateProduct.php',
-                type: 'GET',
-                data: $(this).serialize(),
+                type: 'POST',
+                data: { productId : fData['productId'],
+                        productUpdateSave : 'productUpdateSave'
+                },
                 success: function (data) {
-                    //TODO
+                    //TODO reload product table and alert
                 },
             });
-        });
-        /*function productUpdateSave() { //params
-            $.ajax({
-                url: 'updateProduct.php',
-                type: 'POST',
-                data: { values : values },
-                //wenn noch keine Id -> create sonst update product
-            });
-        }*/
+        }
 
         function deleteProduct(productId) {
             $.ajax({
@@ -322,7 +328,7 @@ $soapProductGroup -> openSoap();
                         product : 'delete'
                 },
                 success: function(result) {
-                    //TODO reload product table and alert
+                   //TODO reload product table and alert
                 }
             });
         }
