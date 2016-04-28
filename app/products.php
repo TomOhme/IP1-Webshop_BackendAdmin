@@ -78,6 +78,7 @@ function formatAmount($amount){
                                         <td class="col-sm-3 hidden-xs sorting_disabled" rowspan="1" colspan="1" aria-label="Bild" style="width: 200px;">Bild</td>
                                         <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Bestand" style="width: 150px;">Bestand</td>
                                         <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Preis" style="width: 100px;">Preis</td>
+                                        <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Rabatt" style="width: 250px;">Rabatt</td>
                                         <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Löschen" style="width: 100px;">L&ouml;schen</td>
                                     </tr>
                                 </thead>
@@ -89,6 +90,7 @@ function formatAmount($amount){
                                     foreach ($products as $product) {
                                         $productImg = $soapProduct -> getProductImage($product['product_id']);
                                         $productStock = $soapProduct -> getProductStock($product['product_id']);
+                                        $productDiscount = $soapProduct -> getDiscount($product['product_id']);
                                         ?>
                                         <tr onclick="loadItem('updateProduct', '<?php echo $product['product_id'] ?>');" role="row" class="odd"><!--odd/even default -->
                                             <td class='sorting_1'><?php echo $i ?></td>
@@ -104,12 +106,14 @@ function formatAmount($amount){
                                                         } else {
                                                             echo $productGroup['name'];
                                                         }
+                      
                                                     }
                                                 ?>
                                             </td>
                                             <td class="col-sm-3 hidden-xs"><img src="<?php if(isset($productImg[0]['url'])){ echo $productImg[0]['url'];} else { echo "Kein Bild vorhanden"; } ?>" width="70px" class="img-thumbnail" alt="Thumbnail Image"></td>
                                             <td><?php echo formatAmount($productStock[0]['qty']); ?></td>
                                             <td><?php echo formatPrice($product['price']); ?></td>
+                                            <td><?php echo $productDiscount; ?></td>
                                             <td onclick="deleteProduct('<?php echo $product['product_id'] ?>');"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
                                         </tr>
                                         <?php
