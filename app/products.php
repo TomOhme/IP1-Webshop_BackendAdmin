@@ -285,7 +285,6 @@ function formatAmount($amount){
         function loadItem(page, productId) {
             clearModalFields();
             if (page == 'createProduct') {
-                //ajax call -> read All Categories
                 $("#productModal").modal('toggle');
             } else if (page == 'updateProduct') {
                 updateProduct(productId);
@@ -361,7 +360,7 @@ function formatAmount($amount){
         function clearModalFields() {
             //TODO clear Picture and categories
             $("#article_update_title").val('');
-            $('#category').empty();
+            $('#category').multiSelect('deselect_all');
             $('#article_update_description').val('');
             $("#article_update_amount").val('');
             $("#article_update_price").val('');
