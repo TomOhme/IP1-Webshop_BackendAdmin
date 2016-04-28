@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="../css/dataTables.bootstrap.css">
     <link rel="stylesheet" href="../css/bootstrapValidator.css">
     <link rel="stylesheet" href="../css/bootstrap-colorpicker.min.css">
+    <link rel="stylesheet" href="../css/bootstrap-datetimepicker.min.css">
     <link rel="stylesheet" href="../css/multi-select.css">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon">
@@ -32,6 +33,10 @@
     <script src="../js/jquery.dataTables.js"></script>
     <script src="../js/dataTables.bootstrap.js"></script>
     <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/collapse.js"></script>
+    <script src="../js/transition.js"></script>
+    <script src="../js/moment.js"></script>
+    <script src="../js/bootstrap-datetimepicker.min.js"></script>
     <script src="../js/notify.min.js"></script>
     <script src="../js/dropzone.js"></script>
     <script src="../js/bootstrapValidator.min.js"></script>

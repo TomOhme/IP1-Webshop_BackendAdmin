@@ -13,10 +13,13 @@ $soapProduct = new Product();
 $soapProduct -> openSoap();
 $soapProductGroup = new Productgroup();
 $soapProductGroup -> openSoap();
-if (isset($_POST['productId']) && $_POST['product'] == 'update') {
+if (isset($_POST['productId']) && $_POST['product'] == 'loadProduct') {
     $productId = isset($_POST['productId']) ? $_POST['productId'] : null;
     $product = $soapProduct->getProductByID($productId);
     $product['price'] = formatPrice($product['price']);
+    if ($product['special_price'] != null) {
+        $product['special_price'] = formatPrice($product['special_price']);
+    }
     $productImg = $soapProduct->getProductImage($product['product_id']);
     $productStock = $soapProduct->getProductStock($product['product_id']);
     $productStock[0]['qty'] = formatAmount($productStock[0]['qty']);
@@ -33,7 +36,7 @@ if (isset($_POST['productId']) && $_POST['product'] == 'update') {
     $soapProduct->deleteProductByID($productId);
 } else if (isset($_POST['productUpdateSave'])) {
     $productId = isset($_POST['productId']) ? $_POST['productId'] : null;
-    $productData = array($_POST['category'], $_POST['unit'], $_POST['title'], $_POST['description'], $_POST['price'], $_POST['stock']); //TODO $_POST['picture']
+    $productData = array($_POST['category'], $_POST['unit'], $_POST['title'], $_POST['description'], $_POST['price'], $_POST['stock']); //TODO $_POST['picture'] and special Price Date From To
     if ($productId != null) {
         $soapProduct->updateProductByID($productId, $productData);
     } else {

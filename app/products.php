@@ -77,8 +77,8 @@ function formatAmount($amount){
                                         <td class="col-sm-3 hidden-xs sorting" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Kategorie: aktivieren, um Spalte aufsteigend zu sortieren" style="width: 330px;">Kategorie</td>
                                         <td class="col-sm-3 hidden-xs sorting_disabled" rowspan="1" colspan="1" aria-label="Bild" style="width: 200px;">Bild</td>
                                         <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Bestand" style="width: 150px;">Bestand</td>
-                                        <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Preis" style="width: 100px;">Preis</td>
-                                        <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Rabatt" style="width: 250px;">Rabatt</td>
+                                        <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Preis" style="width: 250px;">Preis</td>
+                                        <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Rabatt" style="width: 100px;">Rabatt</td>
                                         <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Löschen" style="width: 100px;">L&ouml;schen</td>
                                     </tr>
                                 </thead>
@@ -88,6 +88,7 @@ function formatAmount($amount){
                                     $products = $soapProduct -> getAllProducts();
                                     $i = 1;
                                     foreach ($products as $product) {
+                                        $product = $soapProduct -> getProductByID($product['product_id']);
                                         $productImg = $soapProduct -> getProductImage($product['product_id']);
                                         $productStock = $soapProduct -> getProductStock($product['product_id']);
                                         $productDiscount = $soapProduct -> getDiscount($product['product_id']);
@@ -112,7 +113,7 @@ function formatAmount($amount){
                                             </td>
                                             <td class="col-sm-3 hidden-xs"><img src="<?php if(isset($productImg[0]['url'])){ echo $productImg[0]['url'];} else { echo "Kein Bild vorhanden"; } ?>" width="70px" class="img-thumbnail" alt="Thumbnail Image"></td>
                                             <td><?php echo formatAmount($productStock[0]['qty']); ?></td>
-                                            <td><?php echo formatPrice($product['price']); ?></td>
+                                            <td><?php if ($product['special_price'] != null) { ?> <p style="text-decoration: line-through;"> <?php echo formatPrice($product['price']); ?> </p> <?php echo formatPrice($product['special_price']); ?>  <?php } else { ?>  <?php echo formatPrice($product['price']); } ?> </td>
                                             <td><?php echo $productDiscount; ?></td>
                                             <td onclick="deleteProduct('<?php echo $product['product_id'] ?>');"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
                                         </tr>
@@ -236,6 +237,38 @@ function formatAmount($amount){
                             </div>
                         </div>
 
+                        <!-- Spezial Preis Input -->
+                        <div class="form-group has-feedback">
+                            <label class="col-sm-3 control-label">Spezial Preis</label>
+                            <div class="col-sm-6">
+                                <input id="article_update_specialPrice" type="text" class="form-control" name="specialPrice" value="" placeholder="Spezial Preis" data-bv-field="price"><i class="form-control-feedback" data-bv-icon-for="price" style="display: none;"></i>
+                                <small class="help-block" data-bv-validator="notEmpty" data-bv-for="specialPrice" data-bv-result="NOT_VALIDATED" style="display: none;">Bitte Spezial Preis angeben</small><small class="help-block" data-bv-validator="regexp" data-bv-for="specialPrice" data-bv-result="NOT_VALIDATED" style="display: none;">Spezial Preis kann nur Zahlen enthalten</small>
+                            </div>
+                        </div>
+                        <div class="form-group has-feedback">
+                            <label class="col-sm-3 control-label"></label>
+                            <div class='col-md-4'>
+                                <div class="form-group">
+                                    <div class='input-group date' id='datetimepickerFrom'>
+                                        <input id="article_update_specialFromDate" name="specialFromDate" type='text' value='' class="form-control" placeholder="Von"/>
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='col-md-4'>
+                                <div class="form-group">
+                                    <div class='input-group date' id='datetimepickerTo'>
+                                        <input id="article_update_specialToDate" name="specialFromTo" type='text' value='' class="form-control" placeholder="Bis"/>
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Hidden inputs -->
                         <input type="hidden" id="productId" name="productId" value="">
                     </form>
@@ -286,9 +319,19 @@ function formatAmount($amount){
 
         $("#picture").dropzone({ url: "/file/post" }); //http://www.dropzonejs.com/#usage
 
+        $(function () {
+            $('#datetimepickerFrom').datetimepicker(); //https://eonasdan.github.io/bootstrap-datetimepicker/Installing/#manual
+            $('#datetimepickerTo').datetimepicker();
+        });
+
+        $('#article_update_specialPrice').on('input', function() {
+            checkSpecialPrice();
+        });
+
         function loadItem(page, productId) {
             clearModalFields();
             if (page == 'createProduct') {
+                checkSpecialPrice();
                 $("#productModal").modal('toggle');
             } else if (page == 'updateProduct') {
                 updateProduct(productId);
@@ -300,7 +343,7 @@ function formatAmount($amount){
                 url: 'updateProduct.php',
                 type: 'POST',
                 data: { productId : productId,
-                        product : 'update'
+                        product : 'loadProduct'
                 },
                 success: function(result) {
                     var data = result;
@@ -329,6 +372,10 @@ function formatAmount($amount){
                     $("#article_update_description").val(json.updateProduct.description);
                     $("#article_update_amount").val(json.updateStock[0].qty);
                     $("#article_update_price").val(json.updateProduct.price);
+                    $("#article_update_specialPrice").val(json.updateProduct['special_price']);
+                    checkSpecialPrice();
+                    $("#article_update_specialFromDate").val(json.updateProduct['special_from_date']);
+                    $("#article_update_specialToDate").val(json.updateProduct['special_to_date']);
                     $("#productModal").modal('toggle');
                 }
             });
@@ -362,12 +409,33 @@ function formatAmount($amount){
         }
 
         function clearModalFields() {
-            //TODO clear Picture and categories
+            //TODO clear Picture
             $("#article_update_title").val('');
             $('#category').multiSelect('deselect_all');
             $('#article_update_description').val('');
             $("#article_update_amount").val('');
             $("#article_update_price").val('');
+            $("#article_update_specialPrice").val('');
+            $("#article_update_specialFromDate").val('');
+            $("#article_update_specialToDate").val('');
+        }
+
+        function showDatetimepicker() {
+            $('#datetimepickerFrom').show();
+            $('#datetimepickerTo').show();
+        }
+
+        function hideDatetimepicker() {
+            $('#datetimepickerFrom').hide();
+            $('#datetimepickerTo').hide();
+        }
+
+        function checkSpecialPrice() {
+            if($("#article_update_specialPrice").val() !== "") {
+                showDatetimepicker();
+            } else {
+                hideDatetimepicker();
+            }
         }
 
         //TODO js function for required fields
@@ -407,6 +475,7 @@ function formatAmount($amount){
         }
 
         $(document).ready(function() {
+
             $('#data-table').DataTable({
                 "language": {
                     "sEmptyTable":      "Keine Daten in der Tabelle vorhanden",
