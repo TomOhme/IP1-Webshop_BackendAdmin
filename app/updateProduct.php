@@ -49,7 +49,11 @@ function formatDate($date){
 
 function formatPrice($price){
     setlocale(LC_MONETARY,"de_CH");
-    return money_format("%.2n", $price);
+    if(function_exists('money_format')){
+        return money_format("%.2n", $price);
+    } else {
+        return "Fr. ". sprintf('%01.2f', $price);
+    }
 }
 
 function formatAmount($amount){
