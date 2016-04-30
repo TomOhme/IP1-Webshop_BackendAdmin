@@ -16,6 +16,12 @@ if(!isset($_SESSION['username'])) {
 $soap = new Settings();
 $soap -> openSoap();
 
+$myColor = "";
+
+$myFile = fopen("color.txt", "r") or die();
+$myColor = fgets($myFile);
+fclose($myFile);
+
 if(isset($_POST["submit"]))
 {
     $img = array_filter($_FILES["uploadImgBtn"]);
@@ -48,30 +54,21 @@ if(isset($_POST["submit"]))
         if ($uploadOk == 0) {
             $errorMsg .= "Bild wurde nicht hochgeladen";
 
-            echo '<script language="javascript">';
-            echo 'alert(' . $errorMsg . ')';
-            echo '</script>';
-
         } else {
             foreach (glob("../../skin/frontend/webshop/default/images/logo_bh.png") as $file) {
                 unlink($file);
             }
 
-            echo '<script language="javascript">';
-            echo 'alert("logo removed")';
-            echo '</script>';
-
             move_uploaded_file($_FILES["uploadImgBtn"]["tmp_name"], "../../skin/frontend/webshop/default/images/logo_bh.png");
-
-            echo '<script language="javascript">';
-            echo 'alert("neues Logo gespeichert")';
-            echo '</script>';
         }
     }
 
     $color = $_POST["color"];
     $destCss = "../../skin/frontend/webshop/default/css/webshop.css";
 
+    $myFile = fopen("color.txt", "w") or die();
+    fwrite($myFile, $color);
+    fclose($myFile);
 
     if($color == "blue")
     {
@@ -80,10 +77,6 @@ if(isset($_POST["submit"]))
         unlink($destCss);
 
         copy($targetCss, $destCss);
-
-        echo '<script language="javascript">';
-        echo 'alert("Copied blue css")';
-        echo '</script>';
     }
     else if($color == "red")
     {
@@ -92,10 +85,6 @@ if(isset($_POST["submit"]))
         unlink($destCss);
 
         copy($targetCss, $destCss);
-
-        echo '<script language="javascript">';
-        echo 'alert("Copied red css")';
-        echo '</script>';
     }
     else if($color == "green")
     {
@@ -104,10 +93,6 @@ if(isset($_POST["submit"]))
         unlink($destCss);
 
         copy($targetCss, $destCss);
-
-        echo '<script language="javascript">';
-        echo 'alert("Copied green css")';
-        echo '</script>';
     }
     else if($color == "beige")
     {
@@ -116,10 +101,6 @@ if(isset($_POST["submit"]))
         unlink($destCss);
 
         copy($targetCss, $destCss);
-
-        echo '<script language="javascript">';
-        echo 'alert("Copied beige css")';
-        echo '</script>';
     }
     else if($color == "gray")
     {
@@ -128,10 +109,6 @@ if(isset($_POST["submit"]))
         unlink($destCss);
 
         copy($targetCss, $destCss);
-
-        echo '<script language="javascript">';
-        echo 'alert("Copied gray css")';
-        echo '</script>';
     }
 
     foreach (glob("../../var/cache/*", GLOB_ONLYDIR) as $dir)
@@ -144,102 +121,144 @@ if(isset($_POST["submit"]))
         rmdir($dir);
     }
 
-    echo '<script language="javascript">';
-    echo 'alert("Cleared cache")';
-    echo '</script>';
+    if($uploadOk == 0) {
+        ?>
+
+        <script type="text/javascript">
+            function () {
+                $("#importExcel").modal('toggle');
+                $('#excelImportSuccess').empty();
+                //changeSite("products");
+                $('#excelImportSuccess').html("<strong> Erfolgreich! </strong> Einstellungen übernommen!");
+                $("#alertExcelImportSuccess").toggle();
+                $("#alertExcelImportSuccess").fadeTo(10000, 500).slideUp(500, function () {
+                    $("#alertExcelImportSuccess").hide();
+                });
+            }
+        </script>
+        <?php
+    }
+    else
+    {
+        ?>
+        <script type="text/javascript">
+            function () {
+                $('#excelImportError').empty();
+                $("#importExcel").modal('toggle');
+                $('#excelImportError').html("<strong> Fehler! </strong><?php $errorMsg ?> ");
+                $("#alertExcelImportError").toggle();
+                $("#alertExcelImportError").fadeTo(10000, 500).slideUp(500, function () {
+                    $("#alertExcelImportError").hide();
+                });
+            }
+        </script>
+    <?php
+    }
+
 }
 
 ?>
 
 <div id="content" style="padding-left:50px; padding-right:50px;">
+    <!-- Alerts -->
+    <div class="alert alert-success alert-dismissible" role="alert" style="display: none;" id="alertExcelImportSuccess">
+        <span class="glyphicon glyphicon glyphicon-ok-sign" aria-hidden="true"></span><p id="excelImportSuccess" style="display:inline;"></p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    </div>
+
+    <div class="alert alert-danger alert-dismissible" role="alert" style="display: none;" id="alertExcelImportError">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><p id="excelImportError" style="display:inline;"></p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    </div>
+
     <div class="row">
-        <table>
-            <td style="width: 800px;">
-                <label class="col-sm-3 control-label">Shopname</label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="title" placeholder="Webshop Name" value="Mein Bauernhof">
-                </div>
-                <label class="col-sm-3 control-label">Name</label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="name" placeholder="Max Mustermann" value="Max Mustermann">
-                </div>
-                <label class="col-sm-3 control-label">Strasse</label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="street" placeholder="Musterstrasse 1" value="Musterstrasse 1">
-                </div>
-                <label class="col-sm-3 control-label">PLZ</label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="plz" placeholder="1234" value="1234" onkeydown="return isNumberKey(event)">
-                </div>
-                <label class="col-sm-3 control-label">Ort</label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="city" placeholder="Musteren" value="Musteren">
-                </div>
-            </td>
-
-            <td style="width: 1000px;">
-                <div class="form-group" class="col-sm-7">
-                    <label class="col-sm-12 control-label">Über Uns</label>
-                    <div class="col-sm-12">
-                        <textarea rows="5" class="form-control editme" name="aboutUs" id="aboutUs" placeholder="Über Uns">
-                        </textarea>
+        <form action="" method="post" enctype="multipart/form-data">
+            <table>
+                <td style="width: 800px;">
+                    <label class="col-sm-3 control-label">Shopname</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name="title" placeholder="Webshop Name" value="Mein Bauernhof">
                     </div>
-                    <label class="col-sm-12 control-label">Öffnungszeiten</label>
-                    <div class="col-sm-12">
-                        <textarea rows="3" class="form-control editme" name="opening" id="opening" placeholder="Öffnungszeiten">
-                        </textarea>
+                    <label class="col-sm-3 control-label">Name</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name="name" placeholder="Max Mustermann" value="Max Mustermann">
                     </div>
-                </div>
-            </td>
+                    <label class="col-sm-3 control-label">Strasse</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name="street" placeholder="Musterstrasse 1" value="Musterstrasse 1">
+                    </div>
+                    <label class="col-sm-3 control-label">PLZ</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name="plz" placeholder="1234" value="1234" onkeydown="return isNumberKey(event)">
+                    </div>
+                    <label class="col-sm-3 control-label">Ort</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name="city" placeholder="Musteren" value="Musteren">
+                    </div>
+                </td>
 
-            <td style="width: 800px;">
-                <div id="" class="col-sm-12">
-                    <form action="" method="post" enctype="multipart/form-data">
+                <td style="width: 1000px;">
+                    <div class="form-group" class="col-sm-7">
+                        <label class="col-sm-12 control-label">Über Uns</label>
+                        <div class="col-sm-12">
+                            <textarea rows="5" class="form-control editme" name="aboutUs" id="aboutUs" placeholder="Über Uns">
+                            </textarea>
+                        </div>
+                        <label class="col-sm-12 control-label">Öffnungszeiten</label>
+                        <div class="col-sm-12">
+                            <textarea rows="3" class="form-control editme" name="opening" id="opening" placeholder="Öffnungszeiten">
+                            </textarea>
+                        </div>
+                    </div>
+                </td>
+
+                <td style="width: 800px;">
                     <div id="" class="col-sm-12">
-                        <img src="../../skin/frontend/webshop/default/images/logo_bh.png" height="100px" />
-                    </div>
-                    <label class="col-sm-12 control-label">Logo</label>
-                    <div class="col-sm-12">
-                        <table>
-                            <tr>
-                                <td><input type="text" class="file-upload" id="uploadImgPath" name="logo" placeholder="" value=""></td>
-                                <td>
-                                    <button class="file-upload">
-                                        <input type="file" id="uploadImgBtn" class="file-input">Durchsuchen...
-                                    </button>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="col-sm-4 col-sm-offset-3">
 
-                    </div>
-                    <label class="col-sm-12 control-label">Farbe</label>
-                    <div class="col-sm-12">
-                        <form>
+                        <div id="" class="col-sm-12">
+                            <img src="../../skin/frontend/webshop/default/images/logo_bh.png" height="100px" />
+                        </div>
+                        <label class="col-sm-12 control-label">Logo</label>
+                        <div class="col-sm-12">
                             <table>
                                 <tr>
-                                    <td style="width: 100px;"><input type="radio" name="color" value="red" checked>Rot</input></td>
-                                <td><input type="radio" name="color" value="blue">Blau</input></td>
-                                </tr>
-                                <tr>
-                                    <td style="width: 100px;"><input type="radio" name="color" value="green">Grün</input></td>
-                                    <td><input type="radio" name="color" value="beige">Beige</input></td>
-                                </tr>
-                                <tr>
-                                    <td><input type="radio" name="color" value="gray">Grau</input></td>
+                                    <td><input type="text" class="file-upload" id="uploadImgPath" name="logo" placeholder="" value=""></td>
+                                    <td>
+                                        <button class="file-upload">
+                                            <input type="file" id="uploadImgBtn" class="file-input">Durchsuchen...
+                                        </button>
+                                    </td>
                                 </tr>
                             </table>
-                        </form>
-                    </div>
-                    <div class="col-sm-6" style="margin-top: 10px">
-                        <input type="submit" name="submit" value="Speichern" >
-                    </div>
-                    </form>
-                </div>
-            </td>
+                        </div>
+                        <div class="col-sm-4 col-sm-offset-3">
 
-        </table>
+                        </div>
+                        <label class="col-sm-12 control-label">Farbe</label>
+                        <div class="col-sm-12">
+                            <form>
+                                <table>
+                                    <tr>
+                                        <td style="width: 100px;"><input type="radio" name="color" value="red" <?php if($myColor == "red") {?>checked<?php } ?>>Rot</input></td>
+                                    <td><input type="radio" name="color" value="blue" <?php if($myColor == "red") {?>checked<?php } ?>>Blau</input></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 100px;"><input type="radio" name="color" value="green" <?php if($myColor == "red") {?>checked<?php } ?>>Grün</input></td>
+                                        <td><input type="radio" name="color" value="beige" <?php if($myColor == "red") {?>checked<?php } ?>>Beige</input></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="radio" name="color" value="gray" <?php if($myColor == "red") {?>checked<?php } ?>>Grau</input></td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
+                        <div class="col-sm-6" style="margin-top: 10px">
+                            <input type="submit" name="submit" value="Speichern" >
+                        </div>
+                    </div>
+                </td>
+            </table>
+        </form>
     </div>
 <script type="text/javascript">
 
