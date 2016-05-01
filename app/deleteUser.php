@@ -5,7 +5,7 @@
  * Date: 24.04.2016
  * Time: 16:38
  */
-echo "hi ich bin in deleteUser";
+//echo "hi ich bin in deleteUser";
 include("../api/users.php");
 
 $soap = new User();

@@ -5,6 +5,33 @@
  * Date: 07.04.2016
  * Time: 15:37
  */
+
+?>
+<!DOCTYPE html>
+<!-- Auf UTF8 setzen, damit Umlaute korrekt dargestellt werden -->
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src='http://maps.google.com/maps/api/js?sensor=false&libraries=places'></script>
+    <script src="../plugins/jquery-locationpicker/src/locationpicker.jquery.js"></script>
+    <!-- TinyMCE einbinden -->
+    <script src="../plugins/tinymce/tinymce.min.js"></script>
+    <script>
+        tinymce.init({
+            // Bereiche für TinyMCE
+            selector: 'textarea#aboutUs',
+            menubar: false,
+            statusbar: false,
+            // Sprache
+            language: 'de'
+        });
+    </script>
+</head>
+<body>
+
+<?php
+
 include("../api/settings.php");
 
 session_start();
@@ -172,7 +199,7 @@ if(isset($_POST["submit"]))
     </div>
 
     <div class="row">
-        <form action="" method="post" enctype="multipart/form-data">
+        <form method="post">
             <table>
                 <td style="width: 800px;">
                     <label class="col-sm-3 control-label">Shopname</label>
@@ -198,7 +225,17 @@ if(isset($_POST["submit"]))
                 </td>
 
                 <td style="width: 1000px;">
+                    <form onsubmit="updateContact()" method="post" name="contact">
+                    <h1>Kontaktseite</h1>
                     <div class="form-group" class="col-sm-7">
+                        <label class="col-sm-12 control-label">Titel der Kontaktseite</label>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control" name="titleContact" placeholder="Webshop xy" value="Webshop xy">
+                        </div>
+                        <label class="col-sm-12 control-label">Titelbild</label>
+                        <div class="col-sm-12">
+                            <input type="file" name="fileToUpload" id="fileToUpload">
+                        </div>
                         <label class="col-sm-12 control-label">Über Uns</label>
                         <div class="col-sm-12">
                             <textarea rows="5" class="form-control editme" name="aboutUs" id="aboutUs" placeholder="Über Uns">
@@ -209,7 +246,23 @@ if(isset($_POST["submit"]))
                             <textarea rows="3" class="form-control editme" name="opening" id="opening" placeholder="Öffnungszeiten">
                             </textarea>
                         </div>
+                        <label class="col-sm-12 control-label">Standort</label>
+                        <input type="hidden" id="us2-lat"/>
+                        <input type="hidden" id="us2-lon"/>
+                        <div id="us2" style="width: 500px; height: 400px; margin-left: 15px;"></div>
+                        <script>
+                            $('#us2').locationpicker({
+                                location: {latitude: 46.9479739, longitude: 7.447446799999966},
+                                zoom: 10,
+                                inputBinding: {
+                                    latitudeInput: $('#us2-lat'),
+                                    longitudeInput: $('#us2-lon')
+                                }
+                            });
+                        </script>
+                        <input type="submit" name="submitContact" value="Speichern">
                     </div>
+                    </form>
                 </td>
 
                 <td style="width: 800px;">
@@ -236,7 +289,7 @@ if(isset($_POST["submit"]))
                         </div>
                         <label class="col-sm-12 control-label">Farbe</label>
                         <div class="col-sm-12">
-                            <form>
+                            <!--<form>-->
                                 <table>
                                     <tr>
                                         <td style="width: 100px;"><input type="radio" name="color" value="red" <?php if($myColor == "red") {?>checked<?php } ?>>Rot</input></td>
@@ -250,10 +303,10 @@ if(isset($_POST["submit"]))
                                         <td><input type="radio" name="color" value="gray" <?php if($myColor == "red") {?>checked<?php } ?>>Grau</input></td>
                                     </tr>
                                 </table>
-                            </form>
+                            <!--</form>-->
                         </div>
                         <div class="col-sm-6" style="margin-top: 10px">
-                            <input type="submit" name="submit" value="Speichern" >
+                            <input onclick="updateSetting()" type="submit" name="submit" value="Speichern" >
                         </div>
                     </div>
                 </td>
@@ -323,14 +376,22 @@ var dz = $('#picture').dropzone({
   Dropzone.forElement('#picture').files.push( mockFile );
   Dropzone.forElement("#picture").emit("complete", mockFile);
 
+function updateContact() {
+
+    alert("Submit button clicked!");
+    return true;
+
+}
+
 function updateSetting(){
 
 document.getElementById('description').value = descriptionEditor.getData();
 
  var payload = JSON.stringify($('form').serializeObject());
+    alert(payload;
 
 $.ajax({
-        url : 'rest/put_setting/',
+        url : 'updateSetting.php',
         type: 'POST',
         data: payload,
         success: function(data){
@@ -351,3 +412,4 @@ $.ajax({
 
 </script>
 </div>
+</body>

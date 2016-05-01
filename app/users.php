@@ -76,8 +76,8 @@ $soap->openSoap();
                                     <td class="sorting_1"><?php echo $user['2'] ?></td>
                                     <td class="sorting_1"><?php echo $user['3'] ?></td>
                                     <td class="sorting_1"><?php echo $user['email'] ?></td> <!-- email -->
-                                    <td class="sorting_1"><?php echo $user[''] ?></td> <!-- date of birth -->
-                                    <td class="sorting_1"><?php echo $user[''] ?></td> <!-- newsletter -->
+                                    <td class="sorting_1"><?php echo $user['4'] ?></td> <!-- date of birth -->
+                                    <td class="sorting_1"><?php if(is_null($user['5'])){ echo "Ja"; } else { echo "Nein"; }?></td> <!-- newsletter -->
                                     <td><span class="glyphicon glyphicon-remove" aria-hidden="true" onclick="delete_user(<?php echo $userid; ?>)"></span></td>
                                     </tr><?php
                                 }
@@ -110,7 +110,8 @@ $soap->openSoap();
                     type: 'POST',
                     data: { userId : userId },
                     success: function(result) {
-                        //TODO reload product table and alert
+                        //TODO reload product table
+                        alert("Nutzer wurde erfolgreich gelöscht.");
                     }
                 });
 
