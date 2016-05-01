@@ -9,9 +9,9 @@ include("../api/users.php");
 
 session_start();
 
-//if(!isset($_SESSION['username'])) {
-// return header('Location: index.php');
-//}
+if(!isset($_SESSION['username'])) {
+ return header('Location: index.php');
+}
 
 $soap = new User();
 $soap->openSoap();
@@ -39,12 +39,12 @@ $soap->openSoap();
                                     <td class="sorting" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Titel: aktivieren, um Spalte aufsteigend zu sortieren" style="width: 242px;">Nachname</td>
                                     <td class="sorting" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Titel: aktivieren, um Spalte aufsteigend zu sortieren" style="width: 242px;">Adresse</td>
                                     <td class="sorting" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Titel: aktivieren, um Spalte aufsteigend zu sortieren" style="width: 242px;">PLZ</td>
-                                    <td class="sorting" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Titel: aktivieren, um Spalte aufsteigend zu sortieren" style="width: 242px;">Ort</td>
-                                    <td class="sorting" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Titel: aktivieren, um Spalte aufsteigend zu sortieren" style="width: 242px;">Telefonnr.</td>
-                                    <td class="sorting" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Titel: aktivieren, um Spalte aufsteigend zu sortieren" style="width: 242px;">E-Mail</td>
-                                    <td class="sorting" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Titel: aktivieren, um Spalte aufsteigend zu sortieren" style="width: 242px;">Geburtstagsdatum</td>
-                                    <td class="sorting" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Titel: aktivieren, um Spalte aufsteigend zu sortieren" style="width: 150px;">Newsletter</td>
-                                    <td class="sorting" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Titel: aktivieren, um Spalte aufsteigend zu sortieren" style="width: 150px;">Löschen</td>
+                                    <td class="sorting_disabled" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Ort" style="width: 242px;">Ort</td>
+                                    <td class="sorting_disabled" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Telefonnr" style="width: 242px;">Telefonnr.</td>
+                                    <td class="sorting_disabled" aria-controls="data-table" rowspan="1" colspan="1" aria-label="E-Mail" style="width: 242px;">E-Mail</td>
+                                    <td class="sorting_disabled" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Bday" style="width: 242px;">Geburtstagsdatum</td>
+                                    <td class="sorting_disabled" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Newsletter" style="width: 150px;">Newsletter</td>
+                                    <td class="sorting_disabled" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Löschen" style="width: 150px;">Löschen</td>
                                 </tr>
                                 </thead>
 
