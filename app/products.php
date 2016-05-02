@@ -206,7 +206,7 @@ function formatAmount($amount){
                         <div class="form-group has-feedback">
                             <label class="col-sm-3 control-label">Beschreibung</label>
                             <div class="col-sm-6">
-                                <textarea id="article_update_description" class="form-control" rows="5" name="description" placeholder="Beschreibung" data-bv-field="description"></textarea><i class="form-control-feedback" data-bv-icon-for="description" style="display: none;"></i>
+                                <textarea id="article_update_description" class="form-control" rows="5" name="short_description" placeholder="Beschreibung" data-bv-field="description"></textarea><i class="form-control-feedback" data-bv-icon-for="description" style="display: none;"></i>
                                 <small class="help-block" data-bv-validator="stringLength" data-bv-for="description" data-bv-result="NOT_VALIDATED" style="display: none;">Beschreibung darf nicht länger als 250 Zeichen sein</small>
                             </div>
                         </div>
@@ -335,16 +335,16 @@ function formatAmount($amount){
                 checkSpecialPrice();
                 $("#productModal").modal('toggle');
             } else if (page == 'updateProduct') {
-                updateProduct(productId);
+                updateProduct(page, productId);
             }
         }
 
-        function updateProduct(productId) {
+        function updateProduct(page, productId) {
             $.ajax({
                 url: 'updateProduct.php',
                 type: 'POST',
                 data: { productId : productId,
-                        product : 'loadProduct'
+                        product : page
                 },
                 success: function(result) {
                     var data = result;
@@ -370,7 +370,7 @@ function formatAmount($amount){
                         $("#category").multiSelect('select', item.name); //TODO set selected
                     });
                     //$("#category").val(json.updateCategory.name);
-                    $("#article_update_description").val(json.updateProduct.description);
+                    $("#article_update_description").val(json.updateProduct['short_description']);
                     $("#article_update_amount").val(json.updateStock[0].qty);
                     $("#article_update_price").val(json.updateProduct.price);
                     $("#article_update_specialPrice").val(json.updateProduct['special_price']);
@@ -393,7 +393,12 @@ function formatAmount($amount){
                         productUpdateSave : 'productUpdateSave'
                 },
                 success: function (data) {
-                    //TODO reload product table and alert
+                    $('#productModal').modal('hide');
+                    setTimeout(function() {
+                        changeSite('products'); //TODO better return echo products and fill content with data
+                    }, 1000);
+
+                    //TODO alert
                 },
             });
         }

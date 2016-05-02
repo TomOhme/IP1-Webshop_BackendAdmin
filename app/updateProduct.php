@@ -13,7 +13,7 @@ $soapProduct = new Product();
 $soapProduct -> openSoap();
 $soapProductGroup = new Productgroup();
 $soapProductGroup -> openSoap();
-if (isset($_POST['productId']) && $_POST['product'] == 'loadProduct') {
+if (isset($_POST['productId']) && $_POST['product'] == 'updateProduct') {
     $productId = isset($_POST['productId']) ? $_POST['productId'] : null;
     $product = $soapProduct->getProductByID($productId);
     $product['price'] = formatPrice($product['price']);
@@ -39,14 +39,14 @@ if (isset($_POST['productId']) && $_POST['product'] == 'loadProduct') {
     parse_str($_POST['productData'], $values);
     $values['category_ids'] = $_POST['category_ids'];
     $productId = isset($values['productId']) ? $values['productId'] : null;
-    $productData = array('category_ids' => $values['category_ids'], 'unit' => $values['unit'], 'title' => $values['title'], 'description' => $values['description'], 'price' => $values['price'], 'stock' => $values['stock']); //TODO $_POST['picture'] and special Price Date From To
+    $productData = array('category_ids' => $values['category_ids'], 'unit' => $values['unit'], 'title' => $values['title'], 'short_description' => $values['short_description'], 'price' => $values['price'], 'stock' => $values['stock']); //TODO $_POST['picture'] and special Price Date From To
     if ($productId != null) {
         $soapProduct->updateProductByID($productId, $productData);
     } else {
         $allProducts = $soapProduct->getAllProducts();
         $sku = $allProducts[count($allProducts) -1]['sku'];
         $sku++;
-        $attributeSet = $soapProduct->createCatalogProductEntity($values['category_ids'],$values['unit'], $values['title'], $values['description'], $values['price'], $values['stock']);
+        $attributeSet = $soapProduct->createCatalogProductEntity($values['category_ids'],$values['unit'], $values['title'], $values['short_description'], $values['price'], $values['stock']);
         $soapProduct->createProduct($sku, $attributeSet); //$productData
     }
 }
