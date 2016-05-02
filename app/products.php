@@ -99,10 +99,11 @@ function formatAmount($amount){
                                             <td class="col-sm-3 hidden-xs">
                                                 <?php
                                                     $numItems = count($product['category_ids']);
-                                                    $j = 0;
+                                                    $counter = 0;
                                                     foreach($product['category_ids'] as $productGroupId) {
+                                                        //if($counter++ < 1) continue ;
                                                         $productGroup = $soapProductGroup->getCategory($productGroupId);
-                                                        if (++$j !== $numItems) {
+                                                        if (++$counter !== $numItems) {
                                                             echo $productGroup['name'] . ", ";
                                                         } else {
                                                             echo $productGroup['name'];
