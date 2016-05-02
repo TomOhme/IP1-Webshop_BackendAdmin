@@ -23,26 +23,31 @@ if (isset($_POST['productId']) && $_POST['product'] == 'loadProduct') {
     $productImg = $soapProduct->getProductImage($product['product_id']);
     $productStock = $soapProduct->getProductStock($product['product_id']);
     $productStock[0]['qty'] = formatAmount($productStock[0]['qty']);
-    //more category_ids foreach
+    $productCategory = array();
     foreach($product['category_ids'] as $categoryId) {
-        $productCategory[] = $soapProductGroup->getCategory($categoryId);
+        $productCategory = $soapProductGroup->getCategory($categoryId); //[]
     }
     //$productCategory = $soapProductGroup->getCategory(end($product['category_ids']));
     //$allCategory = $soapProductGroup->getTree();
-    echo json_encode(array('id' => $productId, 'updateProduct' => $product, 'updateImg' => $productImg, 'updateStock' => $productStock, 'updateCategory' => $productCategory)); //allCategory' => $allCategory
+    echo json_encode(array('id' => $productId, 'updateProduct' => $product, 'updateImg' => $productImg, 'updateStock' => $productStock, 'updateCategory' => $productCategory));
 } else if (isset($_POST['productId']) && $_POST['product'] == 'delete') {
     $productId = isset($_POST['productId']) ? $_POST['productId'] : null;
     //$product = $soapProduct->getProductByID($productId);
     $soapProduct->deleteProductByID($productId);
 } else if (isset($_POST['productUpdateSave'])) {
-    $productId = isset($_POST['productId']) ? $_POST['productId'] : null;
-    $productData = array($_POST['category'], $_POST['unit'], $_POST['title'], $_POST['description'], $_POST['price'], $_POST['stock']); //TODO $_POST['picture'] and special Price Date From To
+    $values = array();
+    parse_str($_POST['productData'], $values);
+    $values['category_ids'] = $_POST['category_ids'];
+    $productId = isset($values['productId']) ? $values['productId'] : null;
+    $productData = array('category_ids' => $values['category_ids'], 'unit' => $values['unit'], 'title' => $values['title'], 'description' => $values['description'], 'price' => $values['price'], 'stock' => $values['stock']); //TODO $_POST['picture'] and special Price Date From To
     if ($productId != null) {
         $soapProduct->updateProductByID($productId, $productData);
     } else {
-        $allProducts = $soapProduct->getAllProducts(); //for sku
-        $product = $soapProduct->getProductByID(count($allProducts)-1); //for sku
-        $soapProduct->createProduct($product['id']+1, $productData);
+        $allProducts = $soapProduct->getAllProducts();
+        $sku = $allProducts[count($allProducts) -1]['sku'];
+        $sku++;
+        $attributeSet = $soapProduct->createCatalogProductEntity($values['category_ids'],$values['unit'], $values['title'], $values['description'], $values['price'], $values['stock']);
+        $soapProduct->createProduct($sku, $attributeSet); //$productData
     }
 }
 

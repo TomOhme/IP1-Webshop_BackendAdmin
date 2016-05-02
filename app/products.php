@@ -93,7 +93,7 @@ function formatAmount($amount){
                                         $productStock = $soapProduct -> getProductStock($product['product_id']);
                                         $productDiscount = $soapProduct -> getDiscount($product['product_id']);
                                         ?>
-                                        <tr onclick="loadItem('updateProduct', '<?php echo $product['product_id'] ?>');" role="row" class="odd"><!--odd/even default -->
+                                        <tr onclick="loadItem('updateProduct', '<?php echo $product['product_id']; ?>');" role="row" class="odd" id="<?php echo $product['product_id']; ?>"><!--odd/even default -->
                                             <td class='sorting_1'><?php echo $i ?></td>
                                             <td><?php echo $product['name'] ?></td>
                                             <td class="col-sm-3 hidden-xs">
@@ -111,7 +111,7 @@ function formatAmount($amount){
                                                     }
                                                 ?>
                                             </td>
-                                            <td class="col-sm-3 hidden-xs"><img src="<?php if(isset($productImg[0]['url'])){ echo $productImg[0]['url'];} else { echo "Kein Bild vorhanden"; } ?>" width="70px" class="img-thumbnail" alt="Thumbnail Image"></td>
+                                            <td class="col-sm-3 hidden-xs"><img src="<?php if (isset($productImg[0]['url'])) { echo $productImg[0]['url']; } else { echo "Kein Bild vorhanden"; } ?>" width="70px" class="img-thumbnail" alt="Thumbnail Image"></td>
                                             <td><?php echo formatAmount($productStock[0]['qty']); ?></td>
                                             <td><?php if ($product['special_price'] != null) { ?> <p style="text-decoration: line-through;"> <?php echo formatPrice($product['price']); ?> </p> <?php echo formatPrice($product['special_price']); ?>  <?php } else { ?>  <?php echo formatPrice($product['price']); } ?> </td>
                                             <td><?php echo $productDiscount; ?></td>
@@ -182,14 +182,14 @@ function formatAmount($amount){
                                 <select multiple="multiple" name="category" id="category" class="form-control">
                                     <?php
                                     foreach($categories['children'] as $category) { ?>
-                                        <option value="<?php echo $category['name']; ?>"> <?php echo $category['name']; ?> </option>
+                                        <option value="<?php echo $category['category_id']; ?>"> <?php echo $category['name']; ?> </option>
                                         <?php getNextSubCategoryDropdown($category); ?>
                                     <?php } ?>
                                     <?php
                                     function getNextSubCategoryDropdown($category) {
                                         if ($category['children'] != null) {
                                             foreach ($category['children'] as $subCategory) { ?>
-                                                <option value="<?php echo $subCategory['name']; ?>"> <?php echo "- ". $subCategory['name']; ?> </option> <!-- TODO indent sub categories -->
+                                                <option value="<?php echo $subCategory['category_id']; ?>"> <?php echo "- ". $subCategory['name']; ?> </option> <!-- TODO statt name (selected with that) category_id TODO indent sub categories -->
                                                 <?php if ($subCategory['children'] != null) {
                                                     getNextSubCategoryDropdown($subCategory);
                                                     ?>
@@ -366,7 +366,7 @@ function formatAmount($amount){
                     });*/
                     //set current product categories selected
                     $.each(json.updateCategory, function (i, item) {
-                        $("#category").multiSelect('select', item.name); //TODO
+                        $("#category").multiSelect('select', item.name); //TODO set selected
                     });
                     //$("#category").val(json.updateCategory.name);
                     $("#article_update_description").val(json.updateProduct.description);
@@ -383,10 +383,12 @@ function formatAmount($amount){
 
         function productUpdateSave() {
             var fData = $("#productForm").serialize();
+            var categoryIds = $('select#category').val();
             $.ajax({
                 url : 'updateProduct.php',
                 type: 'POST',
-                data: { productId : fData['productId'],
+                data: { productData : fData,
+                        category_ids : categoryIds,
                         productUpdateSave : 'productUpdateSave'
                 },
                 success: function (data) {
@@ -403,7 +405,8 @@ function formatAmount($amount){
                         product : 'delete'
                 },
                 success: function(result) {
-                   //TODO reload product table and alert
+                    //$("table#form tbody tr").parents("tr").remove();
+                    //TODO and alert
                 }
             });
         }
