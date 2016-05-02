@@ -25,7 +25,7 @@ if (isset($_POST['productId']) && $_POST['product'] == 'loadProduct') {
     $productStock[0]['qty'] = formatAmount($productStock[0]['qty']);
     $productCategory = array();
     foreach($product['category_ids'] as $categoryId) {
-        $productCategory = $soapProductGroup->getCategory($categoryId); //[]
+        $productCategory[] = $soapProductGroup->getCategory($categoryId);
     }
     //$productCategory = $soapProductGroup->getCategory(end($product['category_ids']));
     //$allCategory = $soapProductGroup->getTree();
