@@ -49,6 +49,12 @@ function formatAmount($amount){
             <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><p id="excelImportError" style="display:inline;"></p>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
+
+        <div class="alert alert-success alert-dismissible" role="alert" style="display: none;" id="alertProductDeleteSuccess">
+            <span class="glyphicon glyphicon glyphicon-ok-sign" aria-hidden="true"></span><p id="productDeleteSuccess" style="display:inline;"></p>
+            Produkt wurde erfolgreich gel&ouml;scht
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
         <!-- Fertig mit Alerts -->
 
         <div id="content_table">
@@ -93,10 +99,10 @@ function formatAmount($amount){
                                         $productStock = $soapProduct -> getProductStock($product['product_id']);
                                         $productDiscount = $soapProduct -> getDiscount($product['product_id']);
                                         ?>
-                                        <tr onclick="loadItem('updateProduct', '<?php echo $product['product_id']; ?>');" role="row" class="odd" id="<?php echo $product['product_id']; ?>"><!--odd/even default -->
-                                            <td class='sorting_1'><?php echo $i ?></td>
-                                            <td><?php echo $product['name'] ?></td>
-                                            <td class="col-sm-3 hidden-xs">
+                                        <tr role="row" class="odd" id="<?php echo $product['product_id']; ?>"><!--odd/even default -->
+                                            <td onclick="loadItem('updateProduct', '<?php echo $product['product_id']; ?>');" class='sorting_1'><?php echo $i ?></td>
+                                            <td onclick="loadItem('updateProduct', '<?php echo $product['product_id']; ?>');"><?php echo $product['name'] ?></td>
+                                            <td onclick="loadItem('updateProduct', '<?php echo $product['product_id']; ?>');" class="col-sm-3 hidden-xs">
                                                 <?php
                                                     $numItems = count($product['category_ids']);
                                                     $counter = 0;
@@ -112,10 +118,10 @@ function formatAmount($amount){
                                                     }
                                                 ?>
                                             </td>
-                                            <td class="col-sm-3 hidden-xs"><img src="<?php if (isset($productImg[0]['url'])) { echo $productImg[0]['url']; } else { echo "Kein Bild vorhanden"; } ?>" width="70px" class="img-thumbnail" alt="Thumbnail Image"></td>
-                                            <td><?php echo formatAmount($productStock[0]['qty']); ?></td>
-                                            <td><?php if ($product['special_price'] != null) { ?> <p style="text-decoration: line-through;"> <?php echo formatPrice($product['price']); ?> </p> <?php echo formatPrice($product['special_price']); ?>  <?php } else { ?>  <?php echo formatPrice($product['price']); } ?> </td>
-                                            <td><?php echo $productDiscount; ?></td>
+                                            <td onclick="loadItem('updateProduct', '<?php echo $product['product_id']; ?>');" class="col-sm-3 hidden-xs"><img src="<?php if (isset($productImg[0]['url'])) { echo $productImg[0]['url']; } else { echo "Kein Bild vorhanden"; } ?>" width="70px" class="img-thumbnail" alt="Thumbnail Image"></td>
+                                            <td onclick="loadItem('updateProduct', '<?php echo $product['product_id']; ?>');"><?php echo formatAmount($productStock[0]['qty']); ?></td>
+                                            <td onclick="loadItem('updateProduct', '<?php echo $product['product_id']; ?>');"><?php if ($product['special_price'] != null) { ?> <p style="text-decoration: line-through;"> <?php echo formatPrice($product['price']); ?> </p> <?php echo formatPrice($product['special_price']); ?>  <?php } else { ?>  <?php echo formatPrice($product['price']); } ?> </td>
+                                            <td onclick="loadItem('updateProduct', '<?php echo $product['product_id']; ?>');"><?php echo $productDiscount; ?></td>
                                             <td onclick="deleteProduct('<?php echo $product['product_id'] ?>');"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
                                         </tr>
                                         <?php
@@ -397,13 +403,13 @@ function formatAmount($amount){
                     setTimeout(function() {
                         changeSite('products'); //TODO better return echo products and fill content with data
                     }, 1000);
-
-                    //TODO alert
+                    //TODO alert success
                 },
             });
         }
 
         function deleteProduct(productId) {
+            //var tr = $(this).closest('tr');
             $.ajax({
                 url: 'updateProduct.php',
                 type: 'POST',
@@ -411,8 +417,14 @@ function formatAmount($amount){
                         product : 'delete'
                 },
                 success: function(result) {
-                    //$("table#form tbody tr").parents("tr").remove();
-                    //TODO and alert
+                    /*tr.find('td').fadeOut(1000,function(){
+                        tr.remove();
+                    });*/
+                    $('#'+productId).remove();
+                    $("#alertProductDeleteSuccess").fadeTo(10000, 500).slideUp(500, function(){
+                        $("#alertProductDeleteSuccess").hide();
+                    });
+                    //TODO alert success
                 }
             });
         }
