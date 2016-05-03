@@ -373,7 +373,7 @@ function formatAmount($amount){
                     });*/
                     //set current product categories selected
                     $.each(json.updateCategory, function (i, item) {
-                        $("#category").multiSelect('select', item.name); //TODO set selected
+                        $("#category").multiSelect('select', item['category_id']);
                     });
                     //$("#category").val(json.updateCategory.name);
                     $("#article_update_description").val(json.updateProduct['short_description']);
