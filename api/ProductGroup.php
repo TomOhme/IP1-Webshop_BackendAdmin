@@ -6,7 +6,11 @@
  * Time: 11:59
  */
 
-include('../vendor/autoload.php');
+if(file_exists("../vendor/autoload.php")){
+    include('../vendor/autoload.php');
+}else{
+    include('./vendor/autoload.php');
+}
 use Magento\Client\Xmlrpc\MagentoXmlrpcClient;
 
 class Productgroup {
@@ -16,7 +20,11 @@ class Productgroup {
 
     public function __construct()
     {
-        $this->ini_array = parse_ini_file("../php.ini");
+        if(file_exists("../php.ini")){
+            $this->ini_array = parse_ini_file("../php.ini");
+        } else {
+            $this->ini_array = parse_ini_file("./php.ini");
+        }
         $this->mysqli = new mysqli("localhost", $this->ini_array['DBUSER'], $this->ini_array['DBPWD'], "magento");
     }
 
