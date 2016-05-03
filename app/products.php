@@ -357,7 +357,7 @@ function formatAmount($amount){
                     var json = JSON.parse(data);
                     //hidden field productId
                     $('#productId').val(json.id);
-                    //$("#picture").val(json.updateImg[0].url); //TODO show image in form, not with value
+                    //$("#picture").val(json.updateImg[0].url);  //TODO show image in form, not with value
                     $("#article_update_title").val(json.updateProduct.name);
                     /*$.each(json.allCategory.children, function (i, item) {
                         $('#category').append($('<option>', {
