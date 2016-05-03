@@ -80,6 +80,7 @@ include("header.php");
                 }
             });
         };
+
         </script>
     </body>
 </html>

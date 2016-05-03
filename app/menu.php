@@ -27,6 +27,7 @@
                 <li onclick="changeSite('users');"><a href="#">Benutzer</a></li>
                 <li onclick="changeSite('orders');"><a href="#">Bestellungen</a></li>
                 <li onclick="changeSite('settings');"><a href="#">Einstellungen</a></li>
+                <li onclick="changeSite('design');"><a href="#">Design</a> </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="../.." target="_blank" class="visible-xs"><img src="../img/shop.png" width="25" height="25" title="Zum Webshop">&nbsp;Zum Webshop</a></li>

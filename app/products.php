@@ -49,6 +49,12 @@ function formatAmount($amount){
             <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><p id="excelImportError" style="display:inline;"></p>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
+
+        <div class="alert alert-success alert-dismissible" role="alert" style="display: none;" id="alertProductDeleteSuccess">
+            <span class="glyphicon glyphicon glyphicon-ok-sign" aria-hidden="true"></span><p id="productDeleteSuccess" style="display:inline;"></p>
+            Produkt wurde erfolgreich gel&ouml;scht
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
         <!-- Fertig mit Alerts -->
 
         <div id="content_table">
@@ -93,16 +99,17 @@ function formatAmount($amount){
                                         $productStock = $soapProduct -> getProductStock($product['product_id']);
                                         $productDiscount = $soapProduct -> getDiscount($product['product_id']);
                                         ?>
-                                        <tr onclick="loadItem('updateProduct', '<?php echo $product['product_id'] ?>');" role="row" class="odd"><!--odd/even default -->
-                                            <td class='sorting_1'><?php echo $i ?></td>
-                                            <td><?php echo $product['name'] ?></td>
-                                            <td class="col-sm-3 hidden-xs">
+                                        <tr role="row" class="odd" id="<?php echo $product['product_id']; ?>"><!--odd/even default -->
+                                            <td onclick="loadItem('updateProduct', '<?php echo $product['product_id']; ?>');" class='sorting_1'><?php echo $i ?></td>
+                                            <td onclick="loadItem('updateProduct', '<?php echo $product['product_id']; ?>');"><?php echo $product['name'] ?></td>
+                                            <td onclick="loadItem('updateProduct', '<?php echo $product['product_id']; ?>');" class="col-sm-3 hidden-xs">
                                                 <?php
                                                     $numItems = count($product['category_ids']);
-                                                    $j = 0;
+                                                    $counter = 0;
                                                     foreach($product['category_ids'] as $productGroupId) {
+                                                        //if($counter++ < 1) continue ;
                                                         $productGroup = $soapProductGroup->getCategory($productGroupId);
-                                                        if (++$j !== $numItems) {
+                                                        if (++$counter !== $numItems) {
                                                             echo $productGroup['name'] . ", ";
                                                         } else {
                                                             echo $productGroup['name'];
@@ -111,10 +118,10 @@ function formatAmount($amount){
                                                     }
                                                 ?>
                                             </td>
-                                            <td class="col-sm-3 hidden-xs"><img src="<?php if(isset($productImg[0]['url'])){ echo $productImg[0]['url'];} else { echo "Kein Bild vorhanden"; } ?>" width="70px" class="img-thumbnail" alt="Thumbnail Image"></td>
-                                            <td><?php echo formatAmount($productStock[0]['qty']); ?></td>
-                                            <td><?php if ($product['special_price'] != null) { ?> <p style="text-decoration: line-through;"> <?php echo formatPrice($product['price']); ?> </p> <?php echo formatPrice($product['special_price']); ?>  <?php } else { ?>  <?php echo formatPrice($product['price']); } ?> </td>
-                                            <td><?php echo $productDiscount; ?></td>
+                                            <td onclick="loadItem('updateProduct', '<?php echo $product['product_id']; ?>');" class="col-sm-3 hidden-xs"><img src="<?php if (isset($productImg[0]['url'])) { echo $productImg[0]['url']; } else { echo "Kein Bild vorhanden"; } ?>" width="70px" class="img-thumbnail" alt="Thumbnail Image"></td>
+                                            <td onclick="loadItem('updateProduct', '<?php echo $product['product_id']; ?>');"><?php echo formatAmount($productStock[0]['qty']); ?></td>
+                                            <td onclick="loadItem('updateProduct', '<?php echo $product['product_id']; ?>');"><?php if ($product['special_price'] != null) { ?> <p style="text-decoration: line-through;"> <?php echo formatPrice($product['price']); ?> </p> <?php echo formatPrice($product['special_price']); ?>  <?php } else { ?>  <?php echo formatPrice($product['price']); } ?> </td>
+                                            <td onclick="loadItem('updateProduct', '<?php echo $product['product_id']; ?>');"><?php echo $productDiscount; ?></td>
                                             <td onclick="deleteProduct('<?php echo $product['product_id'] ?>');"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
                                         </tr>
                                         <?php
@@ -182,14 +189,14 @@ function formatAmount($amount){
                                 <select multiple="multiple" name="category" id="category" class="form-control">
                                     <?php
                                     foreach($categories['children'] as $category) { ?>
-                                        <option value="<?php echo $category['name']; ?>"> <?php echo $category['name']; ?> </option>
+                                        <option value="<?php echo $category['category_id']; ?>"> <?php echo $category['name']; ?> </option>
                                         <?php getNextSubCategoryDropdown($category); ?>
                                     <?php } ?>
                                     <?php
                                     function getNextSubCategoryDropdown($category) {
                                         if ($category['children'] != null) {
                                             foreach ($category['children'] as $subCategory) { ?>
-                                                <option value="<?php echo $subCategory['name']; ?>"> <?php echo "- ". $subCategory['name']; ?> </option> <!-- TODO indent sub categories -->
+                                                <option value="<?php echo $subCategory['category_id']; ?>"> <?php echo "- ". $subCategory['name']; ?> </option> <!-- TODO statt name (selected with that) category_id TODO indent sub categories -->
                                                 <?php if ($subCategory['children'] != null) {
                                                     getNextSubCategoryDropdown($subCategory);
                                                     ?>
@@ -205,7 +212,7 @@ function formatAmount($amount){
                         <div class="form-group has-feedback">
                             <label class="col-sm-3 control-label">Beschreibung</label>
                             <div class="col-sm-6">
-                                <textarea id="article_update_description" class="form-control" rows="5" name="description" placeholder="Beschreibung" data-bv-field="description"></textarea><i class="form-control-feedback" data-bv-icon-for="description" style="display: none;"></i>
+                                <textarea id="article_update_description" class="form-control" rows="5" name="short_description" placeholder="Beschreibung" data-bv-field="description"></textarea><i class="form-control-feedback" data-bv-icon-for="description" style="display: none;"></i>
                                 <small class="help-block" data-bv-validator="stringLength" data-bv-for="description" data-bv-result="NOT_VALIDATED" style="display: none;">Beschreibung darf nicht länger als 250 Zeichen sein</small>
                             </div>
                         </div>
@@ -334,16 +341,16 @@ function formatAmount($amount){
                 checkSpecialPrice();
                 $("#productModal").modal('toggle');
             } else if (page == 'updateProduct') {
-                updateProduct(productId);
+                updateProduct(page, productId);
             }
         }
 
-        function updateProduct(productId) {
+        function updateProduct(page, productId) {
             $.ajax({
                 url: 'updateProduct.php',
                 type: 'POST',
                 data: { productId : productId,
-                        product : 'loadProduct'
+                        product : page
                 },
                 success: function(result) {
                     var data = result;
@@ -366,10 +373,10 @@ function formatAmount($amount){
                     });*/
                     //set current product categories selected
                     $.each(json.updateCategory, function (i, item) {
-                        $("#category").multiSelect('select', item.name); //TODO
+                        $("#category").multiSelect('select', item.name); //TODO set selected
                     });
                     //$("#category").val(json.updateCategory.name);
-                    $("#article_update_description").val(json.updateProduct.description);
+                    $("#article_update_description").val(json.updateProduct['short_description']);
                     $("#article_update_amount").val(json.updateStock[0].qty);
                     $("#article_update_price").val(json.updateProduct.price);
                     $("#article_update_specialPrice").val(json.updateProduct['special_price']);
@@ -383,19 +390,26 @@ function formatAmount($amount){
 
         function productUpdateSave() {
             var fData = $("#productForm").serialize();
+            var categoryIds = $('select#category').val();
             $.ajax({
                 url : 'updateProduct.php',
                 type: 'POST',
-                data: { productId : fData['productId'],
+                data: { productData : fData,
+                        category_ids : categoryIds,
                         productUpdateSave : 'productUpdateSave'
                 },
                 success: function (data) {
-                    //TODO reload product table and alert
+                    $('#productModal').modal('hide');
+                    setTimeout(function() {
+                        changeSite('products'); //TODO better return echo products and fill content with data
+                    }, 1000);
+                    //TODO alert success
                 },
             });
         }
 
         function deleteProduct(productId) {
+            //var tr = $(this).closest('tr');
             $.ajax({
                 url: 'updateProduct.php',
                 type: 'POST',
@@ -403,7 +417,14 @@ function formatAmount($amount){
                         product : 'delete'
                 },
                 success: function(result) {
-                   //TODO reload product table and alert
+                    /*tr.find('td').fadeOut(1000,function(){
+                        tr.remove();
+                    });*/
+                    $('#'+productId).remove();
+                    $("#alertProductDeleteSuccess").fadeTo(10000, 500).slideUp(500, function(){
+                        $("#alertProductDeleteSuccess").hide();
+                    });
+                    //TODO alert success
                 }
             });
         }
