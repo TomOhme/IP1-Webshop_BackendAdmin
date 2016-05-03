@@ -46,8 +46,7 @@ if (isset($_POST['productId']) && $_POST['product'] == 'updateProduct') {
         $allProducts = $soapProduct->getAllProducts();
         $sku = $allProducts[count($allProducts) -1]['sku'];
         $sku++;
-        $attributeSet = $soapProduct->createCatalogProductEntity($values['category_ids'],$values['unit'], $values['title'], $values['short_description'], $values['price'], $values['stock']);
-        $soapProduct->createProduct($sku, $attributeSet); //$productData
+        $soapProduct->createProduct($sku, $productData);
     }
 }
 
