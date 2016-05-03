@@ -40,7 +40,8 @@ function formatPrice($price){
 }
 
 function formatAmount($amount){
-	return number_format($amount,0);
+    setlocale(LC_ALL, "de_CH");
+    return number_format($amount,0, ".", "'");
 }
 
 $orders = $soap -> getAllOrders();

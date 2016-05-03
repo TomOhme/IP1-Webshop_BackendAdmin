@@ -34,7 +34,12 @@ function formatPrice($price){
 }
 
 function formatAmount($amount){
-    return number_format($amount,0);
+    setlocale(LC_ALL, "de_CH");
+    return number_format($amount,0, ".", "'");
+}
+
+function formatDiscount($discount){
+    return ($discount*100)." %";
 }
 ?>
     <link rel="stylesheet" href="../css/custom.css">
@@ -121,7 +126,7 @@ function formatAmount($amount){
                                             <td onclick="loadItem('updateProduct', '<?php echo $product['product_id']; ?>');" class="col-sm-3 hidden-xs"><img src="<?php if (isset($productImg[0]['url'])) { echo $productImg[0]['url']; } else { echo "Kein Bild vorhanden"; } ?>" width="70px" class="img-thumbnail" alt="Thumbnail Image"></td>
                                             <td onclick="loadItem('updateProduct', '<?php echo $product['product_id']; ?>');"><?php echo formatAmount($productStock[0]['qty']); ?></td>
                                             <td onclick="loadItem('updateProduct', '<?php echo $product['product_id']; ?>');"><?php if ($product['special_price'] != null) { ?> <p style="text-decoration: line-through;"> <?php echo formatPrice($product['price']); ?> </p> <?php echo formatPrice($product['special_price']); ?>  <?php } else { ?>  <?php echo formatPrice($product['price']); } ?> </td>
-                                            <td onclick="loadItem('updateProduct', '<?php echo $product['product_id']; ?>');"><?php echo $productDiscount; ?></td>
+                                            <td onclick="loadItem('updateProduct', '<?php echo $product['product_id']; ?>');"><?php echo formatDiscount($productDiscount); ?></td>
                                             <td onclick="deleteProduct('<?php echo $product['product_id'] ?>');"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
                                         </tr>
                                         <?php
@@ -167,7 +172,7 @@ function formatAmount($amount){
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Bilder</label>
                             <div class="col-sm-6">
-                                <form action="" class="dropzone dz-clickable" id="picture"><div class="dz-default dz-message"><span>Ziehen Sie Ihre Bilder hierhin oder klicken Sie hier, um ein Bild hochzuladen.</span></div></form>
+                                <form action="" class="dropzone dz-clickable" id="picture"><div class="dz-default dz-message" id="pictureDiv"><span>Ziehen Sie Ihre Bilder hierhin oder klicken Sie hier, um ein Bild hochzuladen.</span></div></form>
                             </div>
                         </div>
                     </div>
@@ -355,8 +360,20 @@ function formatAmount($amount){
                 success: function(result) {
                     var data = result;
                     var json = JSON.parse(data);
+                    var img = document.createElement("img");
+                    if(typeof json.updateImg[0] != 'undefined') {
+                        img.setAttribute("src", json.updateImg[0].url);
+                    } else {
+                        img.setAttribute("src", "../img/noImg.jpg");
+                    }
+                    img.style.width = "auto";
+                    img.style.height = "auto";
+                    img.style.maxWidth = " 150px";
+                    img.style.maxHeight = "150px";
                     //hidden field productId
                     $('#productId').val(json.id);
+                    $('#pictureDiv').empty();
+                    $('#pictureDiv').append(img);
                     //$("#picture").val(json.updateImg[0].url); //TODO show image in form, not with value
                     $("#article_update_title").val(json.updateProduct.name);
                     /*$.each(json.allCategory.children, function (i, item) {

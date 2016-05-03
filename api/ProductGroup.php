@@ -91,7 +91,7 @@ class Productgroup {
      * More: http://devdocs.magento.com/guides/m1x/api/soap/catalog/catalogCategory/catalog_category.tree.html
      */
     public function getTree(){
-        return $this->client->call('catalog_category.tree');
+        return $this->client->call('catalog_category.tree', array('2'));
     }
 
     /**

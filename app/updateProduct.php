@@ -39,7 +39,7 @@ if (isset($_POST['productId']) && $_POST['product'] == 'updateProduct') {
     parse_str($_POST['productData'], $values);
     $values['category_ids'] = $_POST['category_ids'];
     $productId = isset($values['productId']) ? $values['productId'] : null;
-    $productData = array('category_ids' => $values['category_ids'], 'unit' => $values['unit'], 'title' => $values['title'], 'short_description' => $values['short_description'], 'price' => $values['price'], 'stock' => $values['stock']); //TODO $_POST['picture'] and special Price Date From To
+    $productData = $soapProduct->createCatalogProductEntity($values['category_ids'], $values['unit'], $values['title'], $values['short_description'], $values['price'], $values['stock']); //TODO $_POST['picture'] and special Price Date From To
     if ($productId != null) {
         $soapProduct->updateProductByID($productId, $productData);
     } else {
@@ -65,6 +65,7 @@ function formatPrice($price){
 }
 
 function formatAmount($amount){
-    return number_format($amount,0);
+    setlocale(LC_ALL, "de_CH");
+    return number_format($amount,0, ".", "'");
 }
 ?>
