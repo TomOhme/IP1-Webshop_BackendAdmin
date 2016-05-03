@@ -370,11 +370,10 @@ function formatDiscount($discount){
                     img.style.height = "auto";
                     img.style.maxWidth = " 150px";
                     img.style.maxHeight = "150px";
-                    //hidden field productId
-                    $('#productId').val(json.id);
                     $('#pictureDiv').empty();
                     $('#pictureDiv').append(img);
-                    //$("#picture").val(json.updateImg[0].url); //TODO show image in form, not with value
+                    //hidden field productId
+                    $('#productId').val(json.id);
                     $("#article_update_title").val(json.updateProduct.name);
                     /*$.each(json.allCategory.children, function (i, item) {
                         $('#category').append($('<option>', {
@@ -447,7 +446,8 @@ function formatDiscount($discount){
         }
 
         function clearModalFields() {
-            //TODO clear Picture
+            $('#pictureDiv').empty();
+            $('#pictureDiv').append("<span>Ziehen Sie Ihre Bilder hierhin oder klicken Sie hier, um ein Bild hochzuladen.</span>");
             $("#article_update_title").val('');
             $('#category').multiSelect('deselect_all');
             $('#article_update_description').val('');
