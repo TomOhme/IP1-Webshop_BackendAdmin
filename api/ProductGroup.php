@@ -110,7 +110,7 @@ class Productgroup {
     * @return boolean
     */
     public function assignProduct($categoryID, $productID){
-        return $this ->client->call($session, 'catalog_category.assignProduct', array('categoryId' => $categoryID, 'product' => $productID));
+        return $this ->client->call('catalog_category.assignProduct', array('categoryId' => $categoryID, 'product' => $productID));
     }
 
 }
