@@ -23,7 +23,7 @@ if(isset($_POST["submit"]))
     $img = array_filter($_FILES['file-0']);
 
     if(!empty($img)) {
-        $target_dir = "../../skin/frontend/webshop/default/images/";
+        $target_dir = "../../../skin/frontend/webshop/default/images/";
         $target_file = $target_dir . basename($_FILES['file-0']["name"]);
         $uploadOk = 1;
         $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
@@ -60,7 +60,7 @@ if(isset($_POST["submit"]))
     }
 
     $color = $_POST["color"];
-    $destCss = "../../skin/frontend/webshop/default/css/webshop.css";
+    $destCss = "../../../skin/frontend/webshop/default/css/webshop.css";
 
     $myFile = fopen("color.txt", "w") or die();
     fwrite($myFile, $color);
@@ -107,7 +107,7 @@ if(isset($_POST["submit"]))
         copy($targetCss, $destCss);
     }
 
-    foreach (glob("../../var/cache/*", GLOB_ONLYDIR) as $dir)
+    foreach (glob("../../../var/cache/*", GLOB_ONLYDIR) as $dir)
     {
         foreach(glob($dir . "/*") as $file)
         {
