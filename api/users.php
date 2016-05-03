@@ -16,7 +16,11 @@ class user
 
     public function __construct()
     {
-        $this->ini_array = parse_ini_file("../php.ini");
+        if(file_exists("../php.ini")){
+            $this->ini_array = parse_ini_file("../php.ini");
+        } else {
+            $this->ini_array = parse_ini_file("./php.ini");
+        }
     }
 
     public function openSoap()

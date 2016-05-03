@@ -6,7 +6,11 @@
  * Time: 17:36
  */
 
-include('../vendor/autoload.php');
+if(file_exists("../vendor/autoload.php")){
+    include('../vendor/autoload.php');
+}else{
+    include('./vendor/autoload.php');
+}
 use Magento\Client\Xmlrpc\MagentoXmlrpcClient;
 
 class Orders
@@ -15,7 +19,11 @@ class Orders
     private $ini_array;
 
     public function __construct() {
-        $this->ini_array = parse_ini_file("../php.ini");
+        if(file_exists("../php.ini")){
+            $this->ini_array = parse_ini_file("../php.ini");
+        } else {
+            $this->ini_array = parse_ini_file("./php.ini");
+        }
     }
 
     public function openSoap() {      
@@ -56,7 +64,6 @@ class Orders
     }
 
     /**
-    * Currently not activ!
     * cancel a specific order
     * @param Order ID
     * @return bool
