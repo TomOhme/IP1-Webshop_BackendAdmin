@@ -37,25 +37,25 @@ if(isset($_POST["submit"]))
             $errorMsg .= "Die Datei ist kein Bild!\n";
         }
 
-        if ($_FILES['file-0']["size"] > 500000) {
-            $uploadOk = 0;
-            $errorMsg .= "Das Bild ist zu gross.\n";
-        }
-
         if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
             $uploadOk = 0;
             $errorMsg .= "Nur JPG, PNG & GIF Dateien sind erlaubt.\n";
+        }
+
+        if ($_FILES['file-0']["size"] > 500000) {
+            $uploadOk = 0;
+            $errorMsg .= "Das Bild ist zu gross.\n";
         }
 
         if ($uploadOk == 0) {
             $errorMsg .= "Bild wurde nicht hochgeladen";
 
         } else {
-            foreach (glob("../../skin/frontend/webshop/default/images/logo_bh.png") as $file) {
+            foreach (glob($target_dir . "logo_bh.png") as $file) {
                 unlink($file);
             }
 
-            move_uploaded_file($_FILES['file-0']["tmp_name"], "../../skin/frontend/webshop/default/images/logo_bh.png");
+            move_uploaded_file($_FILES['file-0']["tmp_name"], $target_dir . "logo_bh.png");
         }
     }
 
@@ -190,26 +190,28 @@ if(isset($_POST["submit"]))
                         <div class="form-group">
                             <label for="ColorPicker">Farbe</label>
                             <div class="radio">
-                                <label class="radio-inline">
+                                <label class="radio-inline" style="width: 60px;">
                                     <input type="radio" name="color" id="colorBlue" value="blue" <?php if($myColor == "blue") {?>checked<?php } ?>> Blau
                                 </label>
                                 <label class="radio-inline">
                                     <input type="radio" name="color" id="colorRed" value="red"  <?php if($myColor == "red") {?>checked<?php } ?>> Rot
                                 </label>
-                                <label class="radio-inline">
-                                    <input type="radio" name="color" id="colorGreen" value="green" <?php if($myColor == "green") {?>checked<?php } ?>> Gr&uuml;n
-                                </label>
                             </div>
                             <div class="radio">
+                                <label class="radio-inline" style="width: 60px;">
+                                    <input type="radio" name="color" id="colorGreen" value="green" <?php if($myColor == "green") {?>checked<?php } ?>> Gr&uuml;n
+                                </label>
                                 <label class="radio-inline">
                                     <input type="radio" name="color" id="colorGray" value="gray" <?php if($myColor == "beige") {?>checked<?php } ?>> Grau
                                 </label>
-                                <label class="radio-inline">
+                            </div>
+                            <div class="radio">
+                                <label>
                                     <input type="radio" name="color" id="colorBeige" value="beige" <?php if($myColor == "gray") {?>checked<?php } ?>> Beige
                                 </label>
                             </div>
                         </div>
-                        <div class="col-sm-6" style="margin-top: 10px">
+                        <div class="col-sm-6" style="margin-top: 10px; padding-left: 0px;">
                             <button type="button" class="btn btn-primary" onclick="updateSetting(this);">Hochladen</button>
                         </div>
                     </div>
