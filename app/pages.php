@@ -96,7 +96,9 @@ if ($page == 'articles') {
     }
 
     function logout() {
-        window.location = "./index.php";
+        $.get('logout.php', function() {
+            window.location = "./index.php";
+        });
     }
 
 </script>

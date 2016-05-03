@@ -5,6 +5,9 @@
  * Date: 07.04.2016
  * Time: 20:21
  */
+
+session_start();
+
 ?>
 <body>
 <nav class="navbar navbar-default" role="navigation">
@@ -27,9 +30,10 @@
                 <li onclick="changeSite('users');"><a href="#">Benutzer</a></li>
                 <li onclick="changeSite('orders');"><a href="#">Bestellungen</a></li>
                 <li onclick="changeSite('settings');"><a href="#">Einstellungen</a></li>
-                <li onclick="changeSite('design');"><a href="#">Design</a> </li>
+                <li onclick="changeSite('design');"><a href="#">Design</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
+                <li title="Eingeloggter Benutzer"><a class="loggedinuser" href="#"><img src="../img/profile.png" width="25" height="25">&nbsp;<?php echo $_SESSION['username']; ?></a></li>
                 <li><a href="../.." target="_blank" class="visible-xs"><img src="../img/shop.png" width="25" height="25" title="Zum Webshop">&nbsp;Zum Webshop</a></li>
                 <li><a href="../.." target="_blank" class="hidden-xs"><img src="../img/shop.png" width="25" height="25" title="Zum Webshop"></a></li>
                 <li onclick="logout();" class="visible-xs" id="action_logout"><a href="#"><img src="../img/logout.png" width="25" height="25" title="Logout">&nbsp;Logout</a></li>

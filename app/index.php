@@ -7,6 +7,7 @@
  */
 
 include("header.php");
+
 ?>
 <link rel="stylesheet" href="../css/loginStyle.css" />
 </head>
