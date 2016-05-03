@@ -5,6 +5,7 @@
  * Date: 07.04.2016
  * Time: 15:44
  */
+session_start();
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>

@@ -5,9 +5,9 @@
  * Date: 07.04.2016
  * Time: 20:21
  */
-
-session_start();
-
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 ?>
 <body>
 <nav class="navbar navbar-default" role="navigation">
