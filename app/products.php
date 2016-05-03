@@ -440,7 +440,6 @@ function formatDiscount($discount){
                     $("#alertProductDeleteSuccess").fadeTo(10000, 500).slideUp(500, function(){
                         $("#alertProductDeleteSuccess").hide();
                     });
-                    //TODO alert success
                 }
             });
         }
