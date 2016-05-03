@@ -45,32 +45,19 @@ if(isset($_POST['categoryId']) && isset($_POST['categoryDelete'])){
                         <div class="col-sm-6">
                             <?php $categories = $soapProductGroup->getTree(); ?>
                             <select name="categoryId" id="categoryId" class="form-control">
-                                <option value=""></option>
+                                <?php getNextSubCategoryDropdown($categories); ?>
                                 <?php
-                                    foreach($categories['children'] as $category) { ?>
-                                        <option value="<?php echo $category['category_id']; ?>"> <?php echo $category['name']; ?> </option>
-                                        <?php getNextSubCategoryDropdown($category); ?>
-                                <?php } ?>
-                                <?php
-                                    function getNextSubCategoryDropdown($category) {
-                                        if ($category['children'] != null) {
+                                function getNextSubCategoryDropdown($category) {
+                                    if ($category['children'] != null) {
                                         foreach ($category['children'] as $subCategory) { ?>
-                                            <option value="<?php echo $subCategory['category_id']; ?>"> <?php echo "- ". $subCategory['name']; ?> </option> <!-- TODO indent sub categories -->
+                                            <option value="<?php echo $subCategory['category_id']; ?>"> <?php echo $subCategory['name']; ?> </option> <!-- TODO indent sub categories -->
                                             <?php if ($subCategory['children'] != null) {
                                                 getNextSubCategoryDropdown($subCategory);
                                                 ?>
                                             <?php }
-                                            }
-                                         }
-                                     } ?>
-                                <?php /*
-                                    foreach($categories['children'] as $category) {
-                                        echo '<option value="' . $category['name'] . '">' . $category['name'] . "</option>";
-                                        foreach($category['children'] as $subCategory) {
-                                            echo '<option value="' . $subCategory['name'] . '">- ' . $subCategory['name'] . "</option>";
                                         }
-                                    }*/
-                                ?>
+                                    }
+                                } ?>
                             </select>
                         </div>
                     </div>

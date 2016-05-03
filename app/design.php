@@ -20,24 +20,24 @@ fclose($myFile);
 
 if(isset($_POST["submit"]))
 {
-    $img = array_filter($_FILES["uploadImgBtn"]);
+    $img = array_filter($_FILES['file-0']);
 
     if(!empty($img)) {
         $target_dir = "../../skin/frontend/webshop/default/images/";
-        $target_file = $target_dir . basename($_FILES["uploadImgBtn"]["name"]);
+        $target_file = $target_dir . basename($_FILES['file-0']["name"]);
         $uploadOk = 1;
         $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
 
         $errorMsg = "";
 
-        $check = getimagesize($_FILES["uploadImgBtn"]["tmp_name"]);
+        $check = getimagesize($_FILES['file-0']["tmp_name"]);
 
         if ($check == false) {
             $uploadOk = 0;
             $errorMsg .= "Die Datei ist kein Bild!\n";
         }
 
-        if ($_FILES["uploadImgBtn"]["size"] > 500000) {
+        if ($_FILES['file-0']["size"] > 500000) {
             $uploadOk = 0;
             $errorMsg .= "Das Bild ist zu gross.\n";
         }
@@ -55,7 +55,7 @@ if(isset($_POST["submit"]))
                 unlink($file);
             }
 
-            move_uploaded_file($_FILES["uploadImgBtn"]["tmp_name"], "../../skin/frontend/webshop/default/images/logo_bh.png");
+            move_uploaded_file($_FILES['file-0']["tmp_name"], "../../skin/frontend/webshop/default/images/logo_bh.png");
         }
     }
 
@@ -121,6 +121,7 @@ if(isset($_POST["submit"]))
         ?>
 
         <script type="text/javascript">
+            /*
             function () {
                 $("#importExcel").modal('toggle');
                 $('#Success').empty();
@@ -130,6 +131,7 @@ if(isset($_POST["submit"]))
                     $("#alertSuccess").hide();
                 });
             }
+            */
         </script>
         <?php
     }
@@ -137,6 +139,7 @@ if(isset($_POST["submit"]))
     {
         ?>
         <script type="text/javascript">
+            /*
             function () {
                 $('#Error').empty();
                 $("#importExcel").modal('toggle');
@@ -146,6 +149,7 @@ if(isset($_POST["submit"]))
                     $("#alertError").hide();
                 });
             }
+            */
         </script>
         <?php
     }
@@ -166,7 +170,7 @@ if(isset($_POST["submit"]))
     </div>
 
     <div class="">
-        <form action="" method="post" enctype="application/x-www-form-urlencoded">
+        <form method="post" role="form" id="formDesign" enctype="multipart/form-data">
             <table>
                 <td style="width: 800px;">
                     <div id="" class="col-sm-12">
@@ -174,41 +178,39 @@ if(isset($_POST["submit"]))
                         <div id="" class="col-sm-12">
                             <img src="../../skin/frontend/webshop/default/images/logo_bh.png" height="100px" />
                         </div>
-                        <label class="col-sm-12 control-label">Logo</label>
-                        <div class="col-sm-12">
-                            <table>
-                                <tr>
-                                    <td><input type="text" class="file-upload" id="uploadImgPath" name="logo" placeholder="" value=""></td>
-                                    <td>
-                                        <button class="file-upload">
-                                            <input type="file" id="uploadImgBtn" name="uploadImgBtn" onchange="getImgPath(this, 'uploadImgPath');" class="file-input">Durchsuchen...
-                                        </button>
-                                    </td>
-                                </tr>
-                            </table>
+                        <div class="form-group">
+                            <label for="LogoFile">Logo</label>
+                            <input type="file" id="LogoFile" name="file" accept=".png,.jpg,.jpeg,.gif">
+                            <p class="help-block">Das neue Logo ausw&auml;hlen.</p>
                         </div>
                     </div>
                 </td>
                 <td style="width: 800px;">
                     <div id="" class="col-sm-12">
-                        <label class="col-sm-12 control-label">Farbe</label>
-                        <div class="col-sm-12">
-                            <table>
-                                <tr>
-                                    <td style="width: 100px;"><input type="radio" name="color" value="red" <?php if($myColor == "red") {?>checked<?php } ?>>Rot</input></td>
-                                    <td><input type="radio" name="color" value="blue" <?php if($myColor == "blue") {?>checked<?php } ?>>Blau</input></td>
-                                </tr>
-                                <tr>
-                                    <td style="width: 100px;"><input type="radio" name="color" value="green" <?php if($myColor == "green") {?>checked<?php } ?>>Grün</input></td>
-                                    <td><input type="radio" name="color" value="beige" <?php if($myColor == "beige") {?>checked<?php } ?>>Beige</input></td>
-                                </tr>
-                                <tr>
-                                    <td><input type="radio" name="color" value="gray" <?php if($myColor == "gray") {?>checked<?php } ?>>Grau</input></td>
-                                </tr>
-                            </table>
+                        <div class="form-group">
+                            <label for="ColorPicker">Farbe</label>
+                            <div class="radio">
+                                <label class="radio-inline">
+                                    <input type="radio" name="color" id="colorBlue" value="blue" <?php if($myColor == "blue") {?>checked<?php } ?>> Blau
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="color" id="colorRed" value="red"  <?php if($myColor == "red") {?>checked<?php } ?>> Rot
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="color" id="colorGreen" value="green" <?php if($myColor == "green") {?>checked<?php } ?>> Gr&uuml;n
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label class="radio-inline">
+                                    <input type="radio" name="color" id="colorGray" value="gray" <?php if($myColor == "beige") {?>checked<?php } ?>> Grau
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="color" id="colorBeige" value="beige" <?php if($myColor == "gray") {?>checked<?php } ?>> Beige
+                                </label>
+                            </div>
                         </div>
                         <div class="col-sm-6" style="margin-top: 10px">
-                            <input onclick="updateSetting()" type="submit" name="submit" value="Speichern" >
+                            <button type="button" class="btn btn-primary" onclick="updateSetting(this);">Hochladen</button>
                         </div>
                     </div>
                 </td>
@@ -218,8 +220,26 @@ if(isset($_POST["submit"]))
 </div>
 
 <script type="text/javascript">
-    function getImgPath(oFileInput, sTargetID)
-    {
+    function getImgPath(oFileInput, sTargetID) {
         document.getElementById(sTargetID).value = oFileInput.value;
+    }
+
+    function updateSetting(form){
+        var data = new FormData();
+        data.append('submit', 'submitted');
+        jQuery.each(jQuery('#LogoFile')[0].files, function(i, file) {
+            data.append('file-'+i, file);
+        });
+        data.append('color',$('input[name=color]:checked', '#formDesign').val());
+        $.ajax({
+            url : 'design.php',
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: data,
+            success: function (data) {
+            }
+        });
     }
 </script>
