@@ -158,10 +158,10 @@ class product {
         return $this->createProductImage($newFilename, $mime, $name, $productId);
     }
 
-    public function addDiscount($dId, $pID,$discount,$threshold){
+    public function updateDiscount($dId,$discount,$threshold){
         if($this->mysqli->query("SHOW TABLES LIKE 'custom_discount'")->num_rows>0){
-            $stmt = $this -> mysqli->prepare("UPDATE magento.custom_discount SET discount =?, productID =?, setAfter=?   WHERE custom_discount.id =?;");
-            $stmt->bind_param("ssss", $discount,$pID,$threshold,$dId);
+            $stmt = $this -> mysqli->prepare("UPDATE magento.custom_discount SET discount =?, setAfter=?   WHERE custom_discount.id =?;");
+            $stmt->bind_param("sss", $discount,$threshold,$dId);
             $stmt->execute();
             $stmt->bind_result($result);
             $stmt->fetch();
@@ -171,10 +171,10 @@ class product {
         return "";
     }
 
-    public function createDiscount($pID,$discount,$threshold){
+    public function createDiscount($discount,$threshold){
         if($this->mysqli->query("SHOW TABLES LIKE 'custom_discount'")->num_rows>0){
-            $stmt = $this -> mysqli->prepare("INSERT INTO magento.custom_discount (id, productID, discount, setAfter) VALUES (NULL, ?, ?, ?);");
-            $stmt->bind_param("sss", $pID,$discount,$threshold);
+            $stmt = $this -> mysqli->prepare("INSERT INTO magento.custom_discount (id, discount, setAfter) VALUES (NULL, ?, ?);");
+            $stmt->bind_param("ss",$discount,$threshold);
             $stmt->execute();
             $stmt->bind_result($result);
             $stmt->fetch();
@@ -186,7 +186,7 @@ class product {
 
     public function deleteDiscount($id){
         if($this->mysqli->query("SHOW TABLES LIKE 'custom_discount'")->num_rows>0){
-            $stmt = $this -> mysqli->prepare("DELETE FROM magento.custom_discount WHERE custom_discount.productID =?;");
+            $stmt = $this -> mysqli->prepare("DELETE FROM magento.custom_discount WHERE custom_discount.id =?;");
             $stmt->bind_param("s", $id);
             $stmt->execute();
             $stmt->bind_result($result);
@@ -197,12 +197,12 @@ class product {
         return "";
     }
 
-    public function getDiscount($pID){
+    public function getDiscount($id){
         if($this->mysqli->query("SHOW TABLES LIKE 'custom_discount'")->num_rows>0){
-            $stmt = $this -> mysqli->prepare("SELECT * FROM custom_discount WHERE productID=?;");
-            $stmt->bind_param("s", $pID);
+            $stmt = $this -> mysqli->prepare("SELECT * FROM custom_discount WHERE custom_discount.id=?;");
+            $stmt->bind_param("s", $id);
             $stmt->execute();
-            $stmt->bind_result($id, $pID, $discount, $threshold);
+            $stmt->bind_result($id, $discount, $threshold);
             $stmt->fetch();
             $stmt->close();
             return $discount;

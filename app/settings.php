@@ -1,4 +1,3 @@
-<div id="dummy">
 <?php
 /**
  * Created by IntelliJ IDEA
@@ -7,15 +6,8 @@
  * Time: 15:37
  */
 session_start();
+include("../api/dbconnect.php");
 
-$ini_array = parse_ini_file("../php.ini");
-$user = $ini_array["DBUSER"];
-$pwd = $ini_array["DBPWD"];
-
-$mysqli = new mysqli("localhost", $user, $pwd, "magento");
-if ($mysqli->connect_error) {
-    die("Connection failed: " . $mysqli->connect_error);
-}
 $select = "SELECT `content` FROM `cms_page` WHERE `identifier`= 'ueber-uns'; ";
 $result = $mysqli->query($select);
 $row = mysqli_fetch_assoc($result);
@@ -29,8 +21,6 @@ $mysqli->close();
 //$lng = $row['lng'];
 
 ?>
-</div>
-
 <script src="../plugins/tinymce/tinymce.min.js"></script>
 <script>
     tinymce.init({
@@ -44,7 +34,7 @@ $mysqli->close();
 </script>
 
 <div id="content" style="padding-left:50px; padding-right:50px;">
-    <div class="row">
+    <div class="col-md-8">
             <table>
                 <td style="width: 1000px;">
                     <form method="post"  role="form" enctype="multipart/form-data" name="contact">
@@ -87,6 +77,10 @@ $mysqli->close();
                     </form>
                 </td>
             </table>
+    </div>
+    <div class="col-md-4">
+    <h1>Rabatt</h1>
+    
     </div>
 <script type="text/javascript">
 

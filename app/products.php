@@ -74,7 +74,6 @@ function formatDiscount($discount){
                         <div class="col-sm-6 text-right">
                             <!-- Trigger the modal with a button -->
                             <button id="create_article" type="button" onclick="loadItem('createProduct','newProductId')" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Neuer Artikel</button>
-
                             <button id="import_article" type="button" class="btn btn-primary" data-toggle="modal" data-target="#importExcel">Excel-Tabelle</button>
                         </div>
                     </div>
@@ -89,7 +88,6 @@ function formatDiscount($discount){
                                         <td class="col-sm-3 hidden-xs sorting_disabled" rowspan="1" colspan="1" aria-label="Bild" style="width: 200px;">Bild</td>
                                         <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Bestand" style="width: 150px;">Bestand</td>
                                         <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Preis" style="width: 250px;">Preis</td>
-                                        <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Rabatt" style="width: 100px;">Rabatt</td>
                                         <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Löschen" style="width: 100px;">L&ouml;schen</td>
                                     </tr>
                                 </thead>
@@ -123,10 +121,9 @@ function formatDiscount($discount){
                                                     }
                                                 ?>
                                             </td>
-                                            <td onclick="loadItem('updateProduct', '<?php echo $product['product_id']; ?>');" class="col-sm-3 hidden-xs"><img src="<?php if (isset($productImg[0]['url'])) { echo $productImg[0]['url']; } else { echo "Kein Bild vorhanden"; } ?>" width="70px" class="img-thumbnail" alt="Thumbnail Image"></td>
+                                            <td onclick="loadItem('updateProduct', '<?php echo $product['product_id']; ?>');" class="col-sm-3 hidden-xs"><img src="<?php if (isset($productImg[0]['url'])) { echo $productImg[0]['url']; } else { echo "../img/noImg.jpg"; } ?>" width="70px" class="img-thumbnail" alt="Thumbnail Image"></td>
                                             <td onclick="loadItem('updateProduct', '<?php echo $product['product_id']; ?>');"><?php echo formatAmount($productStock[0]['qty']); ?></td>
                                             <td onclick="loadItem('updateProduct', '<?php echo $product['product_id']; ?>');"><?php if ($product['special_price'] != null) { ?> <p style="text-decoration: line-through;"> <?php echo formatPrice($product['price']); ?> </p> <?php echo formatPrice($product['special_price']); ?>  <?php } else { ?>  <?php echo formatPrice($product['price']); } ?> </td>
-                                            <td onclick="loadItem('updateProduct', '<?php echo $product['product_id']; ?>');"><?php echo formatDiscount($productDiscount); ?></td>
                                             <td onclick="deleteProduct('<?php echo $product['product_id'] ?>');"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
                                         </tr>
                                         <?php
