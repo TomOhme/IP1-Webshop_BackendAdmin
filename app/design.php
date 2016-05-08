@@ -116,44 +116,6 @@ if(isset($_POST["submit"]))
 
         rmdir($dir);
     }
-
-    if($uploadOk == 0) {
-        ?>
-
-        <script type="text/javascript">
-            /*
-            function () {
-                $("#importExcel").modal('toggle');
-                $('#Success').empty();
-                $('#Success').html("<strong> Erfolgreich! </strong> Einstellungen übernommen!");
-                $("#alertSuccess").toggle();
-                $("#alertSuccess").fadeTo(10000, 500).slideUp(500, function () {
-                    $("#alertSuccess").hide();
-                });
-            }
-            */
-        </script>
-        <?php
-    }
-    else
-    {
-        ?>
-        <script type="text/javascript">
-            /*
-            function () {
-                $('#Error').empty();
-                $("#importExcel").modal('toggle');
-                $('#Error').html("<strong> Fehler! </strong><?php $errorMsg ?> ");
-                $("#alertError").toggle();
-                $("#alertError").fadeTo(10000, 500).slideUp(500, function () {
-                    $("#alertError").hide();
-                });
-            }
-            */
-        </script>
-        <?php
-    }
-
 }
 
 ?>
@@ -173,8 +135,7 @@ if(isset($_POST["submit"]))
         <form method="post" role="form" id="formDesign" enctype="multipart/form-data">
             <table>
                 <td style="width: 800px;">
-                    <div id="" class="col-sm-12">
-
+                    <div class="col-sm-12">
                         <div id="" class="col-sm-12">
                             <img src="../../skin/frontend/webshop/default/images/logo_bh.png" height="100px" />
                         </div>
@@ -240,7 +201,25 @@ if(isset($_POST["submit"]))
             contentType: false,
             processData: false,
             data: data,
-            success: function (data) {
+            success: function (data)
+            {
+                $("#importExcel").modal('toggle');
+                $('#Success').empty();
+                $('#Success').html("<strong> Erfolgreich! </strong> Einstellungen übernommen!");
+                $("#alertSuccess").toggle();
+                $("#alertSuccess").fadeTo(10000, 500).slideUp(500, function () {
+                    $("#alertSuccess").hide();
+                });
+            },
+            error: function(data)
+            {
+                $('#Error').empty();
+                $("#importExcel").modal('toggle');
+                $('#Error').html("<strong> Fehler! </strong><?php $errorMsg ?> ");
+                $("#alertError").toggle();
+                $("#alertError").fadeTo(10000, 500).slideUp(500, function () {
+                    $("#alertError").hide();
+                });
             }
         });
     }
