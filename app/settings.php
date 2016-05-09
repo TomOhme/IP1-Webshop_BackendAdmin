@@ -76,20 +76,10 @@ function formatPrice($price){
                         <label class="col-sm-12 control-label">Über Uns</label>
                         <div class="col-sm-12">
 							<div id="aboutUs"><?php echo $aboutUs; ?></div>
-							<script>
-								$(document).ready(function() {
-									$('#aboutUs').summernote();
-								});
-							</script>
                         </div>
                         <label class="col-sm-12 control-label">Öffnungszeiten</label>
                         <div class="col-sm-12">
 							<div id="opening"><?php echo $opening; ?></div>
-							<script>
-								$(document).ready(function() {
-									$('#opening').summernote();
-								});
-							</script>
                         </div>
                         <label class="col-sm-12 control-label">Standort</label>
                         <!--<div id="us2" style="width: 500px; height: 400px; margin-left: 15px;">--><div id="stayheredoggy"><img src="http://maps.googleapis.com/maps/api/staticmap?center=46.9479739,7.447446799999966&amp;zoom=15&amp;size=400x400&amp;markers=color:blue|46.9479739,7.447446799999966&amp;sensor=false" height="400" width="400" style="margin-left: 15px;"/></div><!--</div>--><br>
@@ -198,13 +188,21 @@ function formatPrice($price){
 						<button id="saveUpdateDiscount" type="button" class="btn btn-primary" name="updateDisc">Speichern</button>
 					</form>
 				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
+				</div>
 			</div><!-- /.modal-content -->
 		</div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
-<script type="text/script">
-	function updateContact() {
 
-        tinyMCE.triggerSave();
+<script type="text/javascript">
+
+	$(document).ready(function() {
+		$('#opening').summernote();
+		$('#aboutUs').summernote();
+	});
+
+	function updateContact() {
 
 		var title = document.getElementById("title").value;
 		var fileToUpload = document.getElementById("fileToUpload").value;
