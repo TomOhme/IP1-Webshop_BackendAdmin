@@ -22,8 +22,10 @@ if(isset($_POST["submit"]))
 {
     $img = array_filter($_FILES['file-0']);
 
-    if(!empty($img)) {
-        $target_dir = "../../../magento/skin/frontend/webshop/default/images/";
+    if(!empty($img))
+    {
+        // ../../../magento/skin/frontend/webshop/default/images/
+        $target_dir = "../../magento/skin/frontend/webshop/default/images/";
         $target_file = $target_dir . basename($_FILES['file-0']["name"]);
         $uploadOk = 1;
         $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
@@ -135,7 +137,7 @@ if(isset($_POST["submit"]))
             <div class="row">
                 <div class="col-sm-6">
                     <div class="col-sm-12">
-                        <img src="../../skin/frontend/webshop/default/images/logo_bh.png" height="100px" />
+                        <img id="logoImg" src="../../magento/skin/frontend/webshop/default/images/logo_bh.png?<?php echo date("his"); ?>" />
                     </div>
                     <div class="form-group">
                         <label for="LogoFile">Logo</label>
@@ -204,11 +206,13 @@ if(isset($_POST["submit"]))
                 $("#alertSuccess").fadeTo(10000, 500).slideUp(500, function () {
                     $("#alertSuccess").hide();
                 });
+
+                $("#logoImg").attr( 'src', '../../magento/skin/frontend/webshop/default/images/logo_bh.png?' + (+new Date()) );
             },
             error: function(data)
             {
-                $('#Error').empty();
                 $("#importExcel").modal('toggle');
+                $('#Error').empty();
                 $('#Error').html("<strong> Fehler! </strong><?php $errorMsg ?> ");
                 $("#alertError").toggle();
                 $("#alertError").fadeTo(10000, 500).slideUp(500, function () {

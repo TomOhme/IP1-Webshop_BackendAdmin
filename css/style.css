@@ -30,3 +30,9 @@
     opacity: 0;
     filter: alpha(opacity=0);
 }
+
+img#logoImg
+{
+    max-height: 150px;
+    margin-bottom: 20px;
+}
