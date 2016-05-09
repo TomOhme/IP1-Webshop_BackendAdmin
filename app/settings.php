@@ -75,11 +75,11 @@ function formatPrice($price){
                         </div>
                         <label class="col-sm-12 control-label">Über Uns</label>
                         <div class="col-sm-12">
-							<div id="aboutUs"><?php echo $aboutUs; ?></div>
+							<textarea rows="10" id="aboutUs"><?php echo $aboutUs; ?></textarea>
                         </div>
                         <label class="col-sm-12 control-label">Öffnungszeiten</label>
                         <div class="col-sm-12">
-							<div id="opening"><?php echo $opening; ?></div>
+							<textarea rows="10" id="opening"><?php echo $opening; ?></textarea>
                         </div>
                         <label class="col-sm-12 control-label">Standort</label>
                         <!--<div id="us2" style="width: 500px; height: 400px; margin-left: 15px;">--><div id="stayheredoggy"><img src="http://maps.googleapis.com/maps/api/staticmap?center=46.9479739,7.447446799999966&amp;zoom=15&amp;size=400x400&amp;markers=color:blue|46.9479739,7.447446799999966&amp;sensor=false" height="400" width="400" style="margin-left: 15px;"/></div><!--</div>--><br>
@@ -198,8 +198,28 @@ function formatPrice($price){
 <script type="text/javascript">
 
 	$(document).ready(function() {
-		$('#opening').summernote();
-		$('#aboutUs').summernote();
+		$('#opening').summernote({
+			toolbar: [
+				// [groupName, [list of button]]
+				['style', ['bold', 'italic', 'underline', 'clear']],
+				['font', ['strikethrough', 'superscript', 'subscript']],
+				['fontsize', ['fontsize']],
+				['color', ['color']],
+				['para', ['ul', 'ol', 'paragraph']],
+				['height', ['height']]
+			]
+		});
+		$('#aboutUs').summernote({
+			toolbar: [
+				// [groupName, [list of button]]
+				['style', ['bold', 'italic', 'underline', 'clear']],
+				['font', ['strikethrough', 'superscript', 'subscript']],
+				['fontsize', ['fontsize']],
+				['color', ['color']],
+				['para', ['ul', 'ol', 'paragraph']],
+				['height', ['height']]
+			]
+		});
 	});
 
 	function updateContact() {

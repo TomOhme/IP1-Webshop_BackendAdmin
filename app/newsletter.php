@@ -30,12 +30,7 @@ include("../api/dbconnect.php");
                 </div>
                 <label class="col-sm-12 control-label">Inhalt</label>
                 <div class="col-sm-12">
-                    <div id="summernote"><p>Hello Summernote</p></div>
-                    <script>
-                        $(document).ready(function() {
-                            $('#summernote').summernote();
-                        });
-                    </script>
+                    <textarea rows="10" id="inhalt">Hello Summernote</textarea>
                 </div>
                 <br><button type="button" onclick="sendNewsletter();" style="margin-left: 15px;" class="btn btn-primary">Speichern</button>
             </div>
@@ -52,7 +47,44 @@ include("../api/dbconnect.php");
         lang:'de'
     });
 
+    $(document).ready(function() {
+        $('#inhalt').summernote({
+            toolbar: [
+                // [groupName, [list of button]]
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['font', ['strikethrough', 'superscript', 'subscript']],
+                ['fontsize', ['fontsize']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']]
+            ]
+        });
+    });
+
     function sendNewsletter() {
-        alert("test");
+
+        var title = document.getElementById("title").value;
+        var fileToUpload = document.getElementById("fileToUpload").value;
+        var aboutUs = document.getElementById("aboutUs").value;
+        var opening = document.getElementById("opening").value;
+        var lat = document.getElementById("us2-lat").value;
+        var lon = document.getElementById("us2-lon").value;
+
+        if (title == '' || aboutUs == '' || opening == '' || lat == '' || lon == '') {
+            alert("Please Fill All Fields");
+        } else {
+            // AJAX code to submit form.
+            $.ajax({
+                url: "updateContact.php",
+                type: "POST",
+                data: {title: title, fileToUpload: fileToUpload, aboutUs: aboutUs, opening: opening, lat: lat, lon: lon},
+                success: function() {
+                    alert("Erfolgreich geändert!");
+                }
+            });
+        }
+        return false;
+
+
     };
 </script>
