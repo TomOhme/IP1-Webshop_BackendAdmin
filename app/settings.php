@@ -24,6 +24,10 @@ $mysqli->close();
 //$lat = $row['lat'];
 //$lng = $row['lng'];
 
+if(isset($_POST['updateDiscount'])){
+
+}
+
 function formatDiscount($discount){
     return ($discount*100)."%";
 }
@@ -47,6 +51,7 @@ function formatPrice($price){
         language: 'de'
     });
 </script>
+<link rel="stylesheet" href="../css/custom.css">
 
 <div id="content" style="padding-left:50px; padding-right:50px;">
     <div class="col-md-8">
@@ -94,6 +99,10 @@ function formatPrice($price){
             </table>
     </div>
     <div class="col-md-4">
+        <h1>Rabatt</h1>
+        <div class="col-sm-6 text-right">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addDiscount">Rabatt hinzuf&uuml;gen</button>
+        </div>
         <table class="table table-responsive table-hover table-striped table-bordered dataTable no-footer" id="data-table" style="width: 100%;" role="grid" aria-describedby="data-table_info">
             <thead class="tablebold">
                 <tr role="row">
@@ -107,14 +116,14 @@ function formatPrice($price){
                 foreach ($rows as $row) {
                     ?>
                     <tr>
-                        <td><?php echo formatDiscount($row[1]); ?></td>
-                        <td><?php echo formatPrice($row[2]); ?></td>
+                        <td onclick="updateDiscount(<?php echo $row[0]; ?>)"><?php echo formatDiscount($row[1]); ?></td>
+                        <td onclick="updateDiscount(<?php echo $row[0]; ?>)"><?php echo formatPrice($row[2]); ?></td>
                     </tr>
                     <?php
                 }
                 ?>
             </tbody>
-        <h1>Rabatt</h1>
+        </table>
     </div>
 <script type="text/javascript">
 
@@ -146,6 +155,17 @@ function formatPrice($price){
 
 
     };
+
+    function updateDiscount(id){
+        $.ajax({
+            url: "settings.php",
+            type: "POST",
+            data: {updateDiscount: id},
+            success: function() {
+                alert("Erfolgreich Aktualisiert");
+            }
+        });
+    }
 
 </script>
 </div>
