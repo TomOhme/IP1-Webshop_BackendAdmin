@@ -27,6 +27,7 @@ session_start();
     <link rel="stylesheet" href="../css/bootstrap-colorpicker.min.css">
     <link rel="stylesheet" href="../css/bootstrap-datetimepicker.min.css">
     <link rel="stylesheet" href="../css/multi-select.css">
+    <link rel="stylesheet" href="../css/loadingBar.css">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon">
     <link rel="icon" href="../img/favicon.ico" type="image/x-icon">
@@ -37,14 +38,15 @@ session_start();
     <script src="../js/collapse.js"></script>
     <script src="../js/transition.js"></script>
     <script src="../js/moment.js"></script>
-    <script src="../js/bootstrap-datetimepicker.min.js"></script>
+    <script src="../js/bootstrap-datetimepicker.min.js"></script> <!-- https://eonasdan.github.io/bootstrap-datetimepicker/Installing/#manual -->
     <script src="../js/notify.min.js"></script>
-    <script src="../js/dropzone.js"></script>
+    <script src="../js/dropzone.js"></script> <!-- http://www.dropzonejs.com/#usage -->
     <script src="../js/bootstrapValidator.min.js"></script>
     <script src="../js/form_validation.js"></script>
     <script src="../js/bootstrap-colorpicker.min.js"></script>
     <script src="../js/ckeditor.js"></script>
-    <script src="../js/jquery.multi-select.js"></script>
+    <script src="../js/jquery.multi-select.js"></script> <!-- http://loudev.com/#home -->
+    <script src="../js/pace.js"></script> <!-- http://github.hubspot.com/pace/docs/welcome/ -->
     <meta name="apple-mobile-web-app-title" content="EasyAdmin">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">

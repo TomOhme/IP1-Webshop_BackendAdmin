@@ -23,7 +23,7 @@ if(isset($_POST["submit"]))
     $img = array_filter($_FILES['file-0']);
 
     if(!empty($img)) {
-        $target_dir = "../../../skin/frontend/webshop/default/images/";
+        $target_dir = "../../../magento/skin/frontend/webshop/default/images/";
         $target_file = $target_dir . basename($_FILES['file-0']["name"]);
         $uploadOk = 1;
         $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
@@ -60,7 +60,7 @@ if(isset($_POST["submit"]))
     }
 
     $color = $_POST["color"];
-    $destCss = "../../../skin/frontend/webshop/default/css/webshop.css";
+    $destCss = "../../../magento/skin/frontend/webshop/default/css/webshop.css";
 
     $myFile = fopen("color.txt", "w") or die();
     fwrite($myFile, $color);
@@ -107,7 +107,7 @@ if(isset($_POST["submit"]))
         copy($targetCss, $destCss);
     }
 
-    foreach (glob("../../../var/cache/*", GLOB_ONLYDIR) as $dir)
+    foreach (glob("../../../magento/var/cache/*", GLOB_ONLYDIR) as $dir)
     {
         foreach(glob($dir . "/*") as $file)
         {
@@ -131,53 +131,49 @@ if(isset($_POST["submit"]))
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     </div>
 
-    <div class="">
+    <div class="content">
         <form method="post" role="form" id="formDesign" enctype="multipart/form-data">
-            <table>
-                <td style="width: 800px;">
+
+            <div class="row">
+                <div class="col-sm-6">
                     <div class="col-sm-12">
-                        <div id="" class="col-sm-12">
-                            <img src="../../skin/frontend/webshop/default/images/logo_bh.png" height="100px" />
+                        <img src="../../skin/frontend/webshop/default/images/logo_bh.png" height="100px" />
+                    </div>
+                    <div class="form-group">
+                        <label for="LogoFile">Logo</label>
+                        <input type="file" id="LogoFile" name="file" accept=".png,.jpg,.jpeg,.gif">
+                        <p class="help-block">Das neue Logo ausw&auml;hlen.</p>
+                    </div>
+                </div>
+                <div id="" class="col-sm-6">
+                    <div class="form-group">
+                        <label for="ColorPicker">Farbe</label>
+                        <div class="radio">
+                            <label class="radio-inline" style="width: 60px;">
+                                <input type="radio" name="color" id="colorBlue" value="blue" <?php if($myColor == "blue") {?>checked<?php } ?>> Blau
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="color" id="colorRed" value="red"  <?php if($myColor == "red") {?>checked<?php } ?>> Rot
+                            </label>
                         </div>
-                        <div class="form-group">
-                            <label for="LogoFile">Logo</label>
-                            <input type="file" id="LogoFile" name="file" accept=".png,.jpg,.jpeg,.gif">
-                            <p class="help-block">Das neue Logo ausw&auml;hlen.</p>
+                        <div class="radio">
+                            <label class="radio-inline" style="width: 60px;">
+                                <input type="radio" name="color" id="colorGreen" value="green" <?php if($myColor == "green") {?>checked<?php } ?>> Gr&uuml;n
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="color" id="colorGray" value="gray" <?php if($myColor == "beige") {?>checked<?php } ?>> Grau
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="color" id="colorBeige" value="beige" <?php if($myColor == "gray") {?>checked<?php } ?>> Beige
+                            </label>
                         </div>
                     </div>
-                </td>
-                <td style="width: 800px;">
-                    <div id="" class="col-sm-12">
-                        <div class="form-group">
-                            <label for="ColorPicker">Farbe</label>
-                            <div class="radio">
-                                <label class="radio-inline" style="width: 60px;">
-                                    <input type="radio" name="color" id="colorBlue" value="blue" <?php if($myColor == "blue") {?>checked<?php } ?>> Blau
-                                </label>
-                                <label class="radio-inline">
-                                    <input type="radio" name="color" id="colorRed" value="red"  <?php if($myColor == "red") {?>checked<?php } ?>> Rot
-                                </label>
-                            </div>
-                            <div class="radio">
-                                <label class="radio-inline" style="width: 60px;">
-                                    <input type="radio" name="color" id="colorGreen" value="green" <?php if($myColor == "green") {?>checked<?php } ?>> Gr&uuml;n
-                                </label>
-                                <label class="radio-inline">
-                                    <input type="radio" name="color" id="colorGray" value="gray" <?php if($myColor == "beige") {?>checked<?php } ?>> Grau
-                                </label>
-                            </div>
-                            <div class="radio">
-                                <label>
-                                    <input type="radio" name="color" id="colorBeige" value="beige" <?php if($myColor == "gray") {?>checked<?php } ?>> Beige
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-sm-6" style="margin-top: 10px; padding-left: 0px;">
-                            <button type="button" class="btn btn-primary" onclick="updateSetting(this);">Hochladen</button>
-                        </div>
+                    <div class="col-sm-6" style="margin-top: 10px; padding-left: 0px;">
+                        <button type="button" class="btn btn-primary" onclick="updateSetting(this);">Hochladen</button>
                     </div>
-                </td>
-            </table>
+                </div>
         </form>
     </div>
 </div>
