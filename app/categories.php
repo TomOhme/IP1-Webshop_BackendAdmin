@@ -21,7 +21,7 @@ $values = array();
 if(isset($_POST['productData']) && isset($_POST['categoryUpdateSave'])){
     parse_str($_POST['productData'], $values);
     //var_dump($values);
-    $soapProductGroup->createCategory($values['categoryName'], $values['categoryId']);
+    $soapProductGroup->createCategory(trim($values['categoryName']), $values['categoryId']);
 }
 
 if(isset($_POST['productData']) && isset($_POST['categoryDelete'])){
