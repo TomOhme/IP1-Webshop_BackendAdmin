@@ -13,9 +13,9 @@ include("menu.php");
 </div>
 <script type="text/javascript">
 
-    $(document).ready(function() {
-        changeSite("products");
-    });
+    /*$(document).ready(function() {
+        changeSite("products"); TODO change site after success login
+    });*/
 
     function changeSite(page) {
         $("#content").empty();
@@ -27,57 +27,6 @@ include("menu.php");
             }
         });
     };
-
-    function cancleOrder(id){
-        $.ajax({
-            url : 'orders.php',
-            type: 'POST',
-            data: {"cancleOrderID": id},
-            success: function (data) {
-                changeSite("orders");
-                $('#orderSuccess').empty();
-                $('#orderSuccess').html("<strong>Erfolgreich!</strong> Die Bestellung wurde storniert.");
-                $("#alertOrderSuccess").toggle();
-                $("#alertOrderSuccess").fadeTo(10000, 500).slideUp(500, function(){
-                    $("#alertOrderSuccess").hide();
-                });
-            }
-        });
-    }
-
-    function closeOrder(id){
-        $.ajax({
-            url : 'orders.php',
-            type: 'POST',
-            data: {"closeOrderID": id},
-            success: function (data) {
-                changeSite("orders");
-                $('#orderSuccess').empty();
-                $('#orderSuccess').html("<strong>Erfolgreich!</strong> Die Bestellung wurde abgeschlossen.");
-                $("#alertOrderSuccess").toggle();
-                $("#alertOrderSuccess").fadeTo(10000, 500).slideUp(500, function(){
-                    $("#alertOrderSuccess").hide();
-                });
-            }
-        });
-    }
-
-    function reopenOrder(id){
-        $.ajax({
-            url : 'orders.php',
-            type: 'POST',
-            data: {"reopenOrderID": id},
-            success: function (data) {
-                changeSite("orders");
-                $('#orderSuccess').empty();
-                $('#orderSuccess').html("<strong>Erfolgreich!</strong> Die Bestellung wurde erneut er&ouml;ffnet.");
-                $("#alertOrderSuccess").toggle();
-                $("#alertOrderSuccess").fadeTo(10000, 500).slideUp(500, function(){
-                    $("#alertOrderSuccess").hide();
-                });
-            }
-        });
-    }
 
     function logout() {
         $.get('logout.php', function() {

@@ -7,6 +7,10 @@
  */
 session_start();
 include("../api/dbconnect.php");
+include("../api/product.php");
+
+$soapProduct = new Product();
+$soapProduct -> openSoap();
 
 $select = "SELECT `content` FROM `cms_page` WHERE `identifier`= 'ueber-uns'; ";
 $result = $mysqli->query($select);
@@ -24,6 +28,21 @@ $opening = rtrim($split3[0], '<');
 //$lat = $row['lat'];
 //$lng = $row['lng'];
 
+if(isset($_POST['updateDiscount'])){
+
+}
+
+function formatDiscount($discount){
+    return ($discount*100)."%";
+}
+function formatPrice($price){
+    setlocale(LC_MONETARY,"de_CH");
+    if(function_exists('money_format')){
+        return money_format("%.2n", $price);
+    } else {
+        return "Fr. ". sprintf('%01.2f', $price);
+    }
+}
 ?>
 <script src="../plugins/tinymce/tinymce.min.js"></script>
 <script>
@@ -36,6 +55,7 @@ $opening = rtrim($split3[0], '<');
         language: 'de'
     });
 </script>
+<link rel="stylesheet" href="../css/custom.css">
 
 <div id="content" style="padding-left:50px; padding-right:50px;">
     <div class="col-md-8">
@@ -84,8 +104,31 @@ $opening = rtrim($split3[0], '<');
             </table>
     </div>
     <div class="col-md-4">
-    <h1>Rabatt</h1>
-    
+        <h1>Rabatt</h1>
+        <div class="col-sm-6 text-right">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addDiscount">Rabatt hinzuf&uuml;gen</button>
+        </div>
+        <table class="table table-responsive table-hover table-striped table-bordered dataTable no-footer" id="data-table" style="width: 100%;" role="grid" aria-describedby="data-table_info">
+            <thead class="tablebold">
+                <tr role="row">
+                    <td>Rabatt</td>
+                    <td>Schwelle</td>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $rows = $soapProduct->getDiscount();
+                foreach ($rows as $row) {
+                    ?>
+                    <tr>
+                        <td onclick="updateDiscount(<?php echo $row[0]; ?>)"><?php echo formatDiscount($row[1]); ?></td>
+                        <td onclick="updateDiscount(<?php echo $row[0]; ?>)"><?php echo formatPrice($row[2]); ?></td>
+                    </tr>
+                    <?php
+                }
+                ?>
+            </tbody>
+        </table>
     </div>
 <script type="text/javascript">
 
@@ -117,6 +160,17 @@ $opening = rtrim($split3[0], '<');
 
 
     };
+
+    function updateDiscount(id){
+        $.ajax({
+            url: "settings.php",
+            type: "POST",
+            data: {updateDiscount: id},
+            success: function() {
+                alert("Erfolgreich Aktualisiert");
+            }
+        });
+    }
 
 </script>
 </div>

@@ -17,12 +17,16 @@ if(!isset($_SESSION['username'])) {
 $soapProductGroup = new ProductGroup();
 $soapProductGroup -> openSoap();
 
-if(isset($_POST['parentCategoryId']) && isset($_POST['categoryName']) && isset($_POST['categoryUpdateSave'])){
-    $soapProductGroup->createCategory($_POST['categoryName'], $_POST['parentCategoryId']);
+$values = array();
+if(isset($_POST['productData']) && isset($_POST['categoryUpdateSave'])){
+    parse_str($_POST['productData'], $values);
+    //var_dump($values);
+    $soapProductGroup->createCategory(trim($values['categoryName']), $values['categoryId']);
 }
 
-if(isset($_POST['categoryId']) && isset($_POST['categoryDelete'])){
-    $soapProductGroup->deleteCategory($_POST['categoryId']);
+if(isset($_POST['productData']) && isset($_POST['categoryDelete'])){
+    parse_str($_POST['productData'], $values);
+    $soapProductGroup->deleteCategory($values['categoryId']);
 }
 
 ?>
@@ -41,20 +45,27 @@ if(isset($_POST['categoryId']) && isset($_POST['categoryDelete'])){
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">&Uuml;berkategorie</label>
+                        <label id="categoryNameLabel" class="col-sm-3 control-label">Kategorie</label>
                         <div class="col-sm-6">
-                            <?php $categories = $soapProductGroup->getTree(); ?>
+                            <?php
+                                $categories = $soapProductGroup->getTree();
+                                $tabs = '';
+                            ?>
                             <select name="categoryId" id="categoryId" class="form-control">
-                                <?php getNextSubCategoryDropdown($categories); ?>
+                                <option value="2"></option> <!-- value 2 for default category -->
+                                <?php getNextSubCategoryDropdown($categories, $tabs); ?>
                                 <?php
-                                function getNextSubCategoryDropdown($category) {
+                                function getNextSubCategoryDropdown($category, $tabs) {
                                     if ($category['children'] != null) {
                                         foreach ($category['children'] as $subCategory) { ?>
-                                            <option value="<?php echo $subCategory['category_id']; ?>"> <?php echo $subCategory['name']; ?> </option> <!-- TODO indent sub categories -->
+                                            <option value="<?php echo $subCategory['category_id']; ?>"> <?php echo $tabs . $subCategory['name']; ?> </option> <!-- TODO indent sub categories -->
                                             <?php if ($subCategory['children'] != null) {
-                                                getNextSubCategoryDropdown($subCategory);
+                                                $tabs .= '&nbsp;&nbsp;&nbsp;&nbsp;';
+                                                getNextSubCategoryDropdown($subCategory, $tabs);
                                                 ?>
-                                            <?php }
+                                            <?php } else {
+                                                $tabs = '';
+                                            }
                                         }
                                     }
                                 } ?>
@@ -63,8 +74,8 @@ if(isset($_POST['categoryId']) && isset($_POST['categoryDelete'])){
                     </div>
                     <div class="form-group">
                         <div class="col-sm-9 col-sm-offset-3">
-                            <button id="category_edit_save" class="btn btn-primary" role="button" onclick="categoryUpdateSave();">Speichern</button>
-                            <button id="category_delete" class="btn" role="button" onclick="categoryDelete();">L&ouml;schen</button>
+                            <button type="button" id="category_edit_save" class="btn btn-primary" onclick="categoryUpdateSave();">Speichern</button>
+                            <button type="button" id="category_delete" class="btn" onclick="categoryDelete();">L&ouml;schen</button>
                         </div>
                     </div>
                 </form>
@@ -186,9 +197,15 @@ if(isset($_POST['categoryId']) && isset($_POST['categoryDelete'])){
             $(".tree span").filter(function() {
                 return ($(this).attr("id") === $("#categoryId").val())
             }).css('background-color', 'yellow');
+
+            $("#categoryNameLabel").empty();
+            $("#categoryNameLabel").append("&Uuml;berkategorie");
         } else {
             $("#category_delete").removeClass("btn-danger").addClass("disabled");
             $(".tree").find("span").css("background-color", "");
+
+            $("#categoryNameLabel").empty();
+            $("#categoryNameLabel").append("Kategorie");
         }
     });
 
@@ -197,12 +214,12 @@ if(isset($_POST['categoryId']) && isset($_POST['categoryDelete'])){
         $.ajax({
             url : 'categories.php',
             type: 'POST',
-            data: { categoryId : fData['categoryId'],
-                    categoryName : fData['categoryName'],
+            data: { productData : fData,
                     categoryUpdateSave : 'categoryUpdateSave'
             },
             success: function (data) {
-                //TODO reload product table and alert
+                changeSite('categories'); //TODO better return echo products and fill content with data
+                //TODO alert success
             },
         });
     }
@@ -212,11 +229,12 @@ if(isset($_POST['categoryId']) && isset($_POST['categoryDelete'])){
         $.ajax({
             url : 'categories.php',
             type: 'POST',
-            data: { parentCategoryId : fData['categoryId'],
+            data: { productData : fData,
                     categoryDelete : 'categoryDelete'
             },
             success: function (data) {
-                //TODO reload product table and alert
+                changeSite('categories'); //TODO better return echo products and fill content with data
+                //TODO alert success
             },
         });
     }

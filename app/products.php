@@ -37,10 +37,6 @@ function formatAmount($amount){
     setlocale(LC_ALL, "de_CH");
     return number_format($amount,0, ".", "'");
 }
-
-function formatDiscount($discount){
-    return ($discount*100)." %";
-}
 ?>
     <link rel="stylesheet" href="../css/custom.css">
     <div id="content">
