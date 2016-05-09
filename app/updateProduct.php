@@ -39,14 +39,18 @@ if (isset($_POST['productId']) && $_POST['product'] == 'updateProduct') {
     parse_str($_POST['productData'], $values);
     $values['category_ids'] = $_POST['category_ids'];
     $productId = isset($values['productId']) ? $values['productId'] : null;
-    $productData = $soapProduct->createCatalogProductEntity($values['category_ids'], $values['unit'], $values['title'], $values['short_description'], $values['price'], $values['stock']); //TODO $_POST['picture'] and special Price Date From To
+    $productData = $soapProduct->createCatalogProductEntity($values['category_ids'], $values['unit'], $values['title'], $values['short_description'],
+                                                            $values['price'], $values['stock'], $values['specialPrice'], $values['specialFromDate'], $values['specialFromTo']);
     if ($productId != null) {
         $soapProduct->updateProductByID($productId, $productData);
+        //TODO update Image
     } else {
         $allProducts = $soapProduct->getAllProducts();
         $sku = $allProducts[count($allProducts) -1]['sku'];
         $sku++;
         $soapProduct->createProduct($sku, $productData);
+        //TODO create Image
+        //$soapProduct->createProductImage()
     }
 }
 
