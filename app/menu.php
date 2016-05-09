@@ -31,6 +31,7 @@ if (session_status() == PHP_SESSION_NONE) {
                 <li onclick="changeSite('orders');"><a href="#">Bestellungen</a></li>
                 <li onclick="changeSite('settings');"><a href="#">Einstellungen</a></li>
                 <li onclick="changeSite('design');"><a href="#">Design</a></li>
+                <li onclick="changeSite('newsletter');"><a href="#">Newsletter</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li title="Eingeloggter Benutzer"><a class="loggedinuser" href="#"><img src="../img/profile.png" width="25" height="25">&nbsp;<?php echo $_SESSION['username']; ?></a></li>
