@@ -81,14 +81,14 @@ a.customNav
     padding: 0 10px;
     line-height: 44px;
     background: #ffffff;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     text-decoration: none;
 }
 
 span.customNav
 {
 
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     text-align: center;
     vertical-align: middle;
     position: relative;
@@ -610,4 +610,7 @@ p.product-name a:hover {
 }
 #accordion > dl > dt:after {
     border-top: 4px solid #eca35f;
+}
+.opc .section.allow .step-title .number {
+    background-color: #f7d8ba;
 }
