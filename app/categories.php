@@ -47,19 +47,25 @@ if(isset($_POST['productData']) && isset($_POST['categoryDelete'])){
                     <div class="form-group">
                         <label id="categoryNameLabel" class="col-sm-3 control-label">Kategorie</label>
                         <div class="col-sm-6">
-                            <?php $categories = $soapProductGroup->getTree(); ?>
+                            <?php
+                                $categories = $soapProductGroup->getTree();
+                                $tabs = '';
+                            ?>
                             <select name="categoryId" id="categoryId" class="form-control">
                                 <option value="2"></option> <!-- value 2 for default category -->
-                                <?php getNextSubCategoryDropdown($categories); ?>
+                                <?php getNextSubCategoryDropdown($categories, $tabs); ?>
                                 <?php
-                                function getNextSubCategoryDropdown($category) {
+                                function getNextSubCategoryDropdown($category, $tabs) {
                                     if ($category['children'] != null) {
                                         foreach ($category['children'] as $subCategory) { ?>
-                                            <option value="<?php echo $subCategory['category_id']; ?>"> <?php echo $subCategory['name']; ?> </option> <!-- TODO indent sub categories -->
+                                            <option value="<?php echo $subCategory['category_id']; ?>"> <?php echo $tabs . $subCategory['name']; ?> </option> <!-- TODO indent sub categories -->
                                             <?php if ($subCategory['children'] != null) {
-                                                getNextSubCategoryDropdown($subCategory);
+                                                $tabs .= '&nbsp;&nbsp;&nbsp;&nbsp;';
+                                                getNextSubCategoryDropdown($subCategory, $tabs);
                                                 ?>
-                                            <?php }
+                                            <?php } else {
+                                                $tabs = '';
+                                            }
                                         }
                                     }
                                 } ?>
