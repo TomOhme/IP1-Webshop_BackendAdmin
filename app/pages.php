@@ -13,9 +13,9 @@ include("menu.php");
 </div>
 <script type="text/javascript">
 
-    $(document).ready(function() {
-        changeSite("products");
-    });
+    /*$(document).ready(function() {
+        changeSite("products"); TODO change site after success login
+    });*/
 
     function changeSite(page) {
         $("#content").empty();

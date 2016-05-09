@@ -17,12 +17,16 @@ if(!isset($_SESSION['username'])) {
 $soapProductGroup = new ProductGroup();
 $soapProductGroup -> openSoap();
 
-if(isset($_POST['parentCategoryId']) && isset($_POST['categoryName']) && isset($_POST['categoryUpdateSave'])){
-    $soapProductGroup->createCategory($_POST['categoryName'], $_POST['parentCategoryId']);
+$values = array();
+if(isset($_POST['productData']) && isset($_POST['categoryUpdateSave'])){
+    parse_str($_POST['productData'], $values);
+    //var_dump($values);
+    $soapProductGroup->createCategory($values['categoryName'], $values['categoryId']);
 }
 
-if(isset($_POST['categoryId']) && isset($_POST['categoryDelete'])){
-    $soapProductGroup->deleteCategory($_POST['categoryId']);
+if(isset($_POST['productData']) && isset($_POST['categoryDelete'])){
+    parse_str($_POST['productData'], $values);
+    $soapProductGroup->deleteCategory($values['categoryId']);
 }
 
 ?>
@@ -63,8 +67,8 @@ if(isset($_POST['categoryId']) && isset($_POST['categoryDelete'])){
                     </div>
                     <div class="form-group">
                         <div class="col-sm-9 col-sm-offset-3">
-                            <button id="category_edit_save" class="btn btn-primary" role="button" onclick="categoryUpdateSave();">Speichern</button>
-                            <button id="category_delete" class="btn" role="button" onclick="categoryDelete();">L&ouml;schen</button>
+                            <button type="button" id="category_edit_save" class="btn btn-primary" onclick="categoryUpdateSave();">Speichern</button>
+                            <button type="button" id="category_delete" class="btn" onclick="categoryDelete();">L&ouml;schen</button>
                         </div>
                     </div>
                 </form>
@@ -197,12 +201,12 @@ if(isset($_POST['categoryId']) && isset($_POST['categoryDelete'])){
         $.ajax({
             url : 'categories.php',
             type: 'POST',
-            data: { categoryId : fData['categoryId'],
-                    categoryName : fData['categoryName'],
+            data: { productData : fData,
                     categoryUpdateSave : 'categoryUpdateSave'
             },
             success: function (data) {
-                //TODO reload product table and alert
+                changeSite('categories'); //TODO better return echo products and fill content with data
+                //TODO alert success
             },
         });
     }
@@ -212,11 +216,12 @@ if(isset($_POST['categoryId']) && isset($_POST['categoryDelete'])){
         $.ajax({
             url : 'categories.php',
             type: 'POST',
-            data: { parentCategoryId : fData['categoryId'],
+            data: { productData : fData,
                     categoryDelete : 'categoryDelete'
             },
             success: function (data) {
-                //TODO reload product table and alert
+                changeSite('categories'); //TODO better return echo products and fill content with data
+                //TODO alert success
             },
         });
     }
