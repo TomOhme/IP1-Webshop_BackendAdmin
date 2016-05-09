@@ -191,7 +191,7 @@ if(isset($_POST['productData']) && isset($_POST['categoryDelete'])){
     });
 
     $("#categoryId").change(function(){
-        if ($("#categoryId").val() != "") {
+        if ($("#categoryId").val() != "" && $("#categoryId").val() != 2) {
             $("#category_delete").removeClass("disabled").addClass("btn-danger");
             $(".tree").find("span").css("background-color", "");
             $(".tree span").filter(function() {

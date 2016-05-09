@@ -82,6 +82,15 @@ include("header.php");
             });
         };
 
+        paceOptions = {
+            ajax: false, // disabled
+            document: false, // disabled
+            eventLag: false, // disabled
+            elements: {
+                selectors: ['./index.php']
+            }
+        };
+
         </script>
     </body>
 </html>

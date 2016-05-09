@@ -25,12 +25,7 @@ function formatDate($date){
 }
 
 function formatPrice($price){
-    setlocale(LC_MONETARY,"de_CH");
-    if(function_exists('money_format')){
-        return money_format("%.2n", $price);
-    } else {
-        return "Fr. ". sprintf('%01.2f', $price);
-    }
+    return "Fr. " . number_format($price, 2, ',', "'");
 }
 
 function formatAmount($amount){
@@ -316,12 +311,12 @@ function formatAmount($amount){
 
     <script type="text/javascript">
 
-        $('#category').multiSelect({ keepOrder:true }); //http://loudev.com/#home
+        $('#category').multiSelect({ keepOrder:true });
 
-        $("#picture").dropzone({ url: "/file/post" }); //http://www.dropzonejs.com/#usage
+        $("#picture").dropzone({ url: "/file/post" });
 
         $(function () {
-            $('#datetimepickerFrom').datetimepicker(); //https://eonasdan.github.io/bootstrap-datetimepicker/Installing/#manual
+            $('#datetimepickerFrom').datetimepicker();
             $('#datetimepickerTo').datetimepicker();
         });
 
