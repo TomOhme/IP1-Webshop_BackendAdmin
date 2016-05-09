@@ -29,7 +29,10 @@ $opening = rtrim($split3[0], '<');
 //$lng = $row['lng'];
 
 if(isset($_POST['updateDiscount'])){
-
+	$id = $_POST['updateDiscount'];
+	$discount = $_POST['discount'];
+	$threashold = $_POST['threashold'];
+	$soapProduct->updateDiscount($id,$discount,$threashold);
 }
 
 if(isset($_POST['discountCreate'])){
@@ -111,7 +114,8 @@ function formatPrice($price){
    	<div class="col-md-4">
 		<h1>Rabatt</h1>
 		<div class="text-right">
-			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addDiscount">Rabatt hinzuf&uuml;gen</button>
+			<!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addDiscount">Rabatt hinzuf&uuml;gen</button>-->
+			<button type="button" class="btn btn-primary" onclick="$('#addDiscount').modal('show')">Rabatt hinzuf&uuml;gen</button>
 		</div>
 		<table class="table table-responsive table-hover table-striped table-bordered dataTable no-footer" id="data-table" style="width: 100%;" role="grid" aria-describedby="data-table_info">
 			<thead class="tablebold">
@@ -127,8 +131,8 @@ function formatPrice($price){
 				foreach ($rows as $row) {
 					?>
 					<tr>
-						<td id="discount-<?php echo $row[0]; ?>" data-toggle="modal" data-target="#updateDiscount" onclick="editUpdateForm('<?php echo $row[0] ?>');"><?php echo formatDiscount($row[1]); ?></td>
-						<td id="threashold-<?php echo $row[0]; ?>" data-toggle="modal" data-target="#updateDiscount" onclick="editUpdateForm('<?php echo $row[0] ?>');"><?php echo formatPrice($row[2]); ?></td>
+						<td id="discount-<?php echo $row[0]; ?>" onclick="editUpdateForm('<?php echo $row[0] ?>');"><?php echo formatDiscount($row[1]); ?></td>
+						<td id="threashold-<?php echo $row[0]; ?>" onclick="editUpdateForm('<?php echo $row[0] ?>');"><?php echo formatPrice($row[2]); ?></td>
 						<td onclick="deleteDiscount('<?php echo $row[0] ?>');" style="width: 50px;"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
 					</tr>
 					<?php
@@ -190,18 +194,15 @@ function formatPrice($price){
 								<input type="number" min="0" class="form-control" id="uthreasholdForm" placeholder="Schwelle in CHF">
 							</div>
 						</div>
-						<button type="button" class="btn btn-primary" name="updateDisc" onclick="updateDiscount();">Speichern</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
+						<button id="saveUpdateDiscount" type="button" class="btn btn-primary" name="updateDisc">Speichern</button>
 					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
 				</div>
 			</div><!-- /.modal-content -->
 		</div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
 
-<script type="text/javascript">
-
+<script type="text/script">
 	function updateContact() {
 
         tinyMCE.triggerSave();
@@ -232,14 +233,17 @@ function formatPrice($price){
 	};
 
 	function editUpdateForm(id){
+		$('#updateDiscount').modal('show')
 		var discount = $("#discount-"+id).text();
 		var threashold = $("#threashold-"+id).text();
 		discount = discount.split("%");
 		discount = discount[0]/100;
 		$("#udiscountForm").val(discount);
+		$('#saveUpdateDiscount').attr("onclick", "updateDiscount("+id+")");
 	};
 
 	function updateDiscount(id){
+		var id = id;
 		var discount = $("#udiscountForm").val();
 		var threashold = $("#uthreasholdForm").val();
 		$.ajax({
@@ -277,8 +281,5 @@ function formatPrice($price){
 	};
 </script>
 </div>
-
-<script src="../js/jquery-2.2.2.min.js"></script>
-<script type="text/javascript" src="../js/bootstrap.js"></script>
 <script type="text/javascript" src='https://maps.google.com/maps/api/js?&libraries=places'></script>
 <script src="../plugins/jquery-locationpicker/src/locationpicker.jquery.js"></script>
