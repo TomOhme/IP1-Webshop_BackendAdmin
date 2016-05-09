@@ -62,7 +62,7 @@
     content: attr(data-progress-text);
     display: block;
 }
-
+/*
 @-webkit-keyframes pace-theme-center-circle-spin {
     from { -webkit-transform: rotateY(0deg) }
     to { -webkit-transform: rotateY(360deg) }
@@ -87,3 +87,4 @@
     from { transform: rotateY(0deg) }
     to { transform: rotateY(360deg) }
 }
+*/
