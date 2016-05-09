@@ -6,17 +6,17 @@
  * Time: 16:36
  */
 
+include("../api/design.php");
+
 session_start();
 
 if(!isset($_SESSION['username'])) {
     return header('Location: index.php');
 }
 
-$myColor = "";
+$dbColor = new Design();
 
-$myFile = fopen("color.txt", "r") or die();
-$myColor = fgets($myFile);
-fclose($myFile);
+$myColor = $dbColor -> getSelectedColor();
 
 if(isset($_POST["submit"]))
 {
@@ -62,9 +62,7 @@ if(isset($_POST["submit"]))
     $color = $_POST["color"];
     $destCss = "../../../magento/skin/frontend/webshop/default/css/webshop.css";
 
-    $myFile = fopen("color.txt", "w") or die();
-    fwrite($myFile, $color);
-    fclose($myFile);
+    $dbColor -> setSelectedColor($color);
 
     if($color == "blue")
     {

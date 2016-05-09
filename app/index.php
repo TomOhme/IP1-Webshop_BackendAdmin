@@ -72,7 +72,6 @@ include("header.php");
                 success: function(data){
                     //location.reload();
                     window.location = "./pages.php";
-                    changeSite("products");
                 },
                 error: function(){
                     $("#login_btn").notify("Ungültiger Login", {

@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by IntelliJ IDEA
- * User: Tom Ohme
+ * User: Patrick Althaus, Yanick Schraner
  * Date: 07.04.2016
  * Time: 15:37
  */
@@ -127,8 +127,8 @@ function formatPrice($price){
 				foreach ($rows as $row) {
 					?>
 					<tr>
-						<td data-toggle="modal" data-target="#updateDiscount"><?php echo formatDiscount($row[1]); ?></td>
-						<td data-toggle="modal" data-target="#updateDiscount"><?php echo formatPrice($row[2]); ?></td>
+						<td id="discount-<?php echo $row[0]; ?>" data-toggle="modal" data-target="#updateDiscount" onclick="editUpdateForm('<?php echo $row[0] ?>');"><?php echo formatDiscount($row[1]); ?></td>
+						<td id="threashold-<?php echo $row[0]; ?>" data-toggle="modal" data-target="#updateDiscount" onclick="editUpdateForm('<?php echo $row[0] ?>');"><?php echo formatPrice($row[2]); ?></td>
 						<td onclick="deleteDiscount('<?php echo $row[0] ?>');" style="width: 50px;"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
 					</tr>
 					<?php
@@ -185,7 +185,7 @@ function formatPrice($price){
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="uthresholdForm" class="col-sm-2 control-label">Schwelle</label>
+							<label for="uthreasholdForm" class="col-sm-2 control-label">Schwelle</label>
 							<div class="col-sm-8">
 								<input type="number" min="0" class="form-control" id="uthreasholdForm" placeholder="Schwelle in CHF">
 							</div>
@@ -199,6 +199,7 @@ function formatPrice($price){
 			</div><!-- /.modal-content -->
 		</div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
+
 <script type="text/javascript">
 
 	function updateContact() {
@@ -230,63 +231,23 @@ function formatPrice($price){
 
 	};
 
-	$('#updateDiscount').on('show.bs.modal', function (e) {
-		$("#udiscountForm").val("BASAD");
-		$("#uthreasholdForm").val("2313");
-	});
+	function editUpdateForm(id){
+		var discount = $("#discount-"+id).text();
+		var threashold = $("#threashold-"+id).text();
+		discount = discount.split("%");
+		discount = discount[0]/100;
+		$("#udiscountForm").val(discount);
+	};
 
 	function updateDiscount(id){
+		var discount = $("#udiscountForm").val();
+		var threashold = $("#uthreasholdForm").val();
 		$.ajax({
 			url: "settings.php",
 			type: "POST",
-			data: {updateDiscount: id},
+			data: {"updateDiscount": id, "discount": discount, "threashold": threashold},
 			success: function() {
-				alert("Erfolgreich Aktualisiert");
-			}
-		});
-	};
-
-	function updateContact() {
-
-        tinyMCE.triggerSave();
-
-		var title = document.getElementById("title").value;
-		var fileToUpload = document.getElementById("fileToUpload").value;
-		var aboutUs = document.getElementById("aboutUs").value;
-		var opening = document.getElementById("opening").value;
-		var lat = document.getElementById("us2-lat").value;
-		var lon = document.getElementById("us2-lon").value;
-
-        if (title == '' || aboutUs == '' || opening == '' || lat == '' || lon == '') {
-            alert("Please Fill All Fields");
-        } else {
-        // AJAX code to submit form.
-            $.ajax({
-                url: "updateContact.php",
-                type: "POST",
-                data: {title: title, fileToUpload: fileToUpload, aboutUs: aboutUs, opening: opening, lat: lat, lon: lon},
-                success: function() {
-                    alert("Erfolgreich geändert!");
-                }
-            });
-        }
-        return false;
-
-
-	};
-
-	$('#updateDiscount').on('show.bs.modal', function (e) {
-		$("#udiscountForm").val("BASAD");
-		$("#uthreasholdForm").val("2313");
-	});
-
-	function updateDiscount(id){
-		$.ajax({
-			url: "settings.php",
-			type: "POST",
-			data: {updateDiscount: id},
-			success: function() {
-				alert("Erfolgreich Aktualisiert");
+				$("#updateDiscount").modal('toggle');
 			}
 		});
 	};
@@ -310,7 +271,7 @@ function formatPrice($price){
 			type: "POST",
 			data: {"discountCreate": discount, "threashold": threashold},
 			success: function() {
-				alert("Erfolgreich erstellt");
+				$("#addDiscount").modal('toggle');
 			}
 		});
 	};
@@ -318,5 +279,6 @@ function formatPrice($price){
 </div>
 
 <script src="../js/jquery-2.2.2.min.js"></script>
+<script type="text/javascript" src="../js/bootstrap.js"></script>
 <script type="text/javascript" src='https://maps.google.com/maps/api/js?&libraries=places'></script>
 <script src="../plugins/jquery-locationpicker/src/locationpicker.jquery.js"></script>
