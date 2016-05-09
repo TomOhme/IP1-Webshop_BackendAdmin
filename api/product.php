@@ -247,8 +247,8 @@ class product {
      * @param $stock            String
      * @return array with all product values
      */
-    public function createCatalogProductEntity($categories, $unit, $prodName, $shortDescription, $price, $stock,
-        $weight = "1", $websites = array("1"), $description = '', $status = '1', $visibility = "4", $special_price = '', $special_from_date = '', $special_to_date = '')
+    public function createCatalogProductEntity($categories, $unit, $prodName, $shortDescription, $price, $stock, $special_price = '', $special_from_date = '', $special_to_date = '',
+        $weight = "1", $websites = array("1"), $description = '', $status = '1', $visibility = "4")
     {
         $prodNameURL = strtolower($prodName);
         return array(
