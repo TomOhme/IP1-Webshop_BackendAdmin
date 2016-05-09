@@ -14,7 +14,7 @@ $content = '<h1>'.$_POST["title"].'</h1>
             '<p><span style="font-size: 12px; font-family: Arial; color: #2f2f2f; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline;"><span style="font-size: medium;"><strong>Standort</strong></span></span></p>
             <p><span style="font-size: 12px; font-family: Arial; color: #2f2f2f; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline;"><span style="font-size: medium;"><strong><img alt="" src="http://maps.googleapis.com/maps/api/staticmap?center='.$_POST["lat"].','.$_POST["lon"].'&amp;zoom=15&amp;size=400x400&amp;markers=color:blue|'.$_POST["lat"].','.$_POST["lon"].'&amp;sensor=false" height="400" width="400" /></strong></span></span></p>';
 
-//uploadImg($_POST["fileToUpload"]);
+uploadImg($_POST["fileToUpload"]);
 
 $ini_array = parse_ini_file("../php.ini");
 $user = $ini_array["DBUSER"];

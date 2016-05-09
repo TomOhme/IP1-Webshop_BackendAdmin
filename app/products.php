@@ -311,12 +311,12 @@ function formatAmount($amount){
 
     <script type="text/javascript">
 
-        $('#category').multiSelect({ keepOrder:true }); //http://loudev.com/#home
+        $('#category').multiSelect({ keepOrder:true });
 
-        $("#picture").dropzone({ url: "/file/post" }); //http://www.dropzonejs.com/#usage
+        $("#picture").dropzone({ url: "/file/post" });
 
         $(function () {
-            $('#datetimepickerFrom').datetimepicker(); //https://eonasdan.github.io/bootstrap-datetimepicker/Installing/#manual
+            $('#datetimepickerFrom').datetimepicker();
             $('#datetimepickerTo').datetimepicker();
         });
 
