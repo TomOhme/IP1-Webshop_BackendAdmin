@@ -163,10 +163,7 @@ class product {
             $stmt = $this -> mysqli->prepare("UPDATE magento.custom_discount SET discount =?, setAfter=?   WHERE custom_discount.id =?;");
             $stmt->bind_param("sss", $discount,$threshold,$dId);
             $stmt->execute();
-            $stmt->bind_result($result);
-            $stmt->fetch();
             $stmt->close();
-            return $result;
         }
         return "";
     }

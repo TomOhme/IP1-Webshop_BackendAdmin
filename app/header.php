@@ -34,10 +34,10 @@ session_start();
     <script src="../js/jquery-2.2.2.min.js"></script>
     <script src="../js/jquery.dataTables.js"></script>
     <script src="../js/dataTables.bootstrap.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/collapse.js"></script>
+    <script src="../js/moment.min.js"></script>
     <script src="../js/transition.js"></script>
-    <script src="../js/moment.js"></script>
+    <script src="../js/collapse.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
     <script src="../js/bootstrap-datetimepicker.min.js"></script> <!-- https://eonasdan.github.io/bootstrap-datetimepicker/Installing/#manual -->
     <script src="../js/notify.min.js"></script>
     <script src="../js/dropzone.js"></script> <!-- http://www.dropzonejs.com/#usage -->

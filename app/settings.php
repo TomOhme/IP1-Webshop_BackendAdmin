@@ -249,6 +249,7 @@ function formatPrice($price){
 			data: {"updateDiscount": id, "discount": discount, "threashold": threashold},
 			success: function() {
 				$("#updateDiscount").modal('toggle');
+				changeSite("settings");
 			}
 		});
 	};
@@ -259,7 +260,7 @@ function formatPrice($price){
 			type: "POST",
 			data: {deleteDiscount: id},
 			success: function() {
-				alert("Erfolgreich Gelöscht");
+				changeSite("settings");
 			}
 		});
 	};
@@ -273,6 +274,7 @@ function formatPrice($price){
 			data: {"discountCreate": discount, "threashold": threashold},
 			success: function() {
 				$("#addDiscount").modal('toggle');
+				changeSite("settings");
 			}
 		});
 	};
