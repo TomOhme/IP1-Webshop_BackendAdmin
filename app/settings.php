@@ -12,11 +12,15 @@ $select = "SELECT `content` FROM `cms_page` WHERE `identifier`= 'ueber-uns'; ";
 $result = $mysqli->query($select);
 $row = mysqli_fetch_assoc($result);
 $mysqli->close();
-//var_dump($row["content"]);
-//$title = $row['Title'];
-//$img = $row['Description'];
-//$aboutUs = 1;
-//$opening = 1;
+$split1 = explode('h1', $row["content"]);
+$split2 = explode('}}" />', $split1[2]);
+$split3 = explode('span', ltrim($split1[4], '>'));
+$split4 = explode('wysiwyg', $split2[0]);
+$title = rtrim(ltrim($split1[1], '>'), '</');
+//var_dump($split4[1]);
+$img = rtrim($split4[1], ' "');
+$aboutUs = rtrim(ltrim($split2[1], '>'), '<');
+$opening = rtrim($split3[0], '<');
 //$lat = $row['lat'];
 //$lng = $row['lng'];
 
@@ -42,24 +46,25 @@ $mysqli->close();
                     <div class="form-group" class="col-sm-7">
                         <label class="col-sm-12 control-label">Titel der Kontaktseite</label>
                         <div class="col-sm-12">
-                            <input type="text" class="form-control" name="title" id="title" placeholder="Webshop xy" value="Webshop xy">
+                            <input type="text" class="form-control" name="title" id="title" placeholder="Webshop xy" value="<?php echo $title; ?>">
                         </div>
                         <label class="col-sm-12 control-label">Titelbild</label>
+                        <img style="max-width: 200px; max-height: 200px; width: auto; height: auto; margin-left: 15px; margin-bottom: 15px;" alt="Kontaktbild" src="../img/<?php echo $img; ?>"/>
                         <div class="col-sm-12">
                             <input type="file" name="fileToUpload" id="fileToUpload">
                         </div>
                         <label class="col-sm-12 control-label">Über Uns</label>
                         <div class="col-sm-12">
-                            <textarea rows="5" class="form-control editme" name="aboutUs" id="aboutUs" placeholder="Über Uns">
+                            <textarea rows="5" class="form-control editme" name="aboutUs" id="aboutUs"><?php echo $aboutUs; ?>
                             </textarea>
                         </div>
                         <label class="col-sm-12 control-label">Öffnungszeiten</label>
                         <div class="col-sm-12">
-                            <textarea rows="3" class="form-control editme" name="opening" id="opening" placeholder="Öffnungszeiten">
+                            <textarea rows="3" class="form-control editme" name="opening" id="opening" placeholder="Öffnungszeiten"><?php echo $opening; ?>
                             </textarea>
                         </div>
                         <label class="col-sm-12 control-label">Standort</label>
-                        <!--<div id="us2" style="width: 500px; height: 400px; margin-left: 15px;">--><img src="http://maps.googleapis.com/maps/api/staticmap?center=46.9479739,7.447446799999966&amp;zoom=15&amp;size=400x400&amp;markers=color:blue|46.9479739,7.447446799999966&amp;sensor=false" height="400" width="400" style="margin-left: 15px;"/><!--</div>--><br>
+                        <!--<div id="us2" style="width: 500px; height: 400px; margin-left: 15px;">--><div id="stayheredoggy"><img src="http://maps.googleapis.com/maps/api/staticmap?center=46.9479739,7.447446799999966&amp;zoom=15&amp;size=400x400&amp;markers=color:blue|46.9479739,7.447446799999966&amp;sensor=false" height="400" width="400" style="margin-left: 15px;"/></div><!--</div>--><br>
                         <!--<script>
                             $('#us2').locationpicker({
                                 location: {latitude: 46.9479739, longitude: 7.447446799999966},
@@ -72,7 +77,7 @@ $mysqli->close();
                         </script><br>-->
                         <input type="hidden" id="us2-lat" value="46.9479739"/>
                         <input type="hidden" id="us2-lon" value="7.447446799999966"/>
-                        <br><button type="button"  onclick="updateContact();"style="margin-left: 15px;" class="btn btn-primary">
+                        <br><button type="button" onclick="updateContact();" style="margin-left: 15px;" class="btn btn-primary">Sichern</button>
                     </div>
                     </form>
                 </td>
@@ -86,7 +91,7 @@ $mysqli->close();
 
     function updateContact() {
 
-        tinyMCE.triggerSave()
+        tinyMCE.triggerSave();
 
         var title = document.getElementById("title").value;
         var fileToUpload = document.getElementById("fileToUpload").value;
