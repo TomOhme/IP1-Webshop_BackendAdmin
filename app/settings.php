@@ -97,7 +97,7 @@ function formatPrice($price){
                         </script><br>-->
                         <input type="hidden" id="us2-lat" value="46.9479739"/>
                         <input type="hidden" id="us2-lon" value="7.447446799999966"/>
-                        <br><button type="button" onclick="updateContact();" style="margin-left: 15px;" class="btn btn-primary">Sichern</button>
+                        <br><button type="button" onclick="updateContact();" style="margin-left: 15px;" class="btn btn-primary">Speichern</button>
                     </div>
                     </form>
                 </td>
@@ -143,7 +143,7 @@ function formatPrice($price){
         var lat = document.getElementById("us2-lat").value;
         var lon = document.getElementById("us2-lon").value;
 
-        if (title == '' || fileToUpload == '' || aboutUs == '' || opening == '' || lat == '' || lon == '') {
+        if (title == '' || aboutUs == '' || opening == '' || lat == '' || lon == '') {
             alert("Please Fill All Fields");
         } else {
         // AJAX code to submit form.
