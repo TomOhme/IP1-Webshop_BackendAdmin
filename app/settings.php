@@ -52,17 +52,9 @@ function formatPrice($price){
 	return "Fr. " . number_format($price, 2, ',', "'");
 }
 ?>
-<script src="../plugins/tinymce/tinymce.min.js"></script>
-<script>
-	tinymce.init({
-		// Bereiche für TinyMCE
-		selector: 'textarea',
-		menubar: false,
-		statusbar: false,
-		// Sprache
-		language: 'de'
-	});
-</script>
+<!-- include summernote css/js-->
+<link href="../plugins/dist/summernote.css" rel="stylesheet">
+<script src="../plugins/dist/summernote.js"></script>
 <link rel="stylesheet" href="../css/custom.css">
 
 <div id="content" style="padding-left:50px; padding-right:50px;">
@@ -83,13 +75,21 @@ function formatPrice($price){
                         </div>
                         <label class="col-sm-12 control-label">Über Uns</label>
                         <div class="col-sm-12">
-                            <textarea rows="5" class="form-control editme" name="aboutUs" id="aboutUs"><?php echo $aboutUs; ?>
-                            </textarea>
+							<div id="aboutUs"><?php echo $aboutUs; ?></div>
+							<script>
+								$(document).ready(function() {
+									$('#aboutUs').summernote();
+								});
+							</script>
                         </div>
                         <label class="col-sm-12 control-label">Öffnungszeiten</label>
                         <div class="col-sm-12">
-                            <textarea rows="3" class="form-control editme" name="opening" id="opening" placeholder="Öffnungszeiten"><?php echo $opening; ?>
-                            </textarea>
+							<div id="opening"><?php echo $opening; ?></div>
+							<script>
+								$(document).ready(function() {
+									$('#opening').summernote();
+								});
+							</script>
                         </div>
                         <label class="col-sm-12 control-label">Standort</label>
                         <!--<div id="us2" style="width: 500px; height: 400px; margin-left: 15px;">--><div id="stayheredoggy"><img src="http://maps.googleapis.com/maps/api/staticmap?center=46.9479739,7.447446799999966&amp;zoom=15&amp;size=400x400&amp;markers=color:blue|46.9479739,7.447446799999966&amp;sensor=false" height="400" width="400" style="margin-left: 15px;"/></div><!--</div>--><br>
@@ -201,7 +201,6 @@ function formatPrice($price){
 			</div><!-- /.modal-content -->
 		</div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
-
 <script type="text/script">
 	function updateContact() {
 
