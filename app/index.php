@@ -36,6 +36,9 @@ include("header.php");
                             <div style="text-align:center">
                                 <a href="/../magento/index.php/admin/index/forgotpassword/">Passwort vergessen?</a>
                             </div>
+                            <div style="text-align:center;">
+                                <a href="/../magento/index.php/">Zum Webshop</a>
+                            </div>
                         </form>
                     </div>
                 </div>
