@@ -45,10 +45,11 @@ if(isset($_POST['productData']) && isset($_POST['categoryDelete'])){
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">&Uuml;berkategorie</label>
+                        <label id="categoryNameLabel" class="col-sm-3 control-label">Kategorie</label>
                         <div class="col-sm-6">
                             <?php $categories = $soapProductGroup->getTree(); ?>
                             <select name="categoryId" id="categoryId" class="form-control">
+                                <option value=""></option>
                                 <?php getNextSubCategoryDropdown($categories); ?>
                                 <?php
                                 function getNextSubCategoryDropdown($category) {
@@ -190,9 +191,15 @@ if(isset($_POST['productData']) && isset($_POST['categoryDelete'])){
             $(".tree span").filter(function() {
                 return ($(this).attr("id") === $("#categoryId").val())
             }).css('background-color', 'yellow');
+
+            $("#categoryNameLabel").empty();
+            $("#categoryNameLabel").append("&Uuml;berkategorie");
         } else {
             $("#category_delete").removeClass("btn-danger").addClass("disabled");
             $(".tree").find("span").css("background-color", "");
+
+            $("#categoryNameLabel").empty();
+            $("#categoryNameLabel").append("Kategorie");
         }
     });
 
