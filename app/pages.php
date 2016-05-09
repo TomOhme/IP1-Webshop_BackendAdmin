@@ -20,14 +20,16 @@ include("menu.php");
     });
 
     function changeSite(page) {
-        $("#content").empty();
-        $.ajax({
-            url : page + ".php",
-            type: 'GET',
-            success: function(data){
-                $('#content').append(data);
-            }
-        });
+        if($.active == 0){
+            $("#content").empty();
+            $.ajax({
+                url : page + ".php",
+                type: 'GET',
+                success: function(data){
+                    $('#content').append(data);
+                }
+            });
+        }
     };
 
     function logout() {
