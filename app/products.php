@@ -308,24 +308,7 @@ function formatAmount($amount){
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-    <div class="container">
-    <div class="row">
-        <div class='col-sm-6'>
-            <div class="form-group">
-                <div class='input-group date' id='datetimepicker1'>
-                    <input type='text' class="form-control" />
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
-                </div>
-            </div>
-        </div>
-        <script type="text/javascript">
-            $(document).ready(function() {
-                $('#datetimepicker1').datetimepicker();
-            });
-        </script>
-    </div>
+
 </div>
 
     <script type="text/javascript">
@@ -334,8 +317,8 @@ function formatAmount($amount){
 
         $("#picture").dropzone({ url: "/file/post" });
 
-            $('#datetimepickerFrom').datetimepicker();
-            $('#datetimepickerTo').datetimepicker();
+        $('#datetimepickerFrom').datetimepicker();
+        $('#datetimepickerTo').datetimepicker();
 
         $('#article_update_specialPrice').on('input', function() {
             checkSpecialPrice();

@@ -8,6 +8,9 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
+if(!isset($_SESSION['username'])) {
+    return header('Location: index.php');
+}
 ?>
 <body>
 <nav class="navbar navbar-default" role="navigation">
