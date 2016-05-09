@@ -7,6 +7,10 @@
  */
 session_start();
 include("../api/dbconnect.php");
+include("../api/product.php");
+
+$soapProduct = new Product();
+$soapProduct -> openSoap();
 
 $select = "SELECT `content` FROM `cms_page` WHERE `identifier`= 'ueber-uns'; ";
 $result = $mysqli->query($select);
@@ -20,6 +24,17 @@ $mysqli->close();
 //$lat = $row['lat'];
 //$lng = $row['lng'];
 
+function formatDiscount($discount){
+    return ($discount*100)."%";
+}
+function formatPrice($price){
+    setlocale(LC_MONETARY,"de_CH");
+    if(function_exists('money_format')){
+        return money_format("%.2n", $price);
+    } else {
+        return "Fr. ". sprintf('%01.2f', $price);
+    }
+}
 ?>
 <script src="../plugins/tinymce/tinymce.min.js"></script>
 <script>
@@ -79,8 +94,27 @@ $mysqli->close();
             </table>
     </div>
     <div class="col-md-4">
-    <h1>Rabatt</h1>
-    
+        <table class="table table-responsive table-hover table-striped table-bordered dataTable no-footer" id="data-table" style="width: 100%;" role="grid" aria-describedby="data-table_info">
+            <thead class="tablebold">
+                <tr role="row">
+                    <td>Rabatt</td>
+                    <td>Schwelle</td>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $rows = $soapProduct->getDiscount();
+                foreach ($rows as $row) {
+                    ?>
+                    <tr>
+                        <td><?php echo formatDiscount($row[1]); ?></td>
+                        <td><?php echo formatPrice($row[2]); ?></td>
+                    </tr>
+                    <?php
+                }
+                ?>
+            </tbody>
+        <h1>Rabatt</h1>
     </div>
 <script type="text/javascript">
 

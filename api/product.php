@@ -197,15 +197,13 @@ class product {
         return "";
     }
 
-    public function getDiscount($id){
+    public function getDiscount(){
         if($this->mysqli->query("SHOW TABLES LIKE 'custom_discount'")->num_rows>0){
-            $stmt = $this -> mysqli->prepare("SELECT * FROM custom_discount WHERE custom_discount.id=?;");
-            $stmt->bind_param("s", $id);
-            $stmt->execute();
-            $stmt->bind_result($id, $discount, $threshold);
-            $stmt->fetch();
-            $stmt->close();
-            return $discount;
+            $query = "SELECT * FROM custom_discount";
+            $result = $this->mysqli->query($query);
+            $rows = $result->fetch_all();
+            $result->free();
+            return $rows;
         }
         return "";
     }
