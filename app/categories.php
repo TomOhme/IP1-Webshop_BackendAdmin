@@ -49,7 +49,7 @@ if(isset($_POST['productData']) && isset($_POST['categoryDelete'])){
                         <div class="col-sm-6">
                             <?php $categories = $soapProductGroup->getTree(); ?>
                             <select name="categoryId" id="categoryId" class="form-control">
-                                <option value=""></option>
+                                <option value="2"></option> <!-- value 2 for default category -->
                                 <?php getNextSubCategoryDropdown($categories); ?>
                                 <?php
                                 function getNextSubCategoryDropdown($category) {
