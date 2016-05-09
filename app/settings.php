@@ -246,6 +246,51 @@ function formatPrice($price){
 		});
 	};
 
+	function updateContact() {
+
+        tinyMCE.triggerSave();
+
+		var title = document.getElementById("title").value;
+		var fileToUpload = document.getElementById("fileToUpload").value;
+		var aboutUs = document.getElementById("aboutUs").value;
+		var opening = document.getElementById("opening").value;
+		var lat = document.getElementById("us2-lat").value;
+		var lon = document.getElementById("us2-lon").value;
+
+        if (title == '' || aboutUs == '' || opening == '' || lat == '' || lon == '') {
+            alert("Please Fill All Fields");
+        } else {
+        // AJAX code to submit form.
+            $.ajax({
+                url: "updateContact.php",
+                type: "POST",
+                data: {title: title, fileToUpload: fileToUpload, aboutUs: aboutUs, opening: opening, lat: lat, lon: lon},
+                success: function() {
+                    alert("Erfolgreich geändert!");
+                }
+            });
+        }
+        return false;
+
+
+	};
+
+	$('#updateDiscount').on('show.bs.modal', function (e) {
+		$("#udiscountForm").val("BASAD");
+		$("#uthreasholdForm").val("2313");
+	});
+
+	function updateDiscount(id){
+		$.ajax({
+			url: "settings.php",
+			type: "POST",
+			data: {updateDiscount: id},
+			success: function() {
+				alert("Erfolgreich Aktualisiert");
+			}
+		});
+	};
+
 	function deleteDiscount(id){
 		$.ajax({
 			url: "settings.php",
