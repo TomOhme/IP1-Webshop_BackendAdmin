@@ -63,21 +63,18 @@ include("../api/dbconnect.php");
 
     function sendNewsletter() {
 
+        var datetime = document.getElementById("datetimepicker").value;
         var title = document.getElementById("title").value;
-        var fileToUpload = document.getElementById("fileToUpload").value;
-        var aboutUs = document.getElementById("aboutUs").value;
-        var opening = document.getElementById("opening").value;
-        var lat = document.getElementById("us2-lat").value;
-        var lon = document.getElementById("us2-lon").value;
+        var content = document.getElementById("inhalt").value;
 
-        if (title == '' || aboutUs == '' || opening == '' || lat == '' || lon == '') {
+        if (datetime == '' || title == '' || content == '') {
             alert("Please Fill All Fields");
         } else {
             // AJAX code to submit form.
             $.ajax({
-                url: "updateContact.php",
+                url: "sendNewsletter.php",
                 type: "POST",
-                data: {title: title, fileToUpload: fileToUpload, aboutUs: aboutUs, opening: opening, lat: lat, lon: lon},
+                data: {datetime: datetime, title: title, content: content},
                 success: function() {
                     alert("Erfolgreich geändert!");
                 }

@@ -52,17 +52,26 @@ class user
         foreach($data as $line){
 
             $user = $this->client->call('customer_address.list', array($line['customer_id']));
-            array_push($line, $user[0]['street'], $user[0]['postcode'], $user[0]['city'], $user[0]['telephone']);
+            $addressinfos = array($user[0]['street'], $user[0]['postcode'], $user[0]['city'], $user[0]['telephone']);
+            foreach($addressinfos as $addressinfo){
+                if(!is_null($addressinfo)){
+                    array_push($line,$addressinfo);
+                }
+            }
 
             $query1 = "SELECT `value` FROM `customer_entity_datetime` WHERE `entity_id` = ".$line['customer_id'];
             $result = $mysqli->query($query1);
             $row = mysqli_fetch_assoc($result);
-            array_push($line, $row["value"]);
+            if(!is_null($row["value"])){
+                array_push($line,$row["value"]);
+            }
 
             $query2 = "SELECT `subscriber_status` FROM `newsletter_subscriber` WHERE `customer_id` = ".$line['customer_id'];
             $result2 = $mysqli->query($query2);
             $row2 = mysqli_fetch_assoc($result2);
-            array_push($line, $row2["subscriber_status"]);
+            if(!is_null($row2["subscriber_status"])) {
+                array_push($line, $row2["subscriber_status"]);
+            }
 
             array_push ($allusers, $line);
 
