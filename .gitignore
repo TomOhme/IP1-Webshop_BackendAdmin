@@ -5,4 +5,5 @@ composer.lock
 magento_BackendAdmin.iml
 .DS_Store
 config.php
+/app/sendNewsletter.php
 php.ini

@@ -34,9 +34,10 @@ $time = $timetosend->format('Y-m-d H:i:s');
 $title = 'adad';
 $content = 'adadadaddadadada';
 $conreplace = explode('h1>', $template);
+var_dump($conreplace);
 $html = rtrim($conreplace[0], '<')."<h1>".$title."</h1>\n".$content."\n".$conreplace[2];
 
-$insert = "INSERT INTO `newsletter_queue`(`queue_id`, `template_id`, `newsletter_type`, `newsletter_text`, `newsletter_styles`, `newsletter_subject`, `newsletter_sender_name`, `newsletter_sender_email`, `queue_status`, `queue_start_at`, `queue_finish_at`) VALUES (NULL,".$templateid.",NULL,'".$html."',NULL,'".$title."','Test','noreply@fhnw.ch','0','".$time."',NULL)";
+$insert = "INSERT INTO magento.newsletter_queue(`queue_id`, `template_id`, `newsletter_type`, `newsletter_text`, `newsletter_styles`, `newsletter_subject`, `newsletter_sender_name`, `newsletter_sender_email`, `queue_status`, `queue_start_at`, `queue_finish_at`) VALUES (NULL,$templateid,NULL,$html,NULL,$title,'Test','noreply@fhnw.ch','0',$time,NULL)";
 $mysqli->query($insert);
 echo $mysqli->error;
 $mysqli->close();

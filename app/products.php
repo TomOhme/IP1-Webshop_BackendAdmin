@@ -171,16 +171,18 @@ function formatAmount($amount){
                         <div class="form-group has-feedback">
                             <label class="col-sm-3 control-label">Titel</label>
                             <div class="col-sm-6">
-                                <input id="article_update_title" type="text" class="form-control" name="title" value="" placeholder="Titel" data-bv-field="title"><i class="form-control-feedback" data-bv-icon-for="title" style="display: none;"></i>
-                                <small class="help-block" data-bv-validator="notEmpty" data-bv-for="title" data-bv-result="NOT_VALIDATED" style="display: none;">Bitte Artikelname angeben</small><small class="help-block" data-bv-validator="remote" data-bv-for="title" data-bv-result="NOT_VALIDATED" style="display: none;">Ein Artikel mit diesem Titel existiert bereits</small><small class="help-block" data-bv-validator="stringLength" data-bv-for="title" data-bv-result="NOT_VALIDATED" style="display: none;">Artikelname muss zwischen 2 und 50 Zeichen sein</small></div>
+                                <input id="article_update_title" type="text" class="form-control" name="title" value="" placeholder="Titel" data-bv-field="title" required><i class="form-control-feedback" data-bv-icon-for="title" style="display: none;"></i>
+                                <small class="help-block" data-bv-validator="notEmpty" data-bv-for="title" data-bv-result="NOT_VALIDATED" style="display: none;">Bitte Artikelname angeben</small><small class="help-block" data-bv-validator="remote" data-bv-for="title" data-bv-result="NOT_VALIDATED" style="display: none;">Ein Artikel mit diesem Titel existiert bereits</small><small class="help-block" data-bv-validator="stringLength" data-bv-for="title" data-bv-result="NOT_VALIDATED" style="display: none;">Artikelname muss zwischen 2 und 50 Zeichen sein</small>
+                            </div>
                         </div>
+
 
                         <!-- Kategorie Select -->
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Kategorie</label>
                             <div class="col-sm-6">
                                 <?php $categories = $soapProductGroup->getTree(); ?>
-                                <select multiple="multiple" name="category" id="category" class="form-control">
+                                <select multiple="multiple" name="category" id="category" class="form-control" required>
                                     <?php getNextSubCategoryDropdown($categories); ?>
                                     <?php
                                     function getNextSubCategoryDropdown($category) {
@@ -202,7 +204,7 @@ function formatAmount($amount){
                         <div class="form-group has-feedback">
                             <label class="col-sm-3 control-label">Beschreibung</label>
                             <div class="col-sm-6">
-                                <textarea id="article_update_description" class="form-control" rows="5" name="short_description" placeholder="Beschreibung" data-bv-field="description"></textarea><i class="form-control-feedback" data-bv-icon-for="description" style="display: none;"></i>
+                                <textarea id="article_update_description" class="form-control" rows="5" name="short_description" placeholder="Beschreibung" data-bv-field="description" required></textarea><i class="form-control-feedback" data-bv-icon-for="description" style="display: none;"></i>
                                 <small class="help-block" data-bv-validator="stringLength" data-bv-for="description" data-bv-result="NOT_VALIDATED" style="display: none;">Beschreibung darf nicht länger als 250 Zeichen sein</small>
                             </div>
                         </div>
@@ -211,7 +213,7 @@ function formatAmount($amount){
                         <div class="form-group has-feedback">
                             <label class="col-sm-3 control-label">Anzahl / Einheit</label>
                             <div class="col-sm-3">
-                                <input id="article_update_amount" type="text" class="form-control" name="stock" value="" placeholder="Anzahl" data-bv-field="stock"><i class="form-control-feedback" data-bv-icon-for="stock" style="display: none;"></i>
+                                <input id="article_update_amount" type="text" class="form-control" name="stock" value="" placeholder="Anzahl" data-bv-field="stock" required><i class="form-control-feedback" data-bv-icon-for="stock" style="display: none;"></i>
                                 <small class="help-block" data-bv-validator="notEmpty" data-bv-for="stock" data-bv-result="NOT_VALIDATED" style="display: none;">Bitte Anzahl angeben</small><small class="help-block" data-bv-validator="digits" data-bv-for="stock" data-bv-result="NOT_VALIDATED" style="display: none;">Anzahl kann nur Zahlen enthalten</small>
                             </div>
                             <!-- Einheit Input -->
@@ -229,7 +231,7 @@ function formatAmount($amount){
                         <div class="form-group has-feedback">
                             <label class="col-sm-3 control-label">Preis</label>
                             <div class="col-sm-6">
-                                <input id="article_update_price" type="text" class="form-control" name="price" value="" placeholder="Preis" data-bv-field="price"><i class="form-control-feedback" data-bv-icon-for="price" style="display: none;"></i>
+                                <input id="article_update_price" type="text" class="form-control" name="price" value="" placeholder="Preis" data-bv-field="price" required><i class="form-control-feedback" data-bv-icon-for="price" style="display: none;"></i>
                                 <small class="help-block" data-bv-validator="notEmpty" data-bv-for="price" data-bv-result="NOT_VALIDATED" style="display: none;">Bitte Preis angeben</small><small class="help-block" data-bv-validator="regexp" data-bv-for="price" data-bv-result="NOT_VALIDATED" style="display: none;">Preis kann nur Zahlen enthalten</small>
                             </div>
                         </div>
@@ -246,7 +248,7 @@ function formatAmount($amount){
                         <!-- Spezial Preis From Date -->
                         <div class="form-group has-feedback">
                             <label class="col-sm-3 control-label"></label>
-                            <div class='col-md-4' style="padding-left: 30px;">
+                            <div class='col-md-5' style="padding-left: 30px;">
                                 <div class="form-group">
                                     <div class='input-group date' id='datetimepickerFrom'>
                                         <input id="article_update_specialFromDate" name="specialFromDate" type='text' value='' class="form-control" placeholder="Von"/>
@@ -261,7 +263,7 @@ function formatAmount($amount){
                         <!-- Spezial Preis To Date -->
                         <div class="form-group has-feedback">
                             <label class="col-sm-3 control-label"></label>
-                            <div class='col-md-4' style="padding-left: 30px; margin-top: -20px;">
+                            <div class='col-md-5' style="padding-left: 30px; margin-top: -20px;">
                                 <div class="form-group">
                                     <div class='input-group date' id='datetimepickerTo'>
                                         <input id="article_update_specialToDate" name="specialToDate" type='text' value='' class="form-control" placeholder="Bis"/>
@@ -320,8 +322,6 @@ function formatAmount($amount){
 </div>
 
     <script type="text/javascript">
-
-        $('#productForm').validator();
 
         $('#category').multiSelect({ keepOrder:true });
 
@@ -506,7 +506,6 @@ function formatAmount($amount){
         }
 
         $(document).ready(function() {
-
             $('#data-table').DataTable({
                 "language": {
                     "sEmptyTable":      "Keine Daten in der Tabelle vorhanden",
