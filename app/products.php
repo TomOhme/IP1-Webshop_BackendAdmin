@@ -408,7 +408,7 @@ function formatAmount($amount){
                 success: function (data) {
                     $('#productModal').modal('hide');
                     setTimeout(function() {
-                        changeSite('products'); //TODO better return echo products and fill content with data
+                        changeSiteUpdate('products'); //TODO better return echo products and fill content with data
                     }, 1000);
                     //TODO alert success
                 },

@@ -218,7 +218,7 @@ if(isset($_POST['productData']) && isset($_POST['categoryDelete'])){
                     categoryUpdateSave : 'categoryUpdateSave'
             },
             success: function (data) {
-                changeSite('categories'); //TODO better return echo products and fill content with data
+                changeSiteUpdate('categories'); //TODO better return echo products and fill content with data
                 //TODO alert success
             },
         });
@@ -233,7 +233,7 @@ if(isset($_POST['productData']) && isset($_POST['categoryDelete'])){
                     categoryDelete : 'categoryDelete'
             },
             success: function (data) {
-                changeSite('categories'); //TODO better return echo products and fill content with data
+                changeSiteUpdate('categories'); //TODO better return echo products and fill content with data
                 //TODO alert success
             },
         });
