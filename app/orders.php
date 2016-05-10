@@ -206,7 +206,7 @@ function reopenOrder(id){
 		type: 'POST',
 		data: {"reopenOrderID": id},
 		success: function (data) {
-			changeSite("orders");
+			changeSiteUpdate("orders");
 			$('#orderSuccess').empty();
 			$('#orderSuccess').html("<strong>Erfolgreich!</strong> Die Bestellung wurde erneut er&ouml;ffnet.");
             $("#alertOrderSuccess").toggle();
