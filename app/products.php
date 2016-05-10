@@ -164,7 +164,8 @@ function formatAmount($amount){
                             </div>
                         </div>
                     </div>
-                    <form method="post" id="productForm" class="form-horizontal registerForm bv-form" novalidate="novalidate"><button type="submit" class="bv-hidden-submit" style="display: none; width: 0px; height: 0px;"></button>
+                    <form method="post" id="productForm" class="form-horizontal registerForm bv-form" novalidate="novalidate">
+                        <button type="submit" class="bv-hidden-submit" style="display: none; width: 0px; height: 0px;"></button>
                         <input type="hidden" class="form-control" id="sku" name="sku" value="-1">
                         <!-- Titel Input -->
                         <div class="form-group has-feedback">
@@ -319,6 +320,8 @@ function formatAmount($amount){
 </div>
 
     <script type="text/javascript">
+
+        $('#productForm').validator();
 
         $('#category').multiSelect({ keepOrder:true });
 
