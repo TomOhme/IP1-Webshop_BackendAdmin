@@ -13,7 +13,7 @@ if(!isset($_SESSION['username'])) {
 }
 ?>
 <body>
-<nav class="nav navbar-nav" id="header" role="navigation">
+<nav class="navbar navbar-default" id="header" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -22,25 +22,25 @@ if(!isset($_SESSION['username'])) {
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#" onclick="changeSite('products');"><img src="../img/logoHeader.png" width="100" height="30" alt="BackendAdmin"></a>
+            <a class="navbar-brand" href="#" onclick="changeSite('products');"><img src="../img/logo.png" width="100" height="30" alt="BackendAdmin"></a>
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul id="nav_site" class="nav navbar-nav">
-                <li onclick="changeSite('products');"><a class="header-link" href="#">Produkte</a></li>
-                <li onclick="changeSite('categories');"><a class="header-link" href="#">Kategorien</a></li>
-                <li onclick="changeSite('users');"><a class="header-link" href="#">Benutzer</a></li>
-                <li onclick="changeSite('orders');"><a class="header-link" href="#">Bestellungen</a></li>
-                <li onclick="changeSite('settings');"><a class="header-link" href="#">Einstellungen</a></li>
-                <li onclick="changeSite('design');"><a class="header-link" href="#">Design</a></li>
-                <li onclick="changeSite('newsletter');"><a class="header-link" href="#">Newsletter</a></li>
+                <li onclick="changeSite('products');"><a href="#">Produkte</a></li>
+                <li onclick="changeSite('categories');"><a href="#">Kategorien</a></li>
+                <li onclick="changeSite('users');"><a href="#">Benutzer</a></li>
+                <li onclick="changeSite('orders');"><a href="#">Bestellungen</a></li>
+                <li onclick="changeSite('settings');"><a href="#">Einstellungen</a></li>
+                <li onclick="changeSite('design');"><a href="#">Design</a></li>
+                <li onclick="changeSite('newsletter');"><a ref="#">Newsletter</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li title="Eingeloggter Benutzer"><a class="loggedinuser header-link" href="#"><img src="../img/profile.png" width="25" height="25">&nbsp;<?php echo $_SESSION['username']; ?></a></li>
-                <li><a href="../.." target="_blank" class="visible-xs header-link"><img src="../img/shop.png" width="25" height="25" title="Zum Webshop">&nbsp;Zum Webshop</a></li>
-                <li><a href="../.." target="_blank" class="hidden-xs header-link"><img src="../img/shop.png" width="25" height="25" title="Zum Webshop"></a></li>
-                <li onclick="logout();" class="visible-xs" id="action_logout"><a class="header-link" href="#"><img src="../img/logout.png" width="25" height="25" title="Logout">&nbsp;Logout</a></li>
-                <li onclick="logout();" class="hidden-xs" id="action_logout2"><a class="header-link" href="#"><img src="../img/logout.png" width="25" height="25" title="Logout"></a></li>
+                <li title="Eingeloggter Benutzer"><a class="loggedinuser" href="#"><img src="../img/profile.png" width="25" height="25">&nbsp;<?php echo $_SESSION['username']; ?></a></li>
+                <li><a href="../.." target="_blank" class="visible-xs"><img src="../img/shop.png" width="25" height="25" title="Zum Webshop">&nbsp;Zum Webshop</a></li>
+                <li><a href="../.." target="_blank" class="hidden-xs"><img src="../img/shop.png" width="25" height="25" title="Zum Webshop"></a></li>
+                <li onclick="logout();" class="visible-xs" id="action_logout"><a href="#"><img src="../img/logout.png" width="25" height="25" title="Logout">&nbsp;Logout</a></li>
+                <li onclick="logout();" class="hidden-xs" id="action_logout2"><a href="#"><img src="../img/logout.png" width="25" height="25" title="Logout"></a></li>
             </ul>
         </div>
     </div>

@@ -8,14 +8,16 @@
     width: 100%;
 }
 
-.file-upload {
+.file-upload
+{
     position: relative;
     overflow: hidden;
     margin: 10px;
     margin-left: 0;
 }
 
-.file-input {
+.file-input
+{
     position: absolute;
     top: 0;
     right: 0;
@@ -29,29 +31,8 @@
     filter: alpha(opacity=0);
 }
 
-img#logoImg {
+img#logoImg
+{
     max-height: 150px;
     margin-bottom: 20px;
-}
-
-#header {
-    height: 56px;
-    background-color: #3a3a3a;
-    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.25);
-    width: 100%;
-    margin-bottom: 40px;
-}
-
-.header-link {
-    color: white;
-    display: inline-block;
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-    line-height: 35px;
-    padding: 10px;
-}
-
-#header .header-link:hover {
-    color: white;
-    background-color: #1e1e1e; !important;
-    line-height: 25px;
 }
