@@ -241,9 +241,11 @@ function formatAmount($amount){
                                 <small class="help-block" data-bv-validator="notEmpty" data-bv-for="specialPrice" data-bv-result="NOT_VALIDATED" style="display: none;">Bitte Spezial Preis angeben</small><small class="help-block" data-bv-validator="regexp" data-bv-for="specialPrice" data-bv-result="NOT_VALIDATED" style="display: none;">Spezial Preis kann nur Zahlen enthalten</small>
                             </div>
                         </div>
+
+                        <!-- Spezial Preis From Date -->
                         <div class="form-group has-feedback">
                             <label class="col-sm-3 control-label"></label>
-                            <div class='col-md-4'>
+                            <div class='col-md-4' style="padding-left: 30px;">
                                 <div class="form-group">
                                     <div class='input-group date' id='datetimepickerFrom'>
                                         <input id="article_update_specialFromDate" name="specialFromDate" type='text' value='' class="form-control" placeholder="Von"/>
@@ -253,10 +255,15 @@ function formatAmount($amount){
                                     </div>
                                 </div>
                             </div>
-                            <div class='col-md-4'>
+                        </div>
+
+                        <!-- Spezial Preis To Date -->
+                        <div class="form-group has-feedback">
+                            <label class="col-sm-3 control-label"></label>
+                            <div class='col-md-4' style="padding-left: 30px; margin-top: -20px;">
                                 <div class="form-group">
                                     <div class='input-group date' id='datetimepickerTo'>
-                                        <input id="article_update_specialToDate" name="specialFromTo" type='text' value='' class="form-control" placeholder="Bis"/>
+                                        <input id="article_update_specialToDate" name="specialToDate" type='text' value='' class="form-control" placeholder="Bis"/>
                                         <span class="input-group-addon">
                                             <span class="glyphicon glyphicon-calendar"></span>
                                         </span>
@@ -401,7 +408,7 @@ function formatAmount($amount){
                 success: function (data) {
                     $('#productModal').modal('hide');
                     setTimeout(function() {
-                        changeSite('products'); //TODO better return echo products and fill content with data
+                        changeSiteUpdate('products'); //TODO better return echo products and fill content with data
                     }, 1000);
                     //TODO alert success
                 },

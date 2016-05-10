@@ -172,7 +172,7 @@ function cancleOrder(id){
 		type: 'POST',
 		data: {"cancleOrderID": id},
 		success: function (data) {
-			changeSite("orders");
+			changeSiteUpdate("orders");
 			$('#orderSuccess').empty();
 			$('#orderSuccess').html("<strong>Erfolgreich!</strong> Die Bestellung wurde storniert.");
             $("#alertOrderSuccess").toggle();
@@ -189,7 +189,7 @@ function closeOrder(id){
 		type: 'POST',
 		data: {"closeOrderID": id},
 		success: function (data) {
-			changeSite("orders");
+			changeSiteUpdate("orders");
 			$('#orderSuccess').empty();
 			$('#orderSuccess').html("<strong>Erfolgreich!</strong> Die Bestellung wurde abgeschlossen.");
             $("#alertOrderSuccess").toggle();
@@ -206,7 +206,7 @@ function reopenOrder(id){
 		type: 'POST',
 		data: {"reopenOrderID": id},
 		success: function (data) {
-			changeSite("orders");
+			changeSiteUpdate("orders");
 			$('#orderSuccess').empty();
 			$('#orderSuccess').html("<strong>Erfolgreich!</strong> Die Bestellung wurde erneut er&ouml;ffnet.");
             $("#alertOrderSuccess").toggle();
