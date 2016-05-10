@@ -55,3 +55,8 @@ img#logoImg {
     background-color: #1e1e1e; !important;
     line-height: 25px;
 }
+#header .header-link:focus {
+    color: white;
+    background-color: #1e1e1e; !important;
+    line-height: 25px;
+}
