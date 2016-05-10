@@ -39,6 +39,10 @@ if (isset($_POST['productId']) && $_POST['product'] == 'updateProduct') {
     parse_str($_POST['productData'], $values);
     $values['category_ids'] = $_POST['category_ids'];
     $productId = isset($values['productId']) ? $values['productId'] : null;
+    $values['price'] = unformatPrice($values['price']);
+    if ($values['specialPrice'] != null) {
+        $values['specialPrice'] = unformatPrice($values['specialPrice']);
+    }
     $productData = $soapProduct->createCatalogProductEntity($values['category_ids'], $values['unit'], $values['title'], $values['short_description'],
                                                             $values['price'], $values['stock'], $values['specialPrice'], $values['specialFromDate'], $values['specialFromTo']);
     if ($productId != null) {
@@ -65,5 +69,17 @@ function formatPrice($price){
 function formatAmount($amount){
     setlocale(LC_ALL, "de_CH");
     return number_format($amount,0, ".", "'");
+}
+
+function unformatPrice($price) {
+    if (strpos($price, 'Fr.') !== false) {
+        $price = str_replace('Fr.', '', $price);
+        var_dump($price);
+    }
+    if (strpos($price, '/[^\p{L}\p{N}\s]/u')) {
+        $price = preg_replace('/[^\p{L}\p{N}\s]/u', '', $price);
+        var_dump($price);
+    }
+    return $price;
 }
 ?>
