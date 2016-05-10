@@ -5,7 +5,6 @@
  * Date: 01.05.2016
  * Time: 11:15
  */
-var_dump($_POST["aboutUs"]);
 $content = '<h1>'.$_POST["title"].'</h1>
             <p><img alt="" src="{{media url="wysiwyg/kontaktseite.jpg"}}" /></p>'
             .$_POST["aboutUs"].
