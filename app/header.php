@@ -42,7 +42,7 @@ session_start();
     <script src="../js/notify.min.js"></script>
     <script src="../js/dropzone.js"></script> <!-- http://www.dropzonejs.com/#usage -->
     <script src="../js/bootstrapValidator.min.js"></script>
-    <script src="../js/form_validation.js"></script>
+    <script src="../js/validator.js"></script>
     <script src="../js/bootstrap-colorpicker.min.js"></script>
     <script src="../js/ckeditor.js"></script>
     <script src="../js/jquery.multi-select.js"></script> <!-- http://loudev.com/#home -->

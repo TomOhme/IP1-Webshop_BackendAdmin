@@ -81,7 +81,7 @@ $soap->openSoap();
                                     <td class="sorting_1"><?php if(!is_null($user['3'])){ echo $user['3']; } ?></td>
                                     <td class="sorting_1"><?php if(!is_null($user['email'])){ echo $user['email']; } ?></td> <!-- email -->
                                     <td class="sorting_1"><?php if(!is_null($user['4'])){ echo formatDate($user['4']); } ?></td> <!-- date of birth -->
-                                    <td class="sorting_1"><?php if(is_null($user['5'])){ echo "Ja"; } else { echo "Nein"; }?></td> <!-- newsletter -->
+                                    <td class="sorting_1"><?php if(!isset($user['5'])){ echo "Ja"; } else { echo "Nein"; }?></td> <!-- newsletter -->
                                     <td><span class="glyphicon glyphicon-remove" aria-hidden="true" onclick="delete_user(<?php echo $userid; ?>)"></span></td>
                                     </tr><?php
                                 }

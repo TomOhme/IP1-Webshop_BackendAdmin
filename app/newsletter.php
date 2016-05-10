@@ -42,7 +42,7 @@ include("../api/dbconnect.php");
 
 <script type="text/javascript">
     jQuery('#datetimepicker').datetimepicker({
-        format:'d.m.Y H:i',
+        format:'Y m d H i s',
         inline:true,
         lang:'de'
     });
@@ -66,6 +66,7 @@ include("../api/dbconnect.php");
         var datetime = document.getElementById("datetimepicker").value;
         var title = document.getElementById("title").value;
         var content = document.getElementById("inhalt").value;
+        alert(datetime);
 
         if (datetime == '' || title == '' || content == '') {
             alert("Please Fill All Fields");
