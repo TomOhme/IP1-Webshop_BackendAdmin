@@ -158,16 +158,29 @@ class product {
         return $this->createProductImage($newFilename, $mime, $name, $productId);
     }
 
-    public function updateDiscount($dId,$discount,$threshold){
+    /**
+    * updates discount row
+    * @param $id (Discount ID)
+    * @param $discount (new disount value)
+    * @param $threshold (new threshold value)
+    * @return void
+    */
+    public function updateDiscount($id,$discount,$threshold){
         if($this->mysqli->query("SHOW TABLES LIKE 'custom_discount'")->num_rows>0){
             $stmt = $this -> mysqli->prepare("UPDATE magento.custom_discount SET discount =?, setAfter=?   WHERE custom_discount.id =?;");
-            $stmt->bind_param("sss", $discount,$threshold,$dId);
+            $stmt->bind_param("sss", $discount,$threshold,$id);
             $stmt->execute();
             $stmt->close();
         }
         return "";
     }
 
+    /**
+    * creats new discount row
+    * @param $discount (disount value)
+    * @param $threshold (threshold value)
+    * @return $id
+    */
     public function createDiscount($discount,$threshold){
         if($this->mysqli->query("SHOW TABLES LIKE 'custom_discount'")->num_rows>0){
             $stmt = $this -> mysqli->prepare("INSERT INTO magento.custom_discount (id, discount, setAfter) VALUES (NULL, ?, ?);");
@@ -181,6 +194,11 @@ class product {
         return "";
     }
 
+    /**
+    * deletes discount row
+    * @param $id (Discount ID)
+    * @return boolean
+    */
     public function deleteDiscount($id){
         if($this->mysqli->query("SHOW TABLES LIKE 'custom_discount'")->num_rows>0){
             $stmt = $this -> mysqli->prepare("DELETE FROM magento.custom_discount WHERE custom_discount.id =?;");
@@ -194,6 +212,10 @@ class product {
         return "";
     }
 
+    /**
+    * sends all discount rows
+    * @return Array with all rows
+    */
     public function getDiscount(){
         if($this->mysqli->query("SHOW TABLES LIKE 'custom_discount'")->num_rows>0){
             $query = "SELECT * FROM custom_discount";

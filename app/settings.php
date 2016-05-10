@@ -8,9 +8,12 @@
 session_start();
 include("../api/dbconnect.php");
 include("../api/product.php");
+include("../api/settings.php");
 
 $soapProduct = new Product();
 $soapProduct -> openSoap();
+$settingsSoap = new Settings();
+$settingsSoap = openSoap();
 
 $select = "SELECT `content` FROM `cms_page` WHERE `identifier`= 'ueber-uns'; ";
 $result = $mysqli->query($select);
@@ -58,7 +61,7 @@ function formatPrice($price){
 <link rel="stylesheet" href="../css/custom.css">
 
 <div id="content" style="padding-left:50px; padding-right:50px;">
-    <div class="col-md-8">
+    <div class="col-md-6">
             <table>
                 <td style="width: 1000px;">
                     <form method="post"  role="form" enctype="multipart/form-data" name="contact">
@@ -101,35 +104,49 @@ function formatPrice($price){
                 </td>
             </table>
     </div>
-   	<div class="col-md-4">
-		<h1>Rabatt</h1>
-		<div class="text-right">
-			<!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addDiscount">Rabatt hinzuf&uuml;gen</button>-->
-			<button type="button" class="btn btn-primary" onclick="$('#addDiscount').modal('show')">Rabatt hinzuf&uuml;gen</button>
-		</div>
-		<table class="table table-responsive table-hover table-striped table-bordered dataTable no-footer" id="data-table" style="width: 100%;" role="grid" aria-describedby="data-table_info">
-			<thead class="tablebold">
-				<tr role="row">
-					<td>Rabatt</td>
-					<td>Schwelle</td>
-					<td>L&ouml;schen</td>
-				</tr>
-			</thead>
-			<tbody>
-				<?php
-				$rows = $soapProduct->getDiscount();
-				foreach ($rows as $row) {
-					?>
-					<tr>
-						<td id="discount-<?php echo $row[0]; ?>" onclick="editUpdateForm('<?php echo $row[0] ?>');"><?php echo formatDiscount($row[1]); ?></td>
-						<td id="threashold-<?php echo $row[0]; ?>" onclick="editUpdateForm('<?php echo $row[0] ?>');"><?php echo formatPrice($row[2]); ?></td>
-						<td onclick="deleteDiscount('<?php echo $row[0] ?>');" style="width: 50px;"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
+   	<div class="col-md-6">
+	   	<div class="row">
+			<h1>Rabatt</h1>
+			<div class="text-right">
+				<!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addDiscount">Rabatt hinzuf&uuml;gen</button>-->
+				<button type="button" class="btn btn-primary" onclick="$('#addDiscount').modal('show')">Rabatt hinzuf&uuml;gen</button>
+			</div>
+			<table class="table table-responsive table-hover table-striped table-bordered dataTable no-footer" id="data-table" style="width: 100%;" role="grid" aria-describedby="data-table_info">
+				<thead class="tablebold">
+					<tr role="row">
+						<td>Rabatt</td>
+						<td>Schwelle</td>
+						<td>L&ouml;schen</td>
 					</tr>
+				</thead>
+				<tbody>
 					<?php
-				}
+					$rows = $soapProduct->getDiscount();
+					foreach ($rows as $row) {
+						?>
+						<tr>
+							<td id="discount-<?php echo $row[0]; ?>" onclick="editUpdateForm('<?php echo $row[0] ?>');"><?php echo formatDiscount($row[1]); ?></td>
+							<td id="threashold-<?php echo $row[0]; ?>" onclick="editUpdateForm('<?php echo $row[0] ?>');"><?php echo formatPrice($row[2]); ?></td>
+							<td onclick="deleteDiscount('<?php echo $row[0] ?>');" style="width: 50px;"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
+						</tr>
+						<?php
+					}
+					?>
+				</tbody>
+			</table>
+		</div>
+		<div class="row">
+			<h1>Versand und Zahlung</h1>
+			<?php
+			$shippment = $settingsSoap->getShippingSettings();
+			$pickUp = $settingsSoap->getPickUpSettings();
+			if(isset($shippment['title'])){
 				?>
-			</tbody>
-		</table>
+				
+				<?php
+			}
+			?>
+		</div>
 	</div>
 
 	<div class="modal fade" id="addDiscount" tabindex="-1" role="dialog">
@@ -245,8 +262,6 @@ function formatPrice($price){
             });
         }
         return false;
-
-
 	};
 
 	function editUpdateForm(id){
