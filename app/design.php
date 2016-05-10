@@ -24,8 +24,7 @@ if(isset($_POST["submit"]))
 
     if(!empty($img))
     {
-        // ../../../magento/skin/frontend/webshop/default/images/
-        $target_dir = "../../magento/skin/frontend/webshop/default/images/";
+        $target_dir = "../../skin/frontend/webshop/default/images/";
         $target_file = $target_dir . basename($_FILES['file-0']["name"]);
         $uploadOk = 1;
         $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
@@ -62,7 +61,7 @@ if(isset($_POST["submit"]))
     }
 
     $color = $_POST["color"];
-    $destCss = "../../../magento/skin/frontend/webshop/default/css/webshop.css";
+    $destCss = "../../skin/frontend/webshop/default/css/webshop.css";
 
     $dbColor -> setSelectedColor($color);
 
@@ -107,7 +106,7 @@ if(isset($_POST["submit"]))
         copy($targetCss, $destCss);
     }
 
-    foreach (glob("../../../magento/var/cache/*", GLOB_ONLYDIR) as $dir)
+    foreach (glob("../../var/cache/*", GLOB_ONLYDIR) as $dir)
     {
         foreach(glob($dir . "/*") as $file)
         {
@@ -137,7 +136,7 @@ if(isset($_POST["submit"]))
             <div class="row">
                 <div class="col-sm-6">
                     <div class="col-sm-12">
-                        <img id="logoImg" src="../../magento/skin/frontend/webshop/default/images/logo_bh.png?<?php echo date("his"); ?>" />
+                        <img id="logoImg" src="../../skin/frontend/webshop/default/images/logo_bh.png?<?php echo date("his"); ?>" />
                     </div>
                     <div class="form-group">
                         <label for="LogoFile">Logo</label>
@@ -207,7 +206,7 @@ if(isset($_POST["submit"]))
                     $("#alertSuccess").hide();
                 });
 
-                $("#logoImg").attr( 'src', '../../magento/skin/frontend/webshop/default/images/logo_bh.png?' + (+new Date()) );
+                $("#logoImg").attr( 'src', '../../skin/frontend/webshop/default/images/logo_bh.png?' + (+new Date()) );
             },
             error: function(data)
             {

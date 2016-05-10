@@ -32,6 +32,18 @@ include("menu.php");
         }
     };
 
+    function changeSiteUpdate(page) {
+        $("#content").empty();
+        $.ajax({
+            url : page + ".php",
+            type: 'GET',
+            success: function(data){
+                $('#content').append(data);
+            }
+        });
+
+    };
+
     function logout() {
         $.get('logout.php', function() {
             window.location = "./index.php";
