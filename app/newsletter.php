@@ -61,7 +61,8 @@ include("../api/dbconnect.php");
     });
 
     $('#dtpicker').datetimepicker({
-        format: "DD.MM.YYYY - HH.mm.ss"
+        format: "DD.MM.YYYY - HH.mm.ss",
+        locale: 'de'
     });
 
     function sendNewsletter() {

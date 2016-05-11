@@ -327,8 +327,12 @@ function formatAmount($amount){
 
         $("#picture").dropzone({ url: "/file/post" });
 
-        $('#datetimepickerFrom').datetimepicker();
-        $('#datetimepickerTo').datetimepicker();
+        $('#datetimepickerFrom').datetimepicker({
+                    locale: 'de'
+                });
+        $('#datetimepickerTo').datetimepicker({
+                    locale: 'de'
+                });
 
         $('#article_update_specialPrice').on('input', function() {
             checkSpecialPrice();
