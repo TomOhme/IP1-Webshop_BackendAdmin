@@ -164,7 +164,7 @@ function formatAmount($amount){
                             </div>
                         </div>
                     </div>
-                    <form method="post" id="productForm" class="form-horizontal bv-form" novalidate="novalidate">
+                    <form method="post" id="productForm" class="form-horizontal bv-form">
                         <button type="submit" class="bv-hidden-submit" style="display: none; width: 0px; height: 0px;"></button>
                         <input type="hidden" class="form-control" id="sku" name="sku" value="-1">
                         <!-- Titel Input -->
@@ -182,7 +182,7 @@ function formatAmount($amount){
                             <label class="col-sm-3 control-label">Kategorie</label>
                             <div class="col-sm-6">
                                 <?php $categories = $soapProductGroup->getTree(); ?>
-                                <select multiple="multiple" name="category" id="category" class="form-control" required>
+                                <select multiple="multiple" name="category" id="category" class="form-control required">
                                     <?php getNextSubCategoryDropdown($categories); ?>
                                     <?php
                                     function getNextSubCategoryDropdown($category) {
@@ -204,7 +204,7 @@ function formatAmount($amount){
                         <div class="form-group has-feedback">
                             <label class="col-sm-3 control-label">Beschreibung</label>
                             <div class="col-sm-6">
-                                <textarea id="article_update_description" class="form-control" rows="5" name="short_description" placeholder="Beschreibung" data-bv-field="description" maxlength="250" required></textarea><i class="form-control-feedback" data-bv-icon-for="description" style="display: none;"></i>
+                                <textarea id="article_update_description" class="form-control required" rows="5" name="short_description" placeholder="Beschreibung" data-bv-field="description" maxlength="250"></textarea><i class="form-control-feedback" data-bv-icon-for="description" style="display: none;"></i>
                                 <small class="help-block" data-bv-validator="stringLength" data-bv-for="description" data-bv-result="NOT_VALIDATED" style="display: none;">Beschreibung darf nicht länger als 250 Zeichen sein</small>
                             </div>
                         </div>
@@ -213,12 +213,12 @@ function formatAmount($amount){
                         <div class="form-group has-feedback">
                             <label class="col-sm-3 control-label">Anzahl / Einheit</label>
                             <div class="col-sm-3">
-                                <input id="article_update_amount" type="text" class="form-control" name="stock" value="" placeholder="Anzahl" data-bv-field="stock" min="0" required><i class="form-control-feedback" data-bv-icon-for="stock" style="display: none;"></i>
+                                <input id="article_update_amount" type="text" class="form-control required" name="stock" value="" placeholder="Anzahl" data-bv-field="stock" min="0"><i class="form-control-feedback" data-bv-icon-for="stock" style="display: none;"></i>
                                 <small class="help-block" data-bv-validator="notEmpty" data-bv-for="stock" data-bv-result="NOT_VALIDATED" style="display: none;">Bitte Anzahl angeben</small><small class="help-block" data-bv-validator="digits" data-bv-for="stock" data-bv-result="NOT_VALIDATED" style="display: none;">Anzahl kann nur Zahlen enthalten</small>
                             </div>
                             <!-- Einheit Input -->
                             <div class="col-sm-3">
-                                <input id="article_update_unit" type="text" class="form-control" name="unit" value="" placeholder="Einheit" data-bv-field="unit" required>
+                                <input id="article_update_unit" type="text" class="form-control required" name="unit" value="" placeholder="Einheit" data-bv-field="unit">
                                 <!--<select name="unit" id="unit" class="form-control">
                                     <option value="Stueck">St&uuml;ck</option>
                                     <option value="Liter">Liter</option>
@@ -232,7 +232,7 @@ function formatAmount($amount){
                         <div class="form-group has-feedback">
                             <label class="col-sm-3 control-label">Preis</label>
                             <div class="col-sm-6">
-                                <input id="article_update_price" type="text" class="form-control" name="price" value="" placeholder="Preis" data-bv-field="price" min="0" required><i class="form-control-feedback" data-bv-icon-for="price" style="display: none;"></i>
+                                <input id="article_update_price" type="text" class="form-control required" name="price" value="" placeholder="Preis" data-bv-field="price" min="0"><i class="form-control-feedback" data-bv-icon-for="price" style="display: none;"></i>
                                 <small class="help-block" data-bv-validator="notEmpty" data-bv-for="price" data-bv-result="NOT_VALIDATED" style="display: none;">Bitte Preis angeben</small><small class="help-block" data-bv-validator="regexp" data-bv-for="price" data-bv-result="NOT_VALIDATED" style="display: none;">Preis kann nur Zahlen enthalten</small>
                             </div>
                         </div>
@@ -477,7 +477,24 @@ function formatAmount($amount){
             }
         }
 
-        //TODO js function for required fields
+        /*function checkFields() {
+            var requiredInput = $(".required");
+            var NoError = true;
+
+            if ($('input#article_update_title').val().length === 0) {
+                for (var i = 0; i < requiredInput.length; i++) {
+                    if (requiredInput[i].value == "") {
+                        requiredInput[i].style.border = "1px solid red";
+                    } else {
+                        if (NoError) {
+                            requiredInput[i].removeAttribute("style");
+                        }
+                    }
+                }
+                return false;
+            }
+            return NoError;
+        }*/
 
         function uploadExcel(form) {
             var data = new FormData();
