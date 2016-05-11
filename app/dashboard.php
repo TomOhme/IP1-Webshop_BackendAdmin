@@ -15,6 +15,7 @@ if(!isset($_SESSION['username'])) {
 include("../api/product.php");
 include("../api/ProductGroup.php");
 include("../api/orders.php");
+include("../api/users.php");
 
 $soapProduct = new Product();
 $soapProduct -> openSoap();
@@ -22,9 +23,12 @@ $soapProductGroup = new Productgroup();
 $soapProductGroup -> openSoap();
 $soapOrders = new Orders();
 $soapOrders -> openSoap();
+$soapUser = new User();
+$soapUser->openSoap();
 
 $products = $soapProduct -> getAllProducts();
 $orders = $soapOrders -> getAllOrders();
+$users = $soapUser->getAllUsers();
 ?>
 <div id="content">
     <div id="page-wrapper">
@@ -58,34 +62,12 @@ $orders = $soapOrders -> getAllOrders();
                             </div>
                             <div class="col-xs-9 text-right">
                                 <div class="huge"><?php echo $countProductStock; ?></div>
-                                <div>Geringe Produktemenge</div>
+                                <div>Geringer Produktemenge</div>
                                 <div>Anzahl Produkte: <?php echo count($products); ?></div>
                             </div>
                         </div>
                     </div>
                     <a href="#" onclick="changeSite('products');">
-                        <div class="panel-footer">
-                            <span class="pull-left">Details anzeigen</span>
-                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                            <div class="clearfix"></div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="panel panel-green">
-                    <div class="panel-heading">
-                        <div class="row">
-                            <div class="col-xs-3">
-                                <i class="fa fa-tasks fa-5x"></i>
-                            </div>
-                            <div class="col-xs-9 text-right">
-                                <div class="huge"></div>
-                                <div></div>
-                            </div>
-                        </div>
-                    </div>
-                    <a href="#">
                         <div class="panel-footer">
                             <span class="pull-left">Details anzeigen</span>
                             <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -110,7 +92,7 @@ $orders = $soapOrders -> getAllOrders();
                         <div class="row">
                             <div class="col-xs-3">
                                 <i class="fa fa-shopping-cart fa-5x">
-                                    <img src="../img/shoppingCard.png" width="250%" height="250%">
+                                    <img src="../img/shoppingCard.png" width="270%" height="270%">
                                 </i>
                             </div>
                             <div class="col-xs-9 text-right">
@@ -129,20 +111,31 @@ $orders = $soapOrders -> getAllOrders();
                     </a>
                 </div>
             </div>
+            <?php
+            $hasNewsletter = array();
+            foreach($users as $user){
+                if (isset($user['5']) && $user['5'] == "Ja") {
+                    $hasNewsletter[] = $user;
+                }
+            }
+            ?>
             <div class="col-lg-3 col-md-6">
-                <div class="panel panel-red">
+                <div class="panel panel-primary">
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-xs-3">
-                                <i class="fa fa-support fa-5x"></i>
+                                <i class="fa fa-shopping-cart fa-5x">
+                                    <img src="../img/users.png" width="250%" height="250%">
+                                </i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge"></div>
-                                <div></div>
+                                <div class="huge"><?php echo count($hasNewsletter); ?></div>
+                                <div>Abonnierte Newsletter</div>
+                                <div>Anzahl Benutzer: <?php echo count($users); ?></div>
                             </div>
                         </div>
                     </div>
-                    <a href="#">
+                    <a href="#" onclick="changeSite('users');">
                         <div class="panel-footer">
                             <span class="pull-left">Details anzeigen</span>
                             <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
