@@ -38,9 +38,14 @@ class Settings
         ));
     }
 
-    public function getShopInfo()
+    public function getShopName()
     {
-        return $this -> client -> call('store.info', array());
+        $query = "SELECT `name` FROM `store_title` WHERE 1";
+
+        $result = $this->mysqli->query($query);
+        $shopname = mysqli_fetch_assoc($result);
+
+        return $shopname["name"];
     }
 
     /**
