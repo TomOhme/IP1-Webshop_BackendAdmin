@@ -24,15 +24,9 @@ $split2 = explode('}}" />', $split1[2]);
 $split3 = explode('span', ltrim($split1[4], '>'));
 $split4 = explode('wysiwyg', $split2[0]);
 $title = rtrim(ltrim($split1[1], '>'), '</');
-//var_dump($split4[1]);
 $img = rtrim($split4[1], ' "');
 $aboutUs = rtrim(ltrim($split2[1], '>'), '<');
 $opening = rtrim($split3[0], '<');
-//$lat = $row['lat'];
-//$lng = $row['lng'];
-
-
-
 
 $contact = $settingsSoap->getContact();
 
@@ -96,10 +90,8 @@ function formatPrice($price){
 <script src="../plugins/dist/summernote.js"></script>
 <link rel="stylesheet" href="../css/custom.css">
 
-<div id="content" style="padding-left:50px; padding-right:50px;">
     <div class="col-md-6">
 		<div class="row">
-
 			<div class="col-md-12">
 				<form method="post" role="form" enctype="multipart/form-data" name="webshopInfo">
 					<div class="col-md-6">
@@ -413,7 +405,7 @@ function formatPrice($price){
 
 	function updateWebshop()
 	{
-		var title = "Kontakt"
+		var title = "Kontakt";
 		var contentContact = document.getElementById("contact").value;
 		var contentShopname = document.getElementById("shopname").value;
 
@@ -427,12 +419,12 @@ function formatPrice($price){
 		}
 		else
 		{
-			$.ajax{(
+			$.ajax({
 				url: 'settings.php',
 				type: 'POST',
-				cache: false;
-				contentType: false;
-				processData: false;
+				cache: false,
+				contentType: false,
+				processData: false,
 				data: data,
 				success: function(data)
 				{
@@ -442,9 +434,9 @@ function formatPrice($price){
 				{
 
 				}
-			)};
+			});
 		}
-	}
+	};
 
 	function editUpdateForm(id){
 		$('#updateDiscount').modal('show')
