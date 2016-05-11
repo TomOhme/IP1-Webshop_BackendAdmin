@@ -30,11 +30,11 @@ if(!isset($_SESSION['username'])) {
                 <li onclick="changeSite('dashboard');"><a class="header-link" href="#">Dashboard</a></li>
                 <li onclick="changeSite('products');"><a class="header-link" href="#">Produkte</a></li>
                 <li onclick="changeSite('categories');"><a class="header-link" href="#">Kategorien</a></li>
-                <li onclick="changeSite('users');"><a class="header-link" href="#">Benutzer</a></li>
                 <li onclick="changeSite('orders');"><a class="header-link" href="#">Bestellungen</a></li>
-                <li onclick="changeSite('settings');"><a class="header-link" href="#">Einstellungen</a></li>
-                <li onclick="changeSite('design');"><a class="header-link" href="#">Design</a></li>
+                <li onclick="changeSite('users');"><a class="header-link" href="#">Benutzer</a></li>
                 <li onclick="changeSite('newsletter');"><a class="header-link" href="#">Newsletter</a></li>
+                <li onclick="changeSite('design');"><a class="header-link" href="#">Design</a></li>
+                <li onclick="changeSite('settings');"><a class="header-link" href="#">Einstellungen</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li title="Eingeloggter Benutzer"><a class="loggedinuser header-link" href="#">
