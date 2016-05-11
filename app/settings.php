@@ -50,19 +50,27 @@ if(isset($_POST['deleteDiscount'])){
 }
 
 if(isset($_POST['shippingActiv'])){
-	if($_POST['shippingActiv']){
+	if($_POST['shippingActiv'] == "true"){
 		$settingsSoap->activateShipping();
-		$settingsSoap->setShippingSettings($_POST['shippingName'], $_POST['shipinCost'], $_POST['shipingInstructions']);
+		if($_POST['shippingName'] != "undefined"){
+			$settingsSoap->setShippingSettings($_POST['shippingName'], $_POST['shipinCost'], $_POST['shipingInstructions']);
+		}
 	} else{
 		$settingsSoap->deactivateShipping();
-		$settingsSoap->setShippingSettings($_POST['shippingName'], $_POST['shipinCost'], $_POST['shipingInstructions']);
+		if($_POST['shippingName'] != "undefined"){
+			$settingsSoap->setShippingSettings($_POST['shippingName'], $_POST['shipinCost'], $_POST['shipingInstructions']);
+		}
 	}
-	if($_POST['pickUpActiv']){
+	if($_POST['pickUpActiv'] == "true"){
 		$settingsSoap->activatePickUp();
-		$settingsSoap->setPickUpSettings($_POST['pickupDestination'], $_POST['pickupTime']);
+		if($_POST['pickupDestination'] != "undefined"){
+			$settingsSoap->setPickUpSettings($_POST['pickupDestination'], $_POST['pickupTime']);
+		}
 	} else{
 		$settingsSoap->deactivatePickUp();
-		$settingsSoap->setPickUpSettings($_POST['pickupDestination'], $_POST['pickupTime']);
+		if($_POST['pickupDestination'] != "undefined"){
+			$settingsSoap->setPickUpSettings($_POST['pickupDestination'], $_POST['pickupTime']);
+		}
 	}
 }
 
@@ -98,12 +106,14 @@ function formatPrice($price){
 						<label class="col-sm-12 control-label">Shopname</label>
 						<div class="col-sm-12">
 							<input type="text" class="form-control" id="shopname" value="<?php echo $info ?>">
+							<p class="help-block">Mit diesem Feld k&ouml;nnen Sie den Angezeigten Webshop Namen auf ihrem Webshop ver&auml;ndern.</p>
 						</div>
 					</div>
 					<div class="col-md-6">
 						<label class="col-sm-12 control-label">Kontakt</label>
 						<div class="col-sm-12">
 							<textarea class="form-control" id="contact" rows="5"><?php echo $contact; ?></textarea>
+							<p class="help-block">Mit diesem Feld k&ouml;nnen Sie Ihre Adresse in der Fusszeile Ihres Webshops ver&auml;ndern.</p>
 						</div>
 					</div>
 					<div class="col-md-9">
@@ -165,7 +175,7 @@ function formatPrice($price){
 			<h1>Rabatt</h1>
 			<div class="text-right">
 				<!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addDiscount">Rabatt hinzuf&uuml;gen</button>-->
-				<button type="button" class="btn btn-primary" onclick="$('#addDiscount').modal('show')">Rabatt hinzuf&uuml;gen</button>
+				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addDiscount">Rabatt hinzuf&uuml;gen</button>
 			</div>
 			<table class="table table-responsive table-hover table-striped table-bordered dataTable no-footer" id="data-table" style="width: 100%;" role="grid" aria-describedby="data-table_info">
 				<thead class="tablebold">
@@ -212,18 +222,23 @@ function formatPrice($price){
 					    <label for="inputShipping" class="col-sm-3 control-label">Packetdienst</label>
 					    <div class="col-sm-9">
 					      <input type="text" class="form-control" maxlength="100" id="inputShipping" placeholder="Versandart" value="<?php echo $shippment['title'];?>">
+					      <p class="help-block">Wie wird das Packet versendet werden.</p>
 					    </div>
 					</div>
 					<div class="form-group">
 					    <label for="inputShippingInstruction" class="col-sm-3 control-label">Zahlungsinstruktionen</label>
 					    <div class="col-sm-9">
 					    <textarea class="form-control" rows="5" maxlength="1000" id="inputShippingInstruction" placeholder="Zahlungsinstruktionen"><?php echo $shippment['instructions']; ?></textarea>
+					    <p class="help-block">Die Zahlungsinstruktionen werden dem Kunden nach abgeschlossener Bestellung via E-Mail zugestellt.</p>
 					    </div>
 					</div>
 					<div class="form-group">
 					    <label for="inputPrice" class="col-sm-3 control-label">Versandkosten</label>
 					    <div class="col-sm-9">
-					    	<input type="number" min="0" step="0.10" max="10000" class="form-control" id="inputPrice" placeholder="Versandkostenpauschale" value="<?php echo $shippment['price']; ?>">
+					    	<div class="input-group">
+						    	<div class="input-group-addon">CHF</div>
+						    	<input type="number" min="0" step="0.10" max="10000" class="form-control" id="inputPrice" placeholder="Versandkostenpauschale" value="<?php echo $shippment['price']; ?>">
+							</div>
 					    </div>
 					</div>
 				<?php
@@ -231,10 +246,10 @@ function formatPrice($price){
 				?>
 				<h4>Der Postversand ist momentan deaktiviert.</h4>
 				<div class="form-group">
-				    <div class="col-sm-offset-3 col-sm-9">
+				    <div class="col-sm-offset-0 col-sm-9">
 				    	<div class="checkbox">
 				        	<label>
-				        		<input type="checkbox" checked="0" id="shippingInactiv">Postversand aktiv
+				        		<input type="checkbox" id="shippingActiv">Postversand aktiv
 				        	</label>
 				    	</div>
 				    </div>
@@ -268,10 +283,10 @@ function formatPrice($price){
 				?>
 				<h4>Die Abholung ist momentan deaktiviert.</h4>
 				<div class="form-group">
-				    <div class="col-sm-offset-3 col-sm-9">
+				    <div class="col-sm-offset-0 col-sm-9">
 				    	<div class="checkbox">
 				        	<label>
-				        		<input type="checkbox" checked="0" id="pickUpInactiv">Abholung aktiv
+				        		<input type="checkbox" id="pickUpActiv">Abholung aktiv
 				        	</label>
 				    	</div>
 				    </div>
@@ -288,7 +303,7 @@ function formatPrice($price){
 		</div>
 	</div>
 
-	<div class="modal fade" id="addDiscount" tabindex="-1" role="dialog">
+	<div class="modal fade" id="addDiscount" tabindex="-1" role="dialog" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -310,15 +325,16 @@ function formatPrice($price){
 								<input type="number" min="0" class="form-control" id="threasholdForm" placeholder="Schwelle in CHF">
 							</div>
 						</div>
+						<p class="help-block">Der Rabatt wird in Prozent auf die Bestellung gew&auml;hrt. Damit ein registrierter Kunde von einem Rabatt profitieren kann muss er innerhalb eines Kalenderjahres f&uuml;r eine Gesamtsumme einkaufen, welche den Schwellenwert &uuml;berschreitet.</p>
 						<button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
-						<button type="button" class="btn btn-primary" name="createDiscount" onclick="addDiscount();">Speichern</button>
+						<button type="button" class="btn btn-primary" name="createDiscount" onclick="addDiscount();" data-dismiss="modal">Speichern</button>
 					</form>
 				</div>
 			</div><!-- /.modal-content -->
 		</div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
 
-	<div class="modal fade" id="updateDiscount" tabindex="-1" role="dialog">
+	<div class="modal fade" id="updateDiscount" tabindex="-1" role="dialog" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -439,7 +455,7 @@ function formatPrice($price){
 	};
 
 	function editUpdateForm(id){
-		$('#updateDiscount').modal('show')
+		$('#updateDiscount').modal('show');
 		var discount = $("#discount-"+id).text();
 		var threashold = $("#threashold-"+id).text();
 		discount = discount.split("%");
@@ -457,7 +473,9 @@ function formatPrice($price){
 			type: "POST",
 			data: {"updateDiscount": id, "discount": discount, "threashold": threashold},
 			success: function() {
-				$("#updateDiscount").modal('toggle');
+				$("#updateDiscount").modal('hide');
+				$('body').removeClass('modal-open');
+				$('.modal-backdrop').remove();
 				changeSiteUpdate("settings");
 			}
 		});
@@ -482,36 +500,37 @@ function formatPrice($price){
 			type: "POST",
 			data: {"discountCreate": discount, "threashold": threashold},
 			success: function() {
-				$("#addDiscount").modal('toggle');
+				$("#addDiscount").modal('hide');
+				$('body').removeClass('modal-open');
+				$('.modal-backdrop').remove();
 				changeSiteUpdate("settings");
 			}
 		});
 	};
 
 	function updateShippmentPayment(){
-		shippingActiv = false;
-		pickUpActiv = false;
-		if($("#shippingActiv").checked && !$("#shippingInactiv").checked){
-			shippingActiv = true;
-		}
-		if($("#pickUpActiv").checked && !$("#pickUpInactiv").checked){
-			pickUpActiv = true;
-		}
+		shippingActiv = $("#shippingActiv").is(':checked');
+		pickUpActiv = $("#pickUpActiv").is(':checked');
 		shippingName = $("#inputShipping").val();
 		shipinCost = $("#inputPrice").val();
 		shipingInstructions = $("#inputShippingInstruction").val();
 		pickupDestination = $("#inputPickup").val();
 		pickupTime = $("#inputPickupTime").val();
+		var data = new FormData();
+		data.append('shippingActiv', shippingActiv);
+		data.append('pickUpActiv', pickUpActiv);
+		data.append('shippingName', shippingName);
+		data.append('shipinCost', shipinCost);
+		data.append('shipingInstructions', shipingInstructions);
+		data.append('pickupDestination', pickupDestination);
+		data.append('pickupTime', pickupTime);
 		$.ajax({
 			url: "settings.php",
 			type: "POST",
-			data: { "shippingActiv": shippingActiv,
-					"pickUpActiv": pickUpActiv,
-					"shippingName": shippingName,
-					"shipinCost": shipinCost,
-					"shipingInstructions": shipingInstructions,
-					"pickupDestination": pickupDestination,
-					"pickupTime": pickupTime},
+			cache: false,
+			contentType: false,
+			processData: false,
+			data: data,
 			success: function() {
 				changeSiteUpdate("settings");
 			}

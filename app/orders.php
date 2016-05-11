@@ -66,7 +66,7 @@ $orders = $soap -> getAllOrders();
 							<table class="table table-hover table-striped table-bordered dataTable no-footer" id="data-table-sales" style="width: 100%;" role="grid" aria-describedby="data-table-sales_info">
 								<thead class="tablebold">
 									<tr role="row">
-										<td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Bestellnummer" style="width: 275px;">Bestellnummer</td>
+										<td class="sorting_desc" tabindex="0" rowspan="1" colspan="1" aria-label="Bestellnummer" aria-sort="descending" style="width: 275px;">Bestellnummer</td>
 										<td class="sorting_asc" tabindex="0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Datum und Zeit: aktivieren, um Spalte absteigend zu sortieren" style="width: 250px;">Datum</td>
 										<td class="sorting" tabindex="0" aria-controls="data-table-sales" rowspan="1" colspan="1" aria-label="Käufer: aktivieren, um Spalte aufsteigend zu sortieren" style="width: 250px;">Käufer</td>
 										<td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Gesamtbetrag" style="width: 200px;">Betrag</td>
@@ -227,7 +227,7 @@ $(document).ready(function() {
 				"sInfoEmpty":       "0 bis 0 von 0 Einträgen",
 				"sInfoFiltered":    "(gefiltert von _MAX_ Eintr&auml;gen)",
 				"sInfoPostFix":     "",
-				"sInfoThousands":   ".",
+				"sInfoThousands":   "'",
 				"sLengthMenu":      "_MENU_ Eintr&auml;ge anzeigen",
 				"sLoadingRecords":  "Wird geladen...",
 				"sProcessing":      "Bitte warten...",
@@ -248,9 +248,10 @@ $(document).ready(function() {
 				}
 		},
 		"bLengthChange": false,
-		"pageLength": 15,
+		"pageLength": 10,
 		"aoColumnDefs": [
-		{ "bSortable": false, "aTargets": [ 2 ] } ]
+		{ "bSortable": false, "aTargets": [ 2 ] } ],
+		order: [[0,'desc']]
 	 });
 } );
 
