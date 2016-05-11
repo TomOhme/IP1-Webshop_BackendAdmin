@@ -61,6 +61,10 @@ img#logoImg {
     line-height: 25px;
 }
 
+
+.page-header {
+    color: #bababa;
+}
 .huge {
     font-size: 40px;
 }
@@ -106,6 +110,9 @@ img#logoImg {
 .panel-yellow a:hover {
     color: #df8a13;
 }
-.fa-shopping-cart::before {
+#prodcutsImage {
+
+}
+#productStockImage {
 
 }

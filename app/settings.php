@@ -208,25 +208,7 @@ function formatPrice($price){
 			if(isset($shippment['title'])){
 				?>
 					<div class="form-group">
-					    <label for="inputShipping" class="col-sm-2 control-label">Packetdienst</label>
-					    <div class="col-sm-10">
-					      <input type="text" class="form-control" maxlength="100" id="inputShipping" placeholder="Versandart" value="<?php echo $shippment['title'];?>">
-					    </div>
-					</div>
-					<div class="form-group">
-					    <label for="inputShippingInstruction" class="col-sm-2 control-label">Zahlungsinstruktionen</label>
-					    <div class="col-sm-10">
-					    <textarea class="form-control" rows="5" maxlength="1000" id="inputShippingInstruction" placeholder="Zahlungsinstruktionen"><?php echo $shippment['instructions']; ?></textarea>
-					    </div>
-					</div>
-					<div class="form-group">
-					    <label for="inputPrice" class="col-sm-2 control-label">Versandkosten</label>
-					    <div class="col-sm-10">
-					    	<input type="number" min="0" step="0.10" max="10000" class="form-control" id="inputPrice" placeholder="Versandkostenpauschale" value="<?php echo $shippment['price']; ?>">
-					    </div>
-					</div>
-					<div class="form-group">
-					    <div class="col-sm-offset-2 col-sm-10">
+					    <div class="col-sm-offset-3 col-sm-9">
 					    	<div class="checkbox">
 					        	<label>
 					        		<input type="checkbox" checked="1" id="shippingActiv">Postversand aktiv
@@ -234,12 +216,30 @@ function formatPrice($price){
 					    	</div>
 					    </div>
 					</div>
+					<div class="form-group">
+					    <label for="inputShipping" class="col-sm-3 control-label">Packetdienst</label>
+					    <div class="col-sm-9">
+					      <input type="text" class="form-control" maxlength="100" id="inputShipping" placeholder="Versandart" value="<?php echo $shippment['title'];?>">
+					    </div>
+					</div>
+					<div class="form-group">
+					    <label for="inputShippingInstruction" class="col-sm-3 control-label">Zahlungsinstruktionen</label>
+					    <div class="col-sm-9">
+					    <textarea class="form-control" rows="5" maxlength="1000" id="inputShippingInstruction" placeholder="Zahlungsinstruktionen"><?php echo $shippment['instructions']; ?></textarea>
+					    </div>
+					</div>
+					<div class="form-group">
+					    <label for="inputPrice" class="col-sm-3 control-label">Versandkosten</label>
+					    <div class="col-sm-9">
+					    	<input type="number" min="0" step="0.10" max="10000" class="form-control" id="inputPrice" placeholder="Versandkostenpauschale" value="<?php echo $shippment['price']; ?>">
+					    </div>
+					</div>
 				<?php
 			} else{
 				?>
 				<h4>Der Postversand ist momentan deaktiviert.</h4>
 				<div class="form-group">
-				    <div class="col-sm-offset-2 col-sm-10">
+				    <div class="col-sm-offset-3 col-sm-9">
 				    	<div class="checkbox">
 				        	<label>
 				        		<input type="checkbox" checked="0" id="shippingInactiv">Postversand aktiv
@@ -251,19 +251,19 @@ function formatPrice($price){
 			} if(isset($pickUp['pickupDestination'])){
 				?>
 				<div class="form-group">
-					    <label for="inputPickup" class="col-sm-2 control-label">Abholungsort</label>
-					    <div class="col-sm-10">
+					    <label for="inputPickup" class="col-sm-3 control-label">Abholungsort</label>
+					    <div class="col-sm-9">
 					      <input type="text" class="form-control" id="inputPickup" placeholder="Abholungsort" maxlength="200" value="<?php echo $pickUp['pickupDestination'];?>">
 					    </div>
 					</div>
 					<div class="form-group">
-					    <label for="inputPickupTime" class="col-sm-2 control-label">Abholzeiten</label>
-					    <div class="col-sm-10">
+					    <label for="inputPickupTime" class="col-sm-3 control-label">Abholzeiten</label>
+					    <div class="col-sm-9">
 					    	<textarea class="form-control" rows="3" id="inputPickupTime" maxlength="500" placeholder="Abholzeiten"><?php echo $pickUp['pickupTime']; ?></textarea>
 					    </div>
 					</div>
 					<div class="form-group">
-					    <div class="col-sm-offset-2 col-sm-10">
+					    <div class="col-sm-offset-3 col-sm-9">
 					    	<div class="checkbox">
 					        	<label>
 					        		<input type="checkbox" checked="1" id="pickUpActiv">Abholung aktiv
@@ -276,7 +276,7 @@ function formatPrice($price){
 				?>
 				<h4>Die Abholung ist momentan deaktiviert.</h4>
 				<div class="form-group">
-				    <div class="col-sm-offset-2 col-sm-10">
+				    <div class="col-sm-offset-3 col-sm-9">
 				    	<div class="checkbox">
 				        	<label>
 				        		<input type="checkbox" checked="0" id="pickUpInactiv">Abholung aktiv
@@ -288,7 +288,7 @@ function formatPrice($price){
 			}
 			?>
 				<div class="form-group">
-					<div class="col-sm-offset-2 col-sm-10">
+					<div class="col-sm-offset-3 col-sm-9">
 					    <button type="button" class="btn btn-primary" onclick="updateShippmentPayment();">Speichern</button>
 					</div>
 				</div>
@@ -507,6 +507,7 @@ function formatPrice($price){
 		}
 		shippingName = $("#inputShipping").val();
 		shipinCost = $("#inputPrice").val();
+		shipingInstructions = $("#inputShippingInstruction").val();
 		pickupDestination = $("#inputPickup").val();
 		pickupTime = $("#inputPickupTime").val();
 		$.ajax({
@@ -516,10 +517,11 @@ function formatPrice($price){
 					"pickUpActiv": pickUpActiv,
 					"shippingName": shippingName,
 					"shipinCost": shipinCost,
+					"shipingInstructions": shipingInstructions,
 					"pickupDestination": pickupDestination,
 					"pickupTime": pickupTime},
 			success: function() {
-				alert("Shipping");
+				changeSiteUpdate("settings");
 			}
 		});
 	};

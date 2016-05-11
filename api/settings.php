@@ -104,6 +104,7 @@ class Settings
             $query = "SELECT value FROM core_config_data WHERE path LIKE 'carriers/flatrate/price'";
             $result = $this->mysqli->query($query);
             $price = $result->fetch_all();
+            $this->mysqli->set_charset("utf8");
             $query = "SELECT value FROM core_config_data WHERE path LIKE 'payment/banktransfer/instructions'";
             $result = $this->mysqli->query($query);
             $instructions = $result->fetch_all();   
@@ -130,14 +131,17 @@ class Settings
         $active += $rows[0][0];
         $settings = array();
         if($active == 2){
+            $this->mysqli->set_charset("utf8");
             $stmt = $this -> mysqli->prepare("UPDATE magento.core_config_data SET  value=?   WHERE core_config_data.path LIKE 'carriers/flatrate/title';");
             $stmt->bind_param("s",$title);
             $stmt->execute();
             $stmt->close();
+            $this->mysqli->set_charset("utf8");
             $stmt = $this -> mysqli->prepare("UPDATE magento.core_config_data SET  value=?   WHERE core_config_data.path LIKE 'carriers/flatrate/price';");
             $stmt->bind_param("s",$price);
             $stmt->execute();
             $stmt->close();
+            $this->mysqli->set_charset("utf8");
             $stmt = $this -> mysqli->prepare("UPDATE magento.core_config_data SET  value=?   WHERE core_config_data.path LIKE 'payment/banktransfer/instructions';");
             $stmt->bind_param("s",$instructions);
             $stmt->execute();
@@ -186,9 +190,11 @@ class Settings
         $active += $rows[0][0];
         $settings = array();
         if($active == 2){
+            $this->mysqli->set_charset("utf8");
             $query = "SELECT value FROM core_config_data WHERE path LIKE 'carriers/pickup/name'";
             $result = $this->mysqli->query($query);
             $destination = $result->fetch_all();
+            $this->mysqli->set_charset("utf8");
             $this->mysqli->set_charset("utf8");
             $query = "SELECT value FROM core_config_data WHERE path LIKE 'payment/pickup/custom_form_text'";
             $result = $this->mysqli->query($query);
@@ -215,14 +221,17 @@ class Settings
         $active += $rows[0][0];
         $settings = array();
         if($active == 2){
+            $this->mysqli->set_charset("utf8");
             $stmt = $this -> mysqli->prepare("UPDATE magento.core_config_data SET  value=?   WHERE core_config_data.path LIKE 'carriers/pickup/name';");
             $stmt->bind_param("s",$pickupDestination);
             $stmt->execute();
             $stmt->close();
+            $this->mysqli->set_charset("utf8");
             $stmt = $this -> mysqli->prepare("UPDATE magento.core_config_data SET  value=?   WHERE core_config_data.path LIKE 'payment/pickup/custom_form_text';");
             $stmt->bind_param("s",$pickupTime);
             $stmt->execute();
             $stmt->close();
+            $this->mysqli->set_charset("utf8");
             $stmt = $this -> mysqli->prepare("UPDATE magento.core_config_data SET  value=?   WHERE core_config_data.path LIKE 'payment/pickup/custom_info_text';");
             $stmt->bind_param("s",$pickupTime);
             $stmt->execute();
