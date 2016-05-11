@@ -156,7 +156,7 @@ if(isset($_POST["submit"]))
 }
 
 ?>
-<div id="content" style="padding-left:50px; padding-right:50px;">
+<div id="content">
     <!-- Alerts -->
     <div class="alert alert-success alert-dismissible" role="alert" style="display: none;" id="alertSuccess">
         <span class="glyphicon glyphicon glyphicon-ok-sign" aria-hidden="true"></span><p id="Success" style="display:inline;"></p>
