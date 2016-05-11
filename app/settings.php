@@ -116,7 +116,7 @@ function formatPrice($price){
 <link href="../plugins/dist/summernote.css" rel="stylesheet">
 <script src="../plugins/dist/summernote.js"></script>
 <link rel="stylesheet" href="../css/custom.css">
-
+<div id="content">
     <div class="col-md-6">
 		<div class="row">
 			<div class="col-md-12">
@@ -377,6 +377,7 @@ function formatPrice($price){
 			</div><!-- /.modal-content -->
 		</div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
+</div>
 
 <script type="text/javascript">
 
