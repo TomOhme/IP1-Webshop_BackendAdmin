@@ -23,6 +23,7 @@ if (isset($_POST['productId']) && $_POST['product'] == 'updateProduct') {
     $productImg = $soapProduct->getProductImage($product['product_id']);
     $productStock = $soapProduct->getProductStock($product['product_id']);
     $productStock[0]['qty'] = formatAmount($productStock[0]['qty']);
+    //var_dump($productStock);
     $productCategory = array();
     foreach($product['category_ids'] as $categoryId) {
         $productCategory[] = $soapProductGroup->getCategory($categoryId);

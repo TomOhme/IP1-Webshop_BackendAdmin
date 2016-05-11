@@ -64,7 +64,7 @@ function formatAmount($amount){
                         </div>
                         <div class="col-sm-6 text-right">
                             <!-- Trigger the modal with a button -->
-                            <button id="create_article" type="button" onclick="loadItem('createProduct','newProductId')" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Neuer Artikel</button>
+                            <button id="create_article" type="button" onclick="loadItem('createProduct','newProductId')" class="btn btn-primary" data-toggle="modal" data-target="#createProduct">Neuer Artikel</button>
                             <button id="import_article" type="button" class="btn btn-primary" data-toggle="modal" data-target="#importExcel">Excel-Tabelle</button>
                         </div>
                     </div>
@@ -145,7 +145,7 @@ function formatAmount($amount){
         </div>
     </div>
 
-    <!-- Modal create/update article-->
+    <!-- Modal create/update product-->
     <div class="modal fade" id="productModal" role="dialog" style="display: none;">
         <div class="modal-dialog">
 
@@ -153,7 +153,7 @@ function formatAmount($amount){
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Artikel erfassen</h4>
+                    <h4 class="modal-title">Produkt erfassen</h4>
                 </div>
                 <div class="modal-body">
                     <div class="form-horizontal">
@@ -164,7 +164,7 @@ function formatAmount($amount){
                             </div>
                         </div>
                     </div>
-                    <form method="post" id="productForm" class="form-horizontal registerForm bv-form" novalidate="novalidate">
+                    <form method="post" id="productForm" class="form-horizontal bv-form" novalidate="novalidate">
                         <button type="submit" class="bv-hidden-submit" style="display: none; width: 0px; height: 0px;"></button>
                         <input type="hidden" class="form-control" id="sku" name="sku" value="-1">
                         <!-- Titel Input -->
@@ -204,7 +204,7 @@ function formatAmount($amount){
                         <div class="form-group has-feedback">
                             <label class="col-sm-3 control-label">Beschreibung</label>
                             <div class="col-sm-6">
-                                <textarea id="article_update_description" class="form-control" rows="5" name="short_description" placeholder="Beschreibung" data-bv-field="description" required></textarea><i class="form-control-feedback" data-bv-icon-for="description" style="display: none;"></i>
+                                <textarea id="article_update_description" class="form-control" rows="5" name="short_description" placeholder="Beschreibung" data-bv-field="description" maxlength="250" required></textarea><i class="form-control-feedback" data-bv-icon-for="description" style="display: none;"></i>
                                 <small class="help-block" data-bv-validator="stringLength" data-bv-for="description" data-bv-result="NOT_VALIDATED" style="display: none;">Beschreibung darf nicht länger als 250 Zeichen sein</small>
                             </div>
                         </div>
@@ -213,17 +213,18 @@ function formatAmount($amount){
                         <div class="form-group has-feedback">
                             <label class="col-sm-3 control-label">Anzahl / Einheit</label>
                             <div class="col-sm-3">
-                                <input id="article_update_amount" type="text" class="form-control" name="stock" value="" placeholder="Anzahl" data-bv-field="stock" required><i class="form-control-feedback" data-bv-icon-for="stock" style="display: none;"></i>
+                                <input id="article_update_amount" type="text" class="form-control" name="stock" value="" placeholder="Anzahl" data-bv-field="stock" min="0" required><i class="form-control-feedback" data-bv-icon-for="stock" style="display: none;"></i>
                                 <small class="help-block" data-bv-validator="notEmpty" data-bv-for="stock" data-bv-result="NOT_VALIDATED" style="display: none;">Bitte Anzahl angeben</small><small class="help-block" data-bv-validator="digits" data-bv-for="stock" data-bv-result="NOT_VALIDATED" style="display: none;">Anzahl kann nur Zahlen enthalten</small>
                             </div>
                             <!-- Einheit Input -->
                             <div class="col-sm-3">
-                                <select name="unit" id="unit" class="form-control">
+                                <input id="article_update_unit" type="text" class="form-control" name="unit" value="" placeholder="Einheit" data-bv-field="unit" required>
+                                <!--<select name="unit" id="unit" class="form-control">
                                     <option value="Stueck">St&uuml;ck</option>
                                     <option value="Liter">Liter</option>
                                     <option value="Gramm">Gramm</option>
                                     <option value="Kilogramm">Kilogramm</option>
-                                </select>
+                                </select>-->
                             </div>
                         </div>
 
@@ -231,7 +232,7 @@ function formatAmount($amount){
                         <div class="form-group has-feedback">
                             <label class="col-sm-3 control-label">Preis</label>
                             <div class="col-sm-6">
-                                <input id="article_update_price" type="text" class="form-control" name="price" value="" placeholder="Preis" data-bv-field="price" required><i class="form-control-feedback" data-bv-icon-for="price" style="display: none;"></i>
+                                <input id="article_update_price" type="text" class="form-control" name="price" value="" placeholder="Preis" data-bv-field="price" min="0" required><i class="form-control-feedback" data-bv-icon-for="price" style="display: none;"></i>
                                 <small class="help-block" data-bv-validator="notEmpty" data-bv-for="price" data-bv-result="NOT_VALIDATED" style="display: none;">Bitte Preis angeben</small><small class="help-block" data-bv-validator="regexp" data-bv-for="price" data-bv-result="NOT_VALIDATED" style="display: none;">Preis kann nur Zahlen enthalten</small>
                             </div>
                         </div>
@@ -240,7 +241,7 @@ function formatAmount($amount){
                         <div class="form-group has-feedback">
                             <label class="col-sm-3 control-label">Spezial Preis</label>
                             <div class="col-sm-6">
-                                <input id="article_update_specialPrice" type="text" class="form-control" name="specialPrice" value="" placeholder="Spezial Preis" data-bv-field="price"><i class="form-control-feedback" data-bv-icon-for="price" style="display: none;"></i>
+                                <input id="article_update_specialPrice" type="text" class="form-control" name="specialPrice" value="" placeholder="Spezial Preis" data-bv-field="price" min="0"><i class="form-control-feedback" data-bv-icon-for="price" style="display: none;"></i>
                                 <small class="help-block" data-bv-validator="notEmpty" data-bv-for="specialPrice" data-bv-result="NOT_VALIDATED" style="display: none;">Bitte Spezial Preis angeben</small><small class="help-block" data-bv-validator="regexp" data-bv-for="specialPrice" data-bv-result="NOT_VALIDATED" style="display: none;">Spezial Preis kann nur Zahlen enthalten</small>
                             </div>
                         </div>
@@ -289,6 +290,7 @@ function formatAmount($amount){
         </div>
     </div>
 
+    <!-- Modal import Excel -->
     <div class="modal fade" tabindex="-1" role="dialog" id="importExcel" role="dialog" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -392,6 +394,7 @@ function formatAmount($amount){
                     //$("#category").val(json.updateCategory.name);
                     $("#article_update_description").val(json.updateProduct['short_description']);
                     $("#article_update_amount").val(json.updateStock[0].qty);
+                    $("#article_update_unit").val(json.updateProduct.unit);
                     $("#article_update_price").val(json.updateProduct.price);
                     $("#article_update_specialPrice").val(json.updateProduct['special_price']);
                     checkSpecialPrice();
@@ -449,6 +452,7 @@ function formatAmount($amount){
             $('#category').multiSelect('deselect_all');
             $('#article_update_description').val('');
             $("#article_update_amount").val('');
+            $("#article_update_unit").val('');
             $("#article_update_price").val('');
             $("#article_update_specialPrice").val('');
             $("#article_update_specialFromDate").val('');

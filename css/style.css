@@ -60,3 +60,7 @@ img#logoImg {
     background-color: #1e1e1e; !important;
     line-height: 25px;
 }
+
+.btn.btn-default {
+    height: 33px;
+}
