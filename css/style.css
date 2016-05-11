@@ -110,9 +110,45 @@ img#logoImg {
 .panel-yellow a:hover {
     color: #df8a13;
 }
-#prodcutsImage {
 
+.tile-stats {
+    color: #73879c;
+    background: #fff none repeat scroll 0 0;
+    border: 1px solid #e4e4e4;
+    border-radius: 5px;
+    display: block;
+    margin-bottom: 12px;
+    overflow: hidden;
+    padding-bottom: 5px;
+    position: relative;
+    transition: all 300ms ease-in-out 0s;
 }
-#productStockImage {
-
+#newSignUpsImage {
+    float: right;
+}
+.tile-stats .icon {
+    color: #bab8b8;
+}
+.tile-stats .icon i {
+    font-size: 60px;
+    line-height: 0;
+    margin: 0;
+    padding: 0;
+    vertical-align: bottom;
+}
+.tile-stats .count, .tile-stats h3, .tile-stats p {
+    margin: 0 0 0 10px;
+    padding: 0;
+    position: relative;
+    z-index: 5;
+}
+.tile-stats .count {
+    font-size: 38px;
+    font-weight: bold;
+    line-height: 1.65857;
+    padding-bottom: 15px;
+}
+.tile-stats h3 {
+    color: #bab8b8;
+    padding-bottom: 18px;
 }

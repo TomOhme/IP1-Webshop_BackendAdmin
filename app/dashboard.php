@@ -144,6 +144,39 @@ $users = $soapUser->getAllUsers();
                     </a>
                 </div>
             </div>
+
+
+            <div class="col-lg-3 col-md-6">
+                <div class="panel tile-stats">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="icon">
+                                <i class="fa fa-check-square-o">
+                                    <img id="newSignUpsImage" src="../img/newSignUps.png" width="30%" height="30%">
+                                </i>
+                            </div>
+                            <div class="count">179</div>
+                            <h3>New Sign ups</h3>
+                            <p>Lorem ipsum psdea itgum rixt.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-bell fa-fw"></i>
+                Statistic Diagram
+            </div>
+            <div class="panel-body">
+                <div class="list-group">
+
+                </div>
+
+            </div>
         </div>
     </div>
 
@@ -151,7 +184,7 @@ $users = $soapUser->getAllUsers();
         <div class="panel panel-default">
             <div class="panel-heading">
                 <i class="fa fa-bell fa-fw"></i>
-                Notifications Panel
+                History
             </div>
             <div class="panel-body">
                 <div class="list-group">
@@ -163,15 +196,27 @@ $users = $soapUser->getAllUsers();
                         </span>
                     </a>
                     <a class="list-group-item" href="#">
-                        <a class="list-group-item" href="#">
-                            <a class="list-group-item" href="#">
-                                <a class="list-group-item" href="#">
-                                    <a class="list-group-item" href="#">
-                                        <a class="list-group-item" href="#">
-                                            <a class="list-group-item" href="#">
-                                                <a class="list-group-item" href="#">
+                        <i class="fa fa-comment fa-fw"></i>
+                        New User
+                        <span class="pull-right text-muted small">
+                        <em>5 minutes ago</em>
+                        </span>
+                    </a>
+                    <a class="list-group-item" href="#">
+                        <i class="fa fa-comment fa-fw"></i>
+                        New Product
+                        <span class="pull-right text-muted small">
+                        <em>7 minutes ago</em>
+                        </span>
+                    </a>
+                    <a class="list-group-item" href="#"></a>
+                    <a class="list-group-item" href="#"></a>
+                    <a class="list-group-item" href="#"></a>
+                    <a class="list-group-item" href="#"></a>
+                    <a class="list-group-item" href="#"></a>
+                    <a class="list-group-item" href="#"></a>
                 </div>
-                <a class="btn btn-default btn-block" href="#">View All Alerts</a>
+
             </div>
         </div>
     </div>
