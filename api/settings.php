@@ -38,6 +38,10 @@ class Settings
         ));
     }
 
+    /**
+     * Get the shopname
+     * @return shopname
+     */
     public function getShopName()
     {
         $query = "SELECT `name` FROM `store_title` WHERE 1";
@@ -48,6 +52,37 @@ class Settings
         return $shopname["name"];
     }
 
+    /**
+     * Set the shopname
+     * @param $shopName
+     */
+    public function setShopname($shopName)
+    {
+        $stmt = $this -> mysqli->prepare("UPDATE store_title SET name=? WHERE 1");
+        $stmt->bind_param('s',$shopName);
+        $stmt->execute();
+        $stmt->close();
+    }
+
+    public function getContact()
+    {
+        $contact = "";
+
+        $select2 = "SELECT `content` FROM `cms_block` WHERE `identifier` = 'footer_contact';";
+        $result2 = $this->mysqli->query($select2);
+        $row2 = mysqli_fetch_assoc($result2);
+
+        $str= $row2["content"];
+        $doc = new DOMDocument();
+        $doc->loadHTML($str);
+        foreach($doc->getElementsByTagName('p') as $para) {
+            $contact .= $para->textContent;
+            $contact .= "\r\n";
+        }
+
+        return $contact;
+    }
+    
     /**
     * gets the shipping and banktransfer settings if active 
     * @return array with settings 

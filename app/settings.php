@@ -19,10 +19,6 @@ $select = "SELECT `content` FROM `cms_page` WHERE `identifier`= 'ueber-uns'; ";
 $result = $mysqli->query($select);
 $row = mysqli_fetch_assoc($result);
 
-$select2 = "SELECT `content` FROM `cms_block` WHERE `identifier` = 'footer_contact';";
-$result2 = $mysqli->query($select2);
-$row2 = mysqli_fetch_assoc($result2);
-
 $split1 = explode('h1', $row["content"]);
 $split2 = explode('}}" />', $split1[2]);
 $split3 = explode('span', ltrim($split1[4], '>'));
@@ -36,13 +32,9 @@ $opening = rtrim($split3[0], '<');
 //$lng = $row['lng'];
 
 
-$str= $row2["content"];
-$doc = new DOMDocument();
-$doc->loadHTML($str);
-foreach($doc->getElementsByTagName('p') as $para) {
-	$contact .= $para->textContent;
-	$contact .= "\r\n";
-}
+
+
+$contact = $settingsSoap->getContact();
 
 $info = $settingsSoap->getShopName();
 
@@ -80,6 +72,18 @@ if(isset($_POST['shippingActiv'])){
 	}
 }
 
+if(isset($_POST['contact']))
+{
+	$contactFooter = $_POST["contact"];
+}
+
+if(isset($_POST['shopname']))
+{
+	$shopName = $_POST["shopname"];
+
+	$settingsSoap->setShopname($shopName);
+}
+
 function formatDiscount($discount){
 	return ($discount*100)."%";
 }
@@ -101,13 +105,13 @@ function formatPrice($price){
 					<div class="col-md-6">
 						<label class="col-sm-12 control-label">Shopname</label>
 						<div class="col-sm-12">
-							<input type="text" class="form-control" value="<?php echo $info ?>">
+							<input type="text" class="form-control" id="shopname" value="<?php echo $info ?>">
 						</div>
 					</div>
 					<div class="col-md-6">
 						<label class="col-sm-12 control-label">Kontakt</label>
 						<div class="col-sm-12">
-							<textarea class="form-control" rows="5"><?php echo $contact; ?></textarea>
+							<textarea class="form-control" id="contact" rows="5"><?php echo $contact; ?></textarea>
 						</div>
 					</div>
 					<div class="col-md-9">
@@ -410,15 +414,35 @@ function formatPrice($price){
 	function updateWebshop()
 	{
 		var title = "Kontakt"
-		var content = document.getElementById("contact").value;
+		var contentContact = document.getElementById("contact").value;
+		var contentShopname = document.getElementById("shopname").value;
 
-		if(content == '')
+		var data = new FormData();
+		data.append('contact', contentContact);
+		data.append('shopname', contentShopname);
+
+		if(contentContact == '' || contentShopname == '')
 		{
 			alert("Bitte alle Felder ausfüllen");
 		}
 		else
 		{
+			$.ajax{(
+				url: 'settings.php',
+				type: 'POST',
+				cache: false;
+				contentType: false;
+				processData: false;
+				data: data,
+				success: function(data)
+				{
+					alert("erfolgreich");
+				},
+				error: function(data)
+				{
 
+				}
+			)};
 		}
 	}
 
