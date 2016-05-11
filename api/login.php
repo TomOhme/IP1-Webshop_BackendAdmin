@@ -19,11 +19,15 @@ if(isset($data['username']) && isset($data['password'])) {
     $api_user = $data['username'];
     $api_key = $data['password'];
     $result = $mysqli->query("SELECT * FROM magento.admin_user WHERE `username` = '$api_user'");
-    $customer = $result->fetch_array();
-    $hash = $customer['password'];
-   	$hashArr = explode(':', $hash);
-    if(!($hashArr[0] === md5($hashArr[1].$api_key))){
-   		http_response_code(403);
-   	}
-    $_SESSION['username'] = $customer['username'];
+    if($result->num_rows == 1){
+      $customer = $result->fetch_array();
+      $hash = $customer['password'];
+      $hashArr = explode(':', $hash);
+      if(!($hashArr[0] === md5($hashArr[1].$api_key))){
+        http_response_code(403);
+      }
+      $_SESSION['username'] = $customer['username'];
+    } else { 
+      http_response_code(403);
+    }
 }

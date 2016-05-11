@@ -5,12 +5,24 @@
  * Date: 07.04.2016
  * Time: 15:44
  */
-
-include("header.php");
-
 ?>
-<link rel="stylesheet" href="../css/loginStyle.css" />
-</head>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Mobile -->
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="apple-touch-icon" sizes="300x300" href="apple-touch-icon-300x300.png" />
+    <link rel="icon" sizes="300x300" href="apple-touch-icon-300x300.png">
+    <meta name="description" content="EasyAdmin for Magento 1.9">
+    <meta name="author" content="Yanick Schraner, Tom Ohme, Janis Angs, Patrick Althaus, François Martin, Jennifer Mueller, Norina Steiner, Stefan Wohlgensinger">
+    <title>EasyAdmin</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../css/loginStyle.css" />
+    <script src="../js/jquery-2.2.2.min.js"></script>
+    <script src="../js/notify.min.js"></script>
+    </head>
     <body>
         <div class="outer">
             <div class="middle">
@@ -68,12 +80,12 @@ include("header.php");
 
         function proceedLogin(){
             var payload = JSON.stringify($('form').serializeObject());
+
             $.ajax({
                 url : '../api/login.php',
                 type: 'POST',
                 data: payload,
                 success: function(data){
-                    //location.reload();
                     window.location = "./pages.php";
                 },
                 error: function(){
@@ -84,16 +96,6 @@ include("header.php");
                 }
             });
         };
-
-        paceOptions = {
-            ajax: false, // disabled
-            document: false, // disabled
-            eventLag: false, // disabled
-            elements: {
-                selectors: ['./index.php']
-            }
-        };
-
         </script>
     </body>
 </html>

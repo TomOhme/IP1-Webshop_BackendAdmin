@@ -16,8 +16,8 @@ session_start();
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <link rel="apple-touch-icon" sizes="300x300" href="apple-touch-icon-300x300.png" />
     <link rel="icon" sizes="300x300" href="apple-touch-icon-300x300.png">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="EasyAdmin for Magento 1.9">
+    <meta name="author" content="Yanick Schraner, Tom Ohme, Janis Angs, Patrick Althaus, François Martin, Jennifer Mueller, Norina Steiner, Stefan Wohlgensinger">
     <title>EasyAdmin</title>
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/bootstrap-theme.min.css">
@@ -34,7 +34,6 @@ session_start();
     <script src="../js/jquery-2.2.2.min.js"></script>
     <script src="../js/jquery.dataTables.js"></script>
     <script src="../js/dataTables.bootstrap.js"></script>
-    <script src="../js/moment-with-locales.min.js"></script>
     <script src="../js/transition.js"></script>
     <script src="../js/collapse.js"></script>
     <script src="../js/bootstrap.min.js"></script>
