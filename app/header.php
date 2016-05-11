@@ -28,7 +28,6 @@ session_start();
     <link rel="stylesheet" href="../css/bootstrap-datetimepicker.min.css">
     <link rel="stylesheet" href="../css/multi-select.css">
     <link rel="stylesheet" href="../css/loadingBar.css">
-    <link rel="stylesheet" href="../css/style.css">
     <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon">
     <link rel="icon" href="../img/favicon.ico" type="image/x-icon">
     <script src="../js/jquery-2.2.2.min.js"></script>

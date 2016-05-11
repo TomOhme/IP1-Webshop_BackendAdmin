@@ -22,11 +22,12 @@ if(!isset($_SESSION['username'])) {
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#" onclick="changeSite('products');"><img src="../img/logoHeader.png" width="100" height="30" alt="BackendAdmin"></a>
+            <a class="navbar-brand" href="#" onclick="changeSite('dashboard');"><img src="../img/logoHeader.png" width="100" height="30" alt="BackendAdmin"></a>
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul id="nav_site" class="nav navbar-nav">
+                <li onclick="changeSite('dashboard');"><a class="header-link" href="#">Dashboard</a></li>
                 <li onclick="changeSite('products');"><a class="header-link" href="#">Produkte</a></li>
                 <li onclick="changeSite('categories');"><a class="header-link" href="#">Kategorien</a></li>
                 <li onclick="changeSite('users');"><a class="header-link" href="#">Benutzer</a></li>

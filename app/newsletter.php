@@ -12,9 +12,6 @@ include("../api/dbconnect.php");
 <!-- include summernote css/js-->
 <link href="../plugins/dist/summernote.css" rel="stylesheet">
 <script src="../plugins/dist/summernote.js"></script>
-
-<link rel="stylesheet" type="text/css" href="../plugins/datetimepicker-master/jquery.datetimepicker.css"/>
-<script src="../plugins/datetimepicker-master/build/jquery.datetimepicker.full.min.js"></script>
 <table>
     <td style="width: 600px;">
         <form method="post"  role="form" enctype="multipart/form-data" name="newsletter_queue">
@@ -22,7 +19,14 @@ include("../api/dbconnect.php");
             <div class="form-group" class="col-sm-7">
                 <label class="col-sm-12 control-label">Zu versenden um</label>
                 <div class="col-sm-12">
-                    <input style="margin-bottom: 15px;" id="datetimepicker" type="text">
+                    <div class='input-group date' id='datetimepickerFrom'>
+                        <div>
+                            <input class="form-control" id="dtpicker" type="text">
+                        </div>
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
                 </div>
                 <label class="col-sm-12 control-label">Betreff</label>
                 <div class="col-sm-12">
@@ -41,11 +45,6 @@ include("../api/dbconnect.php");
 </table>
 
 <script type="text/javascript">
-    jQuery('#datetimepicker').datetimepicker({
-        format:'Y m d H i s',
-        inline:true,
-        lang:'de'
-    });
 
     $(document).ready(function() {
         $('#inhalt').summernote({
@@ -61,9 +60,13 @@ include("../api/dbconnect.php");
         });
     });
 
+    $('#dtpicker').datetimepicker({
+        format: "DD.MM.YYYY - HH.mm.ss"
+    });
+
     function sendNewsletter() {
 
-        var datetime = document.getElementById("datetimepicker").value;
+        var datetime = document.getElementById("dtpicker").value;
         var title = document.getElementById("title").value;
         var content = document.getElementById("inhalt").value;
         alert(datetime);

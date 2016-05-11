@@ -15,7 +15,7 @@ include("menu.php");
 
     $(document).ready(function() {
         if ($('#content').length) {
-            changeSite("products");
+            changeSite("dashboard");
         }
     });
 
