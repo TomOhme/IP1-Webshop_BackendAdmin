@@ -149,6 +149,7 @@ class Settings
             $query = "SELECT value FROM core_config_data WHERE path LIKE 'carriers/pickup/name'";
             $result = $this->mysqli->query($query);
             $destination = $result->fetch_all();
+            $this->mysqli->set_charset("utf8");
             $query = "SELECT value FROM core_config_data WHERE path LIKE 'payment/pickup/custom_form_text'";
             $result = $this->mysqli->query($query);
             $pickupTime = $result->fetch_all();
@@ -179,6 +180,10 @@ class Settings
             $stmt->execute();
             $stmt->close();
             $stmt = $this -> mysqli->prepare("UPDATE magento.core_config_data SET  value=?   WHERE core_config_data.path LIKE 'payment/pickup/custom_form_text';");
+            $stmt->bind_param("s",$pickupTime);
+            $stmt->execute();
+            $stmt->close();
+            $stmt = $this -> mysqli->prepare("UPDATE magento.core_config_data SET  value=?   WHERE core_config_data.path LIKE 'payment/pickup/custom_info_text';");
             $stmt->bind_param("s",$pickupTime);
             $stmt->execute();
             $stmt->close();

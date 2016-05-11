@@ -48,6 +48,23 @@ if(isset($_POST['deleteDiscount'])){
 	$soapProduct->deleteDiscount($_POST['deleteDiscount']);
 }
 
+if(isset($_POST['shippingActiv'])){
+	if($_POST['shippingActiv']){
+		$settingsSoap->activateShipping();
+		$settingsSoap->setShippingSettings($_POST['shippingName'], $_POST['shipinCost'], $_POST['shipingInstructions']);
+	} else{
+		$settingsSoap->deactivateShipping();
+		$settingsSoap->setShippingSettings($_POST['shippingName'], $_POST['shipinCost'], $_POST['shipingInstructions']);
+	}
+	if($_POST['pickUpActiv']){
+		$settingsSoap->activatePickUp();
+		$settingsSoap->setPickUpSettings($_POST['pickupDestination'], $_POST['pickupTime']);
+	} else{
+		$settingsSoap->deactivatePickUp();
+		$settingsSoap->setPickUpSettings($_POST['pickupDestination'], $_POST['pickupTime']);
+	}
+}
+
 function formatDiscount($discount){
 	return ($discount*100)."%";
 }
@@ -137,35 +154,39 @@ function formatPrice($price){
 		</div>
 		<div class="row">
 			<h1>Versand und Zahlung</h1>
-			<form class="form-horizontal">
+			<form class="form-horizontal" id="shippmentPaymentForm">
 			<?php
 			$shippment = $settingsSoap->getShippingSettings();
 			$pickUp = $settingsSoap->getPickUpSettings();
-			var_dump($pickUp);
 			if(isset($shippment['title'])){
 				?>
 					<div class="form-group">
 					    <label for="inputShipping" class="col-sm-2 control-label">Packetdienst</label>
 					    <div class="col-sm-10">
-					      <input type="text" class="form-control" id="inputShipping" placeholder="Versandart" value="<?php echo $shippment['title'];?>">
+					      <input type="text" class="form-control" maxlength="100" id="inputShipping" placeholder="Versandart" value="<?php echo $shippment['title'];?>">
 					    </div>
 					</div>
 					<div class="form-group">
-					    <label for="inputPrice" class="col-sm-2 control-label">Password</label>
+					    <label for="inputShippingInstruction" class="col-sm-2 control-label">Zahlungsinstruktionen</label>
 					    <div class="col-sm-10">
-					    	<input type="number" min="0" step="0.10" class="form-control" id="inputPrice" placeholder="Versandkostenpauschale" value="<?php echo $shippment['price']; ?>">
+					    <textarea class="form-control" rows="5" maxlength="1000" id="inputShippingInstruction" placeholder="Zahlungsinstruktionen"><?php echo $shippment['instructions']; ?></textarea>
+					    </div>
+					</div>
+					<div class="form-group">
+					    <label for="inputPrice" class="col-sm-2 control-label">Versandkosten</label>
+					    <div class="col-sm-10">
+					    	<input type="number" min="0" step="0.10" max="10000" class="form-control" id="inputPrice" placeholder="Versandkostenpauschale" value="<?php echo $shippment['price']; ?>">
 					    </div>
 					</div>
 					<div class="form-group">
 					    <div class="col-sm-offset-2 col-sm-10">
 					    	<div class="checkbox">
 					        	<label>
-					        		<input type="checkbox" checked="1">Postversand aktiv
+					        		<input type="checkbox" checked="1" id="shippingActiv">Postversand aktiv
 					        	</label>
 					    	</div>
 					    </div>
 					</div>
-				
 				<?php
 			} else{
 				?>
@@ -174,7 +195,7 @@ function formatPrice($price){
 				    <div class="col-sm-offset-2 col-sm-10">
 				    	<div class="checkbox">
 				        	<label>
-				        		<input type="checkbox" checked="0">Postversand aktiv
+				        		<input type="checkbox" checked="0" id="shippingInactiv">Postversand aktiv
 				        	</label>
 				    	</div>
 				    </div>
@@ -182,13 +203,46 @@ function formatPrice($price){
 			<?php
 			} if(isset($pickUp['pickupDestination'])){
 				?>
-
+				<div class="form-group">
+					    <label for="inputPickup" class="col-sm-2 control-label">Abholungsort</label>
+					    <div class="col-sm-10">
+					      <input type="text" class="form-control" id="inputPickup" placeholder="Abholungsort" maxlength="200" value="<?php echo $pickUp['pickupDestination'];?>">
+					    </div>
+					</div>
+					<div class="form-group">
+					    <label for="inputPickupTime" class="col-sm-2 control-label">Abholzeiten</label>
+					    <div class="col-sm-10">
+					    	<textarea class="form-control" rows="3" id="inputPickupTime" maxlength="500" placeholder="Abholzeiten"><?php echo $pickUp['pickupTime']; ?></textarea>
+					    </div>
+					</div>
+					<div class="form-group">
+					    <div class="col-sm-offset-2 col-sm-10">
+					    	<div class="checkbox">
+					        	<label>
+					        		<input type="checkbox" checked="1" id="pickUpActiv">Abholung aktiv
+					        	</label>
+					    	</div>
+					    </div>
+					</div>
+				<?php
+			} else {
+				?>
+				<h4>Die Abholung ist momentan deaktiviert.</h4>
+				<div class="form-group">
+				    <div class="col-sm-offset-2 col-sm-10">
+				    	<div class="checkbox">
+				        	<label>
+				        		<input type="checkbox" checked="0" id="pickUpInactiv">Abholung aktiv
+				        	</label>
+				    	</div>
+				    </div>
+				</div>
 				<?php
 			}
 			?>
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">
-					    <button type="submit" class="btn btn-primary">Speichern</button>
+					    <button type="button" class="btn btn-primary" onclick="updateShippmentPayment();">Speichern</button>
 					</div>
 				</div>
 			</form>
@@ -356,6 +410,34 @@ function formatPrice($price){
 			success: function() {
 				$("#addDiscount").modal('toggle');
 				changeSiteUpdate("settings");
+			}
+		});
+	};
+
+	function updateShippmentPayment(){
+		shippingActiv = false;
+		pickUpActiv = false;
+		if($("#shippingActiv").checked && !$("#shippingInactiv").checked){
+			shippingActiv = true;
+		}
+		if($("#pickUpActiv").checked && !$("#pickUpInactiv").checked){
+			pickUpActiv = true;
+		}
+		shippingName = $("#inputShipping").val();
+		shipinCost = $("#inputPrice").val();
+		pickupDestination = $("#inputPickup").val();
+		pickupTime = $("#inputPickupTime").val();
+		$.ajax({
+			url: "settings.php",
+			type: "POST",
+			data: { "shippingActiv": shippingActiv,
+					"pickUpActiv": pickUpActiv,
+					"shippingName": shippingName,
+					"shipinCost": shipinCost,
+					"pickupDestination": pickupDestination,
+					"pickupTime": pickupTime},
+			success: function() {
+				alert("Shipping");
 			}
 		});
 	};
