@@ -18,7 +18,11 @@ $settingsSoap -> openSoap();
 $select = "SELECT `content` FROM `cms_page` WHERE `identifier`= 'ueber-uns'; ";
 $result = $mysqli->query($select);
 $row = mysqli_fetch_assoc($result);
-$mysqli->close();
+
+$select2 = "SELECT `content` FROM `cms_block` WHERE `identifier` = 'footer_contact';";
+$result2 = $mysqli->query($select2);
+$row2 = mysqli_fetch_assoc($result2);
+
 $split1 = explode('h1', $row["content"]);
 $split2 = explode('}}" />', $split1[2]);
 $split3 = explode('span', ltrim($split1[4], '>'));
@@ -30,6 +34,17 @@ $aboutUs = rtrim(ltrim($split2[1], '>'), '<');
 $opening = rtrim($split3[0], '<');
 //$lat = $row['lat'];
 //$lng = $row['lng'];
+
+
+$str= $row2["content"];
+$doc = new DOMDocument();
+$doc->loadHTML($str);
+foreach($doc->getElementsByTagName('p') as $para) {
+	$contact .= $para->textContent;
+	$contact .= "\r\n";
+}
+
+$info = $settingsSoap->getShopName();
 
 if(isset($_POST['updateDiscount'])){
 	$id = $_POST['updateDiscount'];
@@ -79,6 +94,32 @@ function formatPrice($price){
 
 <div id="content" style="padding-left:50px; padding-right:50px;">
     <div class="col-md-6">
+		<div class="row">
+
+			<div class="col-md-12">
+				<form method="post" role="form" enctype="multipart/form-data" name="webshopInfo">
+					<div class="col-md-6">
+						<label class="col-sm-12 control-label">Shopname</label>
+						<div class="col-sm-12">
+							<input type="text" class="form-control" value="<?php echo $info ?>">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<label class="col-sm-12 control-label">Kontakt</label>
+						<div class="col-sm-12">
+							<textarea class="form-control" rows="5"><?php echo $contact; ?></textarea>
+						</div>
+					</div>
+					<div class="col-md-9">
+
+					</div>
+					<div class="col-md-3">
+						<button type="button" onclick="updateWebshop();" style="margin-top: 20px;" class="btn btn-primary">Speichern</button>
+					</div>
+				</form>
+			</div>
+
+
             <table>
                 <td style="width: 1000px;">
                     <form method="post"  role="form" enctype="multipart/form-data" name="contact">
@@ -101,6 +142,7 @@ function formatPrice($price){
                         <div class="col-sm-12">
 							<textarea rows="10" id="opening"><?php echo $opening; ?></textarea>
                         </div>
+
                         <label class="col-sm-12 control-label">Standort</label>
                         <!--<div id="us2" style="width: 500px; height: 400px; margin-left: 15px;">--><div id="stayheredoggy"><img src="http://maps.googleapis.com/maps/api/staticmap?center=46.9479739,7.447446799999966&amp;zoom=15&amp;size=400x400&amp;markers=color:blue|46.9479739,7.447446799999966&amp;sensor=false" height="400" width="400" style="margin-left: 15px;"/></div><!--</div>--><br>
                         <!--<script>
@@ -120,6 +162,7 @@ function formatPrice($price){
                     </form>
                 </td>
             </table>
+		</div>
     </div>
    	<div class="col-md-6">
 	   	<div class="row">
@@ -363,6 +406,21 @@ function formatPrice($price){
         }
         return false;
 	};
+
+	function updateWebshop()
+	{
+		var title = "Kontakt"
+		var content = document.getElementById("contact").value;
+
+		if(content == '')
+		{
+			alert("Bitte alle Felder ausfüllen");
+		}
+		else
+		{
+
+		}
+	}
 
 	function editUpdateForm(id){
 		$('#updateDiscount').modal('show')

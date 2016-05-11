@@ -13,6 +13,9 @@ class Design
     private $mysqli;
     private $ini_array;
 
+    /**
+     * Design constructor.
+     */
     public function __construct()
     {
         if(file_exists("../php.ini"))
@@ -25,6 +28,10 @@ class Design
         $this->mysqli = new mysqli("localhost",  $this->ini_array['DBUSER'],  $this->ini_array['DBPWD'], "magento");
     }
 
+    /**
+     * Get the selected color from the database
+     * @return the color in string
+     */
     public function getSelectedColor()
     {
         if(isset($this->mysqli))
@@ -45,6 +52,10 @@ class Design
         return "";
     }
 
+    /**
+     * Save the selected color in the database
+     * @param $selectedColor from the radiobutton
+     */
     public function setSelectedColor($selectedColor)
     {
         $stmt = $this -> mysqli->prepare("UPDATE css_color SET color=? WHERE 1");

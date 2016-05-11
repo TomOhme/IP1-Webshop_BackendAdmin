@@ -20,9 +20,10 @@ $myColor = $dbColor -> getSelectedColor();
 
 if(isset($_POST["submit"]))
 {
-    $img = array_filter($_FILES['file-0']);
+    $imgLogo = array_filter($_FILES['file-0']);
+    $imgJumbotron = array_filter($_FILES['file-1']);
 
-    if(!empty($img))
+    if(!empty($imgLogo))
     {
         $target_dir = "../../skin/frontend/webshop/default/images/";
         $target_file = $target_dir . basename($_FILES['file-0']["name"]);
@@ -60,6 +61,43 @@ if(isset($_POST["submit"]))
         }
     }
 
+    if(!empty($imgJumbotron))
+    {
+        $target_dir = "../../media/wysiwyg/";
+        $target_file = $target_dir . basename($_FILES['file-1']["name"]);
+        $uploadOk = 1;
+        $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
+
+        $errorMsg = "";
+
+        $check = getimagesize($_FILES['file-1']["tmp_name"]);
+
+        if ($check == false) {
+            $uploadOk = 0;
+            $errorMsg .= "Die Datei ist kein Bild!\n";
+        }
+
+        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
+            $uploadOk = 0;
+            $errorMsg .= "Nur JPG, PNG & GIF Dateien sind erlaubt.\n";
+        }
+
+        if ($_FILES['file-1']["size"] > 500000) {
+            $uploadOk = 0;
+            $errorMsg .= "Das Bild ist zu gross.\n";
+        }
+
+        if ($uploadOk == 0) {
+            $errorMsg .= "Bild wurde nicht hochgeladen";
+
+        } else {
+            foreach (glob($target_dir . "logo_bh.png") as $file) {
+                unlink($file);
+            }
+
+            move_uploaded_file($_FILES['file-1']["tmp_name"], $target_dir . "jumbotron.png");
+        }
+    }
     $color = $_POST["color"];
     $destCss = "../../skin/frontend/webshop/default/css/webshop.css";
 
@@ -145,6 +183,18 @@ if(isset($_POST["submit"]))
                     </div>
                 </div>
                 <div id="" class="col-sm-6">
+                    <div class="col-sm-12">
+                        <img id="JumbotronImg" src="../../media/wysiwyg/jumbotron.png?<?php echo date("his"); ?>" />
+                    </div>
+                    <div class="form-group">
+                        <label for="LogoFile">Titelbild</label>
+                        <input type="file" id="JumbotronFile" name="file" accept=".png,.jpg,.jpeg,.gif">
+                        <p class="help-block">Das neue Jumbotron ausw&auml;hlen.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
                     <div class="form-group">
                         <label for="ColorPicker">Farbe</label>
                         <div class="radio">
@@ -169,10 +219,15 @@ if(isset($_POST["submit"]))
                             </label>
                         </div>
                     </div>
-                    <div class="col-sm-6" style="margin-top: 10px; padding-left: 0px;">
-                        <button type="button" class="btn btn-primary" onclick="updateSetting(this);">Hochladen</button>
-                    </div>
                 </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                </div>
+                <div class="col-sm-6" style="margin-top: 10px; padding-left: 0px;">
+                    <button type="button" class="btn btn-primary" onclick="updateSetting(this);">Design speichern</button>
+                </div>
+            </div>
         </form>
     </div>
 </div>
@@ -186,6 +241,9 @@ if(isset($_POST["submit"]))
         var data = new FormData();
         data.append('submit', 'submitted');
         jQuery.each(jQuery('#LogoFile')[0].files, function(i, file) {
+            data.append('file-'+i, file);
+        });
+        JQuery.each(jQuery('#JumbotronFile')[0].files, function(i, file) {
             data.append('file-'+i, file);
         });
         data.append('color',$('input[name=color]:checked', '#formDesign').val());
@@ -207,6 +265,7 @@ if(isset($_POST["submit"]))
                 });
 
                 $("#logoImg").attr( 'src', '../../skin/frontend/webshop/default/images/logo_bh.png?' + (+new Date()) );
+                $("#JumbotronImg").attr('src', '../../media/wysiwyg/jumbotron.png?' + (+new Date()));
             },
             error: function(data)
             {
