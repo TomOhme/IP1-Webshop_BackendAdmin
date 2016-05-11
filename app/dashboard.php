@@ -44,9 +44,10 @@ $orders = $soapOrders -> getAllOrders();
             }
         }
         ?>
+        <?php $countProductStock = count($productStockLow); ?>
         <div class="row">
             <div class="col-lg-3 col-md-6">
-                <div class="panel panel-primary">
+                <div class="panel <?php if ($countProductStock <= 5) { echo "panel-primary"; } else if ($countProductStock > 5 && $countProductStock <= 10) { echo "panel-yellow"; } else if ($countProductStock > 10) { echo "panel-red"; } ?>">
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-xs-3">
@@ -56,13 +57,13 @@ $orders = $soapOrders -> getAllOrders();
                                 </i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge"><?php echo count($productStockLow); ?></div>
-                                <div>Geringer Produktemenge</div>
-                                <div>Anzahl Produkte: <?php echo count($products);?></div>
+                                <div class="huge"><?php echo $countProductStock; ?></div>
+                                <div>Geringe Produktemenge</div>
+                                <div>Anzahl Produkte: <?php echo count($products); ?></div>
                             </div>
                         </div>
                     </div>
-                    <a href="#">
+                    <a href="#" onclick="changeSite('products');">
                         <div class="panel-footer">
                             <span class="pull-left">Details anzeigen</span>
                             <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -79,8 +80,8 @@ $orders = $soapOrders -> getAllOrders();
                                 <i class="fa fa-tasks fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge">12</div>
-                                <div>New Tasks!</div>
+                                <div class="huge"></div>
+                                <div></div>
                             </div>
                         </div>
                     </div>
@@ -102,8 +103,9 @@ $orders = $soapOrders -> getAllOrders();
                 }
             }
             ?>
+            <?php $countOrders = count($openOrders); ?>
             <div class="col-lg-3 col-md-6">
-                <div class="panel panel-yellow">
+                <div class="panel <?php if ($countOrders <= 5) { echo "panel-primary"; } else if ($countOrders > 5 && $countOrders <= 10) { echo "panel-yellow"; } else if ($countOrders > 10) { echo "panel-red"; } ?>">
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-xs-3">
@@ -112,7 +114,7 @@ $orders = $soapOrders -> getAllOrders();
                                 </i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge"><?php echo count($openOrders); ?></div>
+                                <div class="huge"><?php echo $countOrders; ?></div>
                                 <div>Offene Bestellungen</div>
                                 <div>Anzahl Bestellungen: <?php echo count($orders); ?></div>
                             </div>
@@ -135,14 +137,14 @@ $orders = $soapOrders -> getAllOrders();
                                 <i class="fa fa-support fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge">13</div>
-                                <div>Support Tickets!</div>
+                                <div class="huge"></div>
+                                <div></div>
                             </div>
                         </div>
                     </div>
                     <a href="#">
                         <div class="panel-footer">
-                            <span class="pull-left">View Details</span>
+                            <span class="pull-left">Details anzeigen</span>
                             <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                             <div class="clearfix"></div>
                         </div>
