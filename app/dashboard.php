@@ -92,7 +92,7 @@ $users = $soapUser->getAllUsers();
                         <div class="row">
                             <div class="col-xs-3">
                                 <i class="fa fa-shopping-cart fa-5x">
-                                    <img src="../img/shoppingCard.png" width="270%" height="270%">
+                                    <img src="../img/shoppingCard.png" width="250%" height="250%">
                                 </i>
                             </div>
                             <div class="col-xs-9 text-right">
