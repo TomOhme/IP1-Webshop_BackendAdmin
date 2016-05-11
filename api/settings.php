@@ -64,6 +64,10 @@ class Settings
         $stmt->close();
     }
 
+    /**
+     * Get the content from the contact block in footer
+     * @return string
+     */
     public function getContact()
     {
         $contact = "";
@@ -81,6 +85,39 @@ class Settings
         }
 
         return $contact;
+    }
+
+    /**
+     * Set the content from the contact block in footer
+     * @param $contactContent
+     */
+    public function setContent($contactContent)
+    {
+        /*
+        <div class="links">
+        <div class="block-title" style="text-align: left;"><strong><span>Kontakt</span></strong></div>
+        <p style="text-align: left;">Bauernhof Shop</p> <p style="text-align: left;">Bauernhofstrasse 10</p> <p style="text-align: left;">4444 baueren<br /> Schweiz</p>
+        </div>
+        
+        
+        $split = explode('\r\n', $contactContent);
+        
+        $content = "<div class=\"links\">";
+        $content .= "<div class=\"block-title\" style=\"text-align: left;\"><strong><span>Kontakt</span></strong></div>";
+        for($i = 0 ; $i < count($split) ; $i++)
+        {
+            $content .= "<p style=\"text-align: left;\"> ";
+            $content .= $split[i];
+            $content .= "</p>";
+        }
+        
+        var_dump($content);
+        
+        $stmt = $this -> mysqli->prepare("UPDATE cms_block SET name=? WHERE ? =?");
+        $stmt->bind_param('sss',$shopName, 'identifier', 'footer_contact');
+        $stmt->execute();
+        $stmt->close();
+        */
     }
     
     /**

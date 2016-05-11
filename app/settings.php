@@ -66,17 +66,44 @@ if(isset($_POST['shippingActiv'])){
 	}
 }
 
-if(isset($_POST['contact']))
-{
-	$contactFooter = $_POST["contact"];
-}
-
 if(isset($_POST['shopname']))
 {
 	$shopName = $_POST["shopname"];
 
 	$settingsSoap->setShopname($shopName);
 }
+
+if(isset($_POST['contactFooter']))
+{
+	
+	$split = explode("\\r\\n", $contactContent);
+        
+	$content = "<div class=\"links\">";
+	$content .= "<div class=\"block-title\" style=\"text-align: left;\"><strong><span>Kontakt</span></strong></div>";
+	for($i = 0 ; $i < count($split) ; $i++)
+	{
+		$content .= "<p style=\"text-align: left;\"> ";
+		$content .= $split[i];
+		$content .= "</p>";
+	}
+	
+	$content .= "</div>";
+	
+	$stmt = $this -> mysqli->prepare("UPDATE cms_block SET name=? WHERE ? =?");
+	$stmt->bind_param('sss',$shopName, 'identifier', 'footer_contact');
+	$stmt->execute();
+	$stmt->close();
+	
+	/*
+	$contactFooter = $_POST["contactFooter"];
+	
+	var_dump($contactFooter);
+	
+	$settingsSoap->setContent($contactFooter);
+	*/
+}
+
+
 
 function formatDiscount($discount){
 	return ($discount*100)."%";
@@ -410,7 +437,7 @@ function formatPrice($price){
 		var contentShopname = document.getElementById("shopname").value;
 
 		var data = new FormData();
-		data.append('contact', contentContact);
+		data.append('contactFooter', contentContact);
 		data.append('shopname', contentShopname);
 
 		if(contentContact == '' || contentShopname == '')
@@ -428,11 +455,11 @@ function formatPrice($price){
 				data: data,
 				success: function(data)
 				{
-					alert("erfolgreich");
+					alert(contentContact);
 				},
 				error: function(data)
 				{
-
+					alert('sfsdfsdf');
 				}
 			});
 		}
