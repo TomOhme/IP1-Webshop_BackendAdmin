@@ -51,11 +51,11 @@ class Settings
         $query = "SELECT value FROM core_config_data WHERE path LIKE 'carriers/flatrate/active'";
         $result = $this->mysqli->query($query);
         $rows = $result->fetch_all();
-        $active = $rows[0];
+        $active = $rows[0][0];
         $query = "SELECT value FROM core_config_data WHERE path LIKE 'payment/banktransfer/active'";
         $result = $this->mysqli->query($query);
         $rows = $result->fetch_all();
-        $active += $rows[0];
+        $active += $rows[0][0];
         $settings = array();
         if($active == 2){
             $query = "SELECT value FROM core_config_data WHERE path LIKE 'carriers/flatrate/title'";
@@ -67,7 +67,7 @@ class Settings
             $query = "SELECT value FROM core_config_data WHERE path LIKE 'payment/banktransfer/instructions'";
             $result = $this->mysqli->query($query);
             $instructions = $result->fetch_all();   
-            $settings = array('title' => $title[0], 'price' => $price[0], 'instructions' => $instructions[0]); 
+            $settings = array('title' => $title[0][0], 'price' => $price[0][0], 'instructions' => $instructions[0][0]); 
         }
         $result->free();
         return $settings;
@@ -83,11 +83,11 @@ class Settings
         $query = "SELECT value FROM core_config_data WHERE path LIKE 'carriers/flatrate/active'";
         $result = $this->mysqli->query($query);
         $rows = $result->fetch_all();
-        $active = $rows[0];
+        $active = $rows[0][0];
         $query = "SELECT value FROM core_config_data WHERE path LIKE 'payment/banktransfer/active'";
         $result = $this->mysqli->query($query);
         $rows = $result->fetch_all();
-        $active += $rows[0];
+        $active += $rows[0][0];
         $settings = array();
         if($active == 2){
             $stmt = $this -> mysqli->prepare("UPDATE magento.core_config_data SET  value=?   WHERE core_config_data.path LIKE 'carriers/flatrate/title';");
@@ -139,20 +139,20 @@ class Settings
         $query = "SELECT value FROM core_config_data WHERE path LIKE 'carriers/pickup/active'";
         $result = $this->mysqli->query($query);
         $rows = $result->fetch_all();
-        $active = $rows[0];
+        $active = $rows[0][0];
         $query = "SELECT value FROM core_config_data WHERE path LIKE 'payment/pickup/active'";
         $result = $this->mysqli->query($query);
         $rows = $result->fetch_all();
-        $active += $rows[0];
+        $active += $rows[0][0];
         $settings = array();
         if($active == 2){
             $query = "SELECT value FROM core_config_data WHERE path LIKE 'carriers/pickup/name'";
             $result = $this->mysqli->query($query);
             $destination = $result->fetch_all();
             $query = "SELECT value FROM core_config_data WHERE path LIKE 'payment/pickup/custom_form_text'";
-            $pickupTime = $this->mysqli->query($query);
-            $price = $result->fetch_all(); 
-            $settings = array('pickupDestination' => $destination[0], 'pickupTime' => $pickupTime[0]); 
+            $result = $this->mysqli->query($query);
+            $pickupTime = $result->fetch_all();
+            $settings = array('pickupDestination' => $destination[0][0], 'pickupTime' => $pickupTime[0][0]); 
         }
         $result->free();
         return $settings;
@@ -167,11 +167,11 @@ class Settings
         $query = "SELECT value FROM core_config_data WHERE path LIKE 'carriers/pickup/active'";
         $result = $this->mysqli->query($query);
         $rows = $result->fetch_all();
-        $active = $rows[0];
+        $active = $rows[0][0];
         $query = "SELECT value FROM core_config_data WHERE path LIKE 'payment/pickup/active'";
         $result = $this->mysqli->query($query);
         $rows = $result->fetch_all();
-        $active += $rows[0];
+        $active += $rows[0][0];
         $settings = array();
         if($active == 2){
             $stmt = $this -> mysqli->prepare("UPDATE magento.core_config_data SET  value=?   WHERE core_config_data.path LIKE 'carriers/pickup/name';");

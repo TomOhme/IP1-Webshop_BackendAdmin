@@ -137,47 +137,61 @@ function formatPrice($price){
 		</div>
 		<div class="row">
 			<h1>Versand und Zahlung</h1>
+			<form class="form-horizontal">
 			<?php
 			$shippment = $settingsSoap->getShippingSettings();
 			$pickUp = $settingsSoap->getPickUpSettings();
-			//var_dump($shippment);
-			//var_dump($pickUp);
+			var_dump($pickUp);
 			if(isset($shippment['title'])){
 				?>
-				<form class="form-horizontal">
-					  <div class="form-group">
-					    <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+					<div class="form-group">
+					    <label for="inputShipping" class="col-sm-2 control-label">Packetdienst</label>
 					    <div class="col-sm-10">
-					      <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+					      <input type="text" class="form-control" id="inputShipping" placeholder="Versandart" value="<?php echo $shippment['title'];?>">
 					    </div>
-					  </div>
-					  <div class="form-group">
-					    <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+					</div>
+					<div class="form-group">
+					    <label for="inputPrice" class="col-sm-2 control-label">Password</label>
 					    <div class="col-sm-10">
-					    	<input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+					    	<input type="number" min="0" step="0.10" class="form-control" id="inputPrice" placeholder="Versandkostenpauschale" value="<?php echo $shippment['price']; ?>">
 					    </div>
 					</div>
 					<div class="form-group">
 					    <div class="col-sm-offset-2 col-sm-10">
 					    	<div class="checkbox">
 					        	<label>
-					        		<input type="checkbox"> Remember me
+					        		<input type="checkbox" checked="1">Postversand aktiv
 					        	</label>
 					    	</div>
 					    </div>
 					</div>
-					<div class="form-group">
-					    <div class="col-sm-offset-2 col-sm-10">
-					    	<button type="submit" class="btn btn-default">Sign in</button>
-					    </div>
-					</div>
-				</form>
 				
 				<?php
 			} else{
+				?>
+				<h4>Der Postversand ist momentan deaktiviert.</h4>
+				<div class="form-group">
+				    <div class="col-sm-offset-2 col-sm-10">
+				    	<div class="checkbox">
+				        	<label>
+				        		<input type="checkbox" checked="0">Postversand aktiv
+				        	</label>
+				    	</div>
+				    </div>
+				</div>
+			<?php
+			} if(isset($pickUp['pickupDestination'])){
+				?>
 
+				<?php
 			}
 			?>
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+					    <button type="submit" class="btn btn-primary">Speichern</button>
+					</div>
+				</div>
+			</form>
 		</div>
 	</div>
 
