@@ -25,7 +25,7 @@ if(isset($_POST["submit"]))
 
     if(!empty($imgLogo))
     {
-        $target_dir = "../../skin/frontend/webshop/default/images/";
+        $target_dir = "../../magento/skin/frontend/webshop/default/images/";
         $target_file = $target_dir . basename($_FILES['file-0']["name"]);
         $uploadOk = 1;
         $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
@@ -63,7 +63,7 @@ if(isset($_POST["submit"]))
 
     if(!empty($imgJumbotron))
     {
-        $target_dir = "../../media/wysiwyg/";
+        $target_dir = "../../magento/media/wysiwyg/";
         $target_file = $target_dir . basename($_FILES['file-1']["name"]);
         $uploadOk = 1;
         $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
@@ -99,7 +99,7 @@ if(isset($_POST["submit"]))
         }
     }
     $color = $_POST["color"];
-    $destCss = "../../skin/frontend/webshop/default/css/webshop.css";
+    $destCss = "../../magento/skin/frontend/webshop/default/css/webshop.css";
 
     $dbColor -> setSelectedColor($color);
 
@@ -144,7 +144,7 @@ if(isset($_POST["submit"]))
         copy($targetCss, $destCss);
     }
 
-    foreach (glob("../../var/cache/*", GLOB_ONLYDIR) as $dir)
+    foreach (glob("../../magento/var/cache/*", GLOB_ONLYDIR) as $dir)
     {
         foreach(glob($dir . "/*") as $file)
         {
@@ -174,7 +174,7 @@ if(isset($_POST["submit"]))
             <div class="row">
                 <div class="col-sm-6">
                     <div class="col-sm-12">
-                        <img id="logoImg" src="../../skin/frontend/webshop/default/images/logo_bh.png?<?php echo date("his"); ?>" />
+                        <img id="logoImg" src="../../magento/skin/frontend/webshop/default/images/logo_bh.png?<?php echo date("his"); ?>" />
                     </div>
                     <div class="form-group">
                         <label for="LogoFile">Logo</label>
@@ -184,7 +184,7 @@ if(isset($_POST["submit"]))
                 </div>
                 <div id="" class="col-sm-6">
                     <div class="col-sm-12">
-                        <img id="JumbotronImg" src="../../media/wysiwyg/jumbotron.png?<?php echo date("his"); ?>" />
+                        <img id="JumbotronImg" src="../../magento/media/wysiwyg/jumbotron.png?<?php echo date("his"); ?>" />
                     </div>
                     <div class="form-group">
                         <label for="LogoFile">Titelbild</label>
@@ -243,7 +243,8 @@ if(isset($_POST["submit"]))
         jQuery.each(jQuery('#LogoFile')[0].files, function(i, file) {
             data.append('file-'+i, file);
         });
-        JQuery.each(jQuery('#JumbotronFile')[0].files, function(i, file) {
+
+        jQuery.each(jQuery('#JumbotronFile')[0].files, function(i, file) {
             data.append('file-'+i, file);
         });
         data.append('color',$('input[name=color]:checked', '#formDesign').val());
@@ -264,8 +265,8 @@ if(isset($_POST["submit"]))
                     $("#alertSuccess").hide();
                 });
 
-                $("#logoImg").attr( 'src', '../../skin/frontend/webshop/default/images/logo_bh.png?' + (+new Date()) );
-                $("#JumbotronImg").attr('src', '../../media/wysiwyg/jumbotron.png?' + (+new Date()));
+                $("#logoImg").attr( 'src', '../../magento/skin/frontend/webshop/default/images/logo_bh.png?' + (+new Date()) );
+                $("#JumbotronImg").attr('src', '../../magento/media/wysiwyg/jumbotron.png?' + (+new Date()));
             },
             error: function(data)
             {
