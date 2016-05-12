@@ -13,6 +13,12 @@ $soapProduct = new Product();
 $soapProduct -> openSoap();
 $soapProductGroup = new Productgroup();
 $soapProductGroup -> openSoap();
+$tempFile = $_FILES['picture']['tmp_name'];
+var_dump($tempFile);
+$tempFile2 = $_FILES['fileToUpload']['tmp_name'];
+var_dump($tempFile2);
+$tempFile3 = $_FILES['file']['tmp_name'];
+var_dump($tempFile3);
 if (isset($_POST['productId']) && $_POST['product'] == 'updateProduct') {
     $productId = isset($_POST['productId']) ? $_POST['productId'] : null;
     $product = $soapProduct->getProductByID($productId);
@@ -88,14 +94,32 @@ function unformatPrice($price) {
 }
 
 //TODO in work
-//$_FILES["pictureDiv"]["name"] = filename
+//$_FILES["fileToUpload"]["name"] = filename
 function image_upload($filename) {
+    $ds          = DIRECTORY_SEPARATOR;  //1
+
+    $storeFolder = 'uploads';   //2
+
+    if (!empty($_FILES)) {
+
+        $tempFile = $_FILES['file']['tmp_name'];          //3
+
+        $targetPath = dirname( __FILE__ ) . $ds. $storeFolder . $ds;  //4
+
+        $targetFile =  $targetPath. $_FILES['file']['name'];  //5
+
+        move_uploaded_file($tempFile,$targetFile); //6
+
+    }
+
+
+
     $target_dir = "uploads/";  //temp path to folder
     $target_file = $target_dir . basename($filename);
     $uploadOk = 1;
     $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
     // Check if image file is a actual image or fake image
-    if(isset($_POST["submit"])) {
+    if (!empty($_FILES)) {
         $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
         if($check !== false) {
             echo "File is an image - " . $check["mime"] . ".";

@@ -160,7 +160,7 @@ function formatAmount($amount){
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Bilder</label>
                             <div class="col-sm-6">
-                                <form action="" class="dropzone dz-clickable" id="picture"><div class="dz-default dz-message" id="pictureDiv"><span>Ziehen Sie Ihr Bild hierhin oder klicken Sie hier, um ein Bild hochzuladen.</span></div></form>
+                                <form action="updateProduct.php" class="dropzone dz-clickable" id="pictureForm"><div class="dz-default dz-message" id="fileToUpload"><span>Ziehen Sie Ihr Bild hierhin oder klicken Sie hier, um ein Bild hochzuladen.</span></div></form>
                             </div>
                         </div>
                     </div>
@@ -327,7 +327,7 @@ function formatAmount($amount){
 
         $('#category').multiSelect({ keepOrder:true });
 
-        $("#picture").dropzone({ url: "/file/post" });
+        $("#pictureForm").dropzone({ url: "./updateProduct.php" });
 
         $('#datetimepickerFrom').datetimepicker({
                     locale: 'de'
@@ -406,6 +406,7 @@ function formatAmount($amount){
         }
 
         function productUpdateSave() {
+            $('#pictureForm').submit();
             var fData = $("#productForm").serialize();
             var categoryIds = $('select#category').val();
             $.ajax({
@@ -565,9 +566,9 @@ function formatAmount($amount){
             });
         });
 
-        Dropzone.options.mydropzone = {
+        Dropzone.options.picture = {
             maxFiles: 1,
-            maxFilesize: 10, //mb
+            maxFilesize: 50, //mb
             acceptedFiles: 'image/*',
             addRemoveLinks: true,
             autoProcessQueue: false,// used for stopping auto processing uploads
@@ -601,11 +602,6 @@ function formatAmount($amount){
                 });
 
             }
-            /*
-            uploadprogress: function(file, progress, bytesSent) {
-                // Display the progress
-            }*/
-
         };
 
     </script>
