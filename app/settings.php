@@ -201,17 +201,12 @@ function formatPrice($price){
 									</div>
 
 									<label class="col-sm-12 control-label">Standort</label>
-									<!--<div id="us2" style="width: 500px; height: 400px; margin-left: 15px;">--><div id="stayheredoggy"><img src="http://maps.googleapis.com/maps/api/staticmap?center=46.9479739,7.447446799999966&amp;zoom=15&amp;size=400x400&amp;markers=color:blue|46.9479739,7.447446799999966&amp;sensor=false" height="400" width="400" style="margin-left: 15px;"/></div><!--</div>--><br>
-									<!--<script>
+									<div id="us2" style="width: 500px; height: 400px; margin-left: 15px;"><!--<div id="stayheredoggy"><img src="http://maps.googleapis.com/maps/api/staticmap?center=46.9479739,7.447446799999966&amp;zoom=15&amp;size=400x400&amp;markers=color:blue|46.9479739,7.447446799999966&amp;sensor=false" height="400" width="400" style="margin-left: 15px;"/></div>--></div><br>
+									<script>
 										$('#us2').locationpicker({
-											location: {latitude: 46.9479739, longitude: 7.447446799999966},
-											zoom: 10,
-											inputBinding: {
-												latitudeInput: $('#us2-lat'),
-												longitudeInput: $('#us2-lon')
-											}
 										});
-									</script><br>-->
+									</script><br>
+									<br><button type="button" onclick="();" style="margin-left: 15px;" class="btn btn-primary"
 									<input type="hidden" id="us2-lat" value="46.9479739"/>
 									<input type="hidden" id="us2-lon" value="7.447446799999966"/>
 									<br><button type="button" onclick="updateContact();" style="margin-left: 15px;" class="btn btn-primary">Speichern</button>
@@ -655,5 +650,3 @@ function formatPrice($price){
 	};
 </script>
 </div>
-<script type="text/javascript" src='https://maps.google.com/maps/api/js?&libraries=places'></script>
-<script src="../plugins/jquery-locationpicker/src/locationpicker.jquery.js"></script>
