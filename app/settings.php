@@ -85,7 +85,7 @@ if(isset($_POST['contactFooter']))
 {
 	
 	$split = explode("\\r\\n", $contactContent);
-        
+		
 	$content = "<div class=\"links\">";
 	$content .= "<div class=\"block-title\" style=\"text-align: left;\"><strong><span>Kontakt</span></strong></div>";
 	for($i = 0 ; $i < count($split) ; $i++)
@@ -120,215 +120,266 @@ function formatPrice($price){
 	return "Fr. " . number_format($price, 2, ',', "'");
 }
 ?>
+
+
 <!-- include summernote css/js-->
 <link href="../plugins/dist/summernote.css" rel="stylesheet">
 <script src="../plugins/dist/summernote.js"></script>
 <link rel="stylesheet" href="../css/custom.css">
-<div id="content">
-    <div class="col-md-6">
-		<div class="row">
-			<div class="col-md-12">
-				<form method="post" role="form" enctype="multipart/form-data" name="webshopInfo">
-					<div class="col-md-6">
-						<label class="col-sm-12 control-label">Shopname</label>
-						<div class="col-sm-12">
-							<input type="text" class="form-control" id="shopname" value="<?php echo $info ?>">
-							<p class="help-block">Mit diesem Feld k&ouml;nnen Sie den Angezeigten Webshop Namen auf ihrem Webshop ver&auml;ndern.</p>
+	<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+		<div class="panel panel-default">
+			<div class="panel-heading" role="tab" id="headingNameAdressH">
+				<h4 class="panel-title">
+					<a role="button" data-toggle="collapse" data-parent="#accordion" href="#headingNameAdress" aria-expanded="true" aria-controls="headingNameAdress">
+					  Shopname und Adresse
+					</a>
+				</h4>
+			</div>
+			<div id="headingNameAdress" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingNameAdressH">
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-md-12">
+							<form method="post" role="form" enctype="multipart/form-data" name="webshopInfo">
+								<div class="col-md-6">
+									<label class="col-sm-12 control-label">Shopname</label>
+									<div class="col-sm-12">
+										<input type="text" class="form-control" id="shopname" value="<?php echo $info ?>">
+										<p class="help-block">Mit diesem Feld k&ouml;nnen Sie den Angezeigten Webshop Namen auf ihrem Webshop ver&auml;ndern.</p>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<label class="col-sm-12 control-label">Kontakt</label>
+									<div class="col-sm-12">
+										<textarea class="form-control" id="contact" rows="5"><?php echo $contact; ?></textarea>
+										<p class="help-block">Mit diesem Feld k&ouml;nnen Sie Ihre Adresse in der Fusszeile Ihres Webshops ver&auml;ndern.</p>
+									</div>
+								</div>
+								<div class="col-md-9">
+
+								</div>
+								<div class="col-md-3">
+									<button type="button" onclick="updateWebshop();" style="margin-top: 20px;" class="btn btn-primary">Speichern</button>
+								</div>
+							</form>
 						</div>
 					</div>
-					<div class="col-md-6">
-						<label class="col-sm-12 control-label">Kontakt</label>
-						<div class="col-sm-12">
-							<textarea class="form-control" id="contact" rows="5"><?php echo $contact; ?></textarea>
-							<p class="help-block">Mit diesem Feld k&ouml;nnen Sie Ihre Adresse in der Fusszeile Ihres Webshops ver&auml;ndern.</p>
+				</div>
+			</div> <!-- Fertig Webshop Name und Adresse-->
+
+			<div class="panel panel-default">
+				<div class="panel-heading" role="tab" id="headingContactH">
+					<h4 class="panel-title">
+						<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#headingContact" aria-expanded="false" aria-controls="headingContact">
+						  Kontaktseite
+						</a>
+					</h4>
+				</div>
+				<div id="headingContact" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingContactH">
+					<div class="panel-body">
+						<table>
+							<td style="width: 1000px;">
+								<form method="post"  role="form" enctype="multipart/form-data" name="contact">
+								<h1>Kontaktseite</h1>
+								<div class="form-group" class="col-sm-7">
+									<label class="col-sm-12 control-label">Titel der Kontaktseite</label>
+									<div class="col-sm-12">
+										<input type="text" class="form-control" name="title" id="title" placeholder="Webshop xy" value="<?php echo $title; ?>">
+									</div>
+									<label class="col-sm-12 control-label">Titelbild</label>
+									<img style="max-width: 200px; max-height: 200px; width: auto; height: auto; margin-left: 15px; margin-bottom: 15px;" alt="Kontaktbild" src="../img/<?php echo $img; ?>"/>
+									<div class="col-sm-12">
+										<input type="file" name="fileToUpload" id="fileToUpload">
+									</div>
+									<label class="col-sm-12 control-label">Über Uns</label>
+									<div class="col-sm-12">
+										<textarea rows="10" id="aboutUs"><?php echo $aboutUs; ?></textarea>
+									</div>
+									<label class="col-sm-12 control-label">Öffnungszeiten</label>
+									<div class="col-sm-12">
+										<textarea rows="10" id="opening"><?php echo $opening; ?></textarea>
+									</div>
+
+									<label class="col-sm-12 control-label">Standort</label>
+									<!--<div id="us2" style="width: 500px; height: 400px; margin-left: 15px;">--><div id="stayheredoggy"><img src="http://maps.googleapis.com/maps/api/staticmap?center=46.9479739,7.447446799999966&amp;zoom=15&amp;size=400x400&amp;markers=color:blue|46.9479739,7.447446799999966&amp;sensor=false" height="400" width="400" style="margin-left: 15px;"/></div><!--</div>--><br>
+									<!--<script>
+										$('#us2').locationpicker({
+											location: {latitude: 46.9479739, longitude: 7.447446799999966},
+											zoom: 10,
+											inputBinding: {
+												latitudeInput: $('#us2-lat'),
+												longitudeInput: $('#us2-lon')
+											}
+										});
+									</script><br>-->
+									<input type="hidden" id="us2-lat" value="46.9479739"/>
+									<input type="hidden" id="us2-lon" value="7.447446799999966"/>
+									<br><button type="button" onclick="updateContact();" style="margin-left: 15px;" class="btn btn-primary">Speichern</button>
+								</div>
+								</form>
+							</td>
+						</table>
+					</div>
+				</div>
+			</div><!-- Fertig Kontaktseite-->
+
+			<div class="panel panel-default">
+				<div class="panel-heading" role="tab" id="headingDiscountH">
+					<h4 class="panel-title">
+						<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#headingDiscount" aria-expanded="false" aria-controls="headingDiscount">
+						  Rabatt
+						</a>
+				 	</h4>
+				</div>
+				<div id="headingDiscount" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingDiscountH">
+					<div class="panel-body">
+						<div class="row">
+							<h1>Rabatt</h1>
+							<div class="text-right">
+								<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addDiscount">Rabatt hinzuf&uuml;gen</button>
+							</div>
+							<table class="table table-responsive table-hover table-striped table-bordered dataTable no-footer" id="data-table" style="width: 100%;" role="grid" aria-describedby="data-table_info">
+								<thead class="tablebold">
+									<tr role="row">
+										<td>Rabatt</td>
+										<td>Schwelle</td>
+										<td>L&ouml;schen</td>
+									</tr>
+								</thead>
+								<tbody id="discountValues">
+									<?php
+									$discountRows = $soapProduct->getDiscount();
+									foreach ($discountRows as $row) {
+										?>
+										<tr>
+											<td id="discount-<?php echo $row[0]; ?>" onclick="editUpdateForm('<?php echo $row[0] ?>');"><?php echo formatDiscount($row[1]); ?></td>
+											<td id="threashold-<?php echo $row[0]; ?>" onclick="editUpdateForm('<?php echo $row[0] ?>');"><?php echo formatPrice($row[2]); ?></td>
+											<td onclick="deleteDiscount('<?php echo $row[0] ?>');" style="width: 50px;"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
+										</tr>
+										<?php
+									}
+									?>
+								</tbody>
+							</table>
 						</div>
 					</div>
-					<div class="col-md-9">
+				</div>
+			</div> <!-- Fertig mit Discount -->
 
-					</div>
-					<div class="col-md-3">
-						<button type="button" onclick="updateWebshop();" style="margin-top: 20px;" class="btn btn-primary">Speichern</button>
-					</div>
-				</form>
-			</div>
-
-
-            <table>
-                <td style="width: 1000px;">
-                    <form method="post"  role="form" enctype="multipart/form-data" name="contact">
-                    <h1>Kontaktseite</h1>
-                    <div class="form-group" class="col-sm-7">
-                        <label class="col-sm-12 control-label">Titel der Kontaktseite</label>
-                        <div class="col-sm-12">
-                            <input type="text" class="form-control" name="title" id="title" placeholder="Webshop xy" value="<?php echo $title; ?>">
-                        </div>
-                        <label class="col-sm-12 control-label">Titelbild</label>
-                        <img style="max-width: 200px; max-height: 200px; width: auto; height: auto; margin-left: 15px; margin-bottom: 15px;" alt="Kontaktbild" src="../img/<?php echo $img; ?>"/>
-                        <div class="col-sm-12">
-                            <input type="file" name="fileToUpload" id="fileToUpload">
-                        </div>
-                        <label class="col-sm-12 control-label">Über Uns</label>
-                        <div class="col-sm-12">
-							<textarea rows="10" id="aboutUs"><?php echo $aboutUs; ?></textarea>
-                        </div>
-                        <label class="col-sm-12 control-label">Öffnungszeiten</label>
-                        <div class="col-sm-12">
-							<textarea rows="10" id="opening"><?php echo $opening; ?></textarea>
-                        </div>
-
-                        <label class="col-sm-12 control-label">Standort</label>
-                        <!--<div id="us2" style="width: 500px; height: 400px; margin-left: 15px;">--><div id="stayheredoggy"><img src="http://maps.googleapis.com/maps/api/staticmap?center=46.9479739,7.447446799999966&amp;zoom=15&amp;size=400x400&amp;markers=color:blue|46.9479739,7.447446799999966&amp;sensor=false" height="400" width="400" style="margin-left: 15px;"/></div><!--</div>--><br>
-                        <!--<script>
-                            $('#us2').locationpicker({
-                                location: {latitude: 46.9479739, longitude: 7.447446799999966},
-                                zoom: 10,
-                                inputBinding: {
-                                    latitudeInput: $('#us2-lat'),
-                                    longitudeInput: $('#us2-lon')
-                                }
-                            });
-                        </script><br>-->
-                        <input type="hidden" id="us2-lat" value="46.9479739"/>
-                        <input type="hidden" id="us2-lon" value="7.447446799999966"/>
-                        <br><button type="button" onclick="updateContact();" style="margin-left: 15px;" class="btn btn-primary">Speichern</button>
-                    </div>
-                    </form>
-                </td>
-            </table>
-		</div>
-    </div>
-   	<div class="col-md-6">
-	   	<div class="row">
-			<h1>Rabatt</h1>
-			<div class="text-right">
-				<!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addDiscount">Rabatt hinzuf&uuml;gen</button>-->
-				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addDiscount">Rabatt hinzuf&uuml;gen</button>
-			</div>
-			<table class="table table-responsive table-hover table-striped table-bordered dataTable no-footer" id="data-table" style="width: 100%;" role="grid" aria-describedby="data-table_info">
-				<thead class="tablebold">
-					<tr role="row">
-						<td>Rabatt</td>
-						<td>Schwelle</td>
-						<td>L&ouml;schen</td>
-					</tr>
-				</thead>
-				<tbody>
+			<div class="panel panel-default">
+				<div class="panel-heading" role="tab" id="headingShippingH">
+					<h4 class="panel-title">
+						<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#headingShipping" aria-expanded="false" aria-controls="headingShipping">
+						  Versand und Zahlung
+						</a>
+				 	</h4>
+				</div>
+				<div id="headingShipping" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingShippingH">
+					<div class="panel-body">
+				<div class="row">
+					<h1>Versand und Zahlung</h1>
+					<form class="form-horizontal" id="shippmentPaymentForm">
 					<?php
-					$rows = $soapProduct->getDiscount();
-					foreach ($rows as $row) {
+					$shippment = $settingsSoap->getShippingSettings();
+					$pickUp = $settingsSoap->getPickUpSettings();
+					if(isset($shippment['title'])){
 						?>
-						<tr>
-							<td id="discount-<?php echo $row[0]; ?>" onclick="editUpdateForm('<?php echo $row[0] ?>');"><?php echo formatDiscount($row[1]); ?></td>
-							<td id="threashold-<?php echo $row[0]; ?>" onclick="editUpdateForm('<?php echo $row[0] ?>');"><?php echo formatPrice($row[2]); ?></td>
-							<td onclick="deleteDiscount('<?php echo $row[0] ?>');" style="width: 50px;"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
-						</tr>
+							<div class="form-group">
+								<div class="col-sm-offset-3 col-sm-9">
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" checked="1" id="shippingActiv">Postversand aktiv
+										</label>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputShipping" class="col-sm-3 control-label">Packetdienst</label>
+								<div class="col-sm-9">
+								  <input type="text" class="form-control" maxlength="100" id="inputShipping" placeholder="Versandart" value="<?php echo $shippment['title'];?>">
+								  <p class="help-block">Wie wird das Packet versendet werden.</p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputShippingInstruction" class="col-sm-3 control-label">Zahlungsinstruktionen</label>
+								<div class="col-sm-9">
+								<textarea class="form-control" rows="5" maxlength="1000" id="inputShippingInstruction" placeholder="Zahlungsinstruktionen"><?php echo $shippment['instructions']; ?></textarea>
+								<p class="help-block">Die Zahlungsinstruktionen werden dem Kunden nach abgeschlossener Bestellung via E-Mail zugestellt.</p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputPrice" class="col-sm-3 control-label">Versandkosten</label>
+								<div class="col-sm-9">
+									<div class="input-group">
+										<div class="input-group-addon">CHF</div>
+										<input type="number" min="0" step="0.10" max="10000" class="form-control" id="inputPrice" placeholder="Versandkostenpauschale" value="<?php echo $shippment['price']; ?>">
+									</div>
+								</div>
+							</div>
+						<?php
+					} else{
+						?>
+						<h4>Der Postversand ist momentan deaktiviert.</h4>
+						<div class="form-group">
+							<div class="col-sm-offset-0 col-sm-9">
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" id="shippingActiv">Postversand aktiv
+									</label>
+								</div>
+							</div>
+						</div>
+					<?php
+					} if(isset($pickUp['pickupDestination'])){
+						?>
+						<div class="form-group">
+								<label for="inputPickup" class="col-sm-3 control-label">Abholungsort</label>
+								<div class="col-sm-9">
+								  <input type="text" class="form-control" id="inputPickup" placeholder="Abholungsort" maxlength="200" value="<?php echo $pickUp['pickupDestination'];?>">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputPickupTime" class="col-sm-3 control-label">Abholzeiten</label>
+								<div class="col-sm-9">
+									<textarea class="form-control" rows="3" id="inputPickupTime" maxlength="500" placeholder="Abholzeiten"><?php echo $pickUp['pickupTime']; ?></textarea>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-offset-3 col-sm-9">
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" checked="1" id="pickUpActiv">Abholung aktiv
+										</label>
+									</div>
+								</div>
+							</div>
+						<?php
+					} else {
+						?>
+						<h4>Die Abholung ist momentan deaktiviert.</h4>
+						<div class="form-group">
+							<div class="col-sm-offset-0 col-sm-9">
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" id="pickUpActiv">Abholung aktiv
+									</label>
+								</div>
+							</div>
+						</div>
 						<?php
 					}
 					?>
-				</tbody>
-			</table>
-		</div>
-		<div class="row">
-			<h1>Versand und Zahlung</h1>
-			<form class="form-horizontal" id="shippmentPaymentForm">
-			<?php
-			$shippment = $settingsSoap->getShippingSettings();
-			$pickUp = $settingsSoap->getPickUpSettings();
-			if(isset($shippment['title'])){
-				?>
-					<div class="form-group">
-					    <div class="col-sm-offset-3 col-sm-9">
-					    	<div class="checkbox">
-					        	<label>
-					        		<input type="checkbox" checked="1" id="shippingActiv">Postversand aktiv
-					        	</label>
-					    	</div>
-					    </div>
-					</div>
-					<div class="form-group">
-					    <label for="inputShipping" class="col-sm-3 control-label">Packetdienst</label>
-					    <div class="col-sm-9">
-					      <input type="text" class="form-control" maxlength="100" id="inputShipping" placeholder="Versandart" value="<?php echo $shippment['title'];?>">
-					      <p class="help-block">Wie wird das Packet versendet werden.</p>
-					    </div>
-					</div>
-					<div class="form-group">
-					    <label for="inputShippingInstruction" class="col-sm-3 control-label">Zahlungsinstruktionen</label>
-					    <div class="col-sm-9">
-					    <textarea class="form-control" rows="5" maxlength="1000" id="inputShippingInstruction" placeholder="Zahlungsinstruktionen"><?php echo $shippment['instructions']; ?></textarea>
-					    <p class="help-block">Die Zahlungsinstruktionen werden dem Kunden nach abgeschlossener Bestellung via E-Mail zugestellt.</p>
-					    </div>
-					</div>
-					<div class="form-group">
-					    <label for="inputPrice" class="col-sm-3 control-label">Versandkosten</label>
-					    <div class="col-sm-9">
-					    	<div class="input-group">
-						    	<div class="input-group-addon">CHF</div>
-						    	<input type="number" min="0" step="0.10" max="10000" class="form-control" id="inputPrice" placeholder="Versandkostenpauschale" value="<?php echo $shippment['price']; ?>">
+						<div class="form-group">
+							<div class="col-sm-offset-3 col-sm-9">
+								<button type="button" class="btn btn-primary" onclick="updateShippmentPayment();">Speichern</button>
 							</div>
-					    </div>
-					</div>
-				<?php
-			} else{
-				?>
-				<h4>Der Postversand ist momentan deaktiviert.</h4>
-				<div class="form-group">
-				    <div class="col-sm-offset-0 col-sm-9">
-				    	<div class="checkbox">
-				        	<label>
-				        		<input type="checkbox" id="shippingActiv">Postversand aktiv
-				        	</label>
-				    	</div>
-				    </div>
-				</div>
-			<?php
-			} if(isset($pickUp['pickupDestination'])){
-				?>
-				<div class="form-group">
-					    <label for="inputPickup" class="col-sm-3 control-label">Abholungsort</label>
-					    <div class="col-sm-9">
-					      <input type="text" class="form-control" id="inputPickup" placeholder="Abholungsort" maxlength="200" value="<?php echo $pickUp['pickupDestination'];?>">
-					    </div>
-					</div>
-					<div class="form-group">
-					    <label for="inputPickupTime" class="col-sm-3 control-label">Abholzeiten</label>
-					    <div class="col-sm-9">
-					    	<textarea class="form-control" rows="3" id="inputPickupTime" maxlength="500" placeholder="Abholzeiten"><?php echo $pickUp['pickupTime']; ?></textarea>
-					    </div>
-					</div>
-					<div class="form-group">
-					    <div class="col-sm-offset-3 col-sm-9">
-					    	<div class="checkbox">
-					        	<label>
-					        		<input type="checkbox" checked="1" id="pickUpActiv">Abholung aktiv
-					        	</label>
-					    	</div>
-					    </div>
-					</div>
-				<?php
-			} else {
-				?>
-				<h4>Die Abholung ist momentan deaktiviert.</h4>
-				<div class="form-group">
-				    <div class="col-sm-offset-0 col-sm-9">
-				    	<div class="checkbox">
-				        	<label>
-				        		<input type="checkbox" id="pickUpActiv">Abholung aktiv
-				        	</label>
-				    	</div>
-				    </div>
-				</div>
-				<?php
-			}
-			?>
-				<div class="form-group">
-					<div class="col-sm-offset-3 col-sm-9">
-					    <button type="button" class="btn btn-primary" onclick="updateShippmentPayment();">Speichern</button>
+						</div>
+						</form>
 					</div>
 				</div>
-			</form>
+			</div>
 		</div>
 	</div>
+
 
 	<div class="modal fade" id="addDiscount" tabindex="-1" role="dialog" aria-hidden="true">
 		<div class="modal-dialog">
@@ -382,8 +433,8 @@ function formatPrice($price){
 							<div class="col-sm-8">
 								<div class="input-group">
 									<div class="input-group-addon">%</div>
-							 		<input type="number" min="0" max="100" class="form-control" id="udiscountForm" placeholder="Rabatt in %">
-							 	</div>
+									<input type="number" min="0" max="100" class="form-control" id="udiscountForm" placeholder="Rabatt in %">
+								</div>
 							</div>
 						</div>
 						<div class="form-group">
@@ -402,7 +453,6 @@ function formatPrice($price){
 			</div><!-- /.modal-content -->
 		</div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
-</div>
 
 <script type="text/javascript">
 
@@ -440,20 +490,20 @@ function formatPrice($price){
 		var lat = document.getElementById("us2-lat").value;
 		var lon = document.getElementById("us2-lon").value;
 
-        if (title == '' || aboutUs == '' || opening == '' || lat == '' || lon == '') {
-            alert("Please Fill All Fields");
-        } else {
-        // AJAX code to submit form.
-            $.ajax({
-                url: "updateContact.php",
-                type: "POST",
-                data: {title: title, fileToUpload: fileToUpload, aboutUs: aboutUs, opening: opening, lat: lat, lon: lon},
-                success: function() {
-                    alert("Erfolgreich geändert!");
-                }
-            });
-        }
-        return false;
+		if (title == '' || aboutUs == '' || opening == '' || lat == '' || lon == '') {
+			alert("Please Fill All Fields");
+		} else {
+		// AJAX code to submit form.
+			$.ajax({
+				url: "updateContact.php",
+				type: "POST",
+				data: {title: title, fileToUpload: fileToUpload, aboutUs: aboutUs, opening: opening, lat: lat, lon: lon},
+				success: function() {
+					alert("Erfolgreich geändert!");
+				}
+			});
+		}
+		return false;
 	};
 
 	function updateWebshop()
@@ -506,14 +556,14 @@ function formatPrice($price){
 		var threashold = $("#uthreasholdForm").val();
 		if(discount > 100 || discount < 0){
 			 $("#udiscountForm").notify("Ungültiger Rabattwert. Der Wert darf nicht grösser als 100 sein.", {
-                position:"right",
-                className: "error"}
-            );
+				position:"right",
+				className: "error"}
+			);
 		} else if(threashold < 0) {
 			$("#uthreasholdForm").notify("Ungültiger Schwellenwert. Der Wert darf nicht kleiner als 0 sein.", {
-                position:"right",
-                className: "error"}
-            );
+				position:"right",
+				className: "error"}
+			);
 		} else{
 			discount = discount/100;
 			$.ajax({
@@ -542,18 +592,22 @@ function formatPrice($price){
 	};
 	
 	function addDiscount(){
+		$('#discountValues').children('td').each(function () {
+			alert(this.value); // "this" is the current element in the loop
+		});
+		alert("HAlla");
 		var discount = $("#discountForm").val();
 		var threashold = $("#threasholdForm").val();
 		if(discount > 100 || discount < 0){
 			 $("#discountForm").notify("Ungültiger Rabattwert. Der Wert darf nicht grösser als 100 sein.", {
-                position:"right",
-                className: "error"}
-            );
+				position:"right",
+				className: "error"}
+			);
 		} else if(threashold < 0) {
 			$("#threasholdForm").notify("Ungültiger Schwellenwert. Der Wert darf nicht kleiner als 0 sein.", {
-                position:"right",
-                className: "error"}
-            );
+				position:"right",
+				className: "error"}
+			);
 		} else {
 			discount = discount/100;
 			$.ajax({
