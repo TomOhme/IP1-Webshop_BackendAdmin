@@ -164,7 +164,8 @@ function formatPrice($price){
 						</div>
 					</div>
 				</div>
-			</div> <!-- Fertig Webshop Name und Adresse-->
+			</div>
+		</div> <!-- Fertig Webshop Name und Adresse-->
 
 			<div class="panel panel-default">
 				<div class="panel-heading" role="tab" id="headingContactH">
