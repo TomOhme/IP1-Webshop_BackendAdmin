@@ -327,7 +327,7 @@ function formatAmount($amount){
 
         $('#category').multiSelect({ keepOrder:true });
 
-        $("#pictureForm").dropzone({ url: "./updateProduct.php" });
+        var myDropzone = new Dropzone("#pictureForm", {autoProcessQueue: false});
 
         $('#datetimepickerFrom').datetimepicker({
                     locale: 'de'
@@ -406,7 +406,7 @@ function formatAmount($amount){
         }
 
         function productUpdateSave() {
-            $('#pictureForm').submit();
+            myDropzone.processQueue();
             var fData = $("#productForm").serialize();
             var categoryIds = $('select#category').val();
             $.ajax({
