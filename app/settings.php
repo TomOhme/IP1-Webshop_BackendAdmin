@@ -90,20 +90,20 @@ if(isset($_POST['shopname']))
 if(isset($_POST['contactFooter']))
 {
 	
-	$split = explode("\\r\\n", $contactContent);
+	$split = explode("\\r\\n", $_POST['contactFooter']);
 		
 	$content = "<div class=\"links\">";
 	$content .= "<div class=\"block-title\" style=\"text-align: left;\"><strong><span>Kontakt</span></strong></div>";
 	for($i = 0 ; $i < count($split) ; $i++)
 	{
 		$content .= "<p style=\"text-align: left;\"> ";
-		$content .= $split[i];
+		$content .= $split[$i];
 		$content .= "</p>";
 	}
 	
 	$content .= "</div>";
 	
-	$stmt = $this -> mysqli->prepare("UPDATE cms_block SET name=? WHERE ? =?");
+	$stmt = $mysqli->prepare("UPDATE cms_block SET name=? WHERE ? =?");
 	$stmt->bind_param('sss',$shopName, 'identifier', 'footer_contact');
 	$stmt->execute();
 	$stmt->close();

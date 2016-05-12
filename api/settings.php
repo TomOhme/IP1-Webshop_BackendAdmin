@@ -106,7 +106,7 @@ class Settings
     */
     public function setCapchaState($state){
         $value = 0;
-        if($state){
+        if($state == "true"){
             $value = 1;
         }
         $this->mysqli->query("UPDATE magento.core_config_data SET value=$value WHERE path LIKE 'customer/captcha/enable';");
