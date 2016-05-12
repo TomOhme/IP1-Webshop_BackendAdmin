@@ -5,9 +5,6 @@
  * Date: 10.05.2016
  * Time: 09:22
  */
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 $ini_array = parse_ini_file("../php.ini");
 $user = $ini_array["DBUSER"];
 $pwd = $ini_array["DBPWD"];
@@ -39,4 +36,7 @@ $html = rtrim($conreplace[0], '<')."<h1>".$title."</h1>".$content."<br>".$conrep
 
 $insert = "INSERT INTO newsletter_queue(queue_id, template_id, newsletter_type, newsletter_text, newsletter_styles, newsletter_subject, newsletter_sender_name, newsletter_sender_email, queue_status, queue_start_at, queue_finish_at) VALUES (NULL,".$templateid.",NULL,'".$html."',NULL,'".$title."','Test','noreply@fhnw.ch','0','".$ftime."',NULL)";
 $mysqli->query($insert);
+
+$getid = "SELECT queue_id FROM newsletter_queue WHERE queue_start_at=".$ftime;
+
 $mysqli->close();
