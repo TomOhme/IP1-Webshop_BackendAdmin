@@ -241,7 +241,7 @@ function formatAmount($amount){
                         <div class="form-group has-feedback">
                             <label class="col-sm-3 control-label">Spezial Preis</label>
                             <div class="col-sm-6">
-                                <input id="article_update_specialPrice" type="text" class="form-control" name="specialPrice" value="" placeholder="Spezial Preis" data-bv-field="price" min="0"><i class="form-control-feedback" data-bv-icon-for="price" style="display: none;"></i>
+                                <input id="article_update_specialPrice" type="text" class="form-control" name="specialPrice" value="" placeholder="Spezial Preis (optional)" data-bv-field="price" min="0"><i class="form-control-feedback" data-bv-icon-for="price" style="display: none;"></i>
                                 <small class="help-block" data-bv-validator="notEmpty" data-bv-for="specialPrice" data-bv-result="NOT_VALIDATED" style="display: none;">Bitte Spezial Preis angeben</small><small class="help-block" data-bv-validator="regexp" data-bv-for="specialPrice" data-bv-result="NOT_VALIDATED" style="display: none;">Spezial Preis kann nur Zahlen enthalten</small>
                             </div>
                         </div>
