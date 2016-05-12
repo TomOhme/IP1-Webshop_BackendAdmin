@@ -105,7 +105,7 @@ class Design
         }
         else if($logoJumb == "jumbotron")
         {
-            $query = "SELECT logo FROM store_design WHERE 1";
+            $query = "SELECT jumbotron FROM store_design WHERE 1";
 
            $stmt = $this->mysqli->prepare($query);
             
@@ -159,11 +159,19 @@ class Design
         else if($logoJumb == "jumbotron")
         {
             $imgFilePath = $imgPath . $fileName . $time . ".png";
+            $content = "<div class=\"page-title\"><h2>Home Page</h2><p><img src=\"{{media url=\"wysiwyg/" . $fileName . $time . ".png }}\" /></p></div>";
             
-            $stmt = $this -> mysqli->prepare("UPDATE store_design SET logo=? WHERE 1");
-            $stmt->bind_param('s',$imgFilePath);
+            $title = "Home page";
+            
+            $stmt = $this -> mysqli->prepare("UPDATE cms_page SET content=? WHERE title=?");
+            $stmt->bind_param('ss',$content, $title);
             $stmt->execute();
             $stmt->close();
+            
+            $stmt = $this -> mysqli -> prepare ("UPDATE store_design SET jumbotron =? WHERE 1");
+            $stmt -> bind_param('s', $imgFilePath);
+            $stmt -> execute();
+            $stmt -> close();
         }
         
         move_uploaded_file($img['tmp_name'], $pathStart . $imgFilePath);
