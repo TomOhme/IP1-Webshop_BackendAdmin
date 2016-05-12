@@ -160,7 +160,7 @@ function formatAmount($amount){
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Bilder</label>
                             <div class="col-sm-6">
-                                <form action="updateProduct.php" class="dropzone dz-clickable" id="pictureForm"><div class="dz-default dz-message" id="fileToUpload"><span>Ziehen Sie Ihr Bild hierhin oder klicken Sie hier, um ein Bild hochzuladen.</span></div></form>
+                                <form action="" class="dropzone dz-clickable" id="pictureForm"><div class="dz-default dz-message" id="fileToUpload"><span>Ziehen Sie Ihr Bild hierhin oder klicken Sie hier, um ein Bild hochzuladen.</span></div></form>
                             </div>
                         </div>
                     </div>
@@ -168,18 +168,16 @@ function formatAmount($amount){
                         <button type="submit" class="bv-hidden-submit" style="display: none; width: 0px; height: 0px;"></button>
                         <input type="hidden" class="form-control" id="sku" name="sku" value="-1">
                         <!-- Titel Input -->
-                        <div class="form-group has-feedback">
+                        <div class="form-group">
                             <label class="col-sm-3 control-label">Titel</label>
                             <div class="col-sm-6">
-                                <input id="article_update_title" type="text" class="form-control" name="title" value="" placeholder="Titel" data-bv-field="title" required><i class="form-control-feedback" data-bv-icon-for="title" style="display: none;"></i>
-                                <small class="help-block" data-bv-validator="notEmpty" data-bv-for="title" data-bv-result="NOT_VALIDATED" style="display: none;">Bitte Artikelname angeben</small><small class="help-block" data-bv-validator="remote" data-bv-for="title" data-bv-result="NOT_VALIDATED" style="display: none;">Ein Artikel mit diesem Titel existiert bereits</small><small class="help-block" data-bv-validator="stringLength" data-bv-for="title" data-bv-result="NOT_VALIDATED" style="display: none;">Artikelname muss zwischen 2 und 50 Zeichen sein</small>
+                                <input id="article_update_title" type="text" maxlength="50" class="form-control" name="title" value="" placeholder="Titel" data-bv-field="title" required>
                             </div>
                         </div>
 
-
                         <!-- Kategorie Select -->
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Kategorie</label>
+                            <label class="col-sm-3 control-label" id="categoryLbl">Kategorie</label>
                             <div class="col-sm-6">
                                 <?php $categories = $soapProductGroup->getTree(); ?>
                                 <select multiple="multiple" name="category" id="category" class="form-control required">
@@ -201,24 +199,22 @@ function formatAmount($amount){
                         </div>
 
                         <!-- Beschreibung Input -->
-                        <div class="form-group has-feedback">
+                        <div class="form-group">
                             <label class="col-sm-3 control-label">Beschreibung</label>
                             <div class="col-sm-6">
-                                <textarea id="article_update_description" class="form-control required" rows="5" name="short_description" placeholder="Beschreibung" data-bv-field="description" maxlength="250"></textarea><i class="form-control-feedback" data-bv-icon-for="description" style="display: none;"></i>
-                                <small class="help-block" data-bv-validator="stringLength" data-bv-for="description" data-bv-result="NOT_VALIDATED" style="display: none;">Beschreibung darf nicht länger als 250 Zeichen sein</small>
+                                <textarea id="article_update_description" class="form-control required" rows="5" name="short_description" placeholder="Beschreibung" data-bv-field="description" maxlength="250"></textarea>
                             </div>
                         </div>
 
                         <!-- Anzahl Input -->
-                        <div class="form-group has-feedback">
+                        <div class="form-group">
                             <label class="col-sm-3 control-label">Anzahl / Einheit</label>
                             <div class="col-sm-3">
-                                <input id="article_update_amount" type="text" class="form-control required" name="stock" value="" placeholder="Anzahl" data-bv-field="stock" min="0"><i class="form-control-feedback" data-bv-icon-for="stock" style="display: none;"></i>
-                                <small class="help-block" data-bv-validator="notEmpty" data-bv-for="stock" data-bv-result="NOT_VALIDATED" style="display: none;">Bitte Anzahl angeben</small><small class="help-block" data-bv-validator="digits" data-bv-for="stock" data-bv-result="NOT_VALIDATED" style="display: none;">Anzahl kann nur Zahlen enthalten</small>
+                                <input id="article_update_amount" type="number" min="0" max="10000000" class="form-control required" name="stock" value="" placeholder="Anzahl" data-bv-field="stock" min="0">
                             </div>
                             <!-- Einheit Input -->
                             <div class="col-sm-3">
-                                <input id="article_update_unit" type="text" class="form-control required" name="unit" value="" placeholder="Einheit" data-bv-field="unit">
+                                <input id="article_update_unit" type="text" class="form-control required" maxlength="50" name="unit" value="" placeholder="Einheit" data-bv-field="unit">
                                 <!--<select name="unit" id="unit" class="form-control">
                                     <option value="Stueck">St&uuml;ck</option>
                                     <option value="Liter">Liter</option>
@@ -229,25 +225,29 @@ function formatAmount($amount){
                         </div>
 
                         <!-- Preis Input -->
-                        <div class="form-group has-feedback">
+                        <div class="form-group">
                             <label class="col-sm-3 control-label">Preis</label>
                             <div class="col-sm-6">
-                                <input id="article_update_price" type="text" class="form-control required" name="price" value="" placeholder="Preis" data-bv-field="price" min="0"><i class="form-control-feedback" data-bv-icon-for="price" style="display: none;"></i>
-                                <small class="help-block" data-bv-validator="notEmpty" data-bv-for="price" data-bv-result="NOT_VALIDATED" style="display: none;">Bitte Preis angeben</small><small class="help-block" data-bv-validator="regexp" data-bv-for="price" data-bv-result="NOT_VALIDATED" style="display: none;">Preis kann nur Zahlen enthalten</small>
+                                <div class="input-group">
+                                    <div class="input-group-addon">CHF</div>
+                                    <input id="article_update_price" type="number" min="0" max="10000000" step="0.05" class="form-control required" name="price" value="" placeholder="Preis" data-bv-field="price" min="0">
+                                </div>
                             </div>
                         </div>
 
                         <!-- Spezial Preis Input -->
-                        <div class="form-group has-feedback">
+                        <div class="form-group">
                             <label class="col-sm-3 control-label">Spezial Preis</label>
                             <div class="col-sm-6">
-                                <input id="article_update_specialPrice" type="text" class="form-control" name="specialPrice" value="" placeholder="Spezial Preis" data-bv-field="price" min="0"><i class="form-control-feedback" data-bv-icon-for="price" style="display: none;"></i>
-                                <small class="help-block" data-bv-validator="notEmpty" data-bv-for="specialPrice" data-bv-result="NOT_VALIDATED" style="display: none;">Bitte Spezial Preis angeben</small><small class="help-block" data-bv-validator="regexp" data-bv-for="specialPrice" data-bv-result="NOT_VALIDATED" style="display: none;">Spezial Preis kann nur Zahlen enthalten</small>
+                                <div class="input-group">
+                                    <div class="input-group-addon">CHF</div>
+                                    <input id="article_update_specialPrice" type="number" min="0" max="10000000" step="0.05" class="form-control" name="specialPrice" value="" placeholder="Spezial Preis (optional)" data-bv-field="price" min="0">
+                                </div>
                             </div>
                         </div>
 
                         <!-- Spezial Preis From Date -->
-                        <div class="form-group has-feedback">
+                        <div class="form-group">
                             <label class="col-sm-3 control-label"></label>
                             <div class='col-md-5' style="padding-left: 30px;">
                                 <div class="form-group">
@@ -262,7 +262,7 @@ function formatAmount($amount){
                         </div>
 
                         <!-- Spezial Preis To Date -->
-                        <div class="form-group has-feedback">
+                        <div class="form-group">
                             <label class="col-sm-3 control-label"></label>
                             <div class='col-md-5' style="padding-left: 30px; margin-top: -20px;">
                                 <div class="form-group">
@@ -327,14 +327,14 @@ function formatAmount($amount){
 
         $('#category').multiSelect({ keepOrder:true });
 
-        var myDropzone = new Dropzone("#pictureForm", {autoProcessQueue: false});
+        var myDropzone = new Dropzone("#pictureForm", {autoProcessQueue: false, url:"./updateProduct.php"});
 
         $('#datetimepickerFrom').datetimepicker({
-                    locale: 'de'
-                });
+            locale: 'de'
+        });
         $('#datetimepickerTo').datetimepicker({
-                    locale: 'de'
-                });
+            locale: 'de'
+        });
 
         $('#article_update_specialPrice').on('input', function() {
             checkSpecialPrice();
@@ -370,23 +370,11 @@ function formatAmount($amount){
                     img.style.height = "auto";
                     img.style.maxWidth = " 150px";
                     img.style.maxHeight = "150px";
-                    $('#pictureDiv').empty();
-                    $('#pictureDiv').append(img);
+                    $('#fileToUpload').empty();
+                    $('#fileToUpload').append(img);
                     //hidden field productId
                     $('#productId').val(json.id);
                     $("#article_update_title").val(json.updateProduct.name);
-                    /*$.each(json.allCategory.children, function (i, item) {
-                        $('#category').append($('<option>', {
-                            value: item.name,
-                            text: item.name
-                        }));
-                        $.each(item.children, function (i, item) {
-                            $('#category').append($('<option>', {
-                                value: item.name,
-                                text: "- " + item.name
-                            }));
-                        });
-                    });*/
                     //set current product categories selected
                     $.each(json.updateCategory, function (i, item) {
                         $("#category").multiSelect('select', item['category_id']);
@@ -406,24 +394,129 @@ function formatAmount($amount){
         }
 
         function productUpdateSave() {
-            myDropzone.processQueue();
             var fData = $("#productForm").serialize();
             var categoryIds = $('select#category').val();
-            $.ajax({
-                url : 'updateProduct.php',
-                type: 'POST',
-                data: { productData : fData,
-                        category_ids : categoryIds,
-                        productUpdateSave : 'productUpdateSave'
-                },
-                success: function (data) {
-                    $('#productModal').modal('hide');
-                    setTimeout(function() {
-                        changeSiteUpdate('products'); //TODO better return echo products and fill content with data
-                    }, 1000);
-                    //TODO alert success
-                },
-            });
+            title = $("#article_update_title").val();
+            description = $("#article_update_description").val();
+            amount = $("#article_update_amount").val();
+            unit = $("#article_update_unit").val();
+            price = $("#article_update_price").val();
+            specialPrice = $("#article_update_specialPrice").val();
+            specialPriceFrom = $("#article_update_specialFromDate").val();
+            specialPriceTo = $("#article_update_specialToDate").val();
+
+            if(title.length > 50){
+                $("#article_update_title").notify("Dieses Feld darf nicht mehr als 50 Zeichen enthalten.", {
+                    position:"right",
+                    className: "error"}
+                );
+            } else if(title == ''){
+                $("#article_update_title").notify("Dieses Feld darf nicht leer sein.", {
+                    position:"right",
+                    className: "error"}
+                );
+            } else if(categoryIds == null){
+                $("#categoryLbl").notify(unescape("Sie m%FCssen das Produkt mindestens einer Kategorie hinzuf%FCgen."), {
+                    position:"right",
+                    className: "error"}
+                );
+            } else if(description.length > 250){
+                $("#article_update_description").notify("Dieses Feld darf nicht mehr als 250 Zeichen enthalten.", {
+                    position:"right",
+                    className: "error"}
+                );
+            } else if(description == ''){
+                $("#article_update_description").notify("Dieses Feld darf nicht leer sein.", {
+                    position:"right",
+                    className: "error"}
+                );
+            } else if(amount == ''){
+                $("#article_update_amount").notify("Dieses Feld darf nicht leer sein oder Buchstaben enthalten.", {
+                    position:"right",
+                    className: "error"}
+                );
+            }  else if(amount > 10000000){
+                $("#article_update_amount").notify("Dieses Feld darf nicht gröser als 10'000'000 sein.", {
+                    position:"right",
+                    className: "error"}
+                );
+            } else if(amount < 0){
+                $("#article_update_amount").notify("Dieses Feld darf keine negativen Werte enthalten.", {
+                    position:"right",
+                    className: "error"}
+                );
+            } else if(price > 10000000){
+                $("#article_update_price").notify("Dieses Feld darf nicht grösser als 10'000'000 sein.", {
+                    position:"right",
+                    className: "error"}
+                );
+            } else if(price == ''){
+                $("#article_update_price").notify("Dieses Feld darf nicht leer sein oder Buchstaben enthalten.", {
+                    position:"right",
+                    className: "error"}
+                );
+            } else if(price < 0){
+                $("#article_update_price").notify("Dieses Feld darf keine negativen Werte enthalten.", {
+                    position:"right",
+                    className: "error"}
+                );
+            } else if(unit == ''){
+                $("#article_update_unit").notify("Dieses Feld darf nicht leer sein.", {
+                    position:"right",
+                    className: "error"}
+                );
+            } else if(unit.length > 50){
+                $("#article_update_unit").notify("Dieses Feld darf nicht mehr als 50 Zeichen enthalten sein.", {
+                    position:"right",
+                    className: "error"}
+                );
+            } else if(specialPrice < 0){
+                $("#article_update_specialPrice").notify("Dieses Feld darf keinen negativen Wert enthalten.", {
+                    position:"right",
+                    className: "error"}
+                );
+            } else if(specialPrice > price){
+                $("#article_update_specialPrice").notify("Das Sonderangebot darf nicht teurer als der Normalpreis sein.", {
+                    position:"right",
+                    className: "error"}
+                );
+            } else if(specialPrice > 0 && specialPriceFrom == ''){
+                $("#article_update_specialFromDate").notify("Bitte geben Sie ein Anfangsdatum der Aktion an.", {
+                    position:"right",
+                    className: "error"}
+                );
+            } else if(specialPrice > 0 && specialPriceTo == ''){
+                $("#article_update_specialToDate").notify("Bitte geben Sie ein Enddatum der Aktion an.", {
+                    position:"right",
+                    className: "error"}
+                );
+            } else if(specialPrice > 0 && specialPriceTo < specialPriceTo){
+                $("#article_update_specialToDate").notify("Das Startdatum muss vor dem Enddatum sein.", {
+                    position:"right",
+                    className: "error"}
+                );
+            } else {
+                $.ajax({
+                    url : 'updateProduct.php',
+                    type: 'POST',
+                    data: { productData : fData,
+                            category_ids : categoryIds,
+                            productUpdateSave : 'productUpdateSave'
+                    },
+                    success: function (result) {
+                        var json = JSON.parse(result);
+                        myDropzone.on('sending', function(file, xhr, formData){
+                            formData.append('id', json.id);
+                        });
+                        myDropzone.processQueue();
+                        $('#productModal').modal('hide');
+                        setTimeout(function() {
+                            changeSiteUpdate('products');
+                        }, 1000);
+                        //TODO alert success
+                    },
+                });
+            }
         }
 
         function deleteProduct(productId) {
@@ -447,8 +540,8 @@ function formatAmount($amount){
         }
 
         function clearModalFields() {
-            $('#pictureDiv').empty();
-            $('#pictureDiv').append("<span>Ziehen Sie Ihre Bilder hierhin oder klicken Sie hier, um ein Bild hochzuladen.</span>");
+            $('#fileToUpload').empty();
+            $('#fileToUpload').append("<span>Ziehen Sie Ihre Bilder hierhin oder klicken Sie hier, um ein Bild hochzuladen.</span>");
             $("#article_update_title").val('');
             $('#category').multiSelect('deselect_all');
             $('#article_update_description').val('');
@@ -568,7 +661,7 @@ function formatAmount($amount){
 
         Dropzone.options.picture = {
             maxFiles: 1,
-            maxFilesize: 50, //mb
+            maxFilesize: 10, //mb
             acceptedFiles: 'image/*',
             addRemoveLinks: true,
             autoProcessQueue: false,// used for stopping auto processing uploads

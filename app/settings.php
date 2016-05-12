@@ -15,6 +15,7 @@ $soapProduct -> openSoap();
 $settingsSoap = new Settings();
 $settingsSoap -> openSoap();
 
+$mysqli->set_charset("utf8");
 $select = "SELECT `content` FROM `cms_page` WHERE `identifier`= 'ueber-uns'; ";
 $result = $mysqli->query($select);
 $row = mysqli_fetch_assoc($result);
@@ -197,7 +198,7 @@ function formatPrice($price){
 					<div class="panel-body">
 						<table>
 							<td style="width: 1000px;">
-								<form method="post"  role="form" enctype="multipart/form-data" name="contact">
+								<form method="post"  role="form" enctype="multipart/form-data" name="contactSite">
 								<h1>Kontaktseite</h1>
 								<div class="form-group" class="col-sm-7">
 									<label class="col-sm-12 control-label">Titel der Kontaktseite</label>
@@ -205,7 +206,7 @@ function formatPrice($price){
 										<input type="text" class="form-control" name="title" id="title" placeholder="Webshop xy" value="<?php echo $title; ?>">
 									</div>
 									<label class="col-sm-12 control-label">Titelbild</label>
-									<img style="max-width: 200px; max-height: 200px; width: auto; height: auto; margin-left: 15px; margin-bottom: 15px;" alt="Kontaktbild" src="../img/<?php echo $img; ?>"/>
+									<img style="max-width: 200px; max-height: 200px; width: auto; height: auto; margin-left: 15px; margin-bottom: 15px;" alt="Kontaktbild" src="../../magento/media/wysiwyg<?php echo $img; ?>"/>
 									<div class="col-sm-12">
 										<input type="file" name="fileToUpload" id="fileToUpload">
 									</div>
@@ -424,7 +425,7 @@ function formatPrice($price){
 						</div>
 						<p class="help-block">Der Rabatt wird in Prozent auf die Bestellung gew&auml;hrt. Damit ein registrierter Kunde von einem Rabatt profitieren kann muss er innerhalb eines Kalenderjahres f&uuml;r eine Gesamtsumme einkaufen, welche den Schwellenwert &uuml;berschreitet. Nach abgelaufenem Kalenderjahr wird die Gesamtsumme der Eink&auml;ufe des Kunden wieder auf 0 zur&uuml;ckgesetzt.</p>
 						<button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
-						<button type="button" class="btn btn-primary" name="createDiscount" onclick="addDiscount();" data-dismiss="modal">Speichern</button>
+						<button type="button" class="btn btn-primary" name="createDiscount" onclick="addDiscount();">Speichern</button>
 					</form>
 				</div>
 			</div><!-- /.modal-content -->
@@ -495,22 +496,27 @@ function formatPrice($price){
 	});
 
 	function updateContact() {
+		var data = new FormData();
+        jQuery.each(jQuery('#fileToUpload')[0].files, function(i, file) {
+            data.append('file-'+i, file);
+        });
+        data.append("title",$("#title").val());
+        data.append("aboutUs",$("#aboutUs").val());
+		data.append("opening",$("#opening").val());
+		data.append("lat",$("#us2-lat").val());
+		data.append("lon",$("#us2-lon").val());
 
-		var title = document.getElementById("title").value;
-		var fileToUpload = document.getElementById("fileToUpload").value;
-		var aboutUs = document.getElementById("aboutUs").value;
-		var opening = document.getElementById("opening").value;
-		var lat = document.getElementById("us2-lat").value;
-		var lon = document.getElementById("us2-lon").value;
-
-		if (title == '' || aboutUs == '' || opening == '' || lat == '' || lon == '') {
+		if (false) {
 			alert("Please Fill All Fields");
 		} else {
 		// AJAX code to submit form.
 			$.ajax({
 				url: "updateContact.php",
 				type: "POST",
-				data: {title: title, fileToUpload: fileToUpload, aboutUs: aboutUs, opening: opening, lat: lat, lon: lon},
+				cache: false,
+				contentType: false,
+				processData: false,
+				data: data,
 				success: function() {
 					$("#alertSuccessfulSafe").fadeTo(10000, 500).slideUp(500, function(){
                         $("#alertSuccessfulSafe").hide();
