@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by IntelliJ IDEA
- * User: Patrick Althaus, Yanick Schraner
+ * User: Patrick Althaus, Yanick Schraner, Janis Angst
  * Date: 07.04.2016
  * Time: 15:37
  */
@@ -31,6 +31,8 @@ $opening = rtrim($split3[0], '<');
 $contact = $settingsSoap->getContact();
 
 $info = $settingsSoap->getShopName();
+
+$capchaState = $settingsSoap->getCapchaState();
 
 if(isset($_POST['updateDiscount'])){
 	$id = $_POST['updateDiscount'];
@@ -72,6 +74,10 @@ if(isset($_POST['shippingActiv'])){
 			$settingsSoap->setPickUpSettings($_POST['pickupDestination'], $_POST['pickupTime']);
 		}
 	}
+}
+
+if(isset($_POST['capcha'])){
+	$settingsSoap->setCapchaState($_POST['capcha']);
 }
 
 if(isset($_POST['shopname']))
@@ -126,12 +132,19 @@ function formatPrice($price){
 <link href="../plugins/dist/summernote.css" rel="stylesheet">
 <script src="../plugins/dist/summernote.js"></script>
 <link rel="stylesheet" href="../css/custom.css">
+	<!-- Alerts -->
+    <div class="alert alert-success alert-dismissible" role="alert" style="display: none;" id="alertSuccessfulSafe">
+    <span class="glyphicon glyphicon glyphicon-ok-sign" aria-hidden="true"></span><p style="display:inline;"> Die Einstellungen wurden erfolgreich gespeichert!</p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    </div>
+    <!-- Fertig mit Allerts -->
+
 	<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 		<div class="panel panel-default">
 			<div class="panel-heading" role="tab" id="headingNameAdressH" data-toggle="collapse" data-parent="#accordion" href="#headingNameAdress" aria-expanded="true" aria-controls="headingNameAdress">
 				<h4 class="panel-title">
 					<a role="button">
-					  Shopname und Adresse
+					  Shopkonfiguration
 					</a>
 				</h4>
 			</div>
@@ -143,21 +156,26 @@ function formatPrice($price){
 								<div class="col-md-6">
 									<label class="col-sm-12 control-label">Shopname</label>
 									<div class="col-sm-12">
-										<input type="text" class="form-control" id="shopname" value="<?php echo $info ?>">
+										<input type="text" required="true" class="form-control" id="shopname" value="<?php echo $info ?>">
 										<p class="help-block">Mit diesem Feld k&ouml;nnen Sie den Angezeigten Webshop Namen auf ihrem Webshop ver&auml;ndern.</p>
 									</div>
 								</div>
 								<div class="col-md-6">
 									<label class="col-sm-12 control-label">Kontakt</label>
 									<div class="col-sm-12">
-										<textarea class="form-control" id="contact" rows="5"><?php echo $contact; ?></textarea>
+										<textarea class="form-control" required="true" id="contact" rows="5"><?php echo $contact; ?></textarea>
 										<p class="help-block">Mit diesem Feld k&ouml;nnen Sie Ihre Adresse in der Fusszeile Ihres Webshops ver&auml;ndern.</p>
 									</div>
 								</div>
-								<div class="col-md-9">
-
-								</div>
 								<div class="col-md-3">
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" <?php if($capchaState){ echo 'checked="1"';}?> id="capchaActiv">Capcha aktiv
+										</label>
+										<p class="help-block">Das Capcha verhindert, dass Personen mit schlechten Absichten ung&uuml;ltige Bestellungen automatisiert ausl&ouml;sen k&ouml;nnen.</p>
+									</div>
+								</div>
+								<div class="text-right">
 									<button type="button" onclick="updateWebshop();" style="margin-top: 20px;" class="btn btn-primary">Speichern</button>
 								</div>
 							</form>
@@ -494,7 +512,9 @@ function formatPrice($price){
 				type: "POST",
 				data: {title: title, fileToUpload: fileToUpload, aboutUs: aboutUs, opening: opening, lat: lat, lon: lon},
 				success: function() {
-					alert("Erfolgreich geändert!");
+					$("#alertSuccessfulSafe").fadeTo(10000, 500).slideUp(500, function(){
+                        $("#alertSuccessfulSafe").hide();
+                    });
 				}
 			});
 		}
@@ -506,14 +526,24 @@ function formatPrice($price){
 		var title = "Kontakt";
 		var contentContact = document.getElementById("contact").value;
 		var contentShopname = document.getElementById("shopname").value;
+		var capcha = $("#capchaActiv").is(':checked');
 
 		var data = new FormData();
 		data.append('contactFooter', contentContact);
 		data.append('shopname', contentShopname);
+		data.append('capcha', capcha);
 
-		if(contentContact == '' || contentShopname == '')
+		if(contentContact == '')
 		{
-			alert("Bitte alle Felder ausfüllen");
+			$("#contact").notify("Dieses Feld darf nicht leer sein.", {
+				position:"right",
+				className: "error"}
+			);
+		} else if(contentShopname == ''){
+			$("#shopname").notify("Dieses Feld darf nicht leer sein.", {
+				position:"right",
+				className: "error"}
+			);
 		}
 		else
 		{
@@ -524,13 +554,14 @@ function formatPrice($price){
 				contentType: false,
 				processData: false,
 				data: data,
-				success: function(data)
-				{
-					alert(contentContact);
+				success: function(data){
+					$("#alertSuccessfulSafe").fadeTo(10000, 500).slideUp(500, function(){
+                        $("#alertSuccessfulSafe").hide();
+                    });
 				},
 				error: function(data)
 				{
-					alert('sfsdfsdf');
+					alert('Ein unbekanter Fehler ist aufgetretten.');
 				}
 			});
 		}
@@ -587,10 +618,6 @@ function formatPrice($price){
 	};
 	
 	function addDiscount(){
-		$('#discountValues').children('td').each(function () {
-			alert(this.value); // "this" is the current element in the loop
-		});
-		alert("HAlla");
 		var discount = $("#discountForm").val();
 		var threashold = $("#threasholdForm").val();
 		if(discount > 100 || discount < 0){
