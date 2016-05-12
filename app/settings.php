@@ -425,7 +425,7 @@ function formatPrice($price){
 						</div>
 						<p class="help-block">Der Rabatt wird in Prozent auf die Bestellung gew&auml;hrt. Damit ein registrierter Kunde von einem Rabatt profitieren kann muss er innerhalb eines Kalenderjahres f&uuml;r eine Gesamtsumme einkaufen, welche den Schwellenwert &uuml;berschreitet. Nach abgelaufenem Kalenderjahr wird die Gesamtsumme der Eink&auml;ufe des Kunden wieder auf 0 zur&uuml;ckgesetzt.</p>
 						<button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
-						<button type="button" class="btn btn-primary" name="createDiscount" onclick="addDiscount();" data-dismiss="modal">Speichern</button>
+						<button type="button" class="btn btn-primary" name="createDiscount" onclick="addDiscount();">Speichern</button>
 					</form>
 				</div>
 			</div><!-- /.modal-content -->
