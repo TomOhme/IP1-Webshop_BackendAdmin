@@ -160,7 +160,7 @@ function formatAmount($amount){
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Bilder</label>
                             <div class="col-sm-6">
-                                <form action="updateProduct.php" class="dropzone dz-clickable" id="pictureForm"><div class="dz-default dz-message" id="fileToUpload"><span>Ziehen Sie Ihr Bild hierhin oder klicken Sie hier, um ein Bild hochzuladen.</span></div></form>
+                                <form action="" class="dropzone dz-clickable" id="pictureForm"><div class="dz-default dz-message" id="fileToUpload"><span>Ziehen Sie Ihr Bild hierhin oder klicken Sie hier, um ein Bild hochzuladen.</span></div></form>
                             </div>
                         </div>
                     </div>
@@ -370,8 +370,8 @@ function formatAmount($amount){
                     img.style.height = "auto";
                     img.style.maxWidth = " 150px";
                     img.style.maxHeight = "150px";
-                    $('#pictureDiv').empty();
-                    $('#pictureDiv').append(img);
+                    $('#fileToUpload').empty();
+                    $('#fileToUpload').append(img);
                     //hidden field productId
                     $('#productId').val(json.id);
                     $("#article_update_title").val(json.updateProduct.name);
@@ -451,8 +451,8 @@ function formatAmount($amount){
         }
 
         function clearModalFields() {
-            $('#pictureDiv').empty();
-            $('#pictureDiv').append("<span>Ziehen Sie Ihre Bilder hierhin oder klicken Sie hier, um ein Bild hochzuladen.</span>");
+            $('#fileToUpload').empty();
+            $('#fileToUpload').append("<span>Ziehen Sie Ihre Bilder hierhin oder klicken Sie hier, um ein Bild hochzuladen.</span>");
             $("#article_update_title").val('');
             $('#category').multiSelect('deselect_all');
             $('#article_update_description').val('');

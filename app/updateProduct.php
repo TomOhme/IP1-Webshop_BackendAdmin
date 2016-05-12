@@ -39,11 +39,6 @@ if (isset($_POST['productId']) && $_POST['product'] == 'updateProduct') {
     $soapProduct->deleteProductByID($productId);
 
 } else if (isset($_POST['productUpdateSave'])) {
-    if(isset($_FILES['file'])){
-        echo "DFDSF";
-        print_r(get_headers("http://localhost/magento_BackendAdmin/app/updateProduct.php"));
-    }
-
     //create/update product
     $values = array();
     parse_str($_POST['productData'], $values);
@@ -74,43 +69,12 @@ if (isset($_POST['productId']) && $_POST['product'] == 'updateProduct') {
 
 } else if (!empty($_FILES)) {
     //upload image
-    $target_dir = "uploads/";  //temp path to folder
-    $target_file = $target_dir . basename($_FILES["file"]["tmp_name"]);
-    $uploadOk = 1;
-    $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-    // Check if image file is a actual image or fake image
-    if (!empty($_FILES)) {
-        $check = getimagesize($_FILES["file"]["tmp_name"]);
-        if($check !== false) {
-            //$check{['mime'];
-            $uploadOk = 1;
-        } else {
-            $uploadOk = 0;
-        }
-    }
-    // Check if file already exists
-    if (file_exists($target_file)) {
-        $uploadOk = 0;
-    }
-    // Check file size
-    if ($_FILES["file"]["size"] > 500000) {
-        $uploadOk = 0;
-    }
-    // Allow certain file formats
-    if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif" ) {
-        $uploadOk = 0;
-    }
-    // Check if $uploadOk is set to 0 by an error
-    if ($uploadOk == 0) {
-        // if everything is ok, try to upload file
-    } else {
-        if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
-            //basename( $_FILES["file"]["name"]);
-
-            //get product Id
-            //soap create image file
-        }
-    }
+    $nameType = explode(".", $_FILES['file']['name']);
+    $filename = $_FILES['file']['name'];
+    $mime = $nameType[1];
+    $name = $nameType[0];
+    $productId = $_POST['id'];
+    $soapProduct->createProductImage($filename, $mime, $name, $productId);
 }
 
 function formatDate($date){
