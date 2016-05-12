@@ -111,62 +111,75 @@ if(isset($_POST["submit"]))
 
     <div class="content">
         <form method="post" role="form" id="formDesign" enctype="multipart/form-data">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="panel panel-default"  style="height: 450px">
+                                <div class="panel-body">
+                                    <div class="col-sm-12">
+                                        <img id="logoImg" src="<?php echo $pathStart ?>skin/frontend/webshop/default/images/logo_bh.png?<?php echo date("his"); ?>" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="LogoFile">Logo</label>
+                                        <input type="file" id="LogoFile" name="file" accept=".png,.jpg,.jpeg,.gif">
+                                        <p class="help-block">Das neue Logo ausw&auml;hlen.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="" class="col-sm-6">
+                            <div class="panel panel-default" style="height: 450px">
+                                <div class="panel-body">
+                                    <div class="col-sm-12">
+                                        <img id="JumbotronImg" src="<?php echo $pathStart ?>media/wysiwyg/jumbotron.png?<?php echo date("his"); ?>" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="LogoFile">Titelbild</label>
+                                        <input type="file" id="JumbotronFile" name="file" accept=".png,.jpg,.jpeg,.gif">
+                                        <p class="help-block">Das neue Titelbild ausw&auml;hlen.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <label for="ColorPicker">Farbe</label>
+                                        <div class="radio">
+                                            <label class="radio-inline" style="width: 60px;">
+                                                <input type="radio" name="color" id="colorBlue" value="blue" <?php if($myColor == "blue") {?>checked<?php } ?>> Blau
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="color" id="colorRed" value="red"  <?php if($myColor == "red") {?>checked<?php } ?>> Rot
+                                            </label>
+                                        </div>
+                                        <div class="radio">
+                                            <label class="radio-inline" style="width: 60px;">
+                                                <input type="radio" name="color" id="colorGreen" value="green" <?php if($myColor == "green") {?>checked<?php } ?>> Gr&uuml;n
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="color" id="colorGray" value="gray" <?php if($myColor == "beige") {?>checked<?php } ?>> Grau
+                                            </label>
+                                        </div>
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="color" id="colorBeige" value="beige" <?php if($myColor == "gray") {?>checked<?php } ?>> Beige
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="col-sm-12">
-                        <img id="logoImg" src="<?php echo $pathStart ?>skin/frontend/webshop/default/images/logo_bh.png?<?php echo date("his"); ?>" />
-                    </div>
-                    <div class="form-group">
-                        <label for="LogoFile">Logo</label>
-                        <input type="file" id="LogoFile" name="file" accept=".png,.jpg,.jpeg,.gif">
-                        <p class="help-block">Das neue Logo ausw&auml;hlen.</p>
-                    </div>
-                </div>
-                <div id="" class="col-sm-6">
-                    <div class="col-sm-12">
-                        <img id="JumbotronImg" src="<?php echo $pathStart ?>media/wysiwyg/jumbotron.png?<?php echo date("his"); ?>" />
-                    </div>
-                    <div class="form-group">
-                        <label for="LogoFile">Titelbild</label>
-                        <input type="file" id="JumbotronFile" name="file" accept=".png,.jpg,.jpeg,.gif">
-                        <p class="help-block">Das neue Titelbild ausw&auml;hlen.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="ColorPicker">Farbe</label>
-                        <div class="radio">
-                            <label class="radio-inline" style="width: 60px;">
-                                <input type="radio" name="color" id="colorBlue" value="blue" <?php if($myColor == "blue") {?>checked<?php } ?>> Blau
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" name="color" id="colorRed" value="red"  <?php if($myColor == "red") {?>checked<?php } ?>> Rot
-                            </label>
-                        </div>
-                        <div class="radio">
-                            <label class="radio-inline" style="width: 60px;">
-                                <input type="radio" name="color" id="colorGreen" value="green" <?php if($myColor == "green") {?>checked<?php } ?>> Gr&uuml;n
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" name="color" id="colorGray" value="gray" <?php if($myColor == "beige") {?>checked<?php } ?>> Grau
-                            </label>
-                        </div>
-                        <div class="radio">
-                            <label>
-                                <input type="radio" name="color" id="colorBeige" value="beige" <?php if($myColor == "gray") {?>checked<?php } ?>> Beige
-                            </label>
+                        <div class="col-sm-4"></div>
+                        <div class="col-sm-2" style="margin-top: 118px; padding-left: 128px;">
+                            <button type="button" class="btn btn-primary" onclick="updateSetting(this);">Design speichern</button>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
-                </div>
-                <div class="col-sm-6" style="margin-top: 10px; padding-left: 0px;">
-                    <button type="button" class="btn btn-primary" onclick="updateSetting(this);">Design speichern</button>
                 </div>
             </div>
         </form>
