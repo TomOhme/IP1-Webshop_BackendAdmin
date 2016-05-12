@@ -343,16 +343,22 @@ function formatPrice($price){
 						<div class="form-group">
 							<label for="discountForm" class="col-sm-2 control-label">Rabatt</label>
 							<div class="col-sm-8">
-							  <input type="number" step="0.01" min="0" max="1" class="form-control" id="discountForm" placeholder="Rabatt in %">
+								<div class="input-group">
+									<div class="input-group-addon">%</div>
+									<input type="number" min="0" max="100" class="form-control" id="discountForm" required="true" placeholder="Rabatt in %">
+								</div>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="thresholdForm" class="col-sm-2 control-label">Schwelle</label>
 							<div class="col-sm-8">
-								<input type="number" min="0" class="form-control" id="threasholdForm" placeholder="Schwelle in CHF">
+								<div class="input-group">
+									<div class="input-group-addon">CHF</div>
+									<input type="number" min="0" class="form-control" id="threasholdForm" required="true" placeholder="Ab diesem Wert wird der Rabatt gew&auml;hrt">
+								</div>
 							</div>
 						</div>
-						<p class="help-block">Der Rabatt wird in Prozent auf die Bestellung gew&auml;hrt. Damit ein registrierter Kunde von einem Rabatt profitieren kann muss er innerhalb eines Kalenderjahres f&uuml;r eine Gesamtsumme einkaufen, welche den Schwellenwert &uuml;berschreitet.</p>
+						<p class="help-block">Der Rabatt wird in Prozent auf die Bestellung gew&auml;hrt. Damit ein registrierter Kunde von einem Rabatt profitieren kann muss er innerhalb eines Kalenderjahres f&uuml;r eine Gesamtsumme einkaufen, welche den Schwellenwert &uuml;berschreitet. Nach abgelaufenem Kalenderjahr wird die Gesamtsumme der Eink&auml;ufe des Kunden wieder auf 0 zur&uuml;ckgesetzt.</p>
 						<button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
 						<button type="button" class="btn btn-primary" name="createDiscount" onclick="addDiscount();" data-dismiss="modal">Speichern</button>
 					</form>
@@ -374,21 +380,24 @@ function formatPrice($price){
 						<div class="form-group">
 							<label for="udiscountForm" class="col-sm-2 control-label">Rabatt</label>
 							<div class="col-sm-8">
-							  <input type="number" step="0.01" min="0" max="1" class="form-control" id="udiscountForm" placeholder="Rabatt in %">
+								<div class="input-group">
+									<div class="input-group-addon">%</div>
+							 		<input type="number" min="0" max="100" class="form-control" id="udiscountForm" placeholder="Rabatt in %">
+							 	</div>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="uthreasholdForm" class="col-sm-2 control-label">Schwelle</label>
 							<div class="col-sm-8">
-								<input type="number" min="0" class="form-control" id="uthreasholdForm" placeholder="Schwelle in CHF">
+								<div class="input-group">
+									<div class="input-group-addon">CHF</div>
+									<input type="number" min="0" class="form-control" id="uthreasholdForm" required="true" placeholder="Ab diesem Wert wird der Rabatt gew&auml;hrt">
+								</div>
 							</div>
 						</div>
 						<button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
 						<button id="saveUpdateDiscount" type="button" class="btn btn-primary" name="updateDisc">Speichern</button>
 					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
 				</div>
 			</div><!-- /.modal-content -->
 		</div><!-- /.modal-dialog -->
@@ -487,7 +496,6 @@ function formatPrice($price){
 		var discount = $("#discount-"+id).text();
 		var threashold = $("#threashold-"+id).text();
 		discount = discount.split("%");
-		discount = discount[0]/100;
 		$("#udiscountForm").val(discount);
 		$('#saveUpdateDiscount').attr("onclick", "updateDiscount("+id+")");
 	};
@@ -496,7 +504,19 @@ function formatPrice($price){
 		var id = id;
 		var discount = $("#udiscountForm").val();
 		var threashold = $("#uthreasholdForm").val();
-		$.ajax({
+		if(discount > 100 || discount < 0){
+			 $("#udiscountForm").notify("Ungültiger Rabattwert. Der Wert darf nicht grösser als 100 sein.", {
+                position:"right",
+                className: "error"}
+            );
+		} else if(threashold < 0) {
+			$("#uthreasholdForm").notify("Ungültiger Schwellenwert. Der Wert darf nicht kleiner als 0 sein.", {
+                position:"right",
+                className: "error"}
+            );
+		} else{
+			discount = discount/100;
+			$.ajax({
 			url: "settings.php",
 			type: "POST",
 			data: {"updateDiscount": id, "discount": discount, "threashold": threashold},
@@ -507,6 +527,7 @@ function formatPrice($price){
 				changeSiteUpdate("settings");
 			}
 		});
+		}
 	};
 
 	function deleteDiscount(id){
@@ -523,17 +544,30 @@ function formatPrice($price){
 	function addDiscount(){
 		var discount = $("#discountForm").val();
 		var threashold = $("#threasholdForm").val();
-		$.ajax({
-			url: "settings.php",
-			type: "POST",
-			data: {"discountCreate": discount, "threashold": threashold},
-			success: function() {
-				$("#addDiscount").modal('hide');
-				$('body').removeClass('modal-open');
-				$('.modal-backdrop').remove();
-				changeSiteUpdate("settings");
-			}
-		});
+		if(discount > 100 || discount < 0){
+			 $("#discountForm").notify("Ungültiger Rabattwert. Der Wert darf nicht grösser als 100 sein.", {
+                position:"right",
+                className: "error"}
+            );
+		} else if(threashold < 0) {
+			$("#threasholdForm").notify("Ungültiger Schwellenwert. Der Wert darf nicht kleiner als 0 sein.", {
+                position:"right",
+                className: "error"}
+            );
+		} else {
+			discount = discount/100;
+			$.ajax({
+				url: "settings.php",
+				type: "POST",
+				data: {"discountCreate": discount, "threashold": threashold},
+				success: function() {
+					$("#addDiscount").modal('hide');
+					$('body').removeClass('modal-open');
+					$('.modal-backdrop').remove();
+					changeSiteUpdate("settings");
+				}
+			});
+		}
 	};
 
 	function updateShippmentPayment(){
