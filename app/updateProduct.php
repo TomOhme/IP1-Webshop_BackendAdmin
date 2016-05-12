@@ -17,10 +17,10 @@ if (isset($_POST['productId']) && $_POST['product'] == 'updateProduct') {
     //fill product fields for update
     $productId = isset($_POST['productId']) ? $_POST['productId'] : null;
     $product = $soapProduct->getProductByID($productId);
-    $product['price'] = formatPrice($product['price']);
+    /*$product['price'] = formatPrice($product['price']);
     if ($product['special_price'] != null) {
         $product['special_price'] = formatPrice($product['special_price']);
-    }
+    }*/
     $productImg = $soapProduct->getProductImage($product['product_id']);
     $productStock = $soapProduct->getProductStock($product['product_id']);
     $productStock[0]['qty'] = formatAmount($productStock[0]['qty']);
@@ -81,9 +81,9 @@ function formatDate($date){
     return  date_format(date_create($date), "d.m.Y");
 }
 
-function formatPrice($price){
-    return "Fr. " . number_format($price, 2, ',', "'");
-}
+/*function formatPrice($price){
+    return number_format($price, 2, ',', "'");
+}*/
 
 function formatAmount($amount){
     setlocale(LC_ALL, "de_CH");
@@ -91,9 +91,9 @@ function formatAmount($amount){
 }
 
 function unformatPrice($price) {
-    if (strpos($price, 'Fr.') !== false) {
+    /*if (strpos($price, 'Fr.') !== false) {
         $price = str_replace('Fr.', '', $price);
-    }
+    }*/
     if (strpos($price, '/[^\p{L}\p{N}\s]/u')) {
         $price = preg_replace('/[^\p{L}\p{N}\s]/u', '', $price);
     }
