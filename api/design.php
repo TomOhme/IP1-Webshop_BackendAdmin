@@ -159,9 +159,12 @@ class Design
         else if($logoJumb == "jumbotron")
         {
             $imgFilePath = $imgPath . $fileName . $time . ".png";
+            $content = "<div class=\"page-title\"><h2>Home Page</h2><p><img src=\"{{media url=\"wysiwyg/" . $fileName . $time . ".png }}\" /></p></div>";
             
-            $stmt = $this -> mysqli->prepare("UPDATE store_design SET logo=? WHERE 1");
-            $stmt->bind_param('s',$imgFilePath);
+            $title = "Home page";
+            
+            $stmt = $this -> mysqli->prepare("UPDATE cms_page SET content=? WHERE title=?");
+            $stmt->bind_param('ss',$content, $title);
             $stmt->execute();
             $stmt->close();
         }
