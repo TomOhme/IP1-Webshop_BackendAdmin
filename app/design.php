@@ -14,9 +14,9 @@ if(!isset($_SESSION['username'])) {
     return header('Location: index.php');
 }
 
-$dbColor = new Design();
+$dbDesign = new Design();
 
-$myColor = $dbColor -> getSelectedColor();
+$myColor = $dbDesign -> getSelectedColor();
 
 if(isset($_POST["submit"]))
 {
@@ -25,83 +25,23 @@ if(isset($_POST["submit"]))
 
     if(!empty($imgLogo))
     {
-        $target_dir = "../../magento/skin/frontend/webshop/default/images/";
-        $target_file = $target_dir . basename($_FILES['file-0']["name"]);
-        $uploadOk = 1;
-        $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
+        $target_dir = "../../skin/frontend/webshop/default/images/";
+        $target_img = $_FILES['file-0'];
 
-        $errorMsg = "";
-
-        $check = getimagesize($_FILES['file-0']["tmp_name"]);
-
-        if ($check == false) {
-            $uploadOk = 0;
-            $errorMsg .= "Die Datei ist kein Bild!\n";
-        }
-
-        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
-            $uploadOk = 0;
-            $errorMsg .= "Nur JPG, PNG & GIF Dateien sind erlaubt.\n";
-        }
-
-        if ($_FILES['file-0']["size"] > 500000) {
-            $uploadOk = 0;
-            $errorMsg .= "Das Bild ist zu gross.\n";
-        }
-
-        if ($uploadOk == 0) {
-            $errorMsg .= "Bild wurde nicht hochgeladen";
-
-        } else {
-            foreach (glob($target_dir . "logo_bh.png") as $file) {
-                unlink($file);
-            }
-
-            move_uploaded_file($_FILES['file-0']["tmp_name"], $target_dir . "logo_bh.png");
-        }
+        $errorMsg = $dbDesign -> updatePicture($target_img, $target_dir, "logo_bh.png");
     }
 
     if(!empty($imgJumbotron))
     {
-        $target_dir = "../../magento/media/wysiwyg/";
-        $target_file = $target_dir . basename($_FILES['file-1']["name"]);
-        $uploadOk = 1;
-        $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
+        $target_dir = "../../media/wysiwyg/";
+        $target_img = $_FILES['file-1'];
 
-        $errorMsg = "";
-
-        $check = getimagesize($_FILES['file-1']["tmp_name"]);
-
-        if ($check == false) {
-            $uploadOk = 0;
-            $errorMsg .= "Die Datei ist kein Bild!\n";
-        }
-
-        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
-            $uploadOk = 0;
-            $errorMsg .= "Nur JPG, PNG & GIF Dateien sind erlaubt.\n";
-        }
-
-        if ($_FILES['file-1']["size"] > 500000) {
-            $uploadOk = 0;
-            $errorMsg .= "Das Bild ist zu gross.\n";
-        }
-
-        if ($uploadOk == 0) {
-            $errorMsg .= "Bild wurde nicht hochgeladen";
-
-        } else {
-            foreach (glob($target_dir . "logo_bh.png") as $file) {
-                unlink($file);
-            }
-
-            move_uploaded_file($_FILES['file-1']["tmp_name"], $target_dir . "jumbotron.png");
-        }
+        $errorMsg = $dbDesign -> updatePicture($target_img, $target_dir, "jumbotron.png");
     }
     $color = $_POST["color"];
-    $destCss = "../../magento/skin/frontend/webshop/default/css/webshop.css";
+    $destCss = "../../skin/frontend/webshop/default/css/webshop.css";
 
-    $dbColor -> setSelectedColor($color);
+    $dbDesign -> setSelectedColor($color);
 
     if($color == "blue")
     {
@@ -144,7 +84,7 @@ if(isset($_POST["submit"]))
         copy($targetCss, $destCss);
     }
 
-    foreach (glob("../../magento/var/cache/*", GLOB_ONLYDIR) as $dir)
+    foreach (glob("../../var/cache/*", GLOB_ONLYDIR) as $dir)
     {
         foreach(glob($dir . "/*") as $file)
         {
@@ -189,7 +129,7 @@ if(isset($_POST["submit"]))
                     <div class="form-group">
                         <label for="LogoFile">Titelbild</label>
                         <input type="file" id="JumbotronFile" name="file" accept=".png,.jpg,.jpeg,.gif">
-                        <p class="help-block">Das neue Jumbotron ausw&auml;hlen.</p>
+                        <p class="help-block">Das neue Titelbild ausw&auml;hlen.</p>
                     </div>
                 </div>
             </div>
@@ -241,11 +181,11 @@ if(isset($_POST["submit"]))
         var data = new FormData();
         data.append('submit', 'submitted');
         jQuery.each(jQuery('#LogoFile')[0].files, function(i, file) {
-            data.append('file-'+i, file);
+            data.append('file-0', file);
         });
 
         jQuery.each(jQuery('#JumbotronFile')[0].files, function(i, file) {
-            data.append('file-'+i, file);
+            data.append('file-1', file);
         });
         data.append('color',$('input[name=color]:checked', '#formDesign').val());
         $.ajax({

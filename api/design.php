@@ -63,4 +63,37 @@ class Design
         $stmt->execute();
         $stmt->close();
     }
+
+    public function updatePicture($img, $imgPath, $fileName)
+    {
+        $target_file = $imgPath . basename($img['name']);
+
+        $errorMsg = "";
+
+        $imgFileType = pathinfo($target_file, PATHINFO_EXTENSION);
+
+        $check = getimagesize($img['tmp_name']);
+
+        if($check == false)
+        {
+            return $errorMsg = "Die Datei ist kein Bild";
+        }
+
+        if($imgFileType != "jpg" && $imgFileType != "png" && $imgFileType != "jpeg" && $imgFileType != "gif")
+        {
+            return $errorMsg = "Nur JPG, PNG oder GIF Dateien sind erlaubt";
+        }
+
+        if($img['size'] > 500000)
+        {
+            return $errorMsg = "Das Bild ist zu gross";
+        }
+
+        foreach (glob($imgPath . $fileName) as $file)
+        {
+            unlink ($file);
+        }
+
+        move_uploaded_file($img['tmp_name'], $imgPath . $fileName);
+    }
 }
