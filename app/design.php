@@ -15,8 +15,9 @@ if(!isset($_SESSION['username'])) {
 }
 
 $dbDesign = new Design();
-
 $myColor = $dbDesign -> getSelectedColor();
+
+$pathStart = "../../";
 
 if(isset($_POST["submit"]))
 {
@@ -25,7 +26,7 @@ if(isset($_POST["submit"]))
 
     if(!empty($imgLogo))
     {
-        $target_dir = "../../skin/frontend/webshop/default/images/";
+        $target_dir = $pathStart . "frontend/webshop/default/images/";
         $target_img = $_FILES['file-0'];
 
         $errorMsg = $dbDesign -> updatePicture($target_img, $target_dir, "logo_bh.png");
@@ -33,13 +34,13 @@ if(isset($_POST["submit"]))
 
     if(!empty($imgJumbotron))
     {
-        $target_dir = "../../media/wysiwyg/";
+        $target_dir = $pathStart . "media/wysiwyg/";
         $target_img = $_FILES['file-1'];
 
         $errorMsg = $dbDesign -> updatePicture($target_img, $target_dir, "jumbotron.png");
     }
     $color = $_POST["color"];
-    $destCss = "../../skin/frontend/webshop/default/css/webshop.css";
+    $destCss = $pathStart . "skin/frontend/webshop/default/css/webshop.css";
 
     $dbDesign -> setSelectedColor($color);
 
@@ -84,7 +85,7 @@ if(isset($_POST["submit"]))
         copy($targetCss, $destCss);
     }
 
-    foreach (glob("../../var/cache/*", GLOB_ONLYDIR) as $dir)
+    foreach (glob($pathStart . "var/cache/*", GLOB_ONLYDIR) as $dir)
     {
         foreach(glob($dir . "/*") as $file)
         {
@@ -114,7 +115,7 @@ if(isset($_POST["submit"]))
             <div class="row">
                 <div class="col-sm-6">
                     <div class="col-sm-12">
-                        <img id="logoImg" src="../../magento/skin/frontend/webshop/default/images/logo_bh.png?<?php echo date("his"); ?>" />
+                        <img id="logoImg" src="<?php echo $pathStart ?>skin/frontend/webshop/default/images/logo_bh.png?<?php echo date("his"); ?>" />
                     </div>
                     <div class="form-group">
                         <label for="LogoFile">Logo</label>
@@ -124,7 +125,7 @@ if(isset($_POST["submit"]))
                 </div>
                 <div id="" class="col-sm-6">
                     <div class="col-sm-12">
-                        <img id="JumbotronImg" src="../../magento/media/wysiwyg/jumbotron.png?<?php echo date("his"); ?>" />
+                        <img id="JumbotronImg" src="<?php echo $pathStart ?>media/wysiwyg/jumbotron.png?<?php echo date("his"); ?>" />
                     </div>
                     <div class="form-group">
                         <label for="LogoFile">Titelbild</label>
