@@ -36,7 +36,7 @@ class Design
     {
         if(isset($this->mysqli))
         {
-            $query = "SELECT color FROM css_color WHERE 1";
+            $query = "SELECT color FROM store_design WHERE 1";
 
             if($stmt = $this->mysqli->prepare($query))
             {
@@ -81,13 +81,44 @@ class Design
             $colorPath = "skin/frontend/webshop/default/css/gray.css";
         }
         
-        $stmt = $this -> mysqli->prepare("UPDATE css_color SET color=?, path=? WHERE 1");
+        $stmt = $this -> mysqli->prepare("UPDATE store_design SET color=?, path=? WHERE 1");
         $stmt->bind_param('ss',$selectedColor, $colorPath);
         $stmt->execute();
         $stmt->close();
     }
 
-    public function updatePicture($img, $imgPath, $fileName)
+    public function getImage($logoJumb)
+    {
+        if($logoJumb == "logo")
+        {
+            $query = "SELECT value FROM core_config_data WHERE path=?";
+            $path = "design/header/logo_src";
+            
+            $stmt = $this->mysqli->prepare("SELECT value FROM core_config_data WHERE path =?");
+            $stmt->bind_param('s', $path);
+            $stmt->execute();
+            $stmt->bind_result($result);
+            $stmt->fetch();
+            $stmt->close();
+
+            return $result;
+        }
+        else if($logoJumb == "jumbotron")
+        {
+            $query = "SELECT logo FROM store_design WHERE 1";
+
+           $stmt = $this->mysqli->prepare($query);
+            
+            $stmt->execute();
+            $stmt->bind_result($result);
+            $stmt->fetch();
+            $stmt->close();
+
+            return $result;
+        }
+    }
+
+    public function updatePicture($img, $imgPath, $fileName, $pathStart, $time, $logoJumb)
     {
         $target_file = $imgPath . basename($img['name']);
 
@@ -111,12 +142,30 @@ class Design
         {
             return $errorMsg = "Das Bild ist zu gross";
         }
-
-        foreach (glob($imgPath . $fileName) as $file)
+        
+        if($logoJumb == "logo")
         {
-            unlink ($file);
+            $imgFilePath = "images/" . $fileName . $time . ".png";
+            
+            $path = "design/header/logo_src";
+            
+            $stmt = $this -> mysqli->prepare("UPDATE core_config_data SET value=? WHERE path =?");
+            $stmt->bind_param('ss',$imgFilePath, $path);
+            $stmt->execute();
+            $stmt->close();
+            
+            $imgFilePath = $imgPath . $fileName . $time . ".png";
         }
-
-        move_uploaded_file($img['tmp_name'], $imgPath . $fileName);
+        else if($logoJumb == "jumbotron")
+        {
+            $imgFilePath = $imgPath . $fileName . $time . ".png";
+            
+            $stmt = $this -> mysqli->prepare("UPDATE store_design SET logo=? WHERE 1");
+            $stmt->bind_param('s',$imgFilePath);
+            $stmt->execute();
+            $stmt->close();
+        }
+        
+        move_uploaded_file($img['tmp_name'], $pathStart . $imgFilePath);
     }
 }

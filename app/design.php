@@ -16,6 +16,9 @@ if(!isset($_SESSION['username'])) {
 
 $dbDesign = new Design();
 $myColor = $dbDesign -> getSelectedColor();
+$logoPath = "skin/frontend/webshop/default/" . $dbDesign -> getImage("logo");
+$jumboPath = $dbDesign -> getImage("jumbotron");
+
 
 $pathStart = "../../";
 
@@ -23,21 +26,22 @@ if(isset($_POST["submit"]))
 {
     $imgLogo = array_filter($_FILES['file-0']);
     $imgJumbotron = array_filter($_FILES['file-1']);
+    $time = $_POST['time'];
 
     if(!empty($imgLogo))
     {
-        $target_dir = $pathStart . "frontend/webshop/default/images/";
+        $target_dir = "skin/frontend/webshop/default/images/";
         $target_img = $_FILES['file-0'];
 
-        $errorMsg = $dbDesign -> updatePicture($target_img, $target_dir, "logo_bh.png");
+        $errorMsg = $dbDesign -> updatePicture($target_img, $target_dir, "logo_bh_", $pathStart, $time, "logo");
     }
 
     if(!empty($imgJumbotron))
     {
-        $target_dir = $pathStart . "media/wysiwyg/";
+        $target_dir = "media/wysiwyg/";
         $target_img = $_FILES['file-1'];
 
-        $errorMsg = $dbDesign -> updatePicture($target_img, $target_dir, "jumbotron.png");
+        $errorMsg = $dbDesign -> updatePicture($target_img, $target_dir, "jumbotron_", $pathStart, $time, "jumbotron");
     }
     $color = $_POST["color"];
 
@@ -60,7 +64,7 @@ if(isset($_POST["submit"]))
     <div class="alert alert-success alert-dismissible" role="alert" style="display: none;" id="alertSuccess">
         <span class="glyphicon glyphicon glyphicon-ok-sign" aria-hidden="true"></span><p id="Success" style="display:inline;"></p>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    </div>§
+    </div>
     
     <div class="alert alert-danger alert-dismissible" role="alert" style="display: none;" id="alertError">
         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><p id="Error" style="display:inline;"></p>
@@ -76,7 +80,7 @@ if(isset($_POST["submit"]))
                             <div class="panel panel-default"  style="height: 450px">
                                 <div class="panel-body">
                                     <div class="col-sm-12">
-                                        <img id="logoImg" src="<?php echo $pathStart ?>skin/frontend/webshop/default/images/logo_bh.png?<?php echo date("his"); ?>" />
+                                        <img id="logoImg" src="<?php echo $pathStart . $logoPath ?>" />
                                     </div>
                                     <div class="form-group">
                                         <label for="LogoFile">Logo</label>
@@ -90,7 +94,7 @@ if(isset($_POST["submit"]))
                             <div class="panel panel-default" style="height: 450px">
                                 <div class="panel-body">
                                     <div class="col-sm-12">
-                                        <img id="JumbotronImg" src="<?php echo $pathStart ?>media/wysiwyg/jumbotron.png?<?php echo date("his"); ?>" />
+                                        <img id="JumbotronImg" src="<?php echo $pathStart . $jumboPath ?>" />
                                     </div>
                                     <div class="form-group">
                                         <label for="LogoFile">Titelbild</label>
@@ -151,13 +155,20 @@ if(isset($_POST["submit"]))
 
     function updateSetting(form){
         var data = new FormData();
+        var uploadTime = (+new Date());
+        var logo = false;
+        var jumb = false;
+        
         data.append('submit', 'submitted');
+        data.append('time', uploadTime);
         jQuery.each(jQuery('#LogoFile')[0].files, function(i, file) {
             data.append('file-0', file);
+            logo = true;
         });
 
         jQuery.each(jQuery('#JumbotronFile')[0].files, function(i, file) {
             data.append('file-1', file);
+            jumb = true;
         });
         data.append('color',$('input[name=color]:checked', '#formDesign').val());
         $.ajax({
@@ -177,8 +188,14 @@ if(isset($_POST["submit"]))
                     $("#alertSuccess").hide();
                 });
 
-                $("#logoImg").attr( 'src', '../../skin/frontend/webshop/default/images/logo_bh.png?' + (+new Date()) );
-                $("#JumbotronImg").attr('src', '../../media/wysiwyg/jumbotron.png?' + (+new Date()));
+                if(logo)
+                {
+                    $("#logoImg").attr( 'src', '../../magento/skin/frontend/webshop/default/images/logo_bh_' + uploadTime + '.png');
+                }
+                if(jumb)
+                {
+                    $("#JumbotronImg").attr('src', '../../magento/media/wysiwyg/jumbotron_' + uploadTime + '.png');
+                }
             },
             error: function(data)
             {
