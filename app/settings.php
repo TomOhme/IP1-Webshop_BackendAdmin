@@ -128,9 +128,9 @@ function formatPrice($price){
 <link rel="stylesheet" href="../css/custom.css">
 	<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 		<div class="panel panel-default">
-			<div class="panel-heading" role="tab" id="headingNameAdressH">
+			<div class="panel-heading" role="tab" id="headingNameAdressH" data-toggle="collapse" data-parent="#accordion" href="#headingNameAdress" aria-expanded="true" aria-controls="headingNameAdress">
 				<h4 class="panel-title">
-					<a role="button" data-toggle="collapse" data-parent="#accordion" href="#headingNameAdress" aria-expanded="true" aria-controls="headingNameAdress">
+					<a role="button">
 					  Shopname und Adresse
 					</a>
 				</h4>
@@ -168,9 +168,9 @@ function formatPrice($price){
 		</div> <!-- Fertig Webshop Name und Adresse-->
 
 			<div class="panel panel-default">
-				<div class="panel-heading" role="tab" id="headingContactH">
+				<div class="panel-heading" role="tab" id="headingContactH" data-toggle="collapse" data-parent="#accordion" href="#headingContact" aria-expanded="false" aria-controls="headingContact">
 					<h4 class="panel-title">
-						<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#headingContact" aria-expanded="false" aria-controls="headingContact">
+						<a class="collapsed" role="button">
 						  Kontaktseite
 						</a>
 					</h4>
@@ -201,12 +201,11 @@ function formatPrice($price){
 									</div>
 
 									<label class="col-sm-12 control-label">Standort</label>
-									<div id="us2" style="width: 500px; height: 400px; margin-left: 15px;"><!--<div id="stayheredoggy"><img src="http://maps.googleapis.com/maps/api/staticmap?center=46.9479739,7.447446799999966&amp;zoom=15&amp;size=400x400&amp;markers=color:blue|46.9479739,7.447446799999966&amp;sensor=false" height="400" width="400" style="margin-left: 15px;"/></div>--></div><br>
+									<div id="us2" style="width: 500px; height: 400px; margin-left: 15px;"></div>
 									<script>
 										$('#us2').locationpicker({
 										});
-									</script><br>
-									<br><button type="button" onclick="();" style="margin-left: 15px;" class="btn btn-primary"
+									</script>
 									<input type="hidden" id="us2-lat" value="46.9479739"/>
 									<input type="hidden" id="us2-lon" value="7.447446799999966"/>
 									<br><button type="button" onclick="updateContact();" style="margin-left: 15px;" class="btn btn-primary">Speichern</button>
@@ -219,9 +218,9 @@ function formatPrice($price){
 			</div><!-- Fertig Kontaktseite-->
 
 			<div class="panel panel-default">
-				<div class="panel-heading" role="tab" id="headingDiscountH">
+				<div class="panel-heading" role="tab" id="headingDiscountH" data-toggle="collapse" data-parent="#accordion" href="#headingDiscount" aria-expanded="false" aria-controls="headingDiscount">
 					<h4 class="panel-title">
-						<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#headingDiscount" aria-expanded="false" aria-controls="headingDiscount">
+						<a class="collapsed" role="button">
 						  Rabatt
 						</a>
 				 	</h4>
@@ -262,9 +261,9 @@ function formatPrice($price){
 			</div> <!-- Fertig mit Discount -->
 
 			<div class="panel panel-default">
-				<div class="panel-heading" role="tab" id="headingShippingH">
+				<div class="panel-heading" role="tab" id="headingShippingH" data-toggle="collapse" data-parent="#accordion" href="#headingShipping" aria-expanded="false" aria-controls="headingShipping">
 					<h4 class="panel-title">
-						<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#headingShipping" aria-expanded="false" aria-controls="headingShipping">
+						<a class="collapsed" role="button">
 						  Versand und Zahlung
 						</a>
 				 	</h4>
@@ -374,7 +373,7 @@ function formatPrice($price){
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> <!-- Fertig mit Versand und Zahlung -->
 
 
 	<div class="modal fade" id="addDiscount" tabindex="-1" role="dialog" aria-hidden="true">
