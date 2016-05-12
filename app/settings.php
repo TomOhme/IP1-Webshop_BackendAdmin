@@ -126,7 +126,6 @@ function formatPrice($price){
 <link href="../plugins/dist/summernote.css" rel="stylesheet">
 <script src="../plugins/dist/summernote.js"></script>
 <link rel="stylesheet" href="../css/custom.css">
-<br></br>
 	<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 		<div class="panel panel-default">
 			<div class="panel-heading" role="tab" id="headingNameAdressH">
