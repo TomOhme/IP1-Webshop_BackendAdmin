@@ -60,7 +60,7 @@ if(isset($_POST["submit"]))
     <div class="alert alert-success alert-dismissible" role="alert" style="display: none;" id="alertSuccess">
         <span class="glyphicon glyphicon glyphicon-ok-sign" aria-hidden="true"></span><p id="Success" style="display:inline;"></p>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    </div>§
+    </div>
     
     <div class="alert alert-danger alert-dismissible" role="alert" style="display: none;" id="alertError">
         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><p id="Error" style="display:inline;"></p>
