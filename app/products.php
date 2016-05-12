@@ -160,7 +160,7 @@ function formatAmount($amount){
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Bilder</label>
                             <div class="col-sm-6">
-                                <form action="" class="dropzone dz-clickable" id="picture"><div class="dz-default dz-message" id="pictureDiv"><span>Ziehen Sie Ihre Bilder hierhin oder klicken Sie hier, um ein Bild hochzuladen.</span></div></form>
+                                <form action="" class="dropzone dz-clickable" id="picture"><div class="dz-default dz-message" id="pictureDiv"><span>Ziehen Sie Ihr Bild hierhin oder klicken Sie hier, um ein Bild hochzuladen.</span></div></form>
                             </div>
                         </div>
                     </div>
