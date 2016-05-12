@@ -58,8 +58,31 @@ class Design
      */
     public function setSelectedColor($selectedColor)
     {
-        $stmt = $this -> mysqli->prepare("UPDATE css_color SET color=? WHERE 1");
-        $stmt->bind_param('s',$selectedColor);
+        $colorPath = "";
+        
+        if($selectedColor == "blue") 
+        {
+            $colorPath = "skin/frontend/webshop/default/css/blue.css";
+        }
+        else if($selectedColor == "red")
+        {
+            $colorPath = "skin/frontend/webshop/default/css/red.css";
+        }
+        else if($selectedColor == "green")
+        {
+            $colorPath = "skin/frontend/webshop/default/css/green.css";
+        }
+        else if($selectedColor == "beige")
+        {
+            $colorPath = "skin/frontend/webshop/default/css/beige.css";
+        }
+        else if($selectedColor == "gray")
+        {
+            $colorPath = "skin/frontend/webshop/default/css/gray.css";
+        }
+        
+        $stmt = $this -> mysqli->prepare("UPDATE css_color SET color=?, path=? WHERE 1");
+        $stmt->bind_param('ss',$selectedColor, $colorPath);
         $stmt->execute();
         $stmt->close();
     }

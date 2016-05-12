@@ -40,50 +40,8 @@ if(isset($_POST["submit"]))
         $errorMsg = $dbDesign -> updatePicture($target_img, $target_dir, "jumbotron.png");
     }
     $color = $_POST["color"];
-    $destCss = $pathStart . "skin/frontend/webshop/default/css/webshop.css";
 
     $dbDesign -> setSelectedColor($color);
-
-    if($color == "blue")
-    {
-        $targetCss = "../css/blue.css";
-
-        unlink($destCss);
-
-        copy($targetCss, $destCss);
-    }
-    else if($color == "red")
-    {
-        $targetCss = "../css/red.css";
-
-        unlink($destCss);
-
-        copy($targetCss, $destCss);
-    }
-    else if($color == "green")
-    {
-        $targetCss = "../css/green.css";
-
-        unlink($destCss);
-
-        copy($targetCss, $destCss);
-    }
-    else if($color == "beige")
-    {
-        $targetCss = "../css/beige.css";
-
-        unlink($destCss);
-
-        copy($targetCss, $destCss);
-    }
-    else if($color == "gray")
-    {
-        $targetCss = "../css/gray.css";
-
-        unlink($destCss);
-
-        copy($targetCss, $destCss);
-    }
 
     foreach (glob($pathStart . "var/cache/*", GLOB_ONLYDIR) as $dir)
     {
@@ -102,7 +60,7 @@ if(isset($_POST["submit"]))
     <div class="alert alert-success alert-dismissible" role="alert" style="display: none;" id="alertSuccess">
         <span class="glyphicon glyphicon glyphicon-ok-sign" aria-hidden="true"></span><p id="Success" style="display:inline;"></p>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    </div>
+    </div>§
     
     <div class="alert alert-danger alert-dismissible" role="alert" style="display: none;" id="alertError">
         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><p id="Error" style="display:inline;"></p>
@@ -176,7 +134,7 @@ if(isset($_POST["submit"]))
                         </div>
 
                         <div class="col-sm-4"></div>
-                        <div class="col-sm-2" style="margin-top: 118px; padding-left: 128px;">
+                        <div class="col-sm-2" style="margin-top: 118px;">
                             <button type="button" class="btn btn-primary" onclick="updateSetting(this);">Design speichern</button>
                         </div>
                     </div>
@@ -219,8 +177,8 @@ if(isset($_POST["submit"]))
                     $("#alertSuccess").hide();
                 });
 
-                $("#logoImg").attr( 'src', '../../magento/skin/frontend/webshop/default/images/logo_bh.png?' + (+new Date()) );
-                $("#JumbotronImg").attr('src', '../../magento/media/wysiwyg/jumbotron.png?' + (+new Date()));
+                $("#logoImg").attr( 'src', '../../skin/frontend/webshop/default/images/logo_bh.png?' + (+new Date()) );
+                $("#JumbotronImg").attr('src', '../../media/wysiwyg/jumbotron.png?' + (+new Date()));
             },
             error: function(data)
             {
