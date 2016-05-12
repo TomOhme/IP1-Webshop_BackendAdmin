@@ -37,6 +37,30 @@ $html = rtrim($conreplace[0], '<')."<h1>".$title."</h1>".$content."<br>".$conrep
 $insert = "INSERT INTO newsletter_queue(queue_id, template_id, newsletter_type, newsletter_text, newsletter_styles, newsletter_subject, newsletter_sender_name, newsletter_sender_email, queue_status, queue_start_at, queue_finish_at) VALUES (NULL,".$templateid.",NULL,'".$html."',NULL,'".$title."','Test','noreply@fhnw.ch','0','".$ftime."',NULL)";
 $mysqli->query($insert);
 
-$getid = "SELECT queue_id FROM newsletter_queue WHERE queue_start_at=".$ftime;
+$getid = "SELECT queue_id, queue_finish_at FROM newsletter_queue WHERE queue_start_at='".$ftime."'";
+$qid = $mysqli->query($getid);
+$qidr = mysqli_fetch_assoc($qid);
+$q = $qidr["queue_id"];
+$qfinish = $qidr["queue_finish_at"];
 
+$subid = "SELECT `subscriber_id` FROM `newsletter_subscriber`";
+$sid = $mysqli->query($subid);
+$sidr = resultToArray($sid);
+
+foreach($sidr as $subscriber){
+    $sub = $subscriber['subscriber_id'];
+    $inssub = "INSERT INTO `newsletter_queue_link`(`queue_link_id`, `queue_id`, `subscriber_id`, `letter_sent_at`) VALUES (NULL,".$q.",".$sub.",'".$qfinish."')";
+    $mysqli->query($inssub);
+}
+
+$insstore = "INSERT INTO `newsletter_queue_store_link`(`queue_id`, `store_id`) VALUES (".$q.", 1)";
+$mysqli->query($insstore);
 $mysqli->close();
+
+function resultToArray($result) {
+    $rows = array();
+    while($row = $result->fetch_assoc()) {
+        $rows[] = $row;
+    }
+    return $rows;
+}

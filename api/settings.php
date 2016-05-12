@@ -88,6 +88,31 @@ class Settings
     }
 
     /**
+    * returns the actual capcha state
+    * @return boolean
+    */
+    public function getCapchaState(){
+        $result = $this->mysqli->query("SELECT value FROM magento.core_config_data WHERE path LIKE 'customer/captcha/enable';");
+        $state = $result->fetch_all();
+        if($state[0][0] == "1"){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+    * sets capcha state
+    * @param boolean
+    */
+    public function setCapchaState($state){
+        $value = 0;
+        if($state == "true"){
+            $value = 1;
+        }
+        $this->mysqli->query("UPDATE magento.core_config_data SET value=$value WHERE path LIKE 'customer/captcha/enable';");
+    }
+
+    /**
      * Set the content from the contact block in footer
      * @param $contactContent
      */
