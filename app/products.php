@@ -330,11 +330,11 @@ function formatAmount($amount){
         var myDropzone = new Dropzone("#pictureForm", {autoProcessQueue: false});
 
         $('#datetimepickerFrom').datetimepicker({
-                    locale: 'de'
-                });
+            locale: 'de'
+        });
         $('#datetimepickerTo').datetimepicker({
-                    locale: 'de'
-                });
+            locale: 'de'
+        });
 
         $('#article_update_specialPrice').on('input', function() {
             checkSpecialPrice();
@@ -406,7 +406,6 @@ function formatAmount($amount){
         }
 
         function productUpdateSave() {
-            myDropzone.processQueue();
             var fData = $("#productForm").serialize();
             var categoryIds = $('select#category').val();
             $.ajax({
@@ -416,10 +415,13 @@ function formatAmount($amount){
                         category_ids : categoryIds,
                         productUpdateSave : 'productUpdateSave'
                 },
-                success: function (data) {
+                success: function (result) {
+                    var json = JSON.parse(result);
+                    Dropzone.options.myDropzone = {headers: { "id": json.id }};
+                    myDropzone.processQueue();
                     $('#productModal').modal('hide');
                     setTimeout(function() {
-                        changeSiteUpdate('products'); //TODO better return echo products and fill content with data
+                        changeSiteUpdate('products');
                     }, 1000);
                     //TODO alert success
                 },
@@ -568,7 +570,7 @@ function formatAmount($amount){
 
         Dropzone.options.picture = {
             maxFiles: 1,
-            maxFilesize: 50, //mb
+            maxFilesize: 10, //mb
             acceptedFiles: 'image/*',
             addRemoveLinks: true,
             autoProcessQueue: false,// used for stopping auto processing uploads
