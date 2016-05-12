@@ -404,7 +404,12 @@ function formatAmount($amount){
             specialPrice = $("#article_update_specialPrice").val();
             specialPriceFrom = $("#article_update_specialFromDate").val();
             specialPriceTo = $("#article_update_specialToDate").val();
-
+            specialPriceFrom = specialPriceFrom.split(" ");
+            specialPriceTo = specialPriceTo.split(" ");
+            specialPriceFrom = specialPriceFrom[0].split(".");
+            specialPriceTo = specialPriceTo[0].split(".");
+            specialPriceTo = new Date(specialPriceTo[2]+"-"+specialPriceTo[1]+"-"+specialPriceTo[0]);
+            specialPriceFrom = new Date(specialPriceFrom[2]+"-"+specialPriceFrom[1]+"-"+specialPriceFrom[0]);
             if(title.length > 50){
                 $("#article_update_title").notify("Dieses Feld darf nicht mehr als 50 Zeichen enthalten.", {
                     position:"right",
@@ -490,7 +495,7 @@ function formatAmount($amount){
                     position:"right",
                     className: "error"}
                 );
-            } else if(specialPrice > 0 && specialPriceTo < specialPriceTo){
+            } else if(specialPrice > 0 && specialPriceFrom > specialPriceTo){
                 $("#article_update_specialToDate").notify("Das Startdatum muss vor dem Enddatum sein.", {
                     position:"right",
                     className: "error"}
