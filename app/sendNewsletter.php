@@ -23,8 +23,7 @@ $row = mysqli_fetch_assoc($result);
 
 $templateid = $row["template_id"];
 $template = $row["template_text"];
-//$timeelem = explode('-',$_POST["datetime"]);
-$timeelem = explode('-','12.05.2016 - 13.48.59');
+$timeelem = explode('-',$_POST["datetime"]);
 $date = explode('.',rtrim($timeelem[0]));
 $time = explode('.',ltrim($timeelem[1]));
 $timetosend = new DateTime();
