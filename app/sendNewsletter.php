@@ -23,21 +23,21 @@ $row = mysqli_fetch_assoc($result);
 
 $templateid = $row["template_id"];
 $template = $row["template_text"];
-$timeelem = explode('-',$_POST["datetime"]);
-$date = explode(' ',rtrim($timeelem[0]));
+//$timeelem = explode('-',$_POST["datetime"]);
+$timeelem = explode('-','12.05.2016 - 13.48.59');
+$date = explode('.',rtrim($timeelem[0]));
 $time = explode('.',ltrim($timeelem[1]));
 $timetosend = new DateTime();
 $timetosend->setTimezone(new DateTimeZone('Europe/Berlin'));
 $timetosend->setDate($date[2],$date[1],$date[0]);
 $timetosend->setTime($time[0],$time[1],$time[2]);
 $timetosend->setTimezone(new DateTimeZone('UTC'));
-$time = $timetosend->format('Y-m-d H:i:s');
+$ftime = $timetosend->format('Y-m-d H:i:s');
 $title = $_POST["title"];
 $content = $_POST["content"];
 $conreplace = explode('h1>', $template);
 $html = rtrim($conreplace[0], '<')."<h1>".$title."</h1>".$content."<br>".$conreplace[2];
 
-$insert = "INSERT INTO newsletter_queue(queue_id, template_id, newsletter_type, newsletter_text, newsletter_styles, newsletter_subject, newsletter_sender_name, newsletter_sender_email, queue_status, queue_start_at, queue_finish_at) VALUES (NULL,".$templateid.",NULL,'".$html."',NULL,'".$title."','Test','noreply@fhnw.ch','0','".$time."',NULL)";
+$insert = "INSERT INTO newsletter_queue(queue_id, template_id, newsletter_type, newsletter_text, newsletter_styles, newsletter_subject, newsletter_sender_name, newsletter_sender_email, queue_status, queue_start_at, queue_finish_at) VALUES (NULL,".$templateid.",NULL,'".$html."',NULL,'".$title."','Test','noreply@fhnw.ch','0','".$ftime."',NULL)";
 $mysqli->query($insert);
-echo $insert;
 $mysqli->close();
