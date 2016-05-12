@@ -417,7 +417,9 @@ function formatAmount($amount){
                 },
                 success: function (result) {
                     var json = JSON.parse(result);
-                    Dropzone.options.myDropzone = {headers: { "id": json.id }};
+                    myDropzone.on('sending', function(file, xhr, formData){
+                        formData.append('id', json.id);
+                    });
                     myDropzone.processQueue();
                     $('#productModal').modal('hide');
                     setTimeout(function() {

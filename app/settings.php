@@ -15,6 +15,7 @@ $soapProduct -> openSoap();
 $settingsSoap = new Settings();
 $settingsSoap -> openSoap();
 
+$mysqli->set_charset("utf8");
 $select = "SELECT `content` FROM `cms_page` WHERE `identifier`= 'ueber-uns'; ";
 $result = $mysqli->query($select);
 $row = mysqli_fetch_assoc($result);

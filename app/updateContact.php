@@ -5,7 +5,10 @@
  * Date: 01.05.2016
  * Time: 11:15
  */
-$filename= uploadImg($_FILES["file-0"]);
+$filename = "../img/filler.png";
+if(isset($_FILES["file-0"])){
+    $filename = uploadImg($_FILES["file-0"]);
+}
 
 $content = '<h1>'.$_POST["title"].'</h1>
             <p><img alt="" src="{{media url="wysiwyg/'.$filename.'"}}" /></p>'
@@ -23,6 +26,7 @@ $mysqli = new mysqli("localhost", $user, $pwd, "magento");
 if ($mysqli->connect_error) {
     die("Connection failed: " . $mysqli->connect_error);
 }
+$mysqli->set_charset("utf8");
 $query = "UPDATE `cms_page` SET `content`='".$content."' WHERE `identifier`='ueber-uns'";
 $result = $mysqli->query($query);
 $mysqli->close();
