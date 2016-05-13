@@ -7,9 +7,9 @@
  */
 
 if(file_exists("../vendor/autoload.php")){
-    include('../vendor/autoload.php');
+    require_once('../vendor/autoload.php');
 }else{
-    include('./vendor/autoload.php');
+    require_once('./vendor/autoload.php');
 }
 use Magento\Client\Xmlrpc\MagentoXmlrpcClient;
 
@@ -19,9 +19,9 @@ class Orders
 
     public function __construct() {
         if(file_exists("../config.php")){
-            include("../config.php");
+            require_once("../config.php");
         } else{
-            include("./config.php");
+            require_once("./config.php");
         }
     }
 
@@ -80,7 +80,7 @@ class Orders
     * @return bool
     */
     public function closeOrder($ID){
-        $orderStatus = 'closed';
+        $orderStatus = 'complete';
         $comment = 'Die Bestellung wurde durch easy admin geschlossen.';
         $sendEmailToCustomer = true;
         return $this -> client -> call('sales_order.addComment', array($ID, $orderStatus, $comment, $sendEmailToCustomer));
