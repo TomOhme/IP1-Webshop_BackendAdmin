@@ -19,7 +19,6 @@ $myColor = $dbDesign -> getSelectedColor();
 $logoPath = "skin/frontend/webshop/default/" . $dbDesign -> getImage("logo");
 $jumboPath = $dbDesign -> getImage("jumbotron");
 
-
 $pathStart = "../../";
 
 if(isset($_POST["submit"]))
@@ -182,11 +181,11 @@ if(isset($_POST["submit"]))
 
                 if(logo)
                 {
-                    $("#logoImg").attr( 'src', '../../magento/skin/frontend/webshop/default/images/logo_bh_' + uploadTime + '.png');
+                    $("#logoImg").attr( 'src', '../../skin/frontend/webshop/default/images/logo_bh_' + uploadTime + '.png');
                 }
                 if(jumb)
                 {
-                    $("#JumbotronImg").attr('src', '../../magento/media/wysiwyg/jumbotron_' + uploadTime + '.png');
+                    $("#JumbotronImg").attr('src', '../../media/wysiwyg/jumbotron_' + uploadTime + '.png');
                 }
             },
             error: function(data)
