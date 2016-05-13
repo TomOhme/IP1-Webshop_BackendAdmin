@@ -172,7 +172,16 @@ class Design
         else if($logoJumb == "jumbotron")
         {
             $imgFilePath = $imgPath . $fileName . $time . ".png";
-            $content = "<div class=\"page-title\"><h2>Home Page</h2><p><img src=\"{{media url=\"wysiwyg/" . $fileName . $time . ".png }}\" /></p></div>";
+            
+            /*
+                <div class="page-title">
+                <h2>Home Page</h2>
+                <p><img alt="" src="{{media url="wysiwyg/jumbotron_1463132677145.png }}" /></p>
+                <p>{{widget type="catalog/product_widget_new" display_type="all_products" products_count="4" template="catalog/product/widget/new/content/new_grid.phtml"}}</p>
+                </div>
+            */
+            
+            $content = "<div class=\"page-title\"><h2>Home Page</h2><p><img src=\"{{media url=\"wysiwyg/" . $fileName . $time . ".png }}\" /></p> <p>{{widget type=\"catalog/product_widget_new\" display_type=\"all_products\" products_count=\"4\" template=\"catalog/product/widget/new/content/new_grid.phtml\"}}</p></div>";
             
             $title = "home";
             
