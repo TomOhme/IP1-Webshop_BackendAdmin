@@ -47,7 +47,7 @@ if(isset($_POST["submit"]))
 
     $dbDesign -> setSelectedColor($color);
 
-    $dbDesign -> cleanCache();
+    $dbDesign -> cleanCache($pathStart);
 }
 
 ?>
