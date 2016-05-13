@@ -22,7 +22,12 @@ $soap->openSoap();
 ?>
 
 <div id="content" style="padding-left:50px; padding-right:50px;">
-
+    <!-- Alerts -->
+    <div class="alert alert-success alert-dismissible" role="alert" style="display: none;" id="alertSuccessfulSafe">
+        <span class="glyphicon glyphicon glyphicon-ok-sign" aria-hidden="true"></span><p style="display:inline;"> Der Benutzer wurde erfolgreich gel&ouml;scht!</p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    </div>
+    <!-- Fertig mit Allerts -->
     <br><br>
         <div id="content_table">
             <div class="table-responsive rwd-article">
@@ -65,11 +70,11 @@ $soap->openSoap();
 
                                     if($i % 2 == 0)
                                     {
-                                        ?><tr role="row" class="even"><?php
+                                        ?><tr role="row" class="even" id="<?php echo $userid; ?>"><?php
                                     }
                                     else
                                     {
-                                        ?><tr role="row" class="odd"><?php
+                                        ?><tr role="row" class="odd" id="<?php echo $userid; ?>"><?php
                                     }
                                     ?>
 
@@ -114,8 +119,10 @@ $soap->openSoap();
                     type: 'POST',
                     data: { userId : userId },
                     success: function(result) {
-                        //TODO reload product table
-                        alert("Nutzer wurde erfolgreich gelöscht.");
+                        $('#'+userId).remove();
+                        $("#alertSuccessfulSafe").fadeTo(10000, 500).slideUp(500, function(){
+                            $("#alertSuccessfulSafe").hide();
+                        });
                     }
                 });
 
