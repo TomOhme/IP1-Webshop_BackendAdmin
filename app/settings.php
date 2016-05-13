@@ -104,21 +104,19 @@ if(isset($_POST['contactFooter']))
 	
 	$content .= "</div>";
 	
-	$stmt = $mysqli->prepare("UPDATE cms_block SET name=? WHERE ? =?");
-	$stmt->bind_param('sss',$shopName, 'identifier', 'footer_contact');
+	$identifier = "footer_contact";
+	
+	$stmt = $mysqli->prepare("UPDATE cms_block SET name=? WHERE identifier=?");
+	$stmt->bind_param('ss',$shopName, $identifier);
 	$stmt->execute();
 	$stmt->close();
 	
 	/*
 	$contactFooter = $_POST["contactFooter"];
 	
-	var_dump($contactFooter);
-	
-	$settingsSoap->setContent($contactFooter);
+	$settingsSoap->setContact($contactFooter);
 	*/
 }
-
-
 
 function formatDiscount($discount){
 	return ($discount*100)."%";
@@ -127,7 +125,6 @@ function formatPrice($price){
 	return "Fr. " . number_format($price, 2, ',', "'");
 }
 ?>
-
 
 <!-- include summernote css/js-->
 <link href="../plugins/dist/summernote.css" rel="stylesheet">

@@ -174,9 +174,9 @@ class Design
             $imgFilePath = $imgPath . $fileName . $time . ".png";
             $content = "<div class=\"page-title\"><h2>Home Page</h2><p><img src=\"{{media url=\"wysiwyg/" . $fileName . $time . ".png }}\" /></p></div>";
             
-            $title = "Home page";
+            $title = "home";
             
-            $stmt = $this -> mysqli->prepare("UPDATE cms_page SET content=? WHERE title=?");
+            $stmt = $this -> mysqli->prepare("UPDATE cms_page SET content=? WHERE identifier=?");
             $stmt->bind_param('ss',$content, $title);
             $stmt->execute();
             $stmt->close();
