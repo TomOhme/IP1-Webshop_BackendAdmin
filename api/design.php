@@ -176,4 +176,17 @@ class Design
         
         move_uploaded_file($img['tmp_name'], $pathStart . $imgFilePath);
     }
+
+    public function cleanCache()
+    {
+        foreach (glob($pathStart . "var/cache/*", GLOB_ONLYDIR) as $dir)
+        {
+            foreach(glob($dir . "/*") as $file)
+            {
+                unlink($file);
+            }
+
+            rmdir($dir);
+        }
+    }
 }

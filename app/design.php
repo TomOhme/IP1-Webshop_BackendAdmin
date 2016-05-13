@@ -47,15 +47,7 @@ if(isset($_POST["submit"]))
 
     $dbDesign -> setSelectedColor($color);
 
-    foreach (glob($pathStart . "var/cache/*", GLOB_ONLYDIR) as $dir)
-    {
-        foreach(glob($dir . "/*") as $file)
-        {
-            unlink($file);
-        }
-
-        rmdir($dir);
-    }
+    $dbDesign -> cleanCache();
 }
 
 ?>
