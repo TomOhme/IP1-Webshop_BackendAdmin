@@ -69,12 +69,12 @@ if (isset($_POST['productId']) && $_POST['product'] == 'updateProduct') {
 
 } else if (!empty($_FILES)) {
     //upload image
-    //base64_encode(file_get_contents()
     $filename = $_FILES['file']['name'];
     $mime = $_FILES['file']['type'];
     $name = $_FILES['file']['name'];
     $productId = $_POST['id'];
-    $soapProduct->createProductImage($filename, $mime, $name, $productId);
+    var_dump(move_uploaded_file($filename, "./tmp/".$filename));
+    $soapProduct->createProductImage("../app/tmp/".$name, $mime, $name, $productId);
 }
 
 function formatDate($date){
