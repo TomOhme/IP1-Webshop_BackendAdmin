@@ -16,21 +16,20 @@ use Magento\Client\Xmlrpc\MagentoXmlrpcClient;
 class Orders
 {
     private $client;
-    private $ini_array;
 
     public function __construct() {
-        if(file_exists("../php.ini")){
-            $this->ini_array = parse_ini_file("../php.ini");
-        } else {
-            $this->ini_array = parse_ini_file("./php.ini");
+        if(file_exists("../config.php")){
+            include("../config.php");
+        } else{
+            include("./config.php");
         }
     }
 
     public function openSoap() {      
         $this -> client = MagentoXmlrpcClient::factory(array(
-            'base_url' => $this->ini_array['SOAPURL'],
-            'api_user' => $this->ini_array['SOAPUSER'],
-            'api_key'  => $this->ini_array['SOAPPWD'],
+            'base_url' => SOAPURL,
+            'api_user' => SOAPUSER,
+            'api_key'  => SOAPPWD,
         ));
     }
 

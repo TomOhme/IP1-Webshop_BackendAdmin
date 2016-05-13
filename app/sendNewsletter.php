@@ -5,9 +5,9 @@
  * Date: 10.05.2016
  * Time: 09:22
  */
-$ini_array = parse_ini_file("../php.ini");
-$user = $ini_array["DBUSER"];
-$pwd = $ini_array["DBPWD"];
+include("../config.php");
+$user = DBUSER;
+$pwd = DBPWD;
 
 $mysqli = new mysqli("localhost", $user, $pwd, "magento");
 if ($mysqli->connect_error) {

@@ -5,6 +5,7 @@
  * Date: 01.05.2016
  * Time: 11:15
  */
+include("../config.php");
 $filename = "../img/filler.png";
 if(isset($_FILES["file-0"])){
     $filename = uploadImg($_FILES["file-0"]);
@@ -18,9 +19,8 @@ $content = '<h1>'.$_POST["title"].'</h1>
             '<p><span style="font-size: 12px; font-family: Arial; color: #2f2f2f; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline;"><span style="font-size: medium;"><strong>Standort</strong></span></span></p>
             <p><span style="font-size: 12px; font-family: Arial; color: #2f2f2f; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline;"><span style="font-size: medium;"><strong><img alt="" src="http://maps.googleapis.com/maps/api/staticmap?center='.$_POST["lat"].','.$_POST["lon"].'&amp;zoom=15&amp;size=400x400&amp;markers=color:blue|'.$_POST["lat"].','.$_POST["lon"].'&amp;sensor=false" height="400" width="400" /></strong></span></span></p>';
 
-$ini_array = parse_ini_file("../php.ini");
-$user = $ini_array["DBUSER"];
-$pwd = $ini_array["DBPWD"];
+$user = DBUSER;
+$pwd = DBPWD;
 
 $mysqli = new mysqli("localhost", $user, $pwd, "magento");
 if ($mysqli->connect_error) {

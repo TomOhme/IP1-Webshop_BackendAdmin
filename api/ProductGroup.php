@@ -16,23 +16,22 @@ use Magento\Client\Xmlrpc\MagentoXmlrpcClient;
 class Productgroup {
     private $client;
     private $mysqli;
-    private $ini_array;
 
     public function __construct()
     {
-        if(file_exists("../php.ini")){
-            $this->ini_array = parse_ini_file("../php.ini");
-        } else {
-            $this->ini_array = parse_ini_file("./php.ini");
+        if(file_exists("../config.php")){
+            include("../config.php");
+        } else{
+            include("./config.php");
         }
-        $this->mysqli = new mysqli("localhost", $this->ini_array['DBUSER'], $this->ini_array['DBPWD'], "magento");
+        $this->mysqli = new mysqli("localhost",  DBUSER,  DBPWD, "magento");
     }
 
     public function openSoap(){
          $this -> client = MagentoXmlrpcClient::factory(array(
-            'base_url' => $this->ini_array['SOAPURL'],
-            'api_user' => $this->ini_array['SOAPUSER'],
-            'api_key'  => $this->ini_array['SOAPPWD'],
+            'base_url' => SOAPURL,
+            'api_user' => SOAPUSER,
+            'api_key'  => SOAPPWD,
         ));
     }
 

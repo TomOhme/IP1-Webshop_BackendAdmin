@@ -11,21 +11,19 @@ use Magento\Client\Xmlrpc\MagentoXmlrpcClient;
 class Design
 {
     private $mysqli;
-    private $ini_array;
 
     /**
      * Design constructor.
      */
-    public function __construct()
-    {
-        if(file_exists("../php.ini"))
+    public function __construct(){
+        if(file_exists("../config.php"))
         {
-            $this->ini_array = parse_ini_file("../php.ini");
+            include("../config.php");
         } else
         {
-            $this->ini_array = parse_ini_file("./php.ini");
+            include("./config.php");
         }
-        $this->mysqli = new mysqli("localhost",  $this->ini_array['DBUSER'],  $this->ini_array['DBPWD'], "magento");
+        $this->mysqli = new mysqli("localhost",  DBUSER,  DBPWD, "magento");
     }
 
     /**
