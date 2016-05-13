@@ -157,7 +157,7 @@ function formatPrice($price){
 								<div class="col-md-6">
 									<label class="col-sm-12 control-label">Shopname</label>
 									<div class="col-sm-12">
-										<input type="text" required="true" class="form-control" id="shopname" value="<?php echo $info ?>">
+										<input type="text" required="true" maxlength="50" class="form-control" id="shopname" value="<?php echo $info ?>">
 										<p class="help-block">Mit diesem Feld k&ouml;nnen Sie den Angezeigten Webshop Namen auf ihrem Webshop ver&auml;ndern.</p>
 									</div>
 								</div>
@@ -531,8 +531,7 @@ function formatPrice($price){
 		return false;
 	};
 
-	function updateWebshop()
-	{
+	function updateWebshop() {
 		var title = "Kontakt";
 		var contentContact = document.getElementById("contact").value;
 		var contentShopname = document.getElementById("shopname").value;
@@ -543,20 +542,27 @@ function formatPrice($price){
 		data.append('shopname', contentShopname);
 		data.append('capcha', capcha);
 
-		if(contentContact == '')
-		{
-			$("#contact").notify("Dieses Feld darf nicht leer sein.", {
+		if(contentContact == '') {
+			$("#contact").notify("Die Kontaktadresse darf nicht leer sein.", {
 				position:"right",
 				className: "error"}
 			);
-		} else if(contentShopname == ''){
-			$("#shopname").notify("Dieses Feld darf nicht leer sein.", {
+		} else if(contentContact.length > 300) {
+			$("#shopname").notify("Die Kontaktadresse darf nicht länger als 300 Zeichen lang sein.", {
 				position:"right",
 				className: "error"}
 			);
-		}
-		else
-		{
+		} else if(contentShopname == '') {
+			$("#shopname").notify("Der Shopname darf nicht leer sein.", {
+				position:"right",
+				className: "error"}
+			);
+		} else if(contentShopname.length > 50) {
+			$("#shopname").notify("Der Shopname darf nicht länger als 50 Zeichen lang sein.", {
+				position:"right",
+				className: "error"}
+			);
+		} else {
 			$.ajax({
 				url: 'settings.php',
 				type: 'POST',
@@ -569,8 +575,7 @@ function formatPrice($price){
                         $("#alertSuccessfulSafe").hide();
                     });
 				},
-				error: function(data)
-				{
+				error: function(data) {
 					alert('Ein unbekanter Fehler ist aufgetretten.');
 				}
 			});
