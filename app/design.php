@@ -19,7 +19,6 @@ $myColor = $dbDesign -> getSelectedColor();
 $logoPath = "skin/frontend/webshop/default/" . $dbDesign -> getImage("logo");
 $jumboPath = $dbDesign -> getImage("jumbotron");
 
-
 $pathStart = "../../";
 
 if(isset($_POST["submit"]))

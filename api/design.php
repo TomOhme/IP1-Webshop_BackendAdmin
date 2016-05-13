@@ -187,7 +187,7 @@ class Design
             $stmt -> close();
         }
         
-        move_uploaded_file($img['tmp_name'], $pathStart . $imgFilePath);
+        move_uploaded_file($img['tmp_name'], $pathStart . "magento/" . $imgFilePath);
     }
 
     /**
