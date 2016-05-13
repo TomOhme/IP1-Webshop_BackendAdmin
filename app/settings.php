@@ -193,42 +193,37 @@ function formatPrice($price){
 				</div>
 				<div id="headingContact" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingContactH">
 					<div class="panel-body">
-						<table>
-							<td style="width: 1000px;">
-								<form method="post"  role="form" enctype="multipart/form-data" name="contactSite">
-								<h1>Kontaktseite</h1>
-								<div class="form-group" class="col-sm-7">
-									<label class="col-sm-12 control-label">Titel der Kontaktseite</label>
-									<div class="col-sm-12">
-										<input type="text" class="form-control" required="true" maxlength="50" name="title" id="title" placeholder="Webshop xy" value="<?php echo $title; ?>">
-									</div>
-									<label class="col-sm-12 control-label">Titelbild</label>
-									<img style="max-width: 200px; max-height: 200px; width: auto; height: auto; margin-left: 15px; margin-bottom: 15px;" alt="Kontaktbild" src="../../magento/media/wysiwyg<?php echo $img; ?>"/>
-									<div class="col-sm-12">
-										<input type="file" name="fileToUpload" id="fileToUpload">
-									</div>
-									<label class="col-sm-12 control-label" id="aboutUsError">Über Uns</label>
-									<div class="col-sm-12">
-										<textarea rows="10" maxlength="10000" id="aboutUs"><?php echo $aboutUs; ?></textarea>
-									</div>
-									<label class="col-sm-12 control-label" id="openingTimeError">Öffnungszeiten</label>
-									<div class="col-sm-12">
-										<textarea rows="10" id="opening" maxlength="1000"><?php echo $opening; ?></textarea>
-									</div>
-
-									<label class="col-sm-12 control-label">Standort</label>
-									<div id="us2" style="width: 500px; height: 400px; margin-left: 15px;"></div>
-									<script>
-										$('#us2').locationpicker({
-										});
-									</script>
-									<input type="hidden" id="us2-lat" value="46.9479739"/>
-									<input type="hidden" id="us2-lon" value="7.447446799999966"/>
-									<br><button type="button" onclick="updateContact();" style="margin-left: 15px;" class="btn btn-primary">Speichern</button>
-								</div>
-								</form>
-							</td>
-						</table>
+						<form method="post"  role="form" enctype="multipart/form-data" name="contactSite">
+							<h1>Kontaktseite</h1>
+							<div class="form-group">
+								<label for="title">Titel der Kontaktseite</label>
+								<input type="text" class="form-control" required="true" maxlength="50" name="title" id="title" placeholder="Webshop xy" value="<?php echo $title; ?>">
+							</div>
+							<div class="form-group">
+								<label>Titelbild</label><br></br>
+								<img style="max-width: 200px; max-height: 200px; width: auto; height: auto; margin-left: 15px; margin-bottom: 15px;" alt="Kontaktbild" src="../../magento/media/wysiwyg<?php echo $img; ?>"/>
+								<input type="file" name="fileToUpload" id="fileToUpload">
+							</div>
+							<div class="form-group">
+								<label for="aboutUs" id="aboutUsError">Über Uns</label>
+								<textarea rows="10" maxlength="10000" id="aboutUs"><?php echo $aboutUs; ?></textarea>
+							</div>
+							<div class="form-group">
+								<label for="opening" id="openingTimeError">Öffnungszeiten</label>
+								<textarea rows="10" id="opening" maxlength="1000"><?php echo $opening; ?></textarea>
+							</div>
+							<div class="form-group">
+								<label for="us2">Standort</label>
+								<div id="us2" style="width: 500px; height: 400px; margin-left: 15px;"></div>
+								<script>
+									$('#us2').locationpicker({
+									});
+								</script>
+								<input type="hidden" id="us2-lat" value="46.9479739"/>
+								<input type="hidden" id="us2-lon" value="7.447446799999966"/>
+							</div>
+							<button type="button" onclick="updateContact();" style="margin-left: 15px;" class="btn btn-primary">Speichern</button>
+						</form>
 					</div>
 				</div>
 			</div><!-- Fertig Kontaktseite-->
