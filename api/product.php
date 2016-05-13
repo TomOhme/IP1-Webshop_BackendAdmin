@@ -7,11 +7,11 @@
  */
 
 if(file_exists("../vendor/autoload.php")){
-    include('../vendor/autoload.php');
-    include("../config.php");
+    require_once('../vendor/autoload.php');
+    require_once("../config.php");
 }else{
-    include('./vendor/autoload.php');
-    include("./config.php");
+    require_once('./vendor/autoload.php');
+    require_once("./config.php");
 }
 use Magento\Client\Xmlrpc\MagentoXmlrpcClient;
 
@@ -79,17 +79,6 @@ class product {
     {
         $attributeSets = $this->client->call('product_attribute_set.list');
         $attributeSet = current($attributeSets);
-        $categoryIDs = array();
-        foreach ($productData['category_ids'] as $category) {
-            $stmt = $this -> mysqli->prepare("SELECT DISTINCT catalog_category_entity_varchar.entity_id FROM catalog_category_entity_varchar WHERE VALUE=?;");
-            $stmt->bind_param("s", $category);
-            $stmt->execute();
-            $stmt->bind_result($categoryID);
-            $stmt->fetch();
-            array_push($categoryIDs, $categoryID);
-            $stmt->close();
-        }
-        $productData['category_ids'] = $categoryIDs;
         return $this->client->call('catalog_product.create', array('simple', $attributeSet['set_id'], $sku, $productData));
     }
 
@@ -104,9 +93,9 @@ class product {
      */
     public function createProductImage($filename, $mime, $name, $productId)
     {
-        if (pathinfo(urldecode($filename), PATHINFO_EXTENSION) == "jpg") {
-            $img = imagecreatefromstring(file_get_contents(urldecode($filename)));
-            imagepng($img, $name . ".png");
+        if (pathinfo($filename, PATHINFO_EXTENSION) == "jpg") {
+            echo "ASDASD";
+            imagepng(imagecreatefromstring(file_get_contents($filename)), $name . ".png");
             $content = base64_encode($name . ".png");
             $mime = "image/png";
         } else {
