@@ -87,6 +87,11 @@ class Design
         $stmt->close();
     }
 
+    /**
+     * Get the image path from the databse
+     * @param $logoJumb String "logo" or "jumbotron"
+     * @return path to the image
+     */
     public function getImage($logoJumb)
     {
         if($logoJumb == "logo")
@@ -118,6 +123,16 @@ class Design
         }
     }
 
+    /**
+     * Update the image path in the database
+     * @param $img the target image
+     * @param $imgPath path to the file in magetno
+     * @param $fileName name of the file
+     * @param $pathStart the path start
+     * @param $time current time
+     * @param $logoJumb "logo" or "jumbotron"
+     * @return string errormsg
+     */
     public function updatePicture($img, $imgPath, $fileName, $pathStart, $time, $logoJumb)
     {
         $target_file = $imgPath . basename($img['name']);
@@ -177,7 +192,10 @@ class Design
         move_uploaded_file($img['tmp_name'], $pathStart . $imgFilePath);
     }
 
-    public function cleanCache()
+    /**
+     * Cleans the magentocache
+     */
+    public function cleanCache($pathStart)
     {
         foreach (glob($pathStart . "var/cache/*", GLOB_ONLYDIR) as $dir)
         {
