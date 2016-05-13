@@ -306,6 +306,7 @@ function formatPrice($price){
 									</div>
 								</div>
 							</div>
+							<input type="checkbox" id="shippingFormValidation" checked="1" style="display:none;">
 							<div class="form-group">
 								<label for="inputShipping" class="col-sm-3 control-label">Packetdienst</label>
 								<div class="col-sm-9">
@@ -342,6 +343,7 @@ function formatPrice($price){
 								</div>
 							</div>
 						</div>
+						<input type="checkbox" id="shippingFormValidation" style="display:none;">
 					<?php
 					} if(isset($pickUp['pickupDestination'])){
 						?>
@@ -366,6 +368,7 @@ function formatPrice($price){
 									</div>
 								</div>
 							</div>
+							<input type="checkbox" id="pickupFormValidation" checked="1" style="display:none;">
 						<?php
 					} else {
 						?>
@@ -379,6 +382,7 @@ function formatPrice($price){
 								</div>
 							</div>
 						</div>
+						<input type="checkbox" id="pickupFormValidation" style="display:none;">
 						<?php
 					}
 					?>
@@ -655,6 +659,8 @@ function formatPrice($price){
 	function updateShippmentPayment(){
 		shippingActiv = $("#shippingActiv").is(':checked');
 		pickUpActiv = $("#pickUpActiv").is(':checked');
+		shippingValidation = $("#shippingFormValidation").is(':checked');
+		pickupValidation = $("#pickupFormValidation").is(':checked');
 		shippingName = $("#inputShipping").val();
 		shipinCost = $("#inputPrice").val();
 		shipingInstructions = $("#inputShippingInstruction").val();
@@ -668,17 +674,74 @@ function formatPrice($price){
 		data.append('shipingInstructions', shipingInstructions);
 		data.append('pickupDestination', pickupDestination);
 		data.append('pickupTime', pickupTime);
-		$.ajax({
-			url: "settings.php",
-			type: "POST",
-			cache: false,
-			contentType: false,
-			processData: false,
-			data: data,
-			success: function() {
-				changeSiteUpdate("settings");
-			}
-		});
+		if(shippingValidation && shippingActiv && shippingName == ''){
+			$("#inputShipping").notify("Der Name des Packetdienst darf nicht leer sein.", {
+				position: "left",
+				className: "error"
+			});
+		} else if(shippingValidation && shippingActiv && shippingName.length > 100){
+			$("#inputShipping").notify("Der Name des Packetdienst darf nicht mehr als 100 Zeichen lang sein.", {
+				position: "left",
+				className: "error"
+			});
+		} else if(shippingValidation && shippingActiv && shipinCost == ''){
+			$("#inputPrice").notify("Die Versandkosten dürfen nicht leer sein.", {
+				position: "left",
+				className: "error"
+			});
+		} else if(shippingValidation && shippingActiv && shipinCost < 0){
+			$("#inputPrice").notify("Die Versandkosten dürfen nicht negativ sein.", {
+				position: "left",
+				className: "error"
+			});
+		} else if(shippingValidation && shippingActiv && shipinCost > 10000){
+			$("#inputPrice").notify("Die Versandkosten dürfen nicht 10'000 CHF überschreitten.", {
+				position: "left",
+				className: "error"
+			});
+		} else if(shippingValidation && shippingActiv && shipingInstructions == ''){
+			$("#inputShippingInstruction").notify("Bitte geben Sie Zahlungsinstruktionen an.", {
+				position: "left",
+				className: "error"
+			});
+		} else if(shippingValidation && shippingActiv && shipingInstructions.length > 1000){
+			$("#inputShippingInstruction").notify("Die Zahlungsinstruktionen dürfen nicht länger als 1000 Zeichen sein.", {
+				position: "left",
+				className: "error"
+			});
+		} else if(pickupValidation && pickUpActiv && pickupDestination == ''){
+			$("#inputPickup").notify("Bitte geben Sie einen Abholungsort an.", {
+				position: "left",
+				className: "error"
+			});
+		} else if(pickupValidation && pickUpActiv && pickupDestination.length > 200){
+			$("#inputPickup").notify("Der Abholungsort darf nicht länger als 200 Zeichen lang sein.", {
+				position: "left",
+				className: "error"
+			});
+		} else if(pickupValidation && pickUpActiv && pickupTime == ''){
+			$("#inputPickupTime").notify("Bitte geben Sie Abholzeiten an.", {
+				position: "left",
+				className: "error"
+			});
+		} else if(pickupValidation && pickUpActiv && pickupTime.length > 500){
+			$("#inputPickupTime").notify("Die Abholzeiten dürfen nicht länger als 500 Zeichen lang sein.", {
+				position: "left",
+				className: "error"
+			});
+		} else {
+			$.ajax({
+				url: "settings.php",
+				type: "POST",
+				cache: false,
+				contentType: false,
+				processData: false,
+				data: data,
+				success: function() {
+					changeSiteUpdate("settings");
+				}
+			});
+		}
 	};
 </script>
 </div>

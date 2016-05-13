@@ -40,8 +40,7 @@ if(isset($_POST['productData']) && isset($_POST['categoryDelete'])){
                     <div class="form-group has-feedback">
                         <label class="col-sm-3 control-label">Bezeichnung</label>
                         <div class="col-sm-6">
-                            <input type="text" class="form-control" id="categoryName" name="categoryName" placeholder="Name" value="" data-bv-field="name"><i class="form-control-feedback" data-bv-icon-for="name" style="display: none;"></i>
-                            <small class="help-block" data-bv-validator="notEmpty" data-bv-for="name" data-bv-result="NOT_VALIDATED" style="display: none;">Bitte einen Kategorienamen angeben</small><small class="help-block" data-bv-validator="stringLength" data-bv-for="name" data-bv-result="NOT_VALIDATED" style="display: none;">Kategoriename muss zwischen 2 und 50 Zeichen sein</small>
+                            <input type="text" class="form-control" required="true" maxlength="50" id="categoryName" name="categoryName" placeholder="Name" value="" data-bv-field="name">
                         </div>
                     </div>
                     <div class="form-group">
@@ -122,62 +121,6 @@ if(isset($_POST['productData']) && isset($_POST['categoryDelete'])){
                     ?>
                 </ul>
             </div>
-                <!--<li> example
-                        <span><i class="icon-folder-open"></i> Parent</span>
-                        <ul>
-                            <li>
-                                <span><i class="icon-minus-sign"></i> Child</span>
-                                <ul>
-                                    <li>
-                                        <span><i class="icon-leaf"></i> Grand Child</span>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <span><i class="icon-minus-sign"></i> Child</span>
-                                <ul>
-                                    <li>
-                                        <span><i class="icon-leaf"></i> Grand Child</span>
-                                    </li>
-                                    <li>
-                                        <span><i class="icon-minus-sign"></i> Grand Child</span>
-                                        <ul>
-                                            <li>
-                                                <span><i class="icon-minus-sign"></i> Great Grand Child</span>
-                                                <ul>
-                                                    <li>
-                                                        <span><i class="icon-leaf"></i> Great great Grand Child</span>
-                                                    </li>
-                                                    <li>
-                                                        <span><i class="icon-leaf"></i> Great great Grand Child</span>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                <span><i class="icon-leaf"></i> Great Grand Child</span>
-                                            </li>
-                                            <li>
-                                                <span><i class="icon-leaf"></i> Great Grand Child</span>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <span><i class="icon-leaf"></i> Grand Child</span>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <span><i class="icon-folder-open"></i> Parent2</span>
-                        <ul>
-                            <li>
-                                <span><i class="icon-leaf"></i> Child</span>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>-->
         </div>
 
     </div>
@@ -211,17 +154,30 @@ if(isset($_POST['productData']) && isset($_POST['categoryDelete'])){
 
     function categoryUpdateSave() {
         var fData = $("#createCategoryForm").serialize();
-        $.ajax({
-            url : 'categories.php',
-            type: 'POST',
-            data: { productData : fData,
-                    categoryUpdateSave : 'categoryUpdateSave'
-            },
-            success: function (data) {
-                changeSiteUpdate('categories'); //TODO better return echo products and fill content with data
-                //TODO alert success
-            },
-        });
+        categoryName = $("#categoryName").val();
+        if(categoryName == ''){
+            $("#categoryName").notify("Bitte geben Sie einen Kategorienamen an.", {
+                    position:"right",
+                    className: "error"}
+                );
+        } else if(categoryName.length > 50){
+            $("#categoryName").notify("Der Kategorienamen darf nicht länger als 50 Zeichen lang sein.", {
+                position: "right",
+                className: "error"
+            });
+        } else {
+            $.ajax({
+                url : 'categories.php',
+                type: 'POST',
+                data: { productData : fData,
+                        categoryUpdateSave : 'categoryUpdateSave'
+                },
+                success: function (data) {
+                    changeSiteUpdate('categories'); //TODO better return echo products and fill content with data
+                    //TODO alert success
+                },
+            });
+        }
     }
 
     function categoryDelete() {
