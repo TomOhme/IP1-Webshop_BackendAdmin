@@ -43,7 +43,11 @@ class Settings
      */
     public function getShopName()
     {
-        $query = "SELECT `name` FROM `store_title` WHERE 1";
+        // UPDATE  `magento`.`core_store_group` SET  `name` =  'Hallo Norina' WHERE  `core_store_group`.`group_id` =1;
+        
+        $this->mysqli->set_charset("utf8");
+        
+        $query = "SELECT name FROM core_store_group WHERE website_id = 1";
 
         $result = $this->mysqli->query($query);
         $shopname = mysqli_fetch_assoc($result);
@@ -56,9 +60,9 @@ class Settings
      * @param $shopName
      */
     public function setShopname($shopName)
-    {
+    {       
         $this->mysqli->set_charset("utf8");
-        $stmt = $this -> mysqli->prepare("UPDATE store_title SET name=? WHERE 1");
+        $stmt = $this -> mysqli->prepare("UPDATE core_store_group SET name=? WHERE website_id = 1");
         $stmt->bind_param('s',$shopName);
         $stmt->execute();
         $stmt->close();
@@ -72,14 +76,28 @@ class Settings
     {
         $contact = "";
         
-        $select2 = "SELECT `content` FROM `cms_block` WHERE `identifier` = 'footer_contact';";
+        $identifier = "footer_contact";
+        
+        $stmt = $this -> mysqli->prepare("SELECT content FROM cms_block WHERE identifier=?");
+        $stmt->bind_param('s', $identifier);
+        $stmt->execute();
+        $stmt->bind_result($result);
+        $stmt->fetch();
+        $stmt->close();
+        
+        /*
         $this->mysqli->set_charset("utf8");
+        $select2 = "SELECT `content` FROM `cms_block` WHERE `identifier` = 'footer_contact';";
+        
         $result2 = $this->mysqli->query($select2);
         $row2 = mysqli_fetch_assoc($result2);
-
+        
+        
         $str= $row2["content"];
+        
+        */
         $doc = new DOMDocument();
-        $doc->loadHTML($str);
+        $doc->loadHTML($result);
         foreach($doc->getElementsByTagName('p') as $para) {
             $contact .= $para->textContent;
             $contact .= "\r\n";
@@ -119,31 +137,27 @@ class Settings
      */
     public function setContact($contactContent)
     {
-        /*
-        <div class="links">
-        <div class="block-title" style="text-align: left;"><strong><span>Kontakt</span></strong></div>
-        <p style="text-align: left;">Bauernhof Shop</p> <p style="text-align: left;">Bauernhofstrasse 10</p> <p style="text-align: left;">4444 baueren<br /> Schweiz</p>
-        </div>
-        
-        
-        $split = explode('\r\n', $contactContent);
-        
+        $split = explode("\r\n", $contactContent);
+		
         $content = "<div class=\"links\">";
         $content .= "<div class=\"block-title\" style=\"text-align: left;\"><strong><span>Kontakt</span></strong></div>";
+        
         for($i = 0 ; $i < count($split) ; $i++)
         {
-            $content .= "<p style=\"text-align: left;\"> ";
-            $content .= $split[i];
+            $content .= "<p style=\"text-align: left;\">";
+            $content .= $split[$i];
             $content .= "</p>";
         }
         
-        var_dump($content);
+        $content .= "</div>";
         
-        $stmt = $this -> mysqli->prepare("UPDATE cms_block SET name=? WHERE ? =?");
-        $stmt->bind_param('sss',$shopName, 'identifier', 'footer_contact');
+        $identifier = "footer_contact";
+        
+        $this->mysqli->set_charset("utf8");
+        $stmt = $this -> mysqli->prepare("UPDATE cms_block SET content=? WHERE identifier=?");
+        $stmt->bind_param('ss',$content, $identifier);
         $stmt->execute();
         $stmt->close();
-        */
     }
     
     /**
@@ -326,5 +340,21 @@ class Settings
         $stmt = $this -> mysqli->prepare("UPDATE magento.core_config_data SET  value=0   WHERE core_config_data.path LIKE 'carriers/pickup/active';");
         $stmt->execute();
         $stmt->close();
+    }
+    
+     /**
+     * Cleans the magentocache
+     */
+    public function cleanCache($pathStart)
+    {
+        foreach (glob($pathStart . "var/cache/*", GLOB_ONLYDIR) as $dir)
+        {
+            foreach(glob($dir . "/*") as $file)
+            {
+                unlink($file);
+            }
+
+            rmdir($dir);
+        }
     }
 }
