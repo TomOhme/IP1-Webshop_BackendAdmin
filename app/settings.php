@@ -203,20 +203,20 @@ function formatPrice($price){
 								<div class="form-group" class="col-sm-7">
 									<label class="col-sm-12 control-label">Titel der Kontaktseite</label>
 									<div class="col-sm-12">
-										<input type="text" class="form-control" name="title" id="title" placeholder="Webshop xy" value="<?php echo $title; ?>">
+										<input type="text" class="form-control" required="true" maxlength="50" name="title" id="title" placeholder="Webshop xy" value="<?php echo $title; ?>">
 									</div>
 									<label class="col-sm-12 control-label">Titelbild</label>
 									<img style="max-width: 200px; max-height: 200px; width: auto; height: auto; margin-left: 15px; margin-bottom: 15px;" alt="Kontaktbild" src="../../magento/media/wysiwyg<?php echo $img; ?>"/>
 									<div class="col-sm-12">
 										<input type="file" name="fileToUpload" id="fileToUpload">
 									</div>
-									<label class="col-sm-12 control-label">Über Uns</label>
+									<label class="col-sm-12 control-label" id="aboutUsError">Über Uns</label>
 									<div class="col-sm-12">
-										<textarea rows="10" id="aboutUs"><?php echo $aboutUs; ?></textarea>
+										<textarea rows="10" maxlength="10000" id="aboutUs"><?php echo $aboutUs; ?></textarea>
 									</div>
-									<label class="col-sm-12 control-label">Öffnungszeiten</label>
+									<label class="col-sm-12 control-label" id="openingTimeError">Öffnungszeiten</label>
 									<div class="col-sm-12">
-										<textarea rows="10" id="opening"><?php echo $opening; ?></textarea>
+										<textarea rows="10" id="opening" maxlength="1000"><?php echo $opening; ?></textarea>
 									</div>
 
 									<label class="col-sm-12 control-label">Standort</label>
@@ -350,13 +350,15 @@ function formatPrice($price){
 						<div class="form-group">
 								<label for="inputPickup" class="col-sm-3 control-label">Abholungsort</label>
 								<div class="col-sm-9">
-								  <input type="text" class="form-control" id="inputPickup" placeholder="Abholungsort" maxlength="200" value="<?php echo $pickUp['pickupDestination'];?>">
+									<input type="text" class="form-control" id="inputPickup" placeholder="Abholungsort" maxlength="200" value="<?php echo $pickUp['pickupDestination'];?>">
+									<p class="help-block">Wo kann die Bestellung abgeholt werden. Dieses Feld wird bei der Bestellung angezeit.</p>
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="inputPickupTime" class="col-sm-3 control-label">Abholzeiten</label>
 								<div class="col-sm-9">
 									<textarea class="form-control" rows="3" id="inputPickupTime" maxlength="500" placeholder="Abholzeiten"><?php echo $pickUp['pickupTime']; ?></textarea>
+									<p class="help-block">Zu welchen Zeiten kann die Bestellung abgeholt werden. Dieses Feld wird bei der Bestellung angezeit.</p>
 								</div>
 							</div>
 							<div class="form-group">
@@ -510,10 +512,40 @@ function formatPrice($price){
 		data.append("lat",$("#us2-lat").val());
 		data.append("lon",$("#us2-lon").val());
 
-		if (false) {
-			alert("Please Fill All Fields");
+		title = $("#title").val();
+		aboutUs = $("#aboutUs").val();
+		opening = $("#opening").val();
+		if (title == '') {
+			$("#title").notify("Der Titel der Kontaktseite darf nicht leer sein.", {
+				position: "right",
+				className: "error"
+			});
+		} else if(title.length > 50){
+			$("#title").notify("Der Titel der Kontaktseite darf nicht länger als 50 Zeichen lang sein.", {
+				position: "right",
+				className: "error"
+			});
+		} else if(aboutUs == ''){
+			$("#aboutUsError").notify("Der Über uns Text darf nicht leer sein.", {
+				position: "right",
+				className: "error"
+			});
+		} else if(aboutUs.length > 10000){
+			$("#aboutUsError").notify("Der Über uns Text darf nicht länger als 10'000 Zeichen lang sein.", {
+				position: "right",
+				className: "error"
+			});
+		} else if(opening == ''){
+			$("#openingTimeError").notify("Bitte geben Sie Öffnungszeiten an.", {
+				position: "right",
+				className: "error"
+			});
+		} else if(opening.length > 1000){
+			$("#openingTimeError").notify("Der Öffnungszeiten Text darf nicht länger als 1000 Zeichen lang sein.", {
+				position: "right",
+				className: "error"
+			});
 		} else {
-		// AJAX code to submit form.
 			$.ajax({
 				url: "updateContact.php",
 				type: "POST",
