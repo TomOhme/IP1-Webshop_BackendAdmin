@@ -15,6 +15,8 @@ $soapProduct -> openSoap();
 $settingsSoap = new Settings();
 $settingsSoap -> openSoap();
 
+$pathStart = "../../magento/";
+
 $mysqli->set_charset("utf8");
 $select = "SELECT `content` FROM `cms_page` WHERE `identifier`= 'ueber-uns'; ";
 $result = $mysqli->query($select);
@@ -90,14 +92,15 @@ if(isset($_POST['shopname']))
 
 if(isset($_POST['contactFooter']))
 {
-	
-	$split = explode("\\r\\n", $_POST['contactFooter']);
+	/*
+	$split = explode("\r\n", $_POST['contactFooter']);
 		
 	$content = "<div class=\"links\">";
 	$content .= "<div class=\"block-title\" style=\"text-align: left;\"><strong><span>Kontakt</span></strong></div>";
+	
 	for($i = 0 ; $i < count($split) ; $i++)
 	{
-		$content .= "<p style=\"text-align: left;\"> ";
+		$content .= "<p style=\"text-align: left;\">";
 		$content .= $split[$i];
 		$content .= "</p>";
 	}
@@ -106,16 +109,15 @@ if(isset($_POST['contactFooter']))
 	
 	$identifier = "footer_contact";
 	
-	$stmt = $mysqli->prepare("UPDATE cms_block SET name=? WHERE identifier=?");
-	$stmt->bind_param('ss',$shopName, $identifier);
+	$stmt = $mysqli->prepare("UPDATE cms_block SET content=? WHERE identifier=?");
+	$stmt->bind_param('ss',$content, $identifier);
 	$stmt->execute();
 	$stmt->close();
 	
-	/*
+	*/
 	$contactFooter = $_POST["contactFooter"];
 	
 	$settingsSoap->setContact($contactFooter);
-	*/
 }
 
 function formatDiscount($discount){
@@ -124,6 +126,12 @@ function formatDiscount($discount){
 function formatPrice($price){
 	return "Fr. " . number_format($price, 2, ',', "'");
 }
+
+if(isset($_POST['submit']))
+{
+	$settingsSoap -> cleanCache($pathStart);
+}
+
 ?>
 
 <!-- include summernote css/js-->
@@ -495,11 +503,11 @@ function formatPrice($price){
 
 	function updateContact() {
 		var data = new FormData();
-        jQuery.each(jQuery('#fileToUpload')[0].files, function(i, file) {
-            data.append('file-'+i, file);
-        });
-        data.append("title",$("#title").val());
-        data.append("aboutUs",$("#aboutUs").val());
+		jQuery.each(jQuery('#fileToUpload')[0].files, function(i, file) {
+			data.append('file-'+i, file);
+		});
+		data.append("title",$("#title").val());
+		data.append("aboutUs",$("#aboutUs").val());
 		data.append("opening",$("#opening").val());
 		data.append("lat",$("#us2-lat").val());
 		data.append("lon",$("#us2-lon").val());
@@ -562,6 +570,7 @@ function formatPrice($price){
 		var capcha = $("#capchaActiv").is(':checked');
 
 		var data = new FormData();
+		data.append('submit', 'submitted');
 		data.append('contactFooter', contentContact);
 		data.append('shopname', contentShopname);
 		data.append('capcha', capcha);
