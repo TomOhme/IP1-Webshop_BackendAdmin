@@ -58,6 +58,7 @@ class Settings
      */
     public function setShopname($shopName)
     {
+        $this->mysqli->set_charset("utf8");
         $stmt = $this -> mysqli->prepare("UPDATE store_title SET name=? WHERE 1");
         $stmt->bind_param('s',$shopName);
         $stmt->execute();
@@ -71,8 +72,9 @@ class Settings
     public function getContact()
     {
         $contact = "";
-
+        
         $select2 = "SELECT `content` FROM `cms_block` WHERE `identifier` = 'footer_contact';";
+        $this->mysqli->set_charset("utf8");
         $result2 = $this->mysqli->query($select2);
         $row2 = mysqli_fetch_assoc($result2);
 
@@ -116,7 +118,7 @@ class Settings
      * Set the content from the contact block in footer
      * @param $contactContent
      */
-    public function setContent($contactContent)
+    public function setContact($contactContent)
     {
         /*
         <div class="links">
