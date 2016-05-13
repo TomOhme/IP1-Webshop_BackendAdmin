@@ -206,14 +206,11 @@ function formatAmount($amount){
                             </div>
                         </div>
 
-                        <!-- Anzahl Input -->
+                        <!-- Einheit Input -->
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Anzahl / Einheit</label>
-                            <div class="col-sm-3">
-                                <input id="article_update_amount" type="number" min="0" max="10000000" class="form-control required" name="stock" value="" placeholder="Anzahl" data-bv-field="stock" min="0">
-                            </div>
+                            <label class="col-sm-3 control-label">Einheit</label>
                             <!-- Einheit Input -->
-                            <div class="col-sm-3">
+                            <div class="col-sm-6">
                                 <input id="article_update_unit" type="text" class="form-control required" maxlength="50" name="unit" value="" placeholder="Einheit" data-bv-field="unit">
                                 <!--<select name="unit" id="unit" class="form-control">
                                     <option value="Stueck">St&uuml;ck</option>
@@ -224,31 +221,45 @@ function formatAmount($amount){
                             </div>
                         </div>
 
+                        <!-- Anzahl Input -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Lagerbestand</label>
+                            <div class="col-sm-6">
+                                <input id="article_update_amount" type="number" min="0" max="10000000" class="form-control required" name="stock" value="" placeholder="Lagerbestand" data-bv-field="stock" min="0">
+                            </div>
+                        </div>
+
                         <!-- Preis Input -->
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Preis</label>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6" style="margin-right: -20px">
                                 <div class="input-group">
                                     <div class="input-group-addon">CHF</div>
                                     <input id="article_update_price" type="number" min="0" max="10000000" step="0.05" class="form-control required" name="price" value="" placeholder="Preis" data-bv-field="price" min="0">
                                 </div>
+                            </div>
+                            <div>
+                                <label class="col-sm-3 control-label" style="padding-right: 60px; font-weight: normal;">pro Einheit</label>
                             </div>
                         </div>
 
                         <!-- Spezial Preis Input -->
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Spezial Preis</label>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6" style="margin-right: -20px">
                                 <div class="input-group">
                                     <div class="input-group-addon">CHF</div>
                                     <input id="article_update_specialPrice" type="number" min="0" max="10000000" step="0.05" class="form-control" name="specialPrice" value="" placeholder="Spezial Preis (optional)" data-bv-field="price" min="0">
                                 </div>
                             </div>
+                            <div>
+                                <label class="col-sm-3 control-label" style="padding-right: 60px; font-weight: normal;">pro Einheit</label>
+                            </div>
                         </div>
 
                         <!-- Spezial Preis From Date -->
                         <div class="form-group">
-                            <label class="col-sm-3 control-label"></label>
+                            <label id="article_update_specialDateLabel" class="col-sm-3 control-label" style="font-weight: normal;">G&uuml;ltig (von/bis)</label>
                             <div class='col-md-5' style="padding-left: 30px;">
                                 <div class="form-group">
                                     <div class='input-group date' id='datetimepickerFrom'>
@@ -561,11 +572,13 @@ function formatAmount($amount){
         function showDatetimepicker() {
             $('#datetimepickerFrom').show();
             $('#datetimepickerTo').show();
+            $('#article_update_specialDateLabel').show();
         }
 
         function hideDatetimepicker() {
             $('#datetimepickerFrom').hide();
             $('#datetimepickerTo').hide();
+            $('#article_update_specialDateLabel').hide();
         }
 
         function checkSpecialPrice() {
