@@ -64,15 +64,15 @@ if (isset($_POST['productId']) && $_POST['product'] == 'updateProduct') {
         $product = end($newProducts);
         $productId = $product['product_id'];
     }
-    //return update product or last product id
+    //return update product id or last product id from create product
     echo json_encode(array('id' => $productId));
 
 } else if (!empty($_FILES)) {
     //upload image
-    $nameType = explode(".", $_FILES['file']['name']);
+    //base64_encode(file_get_contents()
     $filename = $_FILES['file']['name'];
-    $mime = $nameType[1];
-    $name = $nameType[0];
+    $mime = $_FILES['file']['type'];
+    $name = $_FILES['file']['name'];
     $productId = $_POST['id'];
     $soapProduct->createProductImage($filename, $mime, $name, $productId);
 }
