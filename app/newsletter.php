@@ -6,7 +6,7 @@
  * Time: 13:10
  */
 session_start();
-include("../api/dbconnect.php");
+require_once("../api/dbconnect.php");
 ?>
 
 <!-- include summernote css/js-->

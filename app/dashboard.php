@@ -12,10 +12,10 @@ if(!isset($_SESSION['username'])) {
     return header('Location: index.php');
 }
 
-include("../api/product.php");
-include("../api/ProductGroup.php");
-include("../api/orders.php");
-include("../api/users.php");
+require_once("../api/product.php");
+require_once("../api/ProductGroup.php");
+require_once("../api/orders.php");
+require_once("../api/users.php");
 
 $soapProduct = new Product();
 $soapProduct -> openSoap();

@@ -497,7 +497,6 @@ if(isset($_POST['submit']))
 	</div><!-- /.modal -->
 
 <script type="text/javascript">
-
 	$(document).ready(function() {
 		$('#opening').summernote({
 			toolbar: [

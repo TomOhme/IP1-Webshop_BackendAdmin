@@ -6,7 +6,7 @@
  * Time: 17:11
  */
 
-include('../vendor/autoload.php');
+require_once('../vendor/autoload.php');
 use Magento\Client\Xmlrpc\MagentoXmlrpcClient;
 
 class user
@@ -16,9 +16,9 @@ class user
     public function __construct()
     {
         if(file_exists("../config.php")){
-            include("../config.php");
+            require_once("../config.php");
         } else{
-            include("./config.php");
+            require_once("./config.php");
         }
     }
 

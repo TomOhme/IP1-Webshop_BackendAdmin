@@ -4,9 +4,9 @@
  * Date: 16.4.16
  * Purpose: Handle excel file upload
  */
-include("ProductGroup.php");
-include("product.php");
-include("../vendor/autoload.php");
+require_once("ProductGroup.php");
+require_once("product.php");
+require_once("../vendor/autoload.php");
 
 class SampleReadFilter implements PHPExcel_Reader_IReadFilter {
     public function readCell($column, $row, $worksheetName = '') {
