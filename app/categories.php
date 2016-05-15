@@ -6,7 +6,7 @@
  * Time: 15:36
  */
 
-include("../api/ProductGroup.php");
+require_once("../api/ProductGroup.php");
 
 session_start();
 

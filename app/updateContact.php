@@ -5,7 +5,7 @@
  * Date: 01.05.2016
  * Time: 11:15
  */
-include("../config.php");
+require_once("../config.php");
 $filename = "../img/filler.png";
 if(isset($_FILES["file-0"])){
     $filename = uploadImg($_FILES["file-0"]);

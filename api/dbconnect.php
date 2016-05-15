@@ -1,5 +1,5 @@
 <?php
-include("../config.php");
+require_once("../config.php");
 
 //Verbindungseinstellungen für die Datebank
 $mysqli = new mysqli("localhost", DBUSER, DBPWD, "magento");

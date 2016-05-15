@@ -7,9 +7,9 @@
  */
 
 if(file_exists("../vendor/autoload.php")){
-    include('../vendor/autoload.php');
+    require_once('../vendor/autoload.php');
 }else{
-    include('./vendor/autoload.php');
+    require_once('./vendor/autoload.php');
 }
 use Magento\Client\Xmlrpc\MagentoXmlrpcClient;
 
@@ -20,9 +20,9 @@ class Productgroup {
     public function __construct()
     {
         if(file_exists("../config.php")){
-            include("../config.php");
+            require_once("../config.php");
         } else{
-            include("./config.php");
+            require_once("./config.php");
         }
         $this->mysqli = new mysqli("localhost",  DBUSER,  DBPWD, "magento");
     }

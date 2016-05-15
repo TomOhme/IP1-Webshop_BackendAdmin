@@ -5,7 +5,7 @@
  * Date: 07.04.2016
  * Time: 15:38
  */
-include("../api/orders.php");
+require_once("../api/orders.php");
 
 session_start();
 

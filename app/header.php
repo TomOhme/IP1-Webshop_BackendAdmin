@@ -35,8 +35,6 @@ session_start();
     <script src="../js/jquery.dataTables.js"></script>
     <script src="../js/dataTables.bootstrap.js"></script>
     <script src="../js/moment-with-locales.min.js"></script>
-    <script type="text/javascript" src='http://maps.google.com/maps/api/js?sensor=false&libraries=places'></script>
-    <script type="text/javascript" src="../plugins/jquery-locationpicker/src/locationpicker.jquery.js"></script>
     <script src="../js/transition.js"></script>
     <script src="../js/collapse.js"></script>
     <script src="../js/bootstrap.min.js"></script>
@@ -52,5 +50,7 @@ session_start();
     <meta name="apple-mobile-web-app-title" content="EasyAdmin">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <script type="text/javascript" src='http://maps.google.com/maps/api/js?sensor=false&libraries=places'></script>
+    <script type="text/javascript" src="../plugins/jquery-locationpicker/src/locationpicker.jquery.js"></script>
     <style>html{ -webkit-text-size-adjust: 100%;}</style>
 </head>

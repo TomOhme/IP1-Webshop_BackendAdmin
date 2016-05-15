@@ -5,7 +5,7 @@
  * Date: 22.04.2016
  * Time: 20:44
  */
-include("../api/users.php");
+require_once("../api/users.php");
 
 session_start();
 

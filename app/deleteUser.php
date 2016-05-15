@@ -6,7 +6,7 @@
  * Time: 16:38
  */
 //echo "hi ich bin in deleteUser";
-include("../api/users.php");
+require_once("../api/users.php");
 
 $soap = new User();
 $soap -> openSoap();
