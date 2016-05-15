@@ -131,7 +131,7 @@ class Design
      * @param $logoJumb "logo" or "jumbotron"
      * @return string errormsg
      */
-    public function updatePicture($img, $imgPath, $fileName, $pathStart, $time, $logoJumb)
+    public function updatePicture($img, $imgPath, $fileName, $pathStart)
     {
         $target_file = $imgPath . basename($img['name']);
 
@@ -156,22 +156,32 @@ class Design
             return $errorMsg = "Das Bild ist zu gross";
         }
         
-        if($logoJumb == "logo")
+        if($fileName == "logo")
         {
-            $imgFilePath = "images/" . $fileName . $time . ".png";
-            
+            $imgFilePath = "images/" . $fileName . ".png";
+            /*
             $path = "design/header/logo_src";
             
             $stmt = $this -> mysqli->prepare("UPDATE core_config_data SET value=? WHERE path =?");
             $stmt->bind_param('ss',$imgFilePath, $path);
             $stmt->execute();
             $stmt->close();
-            
-            $imgFilePath = $imgPath . $fileName . $time . ".png";
+            */
+            $imgFilePath = $imgPath . $fileName . ".png";
+
+            foreach (glob($pathStart . "magento/" . $imgPath . $fileName) as $file)
+            {
+                unlink ($file);
+            }
+
+            // TODO Set email logo header. move file to magento/media/email/logo/default/logo.png
+            // TODO Remove Update DB and just replace image file in magento/skin/frontend/webshop/default/images/logo.png
+
+            copy($img['tmp_name'], "magento/media/email/logo/default" . $fileName);
         }
-        else if($logoJumb == "jumbotron")
+        else if($fileName == "jumbotron")
         {
-            $imgFilePath = $imgPath . $fileName . $time . ".png";
+            $imgFilePath = $imgPath . $fileName . ".png";
             
             /*
                 <div class="page-title">
@@ -181,7 +191,7 @@ class Design
                 </div>
             */
             
-            $content = "<div class=\"page-title\"><h2>Home Page</h2><p><img src=\"{{media url=\"wysiwyg/" . $fileName . $time . ".png }}\" /></p> <p>{{widget type=\"catalog/product_widget_new\" display_type=\"all_products\" products_count=\"4\" template=\"catalog/product/widget/new/content/new_grid.phtml\"}}</p></div>";
+            $content = "<div class=\"page-title\"><h2>Home Page</h2><p><img src=\"{{media url=\"wysiwyg/" . $fileName . ".png }}\" /></p> <p>{{widget type=\"catalog/product_widget_new\" display_type=\"all_products\" products_count=\"4\" template=\"catalog/product/widget/new/content/new_grid.phtml\"}}</p></div>";
             
             $title = "home";
             
@@ -195,7 +205,12 @@ class Design
             $stmt -> execute();
             $stmt -> close();
         }
-        
+
+        foreach (glob($pathStart . "magento/" . $imgPath . $fileName) as $file)
+        {
+            unlink ($file);
+        }
+
         move_uploaded_file($img['tmp_name'], $pathStart . "magento/" . $imgFilePath);
     }
 

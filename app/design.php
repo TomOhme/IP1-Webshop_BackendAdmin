@@ -32,7 +32,7 @@ if(isset($_POST["submit"]))
         $target_dir = "skin/frontend/webshop/default/images/";
         $target_img = $_FILES['file-0'];
 
-        $errorMsg = $dbDesign -> updatePicture($target_img, $target_dir, "logo_bh_", $pathStart, $time, "logo");
+        $errorMsg = $dbDesign -> updatePicture($target_img, $target_dir, "logo", $pathStart);
     }
 
     if(!empty($imgJumbotron))
@@ -40,7 +40,7 @@ if(isset($_POST["submit"]))
         $target_dir = "media/wysiwyg/";
         $target_img = $_FILES['file-1'];
 
-        $errorMsg = $dbDesign -> updatePicture($target_img, $target_dir, "jumbotron_", $pathStart, $time, "jumbotron");
+        $errorMsg = $dbDesign -> updatePicture($target_img, $target_dir, "jumbotron", $pathStart);
     }
     $color = $_POST["color"];
 
