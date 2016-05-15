@@ -42,9 +42,7 @@ class Settings
      * @return shopname
      */
     public function getShopName()
-    {
-        // UPDATE  `magento`.`core_store_group` SET  `name` =  'Hallo Norina' WHERE  `core_store_group`.`group_id` =1;
-        
+    {     
         $this->mysqli->set_charset("utf8");
         
         $query = "SELECT name FROM core_store_group WHERE website_id = 1";
@@ -84,18 +82,7 @@ class Settings
         $stmt->bind_result($result);
         $stmt->fetch();
         $stmt->close();
-        
-        /*
-        $this->mysqli->set_charset("utf8");
-        $select2 = "SELECT `content` FROM `cms_block` WHERE `identifier` = 'footer_contact';";
-        
-        $result2 = $this->mysqli->query($select2);
-        $row2 = mysqli_fetch_assoc($result2);
-        
-        
-        $str= $row2["content"];
-        
-        */
+
         $doc = new DOMDocument();
         $doc->loadHTML($result);
         foreach($doc->getElementsByTagName('p') as $para) {
@@ -105,32 +92,7 @@ class Settings
 
         return $contact;
     }
-
-    /**
-    * returns the actual capcha state
-    * @return boolean
-    */
-    public function getCapchaState(){
-        $result = $this->mysqli->query("SELECT value FROM magento.core_config_data WHERE path LIKE 'customer/captcha/enable';");
-        $state = $result->fetch_all();
-        if($state[0][0] == "1"){
-            return true;
-        }
-        return false;
-    }
-
-    /**
-    * sets capcha state
-    * @param boolean
-    */
-    public function setCapchaState($state){
-        $value = 0;
-        if($state == "true"){
-            $value = 1;
-        }
-        $this->mysqli->query("UPDATE magento.core_config_data SET value=$value WHERE path LIKE 'customer/captcha/enable';");
-    }
-
+    
     /**
      * Set the content from the contact block in footer
      * @param $contactContent
@@ -158,6 +120,180 @@ class Settings
         $stmt->bind_param('ss',$content, $identifier);
         $stmt->execute();
         $stmt->close();
+    }
+
+    /**
+     * Get the phone number from database
+     * @return Phone number
+     */
+    public function getPhone()
+    {
+        $path = "general/store_information/phone";
+                     
+        $stmt = $this -> mysqli -> prepare("SELECT value FROM core_config_data WHERE path =?");
+        $stmt -> bind_param('s', $path);
+        $stmt->bind_result($result);
+        $stmt->fetch();
+        $stmt->close();
+        
+        return $result;
+    }
+
+    /**
+     * Set the phone number in the databse
+     * @param $phoneNr
+     */
+    public function setPhone($phoneNr)
+    {
+        $path = "general/store_information/phone";
+        
+        $stmt = $this -> mysqli -> prepare("UPDATE core_config_data SET value =? WHERE path =?");
+        $stmt -> bind_param('ss', $phoneNr, $path);
+        $stmt -> execute();
+        $stmt -> close();
+    }
+
+    /**
+     * Get the email sender from the database
+     * @return email sender
+     */
+    public function getEmailSender()
+    {
+        $path = "trans_email/ident_general/name";
+        
+        $stmt = $this -> mysqli -> prepare("SELECT value FROM core_config_data WHERE path =?");
+        $stmt -> bind_param('s', $path);
+        $stmt -> bind_result($result);
+        $stmt -> fetch();
+        $stmt -> close();
+        
+        return $result;
+    }
+
+    /**
+     * Set the email sender in the database
+     * @param $emailSender
+     */
+    public function setEmailSender($emailSender)
+    {        
+        $path = "trans_email/ident_general/name";
+        
+        $stmt = $this -> mysqli -> prepare("UPDATE core_config_data SET value =? WHERE path =?");
+        $stmt -> bind_param('ss', $emailSender, $path);
+        $stmt -> execute();
+        $stmt -> close();
+        
+        $path = "trans_email/ident_sales/name";
+        
+        $stmt = $this -> mysqli -> prepare("UPDATE core_config_data SET value =? WHERE path =?");
+        $stmt -> bind_param('ss', $emailSender, $path);
+        $stmt -> execute();
+        $stmt -> close();
+        
+        $path = "trans_email/ident_support/name";
+        
+        $stmt = $this -> mysqli -> prepare("UPDATE core_config_data SET value =? WHERE path =?");
+        $stmt -> bind_param('ss', $emailSender, $path);
+        $stmt -> execute();
+        $stmt -> close();
+        
+        $path = "trans_email/ident_custom1/name";
+        
+        $stmt = $this -> mysqli -> prepare("UPDATE core_config_data SET value =? WHERE path =?");
+        $stmt -> bind_param('ss', $emailSender, $path);
+        $stmt -> execute();
+        $stmt -> close();
+        
+        $path = "trans_email/ident_custom2/name";
+        
+        $stmt = $this -> mysqli -> prepare("UPDATE core_config_data SET value =? WHERE path =?");
+        $stmt -> bind_param('ss', $emailSender, $path);
+        $stmt -> execute();
+        $stmt -> close();
+    }
+
+    /**
+     * Get the email from the database
+     * @return email
+     */
+    public function getEmail()
+    {
+        $path = "trans_email/ident_general/email";
+        
+        $stmt = $this -> mysqli -> prepare("SELECT value FROM core_config_data WHERE path =?");
+        $stmt -> bind_param('s', $path);
+        $stmt -> bind_result($result);
+        $stmt -> fetch();
+        $stmt -> close();
+        
+        return $result;
+    }
+
+    /**
+     * Set the email in the database
+     * @param $email
+     */
+    public function setEmail($email)
+    {        
+        $path = "trans_email/ident_general/email";
+        
+        $stmt = $this -> mysqli -> prepare("UPDATE core_config_data SET value =? WHERE path =?");
+        $stmt -> bind_param('ss', $email, $path);
+        $stmt -> execute();
+        $stmt -> close();
+        
+        $path = "trans_email/ident_sales/email";
+        
+        $stmt = $this -> mysqli -> prepare("UPDATE core_config_data SET value =? WHERE path =?");
+        $stmt -> bind_param('ss', $email, $path);
+        $stmt -> execute();
+        $stmt -> close();
+        
+        $path = "trans_email/ident_support/email";
+        
+        $stmt = $this -> mysqli -> prepare("UPDATE core_config_data SET value =? WHERE path =?");
+        $stmt -> bind_param('ss', $email, $path);
+        $stmt -> execute();
+        $stmt -> close();
+        
+        $path = "trans_email/ident_custom1/email";
+        
+        $stmt = $this -> mysqli -> prepare("UPDATE core_config_data SET value =? WHERE path =?");
+        $stmt -> bind_param('ss', $email, $path);
+        $stmt -> execute();
+        $stmt -> close();
+        
+        $path = "trans_email/ident_custom2/email";
+        
+        $stmt = $this -> mysqli -> prepare("UPDATE core_config_data SET value =? WHERE path =?");
+        $stmt -> bind_param('ss', $email, $path);
+        $stmt -> execute();
+        $stmt -> close();
+    }
+
+    /**
+    * returns the actual capcha state
+    * @return boolean
+    */
+    public function getCapchaState(){
+        $result = $this->mysqli->query("SELECT value FROM magento.core_config_data WHERE path LIKE 'customer/captcha/enable';");
+        $state = $result->fetch_all();
+        if($state[0][0] == "1"){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+    * sets capcha state
+    * @param boolean
+    */
+    public function setCapchaState($state){
+        $value = 0;
+        if($state == "true"){
+            $value = 1;
+        }
+        $this->mysqli->query("UPDATE magento.core_config_data SET value=$value WHERE path LIKE 'customer/captcha/enable';");
     }
     
     /**

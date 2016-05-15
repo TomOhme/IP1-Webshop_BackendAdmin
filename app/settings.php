@@ -35,6 +35,12 @@ $contact = $settingsSoap->getContact();
 
 $info = $settingsSoap->getShopName();
 
+$phone = $settingsSoap -> getPhone();
+
+$emailSender = $settingsSoap -> getEmailSender();
+
+$email = $settingsSoap -> getEmail();
+
 $capchaState = $settingsSoap->getCapchaState();
 
 if(isset($_POST['updateDiscount'])){
@@ -92,32 +98,23 @@ if(isset($_POST['shopname']))
 
 if(isset($_POST['contactFooter']))
 {
-	/*
-	$split = explode("\r\n", $_POST['contactFooter']);
-		
-	$content = "<div class=\"links\">";
-	$content .= "<div class=\"block-title\" style=\"text-align: left;\"><strong><span>Kontakt</span></strong></div>";
-	
-	for($i = 0 ; $i < count($split) ; $i++)
-	{
-		$content .= "<p style=\"text-align: left;\">";
-		$content .= $split[$i];
-		$content .= "</p>";
-	}
-	
-	$content .= "</div>";
-	
-	$identifier = "footer_contact";
-	
-	$stmt = $mysqli->prepare("UPDATE cms_block SET content=? WHERE identifier=?");
-	$stmt->bind_param('ss',$content, $identifier);
-	$stmt->execute();
-	$stmt->close();
-	
-	*/
 	$contactFooter = $_POST["contactFooter"];
 	
 	$settingsSoap->setContact($contactFooter);
+}
+
+if(isset($_POST['emailSender']))
+{
+	$emailSender = $_POST['emailSender'];
+	
+	$settingsSoap -> setEmailSender($emailSender);
+}
+
+if(isset($_POST['email']))
+{
+	$email = $_POST['email'];
+	
+	$settingsSoap -> setEmail($email);
 }
 
 function formatDiscount($discount){
@@ -173,6 +170,31 @@ if(isset($_POST['submit']))
 										<p class="help-block">Mit diesem Feld k&ouml;nnen Sie Ihre Adresse in der Fusszeile Ihres Webshops ver&auml;ndern.</p>
 									</div>
 								</div>
+								
+								<div class="col-md-6">
+									<label class="col-sm-12 control-label">Telefon Nr.</label>
+									<div class="col-sm-12">
+										<input type="text" required="true" maxlength="50" class="form-control" id="telefonnr" value="<?php echo $phone ?>">
+										<p class="help-block">Mit diesem Feld k&ouml;nnen Sie Ihre Telefonnummer angeben, welches in den E-Mails angezeigt wird.</p>
+									</div>
+								</div>
+								<div class="col-md-6" style="margin-bottom: 94px;">
+								</div>
+								<div class="col-md-6">
+									<label class="col-sm-12 control-label">E-Mail Absendername</label>
+									<div class="col-sm-12">
+										<input type="text" required="true" maxlength="50" class="form-control" id="emailSender" value="<?php echo $emailSender ?>">
+										<p class="help-block">Mit diesem Feld k&ouml;nnen Sie Ihren Namen angeben, welches als Absender angezeigt wird.</p>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<label class="col-sm-12 control-label">E-Mail</label>
+									<div class="col-sm-12">
+										<input type="text" required="true" maxlength="50" class="form-control" id="email" value="<?php echo $email ?>">
+										<p class="help-block">Mit diesem Feld k&ouml;nnen Sie Ihre E-Mail angeben, welches in den E-Mails angezeigt wird.</p>
+									</div>
+								</div>
+								
 								<div class="col-md-3">
 									<div class="checkbox">
 										<label>
@@ -567,12 +589,16 @@ if(isset($_POST['submit']))
 		var title = "Kontakt";
 		var contentContact = document.getElementById("contact").value;
 		var contentShopname = document.getElementById("shopname").value;
+		var emailSender = document.getElementById("emailSender").value;
+		var email = document.getElementById("email").value;
 		var capcha = $("#capchaActiv").is(':checked');
 
 		var data = new FormData();
 		data.append('submit', 'submitted');
 		data.append('contactFooter', contentContact);
 		data.append('shopname', contentShopname);
+		data.append('emailSender', emailSender);
+		data.append('email', email);
 		data.append('capcha', capcha);
 
 		if(contentContact == '') {
