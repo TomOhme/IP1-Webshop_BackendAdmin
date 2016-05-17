@@ -181,14 +181,14 @@ function formatAmount($amount){
                             <div class="col-sm-6">
                                 <?php $categories = $soapProductGroup->getTree(); ?>
                                 <select multiple="multiple" name="category" id="category" class="form-control required">
-                                    <?php getNextSubCategoryDropdown($categories); ?>
+                                    <?php getNextCategoryDropdown($categories); ?>
                                     <?php
-                                    function getNextSubCategoryDropdown($category) {
+                                    function getNextCategoryDropdown($category) {
                                         if ($category['children'] != null) {
                                             foreach ($category['children'] as $subCategory) { ?>
                                                 <option value="<?php echo $subCategory['category_id']; ?>"> <?php echo $subCategory['name']; ?> </option> <!-- TODO indent sub categories -->
                                                 <?php if ($subCategory['children'] != null) {
-                                                    getNextSubCategoryDropdown($subCategory);
+                                                    getNextCategoryDropdown($subCategory);
                                                     ?>
                                                 <?php }
                                             }
@@ -677,14 +677,14 @@ function formatAmount($amount){
             });
         });
 
-        Dropzone.options.picture = {
+        Dropzone.options.myDropzone = {
             maxFiles: 1,
             maxFilesize: 10, //mb
             acceptedFiles: 'image/*',
             addRemoveLinks: true,
             autoProcessQueue: false,// used for stopping auto processing uploads
             autoDiscover: false,
-            paramName: 'prod_pic',
+            //paramName: 'prod_pic',
             previewsContainer: '#dropzonePreview', //used for specifying the previews div
             clickable: false, //used this but now i cannot click on previews div to showup the file select dialog box
 

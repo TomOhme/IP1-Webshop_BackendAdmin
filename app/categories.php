@@ -51,23 +51,26 @@ if(isset($_POST['productData']) && isset($_POST['categoryDelete'])){
                                 $tabs = '';
                             ?>
                             <select name="categoryId" id="categoryId" class="form-control">
-                                <option value="2"></option> <!-- value 2 for default category -->
-                                <?php getNextSubCategoryDropdown($categories, $tabs); ?>
+                                <option value="2">-</option> <!-- value 2 for default category -->
                                 <?php
-                                function getNextSubCategoryDropdown($category, $tabs) {
-                                    if ($category['children'] != null) {
-                                        foreach ($category['children'] as $subCategory) { ?>
-                                            <option value="<?php echo $subCategory['category_id']; ?>"> <?php echo $tabs . $subCategory['name']; ?> </option> <!-- TODO indent sub categories -->
-                                            <?php if ($subCategory['children'] != null) {
-                                                $tabs .= '&nbsp;&nbsp;&nbsp;&nbsp;';
-                                                getNextSubCategoryDropdown($subCategory, $tabs);
-                                                ?>
-                                            <?php } else {
-                                                $tabs = '';
+                                    getNextCategoryDropdown($categories, $tabs);
+                                ?>
+                                <?php
+                                    function getNextCategoryDropdown($category, $tabs) {
+                                        if ($category['children'] != null) {
+                                            foreach ($category['children'] as $subCategory) { ?>
+                                                <option value="<?php echo $subCategory['category_id']; ?>"> <?php echo $tabs . $subCategory['name']; ?> </option> <!-- TODO indent sub categories -->
+                                                <?php
+                                                if ($subCategory['children'] != null) {
+                                                    $tabs .= '&nbsp;&nbsp;&nbsp;&nbsp;';
+                                                    getNextCategoryDropdown($subCategory, $tabs);
+                                                } else {
+                                                    $tabs = '';
+                                                }
                                             }
                                         }
                                     }
-                                } ?>
+                                ?>
                             </select>
                         </div>
                     </div>
@@ -84,32 +87,42 @@ if(isset($_POST['productData']) && isset($_POST['categoryDelete'])){
         <div id="right">
             <div class="tree well">
                 <ul>
-                    <?php $categories = $soapProductGroup->getTree();
-                          foreach($categories['children'] as $category) { ?>
-                                <li><span id="<?php echo $category['category_id'];?>"><i class="icon-folder-open"></i><?php echo $category['name']; ?></span>
-                                <?php getNextSubCategory($category); ?>
-                                </li>
-                    <?php } ?>
                     <?php
-                        function getNextSubCategory($category) {
+                        $categories = $soapProductGroup->getTree();
+                        getMainCategory($categories);
+                    ?>
+                    <?php
+                        function getMainCategory($categories) {
+                            foreach ($categories['children'] as $category) { ?>
+                                <li>
+                                    <span id="<?php echo $category['category_id']; ?>"><i class="icon-folder-open"></i><?php echo $category['name']; ?></span>
+                                    <?php getSubCategory($category); ?>
+                                </li>
+                                <?php
+                            }
+                        }
+                    ?>
+
+                    <?php
+                        function getSubCategory($category) {
                             if ($category['children'] != null) {
                                 $numItems = count($category['children']);
                                 $i = 0;
                                 foreach ($category['children'] as $subCategory) {
-                                    if (++$i === $numItems) { ?>
+                                    if (++$i !== $numItems) { ?>
                                         <ul>
-                                            <li><span id="<?php echo $subCategory['category_id']; ?>"><i class="icon-leaf"></i> <?php echo $subCategory['name']; ?></span>
+                                            <li><span id="<?php echo $subCategory['category_id']; ?>"><i class="icon-minus-sign"></i> <?php echo $subCategory['name']; ?></span>
                                                 <?php if ($subCategory['children'] != null) {
-                                                    getNextSubCategory($subCategory);
+                                                    getSubCategory($subCategory);
                                                 }
                                                 ?>
                                             </li>
                                         </ul>
                                     <?php } else { ?>
                                         <ul>
-                                            <li><span id="<?php echo $subCategory['category_id']; ?>"><i class="icon-minus-sign"></i> <?php echo $subCategory['name']; ?></span>
+                                            <li><span id="<?php echo $subCategory['category_id']; ?>"><i class="icon-leaf"></i> <?php echo $subCategory['name']; ?></span>
                                                 <?php if ($subCategory['children'] != null) {
-                                                    getNextSubCategory($subCategory);
+                                                    getSubCategory($subCategory);
                                                 }
                                                 ?>
                                             </li>
@@ -121,6 +134,62 @@ if(isset($_POST['productData']) && isset($_POST['categoryDelete'])){
                     ?>
                 </ul>
             </div>
+            <!--<li> example https://jsfiddle.net/jhfrench/GpdgF/
+ -                        <span><i class="icon-folder-open"></i> Parent</span>
+ -                        <ul>
+ -                            <li>
+ -                                <span><i class="icon-minus-sign"></i> Child</span>
+ -                                <ul>
+ -                                    <li>
+ -                                        <span><i class="icon-leaf"></i> Grand Child</span>
+ -                                    </li>
+ -                                </ul>
+ -                            </li>
+ -                            <li>
+ -                                <span><i class="icon-minus-sign"></i> Child</span>
+ -                                <ul>
+ -                                    <li>
+ -                                        <span><i class="icon-leaf"></i> Grand Child</span>
+ -                                    </li>
+ -                                    <li>
+ -                                        <span><i class="icon-minus-sign"></i> Grand Child</span>
+ -                                        <ul>
+ -                                            <li>
+ -                                                <span><i class="icon-minus-sign"></i> Great Grand Child</span>
+ -                                                <ul>
+ -                                                    <li>
+ -                                                        <span><i class="icon-leaf"></i> Great great Grand Child</span>
+ -                                                    </li>
+ -                                                    <li>
+ -                                                        <span><i class="icon-leaf"></i> Great great Grand Child</span>
+ -                                                    </li>
+ -                                                </ul>
+ -                                            </li>
+ -                                            <li>
+ -                                                <span><i class="icon-leaf"></i> Great Grand Child</span>
+ -                                            </li>
+ -                                            <li>
+ -                                                <span><i class="icon-leaf"></i> Great Grand Child</span>
+ -                                            </li>
+ -                                        </ul>
+ -                                    </li>
+ -                                    <li>
+ -                                        <span><i class="icon-leaf"></i> Grand Child</span>
+ -                                    </li>
+ -                                </ul>
+ -                            </li>
+ -                        </ul>
+ -                    </li>
+ -                    <li>
+ -                        <span><i class="icon-folder-open"></i> Parent2</span>
+ -                        <ul>
+ -                            <li>
+ -                                <span><i class="icon-leaf"></i> Child</span>
+ -                            </li>
+ -                        </ul>
+ -                    </li>
+ -                </ul>
+ -            </div>-->
         </div>
 
     </div>
