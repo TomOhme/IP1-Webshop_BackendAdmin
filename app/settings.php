@@ -229,9 +229,9 @@ if(isset($_POST['submit']))
 								<label for="title">Titel der Kontaktseite</label>
 								<input type="text" class="form-control" required="true" maxlength="50" name="title" id="title" placeholder="Webshop xy" value="<?php echo $title; ?>">
 							</div>
-							<div class="form-group">
+							<div class="form-group img1">
 								<label>Titelbild</label><br></br>
-								<img style="max-width: 200px; max-height: 200px; width: auto; height: auto; margin-left: 15px; margin-bottom: 15px;" alt="Kontaktbild" src="../../magento/media/wysiwyg<?php echo $img; ?>"/>
+								<img style="max-width: 200px; max-height: 200px; width: auto; height: auto; margin-left: 15px; margin-bottom: 15px;" alt="Kontaktbild" src="../../media/wysiwyg<?php echo $img; ?>"/>
 								<input type="file" name="fileToUpload" id="fileToUpload">
 							</div>
 							<div class="form-group">
@@ -522,7 +522,10 @@ if(isset($_POST['submit']))
 		});
 	});
 
-	function updateContact() {
+	function updateContact(oldImg) {
+		oldImg = $(".img1 img").attr("src");
+		oldImg = oldImg.split("/");
+		oldImg = oldImg[oldImg.length-1];
 		var data = new FormData();
 		jQuery.each(jQuery('#fileToUpload')[0].files, function(i, file) {
 			data.append('file-'+i, file);
@@ -532,6 +535,7 @@ if(isset($_POST['submit']))
 		data.append("opening",$("#opening").val());
 		data.append("lat",$("#us2-lat").val());
 		data.append("lon",$("#us2-lon").val());
+		data.append("oldImg", oldImg);
 
 		title = $("#title").val();
 		aboutUs = $("#aboutUs").val();

@@ -1,4 +1,4 @@
-<?php
+i<?php
 /**
  * Created by IntelliJ IDEA.
  * User: Patrick Althaus, François Martin
@@ -6,7 +6,7 @@
  * Time: 11:15
  */
 require_once("../config.php");
-$filename = "../img/filler.png";
+$filename = $_POST['oldImg'];
 if(isset($_FILES["file-0"])){
     $filename = uploadImg($_FILES["file-0"]);
 }
