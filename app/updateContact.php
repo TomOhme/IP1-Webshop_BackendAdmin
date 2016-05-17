@@ -16,8 +16,7 @@ $content = '<h1>'.$_POST["title"].'</h1>
             .$_POST["aboutUs"].
             '<h1 dir="ltr" style="line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;"><span style="font-size: medium;"><strong><span style="font-family: Arial; color: #2f2f2f; background-color: transparent; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline;">&Ouml;ffnungszeiten</span></strong></span></h1>'
             .$_POST["opening"].
-            '<p><span style="font-size: 12px; font-family: Arial; color: #2f2f2f; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline;"><span style="font-size: medium;"><strong>Standort</strong></span></span></p>
-            <p><span style="font-size: 12px; font-family: Arial; color: #2f2f2f; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline;"><span style="font-size: medium;"><strong><img alt="" src="http://maps.googleapis.com/maps/api/staticmap?center='.$_POST["lat"].','.$_POST["lon"].'&amp;zoom=15&amp;size=400x400&amp;markers=color:blue|'.$_POST["lat"].','.$_POST["lon"].'&amp;sensor=false" height="400" width="400" /></strong></span></span></p>';
+            '<p><iframe frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&source=s_q&hl=de&geocode=&q='.$_POST['street'].'+'.$_POST['streetnumber'].'+'.$_POST['plz'].'+'.$_POST['village'].'&output=embed" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe></p>';
 
 $user = DBUSER;
 $pwd = DBPWD;

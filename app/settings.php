@@ -25,11 +25,20 @@ $row = mysqli_fetch_assoc($result);
 $split1 = explode('h1', $row["content"]);
 $split2 = explode('}}" />', $split1[2]);
 $split3 = explode('span', ltrim($split1[4], '>'));
+$split3 = explode('<p>',$split3[0]);
 $split4 = explode('wysiwyg', $split2[0]);
+$split5 = explode('geocode=&q=', $split3[1]);
+$split5 = explode('+', $split5[1]);
+$tmp = explode('&output=', $split5[3]);
+$split5[3] = $tmp[0];
 $title = rtrim(ltrim($split1[1], '>'), '</');
 $img = rtrim($split4[1], ' "');
 $aboutUs = rtrim(ltrim($split2[1], '>'), '<');
 $opening = rtrim($split3[0], '<');
+$street = $split5[0];
+$streetnumber = $split5[1];
+$plz = $split5[2];
+$village = $split5[3];
 
 $contact = $settingsSoap->getContact();
 
@@ -242,15 +251,16 @@ if(isset($_POST['submit']))
 								<label for="opening" id="openingTimeError">Öffnungszeiten</label>
 								<textarea rows="10" id="opening" maxlength="1000"><?php echo $opening; ?></textarea>
 							</div>
+							<h2>Standort f&uuml;r Google Maps</h2>
 							<div class="form-group">
-								<label for="us2">Standort</label>
-								<div id="us2" style="width: 500px; height: 400px; margin-left: 15px;"></div>
-								<script>
-									$('#us2').locationpicker({
-									});
-								</script>
-								<input type="hidden" id="us2-lat" value="46.9479739"/>
-								<input type="hidden" id="us2-lon" value="7.447446799999966"/>
+								<label for="street">Strasse</label>
+								<input type="text" class="form-control" required="true" maxlength="50" name="street" id="street" placeholder="Musterweg" value="<?php echo $street; ?>">
+								<label for="streetnumber">Hausnummer</label>
+								<input type="text" class="form-control" required="true" maxlength="50" name="streetnumber" id="streetnumber" placeholder="0" value="<?php echo $streetnumber; ?>">
+								<label for="plz">Postleitzahl</label>
+								<input type="number" class="form-control" required="true" max="9999" min="1000" name="plz" id="plz" placeholder="1000" value="<?php echo $plz; ?>">
+								<label for="village">Ort</label>
+								<input type="text" class="form-control" required="true" maxlength="100" name="village" id="village" placeholder="Bern" value="<?php echo $village; ?>">
 							</div>
 							<button type="button" onclick="updateContact();" style="margin-left: 15px;" class="btn btn-primary">Speichern</button>
 						</form>
@@ -533,8 +543,10 @@ if(isset($_POST['submit']))
 		data.append("title",$("#title").val());
 		data.append("aboutUs",$("#aboutUs").val());
 		data.append("opening",$("#opening").val());
-		data.append("lat",$("#us2-lat").val());
-		data.append("lon",$("#us2-lon").val());
+		data.append("street",$("#street").val());
+		data.append("streetnumber",$("#streetnumber").val());
+		data.append("plz",$("#plz").val());
+		data.append("village",$("#village").val());
 		data.append("oldImg", oldImg);
 
 		title = $("#title").val();
