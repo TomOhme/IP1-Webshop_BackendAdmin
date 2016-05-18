@@ -212,7 +212,7 @@ if(isset($_POST['submit']))
 										<p class="help-block">Das Capcha verhindert, dass Personen mit schlechten Absichten ung&uuml;ltige Bestellungen automatisiert ausl&ouml;sen k&ouml;nnen.</p>
 									</div>
 								</div>
-								<div class="text-right">
+								<div class="text-top">
 									<button type="button" onclick="updateWebshop();" style="margin-top: 20px;" class="btn btn-primary">Speichern</button>
 								</div>
 							</form>
@@ -254,7 +254,7 @@ if(isset($_POST['submit']))
 							<h2>Standort f&uuml;r Google Maps</h2>
 							<div class="form-group">
 								<label for="street">Strasse</label>
-								<input type="text" class="form-control" required="true" maxlength="50" name="street" id="street" placeholder="Musterweg" value="<?php echo $street; ?>">
+								<input type="text" class="form-control" required="true" maxlength="100" name="street" id="street" placeholder="Musterweg" value="<?php echo $street; ?>">
 								<label for="streetnumber">Hausnummer</label>
 								<input type="text" class="form-control" required="true" maxlength="50" name="streetnumber" id="streetnumber" placeholder="0" value="<?php echo $streetnumber; ?>">
 								<label for="plz">Postleitzahl</label>
@@ -280,7 +280,7 @@ if(isset($_POST['submit']))
 					<div class="panel-body">
 						<div class="row">
 							<h1>Rabatt</h1>
-							<div class="text-right">
+							<div class="text-top">
 								<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addDiscount">Rabatt hinzuf&uuml;gen</button>
 							</div>
 							<table class="table table-responsive table-hover table-striped table-bordered dataTable no-footer" id="data-table" style="width: 100%;" role="grid" aria-describedby="data-table_info">
@@ -552,34 +552,78 @@ if(isset($_POST['submit']))
 		title = $("#title").val();
 		aboutUs = $("#aboutUs").val();
 		opening = $("#opening").val();
+		street = $("#street").val();
+		streetnumber = $("#streetnumber").val();
+		plz = $("#plz").val();
+		village = $("#village").val();
 		if (title == '') {
 			$("#title").notify("Der Titel der Kontaktseite darf nicht leer sein.", {
-				position: "right",
+				position: "top",
 				className: "error"
 			});
 		} else if(title.length > 50){
 			$("#title").notify("Der Titel der Kontaktseite darf nicht länger als 50 Zeichen lang sein.", {
-				position: "right",
+				position: "top",
 				className: "error"
 			});
 		} else if(aboutUs == ''){
 			$("#aboutUsError").notify("Der Über uns Text darf nicht leer sein.", {
-				position: "right",
+				position: "top",
 				className: "error"
 			});
 		} else if(aboutUs.length > 10000){
 			$("#aboutUsError").notify("Der Über uns Text darf nicht länger als 10'000 Zeichen lang sein.", {
-				position: "right",
+				position: "top",
 				className: "error"
 			});
 		} else if(opening == ''){
 			$("#openingTimeError").notify("Bitte geben Sie Öffnungszeiten an.", {
-				position: "right",
+				position: "top",
 				className: "error"
 			});
 		} else if(opening.length > 1000){
 			$("#openingTimeError").notify("Der Öffnungszeiten Text darf nicht länger als 1000 Zeichen lang sein.", {
-				position: "right",
+				position: "top",
+				className: "error"
+			});
+		} else if(street == ''){
+			$("#street").notify("Die Strasse darf nicht leer sein.", {
+				position: "top",
+				className: "error"
+			});
+		} else if(street.length > 100){
+			$("#street").notify("Der Strassenname darf nicht länger als 100 Zeichen lang sein.", {
+				position: "top",
+				className: "error"
+			});
+		} else if(streetnumber == ''){
+			$("#streetnumber").notify("Die Stressennummer darf nicht leer sein.", {
+				position: "top",
+				className: "error"
+			});
+		} else if(streetnumber.length > 50){
+			$("#streetnumber").notify("Die Stressennummer darf nicht länger als 50 Zeichen lang sein.", {
+				position: "top",
+				className: "error"
+			});
+		} else if(plz == ''){
+			$("#plz").notify("Die Postleitzahl darf nicht leer sein.", {
+				position: "top",
+				className: "error"
+			});
+		} else if(plz < 1000 || plz > 9999){
+			$("#plz").notify("Die eingegebene Postleitzahl ist ungültig.", {
+				position: "top",
+				className: "error"
+			});
+		} else if(village == ''){
+			$("#village").notify("Der Ort darf nicht leer sein.", {
+				position: "top",
+				className: "error"
+			});
+		} else if(village.length > 100){
+			$("#village").notify("Der Ort darf nicht länger als 100 Zeichen lang sein.", {
+				position: "top",
 				className: "error"
 			});
 		} else {
@@ -618,22 +662,22 @@ if(isset($_POST['submit']))
 
 		if(contentContact == '') {
 			$("#contact").notify("Die Kontaktadresse darf nicht leer sein.", {
-				position:"right",
+				position:"top",
 				className: "error"}
 			);
 		} else if(contentContact.length > 300) {
 			$("#shopname").notify("Die Kontaktadresse darf nicht länger als 300 Zeichen lang sein.", {
-				position:"right",
+				position:"top",
 				className: "error"}
 			);
 		} else if(contentShopname == '') {
 			$("#shopname").notify("Der Shopname darf nicht leer sein.", {
-				position:"right",
+				position:"top",
 				className: "error"}
 			);
 		} else if(contentShopname.length > 50) {
 			$("#shopname").notify("Der Shopname darf nicht länger als 50 Zeichen lang sein.", {
-				position:"right",
+				position:"top",
 				className: "error"}
 			);
 		} else {
@@ -671,12 +715,12 @@ if(isset($_POST['submit']))
 		var threashold = $("#uthreasholdForm").val();
 		if(discount > 100 || discount < 0){
 			 $("#udiscountForm").notify("Ungültiger Rabattwert. Der Wert darf nicht grösser als 100 sein.", {
-				position:"right",
+				position:"top",
 				className: "error"}
 			);
 		} else if(threashold < 0) {
 			$("#uthreasholdForm").notify("Ungültiger Schwellenwert. Der Wert darf nicht kleiner als 0 sein.", {
-				position:"right",
+				position:"top",
 				className: "error"}
 			);
 		} else{
@@ -711,12 +755,12 @@ if(isset($_POST['submit']))
 		var threashold = $("#threasholdForm").val();
 		if(discount > 100 || discount < 0){
 			 $("#discountForm").notify("Ungültiger Rabattwert. Der Wert darf nicht grösser als 100 sein.", {
-				position:"right",
+				position:"top",
 				className: "error"}
 			);
 		} else if(threashold < 0) {
 			$("#threasholdForm").notify("Ungültiger Schwellenwert. Der Wert darf nicht kleiner als 0 sein.", {
-				position:"right",
+				position:"top",
 				className: "error"}
 			);
 		} else {
