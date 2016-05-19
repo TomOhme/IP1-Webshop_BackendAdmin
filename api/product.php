@@ -203,7 +203,7 @@ class product {
     */
     public function getDiscount(){
         if($this->mysqli->query("SHOW TABLES LIKE 'custom_discount'")->num_rows>0){
-            $query = "SELECT * FROM custom_discount";
+            $query = "SELECT * FROM custom_discount ORDER BY setAfter ASC";
             $result = $this->mysqli->query($query);
             $rows = $result->fetch_all();
             $result->free();
