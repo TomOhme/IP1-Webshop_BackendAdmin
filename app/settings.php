@@ -812,7 +812,12 @@ if(isset($_POST['submit']))
 		data.append('pickupDestination', pickupDestination);
 		data.append('pickupTime', pickupTime);
 
-		if(shippingValidation && shippingActiv && shippingName == ''){
+		if(!shippingActiv && !pickUpActiv){
+			$("#shippingActiv2").notify("Es dürfen nicht beide Versandarten deaktiviert werden.", {
+				position: "right",
+				className: "error"
+			});
+		} else if(shippingValidation && shippingActiv && shippingName == ''){
 			$("#inputShipping").notify("Der Name des Packetdienst darf nicht leer sein.", {
 				position: "left",
 				className: "error"
