@@ -53,8 +53,6 @@ $email = $settingsSoap -> getEmail();
 $capchaState = $settingsSoap->getCapchaState();
 
 $discountRows = $soapProduct->getDiscount();
-$shippment = $settingsSoap->getShippingSettings();
-$pickUp = $settingsSoap->getPickUpSettings();
 
 if(isset($_POST['updateDiscount'])){
 	$id = $_POST['updateDiscount'];
@@ -154,7 +152,7 @@ if(isset($_POST['submit']))
 <link rel="stylesheet" href="../css/custom.css">
 	<!-- Alerts -->
     <div class="alert alert-success alert-dismissible" role="alert" style="display: none;" id="alertSuccessfulSafe">
-    	<span class="glyphicon glyphicon glyphicon-ok-sign" aria-hidden="true"></span><p style="display:inline;"> Die Einstellungen wurden erfolgreich gespeichert!</p>
+    <span class="glyphicon glyphicon glyphicon-ok-sign" aria-hidden="true"></span><p style="display:inline;"> Die Einstellungen wurden erfolgreich gespeichert!</p>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     </div>
     <!-- Fertig mit Allerts -->
@@ -170,101 +168,108 @@ if(isset($_POST['submit']))
 			</div>
 			<div id="headingNameAdress" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingNameAdressH">
 				<div class="panel-body">
-					<form method="post" role="form" enctype="multipart/form-data" name="webshopInfo">
-						<div class="col-md-6">
-							<label class="col-sm-12 control-label">Shopname</label>
-							<div class="col-sm-12">
-								<input type="text" required="true" maxlength="50" class="form-control" id="shopname" value="<?php echo $info ?>">
-								<p class="help-block">Mit diesem Feld k&ouml;nnen Sie den Angezeigten Webshop Namen auf ihrem Webshop ver&auml;ndern.</p>
-							</div>
+					<div class="row">
+						<div class="col-md-12">
+							<form method="post" role="form" enctype="multipart/form-data" name="webshopInfo">
+								<div class="col-md-6">
+									<label class="col-sm-12 control-label">Shopname</label>
+									<div class="col-sm-12">
+										<input type="text" required="true" maxlength="50" class="form-control" id="shopname" value="<?php echo $info ?>">
+										<p class="help-block">Mit diesem Feld k&ouml;nnen Sie den Angezeigten Webshop Namen auf ihrem Webshop ver&auml;ndern.</p>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<label class="col-sm-12 control-label">Kontakt</label>
+									<div class="col-sm-12">
+										<textarea class="form-control" required="true" id="contact" rows="5"><?php echo $contact; ?></textarea>
+										<p class="help-block">Mit diesem Feld k&ouml;nnen Sie Ihre Adresse in der Fusszeile Ihres Webshops ver&auml;ndern.</p>
+									</div>
+								</div>
+								
+								<div class="col-md-6">
+									<label class="col-sm-12 control-label">Telefon Nr.</label>
+									<div class="col-sm-12">
+										<input type="text" required="true" maxlength="50" class="form-control" id="telefonnr" value="<?php echo $phone ?>">
+										<p class="help-block">Mit diesem Feld k&ouml;nnen Sie Ihre Telefonnummer angeben, welches in den E-Mails angezeigt wird.</p>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<label class="col-sm-12 control-label">E-Mail Absendername</label>
+									<div class="col-sm-12">
+										<input type="text" required="true" maxlength="50" class="form-control" id="emailSender" value="<?php echo $emailSender ?>">
+										<p class="help-block">Mit diesem Feld k&ouml;nnen Sie Ihren Namen angeben, welches als Absender angezeigt wird.</p>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<label class="col-sm-12 control-label">E-Mail</label>
+									<div class="col-sm-12">
+										<input type="text" required="true" maxlength="50" class="form-control" id="email" value="<?php echo $email ?>">
+										<p class="help-block">Mit diesem Feld k&ouml;nnen Sie Ihre E-Mail angeben, welches in den E-Mails angezeigt wird.</p>
+									</div>
+								</div>
+								
+								<div class="col-md-6">
+									<div class="col-sm-12">
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" <?php if($capchaState){ echo 'checked="1"';}?> id="capchaActiv">Capcha aktiv
+											</label>
+											<p class="help-block">Das Capcha verhindert, dass Personen mit schlechten Absichten ung&uuml;ltige Bestellungen automatisiert ausl&ouml;sen k&ouml;nnen.</p>
+										</div>
+									</div>
+								</div>
+								<button type="button" onclick="updateWebshop();" style="margin-top: 20px; margin-left: 30px" class="btn btn-primary">Speichern</button>
+							</form>
 						</div>
-						<div class="col-md-6">
-							<label class="col-sm-12 control-label">Kontakt</label>
-							<div class="col-sm-12">
-								<textarea class="form-control" required="true" id="contact" rows="5"><?php echo $contact; ?></textarea>
-								<p class="help-block">Mit diesem Feld k&ouml;nnen Sie Ihre Adresse in der Fusszeile Ihres Webshops ver&auml;ndern.</p>
-							</div>
-						</div>
-						
-						<div class="col-md-6">
-							<label class="col-sm-12 control-label">Telefon Nr.</label>
-							<div class="col-sm-12">
-								<input type="text" required="true" maxlength="50" class="form-control" id="telefonnr" value="<?php echo $phone ?>">
-								<p class="help-block">Mit diesem Feld k&ouml;nnen Sie Ihre Telefonnummer angeben, welches in den E-Mails angezeigt wird.</p>
-							</div>
-						</div>
-						<div class="col-md-6">
-							<label class="col-sm-12 control-label">E-Mail Absendername</label>
-							<div class="col-sm-12">
-								<input type="text" required="true" maxlength="50" class="form-control" id="emailSender" value="<?php echo $emailSender ?>">
-								<p class="help-block">Mit diesem Feld k&ouml;nnen Sie Ihren Namen angeben, welches als Absender angezeigt wird.</p>
-							</div>
-						</div>
-						<div class="col-md-6">
-							<label class="col-sm-12 control-label">E-Mail</label>
-							<div class="col-sm-12">
-								<input type="text" required="true" maxlength="50" class="form-control" id="email" value="<?php echo $email ?>">
-								<p class="help-block">Mit diesem Feld k&ouml;nnen Sie Ihre E-Mail angeben, welches in den E-Mails angezeigt wird.</p>
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="checkbox col-sm-12">
-								<label>
-									<input type="checkbox" <?php if($capchaState){ echo 'checked="1"';}?> id="capchaActiv">Capcha aktiv
-								</label>
-								<p class="help-block">Das Capcha verhindert, dass Personen mit schlechten Absichten ung&uuml;ltige Bestellungen automatisiert ausl&ouml;sen k&ouml;nnen. Deaktivieren Sie das Capcha, dann verschwidet das "Ich bin kein Roboter" Feld bei der Registrierung und Bestellung als Gast.</p>
-							</div>
-						</div>
-						<button type="button" onclick="updateWebshop();" style="margin-top: 20px; margin-left: 30px" class="btn btn-primary">Speichern</button>
-					</form>
+					</div>
 				</div>
 			</div>
 		</div> <!-- Fertig Webshop Name und Adresse-->
 
-		<div class="panel panel-default">
-			<div class="panel-heading" role="tab" id="headingContactH" data-toggle="collapse" data-parent="#accordion" href="#headingContact" aria-expanded="false" aria-controls="headingContact">
-				<h4 class="panel-title">
-					<a class="collapsed" role="button">
-					  Kontaktseite
-					</a>
-				</h4>
-			</div>
-			<div id="headingContact" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingContactH">
-				<div class="panel-body">
-					<form method="post"  role="form" enctype="multipart/form-data" name="contactSite">
-						<div class="form-group">
-							<label for="title">Titel der Kontaktseite</label>
-							<input type="text" class="form-control" required="true" maxlength="50" name="title" id="title" placeholder="Webshop xy" value=<?php echo $title; ?>>
-						</div>
-						<div class="form-group img1">
-							<label>Titelbild</label><br></br>
-							<img style="max-width: 200px; max-height: 200px; width: auto; height: auto; margin-left: 15px; margin-bottom: 15px;" alt="Kontaktbild" src="../../media/wysiwyg<?php echo $img; ?>"/>
-							<input type="file" name="fileToUpload" id="fileToUpload">
-						</div>
-						<div class="form-group">
-							<label for="aboutUs" id="aboutUsError">Über Uns</label>
-							<textarea rows="10" maxlength="10000" id="aboutUs"><?php echo $aboutUs; ?></textarea>
-						</div>
-						<div class="form-group">
-							<label for="opening" id="openingTimeError">Öffnungszeiten</label>
-							<textarea rows="10" id="opening" maxlength="1000"><?php echo $opening; ?></textarea>
-						</div>
-						<h2>Standort f&uuml;r Google Maps</h2>
-						<div class="form-group">
-							<label for="street">Strasse</label>
-							<input type="text" class="form-control" required="true" maxlength="100" name="street" id="street" placeholder="Musterweg" value="<?php echo $street; ?>">
-							<label for="streetnumber">Hausnummer</label>
-							<input type="text" class="form-control" required="true" maxlength="50" name="streetnumber" id="streetnumber" placeholder="0" value="<?php echo $streetnumber; ?>">
-							<label for="plz">Postleitzahl</label>
-							<input type="number" class="form-control" required="true" max="9999" min="1000" name="plz" id="plz" placeholder="1000" value="<?php echo $plz; ?>">
-							<label for="village">Ort</label>
-							<input type="text" class="form-control" required="true" maxlength="100" name="village" id="village" placeholder="Bern" value="<?php echo $village; ?>">
-						</div>
-						<button type="button" onclick="updateContact();" style="margin-left: 15px;" class="btn btn-primary">Speichern</button>
-					</form>
+			<div class="panel panel-default">
+				<div class="panel-heading" role="tab" id="headingContactH" data-toggle="collapse" data-parent="#accordion" href="#headingContact" aria-expanded="false" aria-controls="headingContact">
+					<h4 class="panel-title">
+						<a class="collapsed" role="button">
+						  Kontaktseite
+						</a>
+					</h4>
 				</div>
-			</div>
-		</div><!-- Fertig Kontaktseite-->
+				<div id="headingContact" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingContactH">
+					<div class="panel-body">
+						<form method="post"  role="form" enctype="multipart/form-data" name="contactSite">
+							<div class="form-group">
+								<label for="title">Titel der Kontaktseite</label>
+								<input type="text" class="form-control" required="true" maxlength="50" name="title" id="title" placeholder="Webshop xy" value="<?php echo $title; ?>">
+							</div>
+							<div class="form-group img1">
+								<label>Titelbild</label><br></br>
+								<img style="max-width: 200px; max-height: 200px; width: auto; height: auto; margin-left: 15px; margin-bottom: 15px;" alt="Kontaktbild" src="../../media/wysiwyg<?php echo $img; ?>"/>
+								<input type="file" name="fileToUpload" id="fileToUpload">
+							</div>
+							<div class="form-group">
+								<label for="aboutUs" id="aboutUsError">Über Uns</label>
+								<textarea rows="10" maxlength="10000" id="aboutUs"><?php echo $aboutUs; ?></textarea>
+							</div>
+							<div class="form-group">
+								<label for="opening" id="openingTimeError">Öffnungszeiten</label>
+								<textarea rows="10" id="opening" maxlength="1000"><?php echo $opening; ?></textarea>
+							</div>
+							<h2>Standort f&uuml;r Google Maps</h2>
+							<div class="form-group">
+								<label for="street">Strasse</label>
+								<input type="text" class="form-control" required="true" maxlength="100" name="street" id="street" placeholder="Musterweg" value="<?php echo $street; ?>">
+								<label for="streetnumber">Hausnummer</label>
+								<input type="text" class="form-control" required="true" maxlength="50" name="streetnumber" id="streetnumber" placeholder="0" value="<?php echo $streetnumber; ?>">
+								<label for="plz">Postleitzahl</label>
+								<input type="number" class="form-control" required="true" max="9999" min="1000" name="plz" id="plz" placeholder="1000" value="<?php echo $plz; ?>">
+								<label for="village">Ort</label>
+								<input type="text" class="form-control" required="true" maxlength="100" name="village" id="village" placeholder="Bern" value="<?php echo $village; ?>">
+							</div>
+							<button type="button" onclick="updateContact();" style="margin-left: 15px;" class="btn btn-primary">Speichern</button>
+						</form>
+					</div>
+				</div>
+			</div><!-- Fertig Kontaktseite-->
 
 			<div class="panel panel-default">
 				<div class="panel-heading" role="tab" id="headingDiscountH" data-toggle="collapse" data-parent="#accordion" href="#headingDiscount" aria-expanded="false" aria-controls="headingDiscount">
@@ -317,101 +322,113 @@ if(isset($_POST['submit']))
 				</div>
 				<div id="headingShipping" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingShippingH">
 					<div class="panel-body">
-						<form class="form-horizontal" id="shippmentPaymentForm">
-							<div id="shippingDiv" <?php if(!isset($shippment['title'])){echo "style='display: none;'";} ?>>
-								<div class="form-group">
-									<div class="col-sm-offset-3 col-sm-9">
-										<div class="checkbox">
-											<label>
-												<input type="checkbox" checked="1" id="shippingActiv">Postversand aktiv
-											</label>
-										</div>
-									</div>
-								</div>
-								<input type="checkbox" id="shippingFormValidation" checked="1" style="display:none;">
-								<div class="form-group">
-									<label for="inputShipping" class="col-sm-3 control-label">Packetdienst</label>
-									<div class="col-sm-9">
-									  <input type="text" class="form-control" maxlength="100" id="inputShipping" placeholder="Versandart" value="<?php echo $shippment['title'];?>">
-									  <p class="help-block">Wie wird das Packet versendet werden.</p>
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="inputShippingInstruction" class="col-sm-3 control-label">Zahlungsinstruktionen</label>
-									<div class="col-sm-9">
-										<textarea class="form-control" rows="5" maxlength="1000" id="inputShippingInstruction" placeholder="Zahlungsinstruktionen"><?php echo $shippment['instructions']; ?></textarea>
-										<p class="help-block">Die Zahlungsinstruktionen werden dem Kunden nach abgeschlossener Bestellung via E-Mail zugestellt.</p>
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="inputPrice" class="col-sm-3 control-label">Versandkosten</label>
-									<div class="col-sm-9">
-										<div class="input-group">
-											<div class="input-group-addon">CHF</div>
-											<input type="number" min="0" step="0.10" max="10000" class="form-control" id="inputPrice" placeholder="Versandkostenpauschale" value="<?php echo $shippment['price']; ?>">
-										</div>
-									</div>
-								</div>
-							</div>
-							<div id="shippingInactivDiv" <?php if(isset($shippment['title'])){echo "style='display: none;'";} ?>>
-								<h4>Der Postversand ist momentan deaktiviert.</h4>
-								<div class="form-group">
-									<div class="col-sm-offset-0 col-sm-9">
-										<div class="checkbox">
-											<label>
-												<input type="checkbox" id="shippingActiv">Postversand aktiv
-											</label>
-										</div>
-									</div>
-								</div>
-								<input type="checkbox" id="shippingFormValidation" style="display:none;">
-							</div>
-							<hr>
-							<div id="pickupActivDiv" <?php if(!isset($pickUp['pickupDestination'])) {echo "style='display: none;";} ?>>
-								<div class="form-group">
-									<div class="col-sm-offset-3 col-sm-9">
-										<div class="checkbox">
-											<label>
-												<input type="checkbox" checked="1" id="pickUpActiv">Abholung aktiv
-											</label>
-										</div>
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="inputPickup" class="col-sm-3 control-label">Abholungsort</label>
-									<div class="col-sm-9">
-										<input type="text" class="form-control" id="inputPickup" placeholder="Abholungsort" maxlength="200" value="<?php echo $pickUp['pickupDestination'];?>">
-										<p class="help-block">Wo kann die Bestellung abgeholt werden. Dieses Feld wird bei der Bestellung angezeit.</p>
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="inputPickupTime" class="col-sm-3 control-label">Abholzeiten</label>
-									<div class="col-sm-9">
-										<textarea class="form-control" rows="3" id="inputPickupTime" maxlength="500" placeholder="Abholzeiten"><?php echo $pickUp['pickupTime']; ?></textarea>
-										<p class="help-block">Zu welchen Zeiten kann die Bestellung abgeholt werden. Dieses Feld wird bei der Bestellung angezeit.</p>
-									</div>
-								</div>
-								<input type="checkbox" id="pickupFormValidation" checked="1" style="display:none;">
-							</div>
-							<div id="pickupInactivDiv" <?php if(isset($pickUp['pickupDestination'])) {echo "style='display: none;";} ?>>
-								<hr>
-								<h4>Die Abholung ist momentan deaktiviert.</h4>
-								<div class="form-group">
-									<div class="col-sm-offset-0 col-sm-9">
-										<div class="checkbox">
-											<label>
-												<input type="checkbox" id="pickUpActiv">Abholung aktiv
-											</label>
-										</div>
-									</div>
-								</div>
-								<input type="checkbox" id="pickupFormValidation" style="display:none;">
-							</div>
+				<div class="row">
+					<form class="form-horizontal" id="shippmentPaymentForm">
+					<?php
+					$shippment = $settingsSoap->getShippingSettings();
+					$pickUp = $settingsSoap->getPickUpSettings();
+					?>
+						<div id="shippingDiv" <?php if(!isset($shippment['title'])){echo "style='display: none;'";} ?>>
 							<div class="form-group">
 								<div class="col-sm-offset-3 col-sm-9">
-									<button type="button" class="btn btn-primary" onclick="updateShippmentPayment();">Speichern</button>
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" checked="1" id="shippingActiv">Postversand aktiv
+										</label>
+									</div>
 								</div>
 							</div>
+							<input type="checkbox" id="shippingFormValidation" checked="1" style="display:none;">
+							<div class="form-group">
+								<label for="inputShipping" class="col-sm-3 control-label">Packetdienst</label>
+								<div class="col-sm-9">
+								  <input type="text" class="form-control" maxlength="100" id="inputShipping" placeholder="Versandart" value="<?php echo $shippment['title'];?>">
+								  <p class="help-block">Wie wird das Packet versendet werden.</p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputShippingInstruction" class="col-sm-3 control-label">Zahlungsinstruktionen</label>
+								<div class="col-sm-9">
+								<textarea class="form-control" rows="5" maxlength="1000" id="inputShippingInstruction" placeholder="Zahlungsinstruktionen"><?php echo $shippment['instructions']; ?></textarea>
+								<p class="help-block">Die Zahlungsinstruktionen werden dem Kunden nach abgeschlossener Bestellung via E-Mail zugestellt.</p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputPrice" class="col-sm-3 control-label">Versandkosten</label>
+								<div class="col-sm-9">
+									<div class="input-group">
+										<div class="input-group-addon">CHF</div>
+										<input type="number" min="0" step="0.10" max="10000" class="form-control" id="inputPrice" placeholder="Versandkostenpauschale" value="<?php echo $shippment['price']; ?>">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="shippingInactivDiv" <?php if(isset($shippment['title'])){echo "style='display: none;'";} ?>" >
+							<h4>Der Postversand ist momentan deaktiviert.</h4>
+							<div class="form-group">
+								<div class="col-sm-offset-0 col-sm-9">
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" id="shippingActiv">Postversand aktiv
+										</label>
+									</div>
+								</div>
+							</div>
+							<input type="checkbox" id="shippingFormValidation" style="display:none;">
+						</div>
+					<?php
+					if(isset($pickUp['pickupDestination'])){
+						?>
+						<hr>
+						<div class="form-group">
+							<div class="col-sm-offset-3 col-sm-9">
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" checked="1" id="pickUpActiv">Abholung aktiv
+									</label>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="inputPickup" class="col-sm-3 control-label">Abholungsort</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="inputPickup" placeholder="Abholungsort" maxlength="200" value="<?php echo $pickUp['pickupDestination'];?>">
+								<p class="help-block">Wo kann die Bestellung abgeholt werden. Dieses Feld wird bei der Bestellung angezeit.</p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="inputPickupTime" class="col-sm-3 control-label">Abholzeiten</label>
+							<div class="col-sm-9">
+								<textarea class="form-control" rows="3" id="inputPickupTime" maxlength="500" placeholder="Abholzeiten"><?php echo $pickUp['pickupTime']; ?></textarea>
+								<p class="help-block">Zu welchen Zeiten kann die Bestellung abgeholt werden. Dieses Feld wird bei der Bestellung angezeit.</p>
+							</div>
+						</div>
+						<input type="checkbox" id="pickupFormValidation" checked="1" style="display:none;">
+						<?php
+					} else {
+						?>
+						<div id="picupInactivDiv">
+							<hr>
+							<h4>Die Abholung ist momentan deaktiviert.</h4>
+							<div class="form-group">
+								<div class="col-sm-offset-0 col-sm-9">
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" id="pickUpActiv">Abholung aktiv
+										</label>
+									</div>
+								</div>
+							</div>
+							<input type="checkbox" id="pickupFormValidation" style="display:none;">
+						</div>
+						<?php
+					}
+					?>
+						<div class="form-group">
+							<div class="col-sm-offset-3 col-sm-9">
+								<button type="button" class="btn btn-primary" onclick="updateShippmentPayment();">Speichern</button>
+							</div>
+						</div>
 						</form>
 					</div>
 				</div>
@@ -519,12 +536,8 @@ if(isset($_POST['submit']))
 		});
 
 		$("#shippingActiv").change(function() {
-			$('#shippingDiv').toggle('slow');
-			$('#shippingInactivDiv').toggle('slow');
-		});
-		$("#pickUpActiv").change(function() {
-			$('#pickupActivDiv').toggle('slow');
-			$('#pickupInactivDiv').toggle('slow');
+			$('#shippingDiv').toggle();
+
 		});
 	});
 
