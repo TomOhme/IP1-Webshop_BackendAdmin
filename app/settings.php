@@ -185,14 +185,14 @@ if(isset($_POST['submit']))
 									<label class="col-sm-12 control-label">Shopname</label>
 									<div class="col-sm-12">
 										<input type="text" required="true" maxlength="50" class="form-control" id="shopname" value="<?php echo $info ?>">
-										<p class="help-block">Mit diesem Feld k&ouml;nnen Sie den Angezeigten Webshop Namen auf ihrem Webshop ver&auml;ndern.</p>
+										<p class="help-block">In diesem Feld k&ouml;nnen Sie den angezeigten Webshop-Namen auf Ihrem Webshop ver&auml;ndern.</p>
 									</div>
 								</div>
 								<div class="col-md-6">
 									<label class="col-sm-12 control-label">Kontakt</label>
 									<div class="col-sm-12">
 										<textarea class="form-control" required="true" id="contact" rows="5"><?php echo $contact; ?></textarea>
-										<p class="help-block">Mit diesem Feld k&ouml;nnen Sie Ihre Adresse in der Fusszeile Ihres Webshops ver&auml;ndern.</p>
+										<p class="help-block">In diesem Feld k&ouml;nnen Sie Ihre Adresse in der Fusszeile Ihres Webshops ver&auml;ndern.</p>
 									</div>
 								</div>
 								
@@ -200,21 +200,21 @@ if(isset($_POST['submit']))
 									<label class="col-sm-12 control-label">Telefon Nr.</label>
 									<div class="col-sm-12">
 										<input type="text" required="true" maxlength="50" class="form-control" id="telefonnr" value="<?php echo $phone ?>">
-										<p class="help-block">Mit diesem Feld k&ouml;nnen Sie Ihre Telefonnummer angeben, welches in den E-Mails angezeigt wird.</p>
+										<p class="help-block">In diesem Feld k&ouml;nnen Sie Ihre Telefonnummer angeben, welche in den E-Mails angezeigt wird.</p>
 									</div>
 								</div>
 								<div class="col-md-6">
 									<label class="col-sm-12 control-label">E-Mail Absendername</label>
 									<div class="col-sm-12">
 										<input type="text" required="true" maxlength="50" class="form-control" id="emailSender" value="<?php echo $emailSender ?>">
-										<p class="help-block">Mit diesem Feld k&ouml;nnen Sie Ihren Namen angeben, welches als Absender angezeigt wird.</p>
+										<p class="help-block">In diesem Feld k&ouml;nnen Sie Ihren Namen angeben, welcher als Absender bei E-Mails angezeigt wird.</p>
 									</div>
 								</div>
 								<div class="col-md-6">
 									<label class="col-sm-12 control-label">E-Mail</label>
 									<div class="col-sm-12">
 										<input type="text" required="true" maxlength="50" class="form-control" id="email" value="<?php echo $email ?>">
-										<p class="help-block">Mit diesem Feld k&ouml;nnen Sie Ihre E-Mail angeben, welches in den E-Mails angezeigt wird.</p>
+										<p class="help-block">In diesem Feld k&ouml;nnen Sie Ihre E-Mail Adresse angeben, welche in den E-Mails als Absenderadresse verwendet wird.</p>
 									</div>
 								</div>
 								
@@ -222,9 +222,9 @@ if(isset($_POST['submit']))
 									<div class="col-sm-12">
 										<div class="checkbox">
 											<label>
-												<input type="checkbox" <?php if($capchaState){ echo 'checked="1"';}?> id="capchaActiv">Capcha aktiv
+												<input type="checkbox" <?php if($capchaState){ echo 'checked="1"';}?> id="capchaActiv">Captcha aktiv
 											</label>
-											<p class="help-block">Das Capcha verhindert, dass Personen mit schlechten Absichten ung&uuml;ltige Bestellungen automatisiert ausl&ouml;sen k&ouml;nnen. Deaktivieren Sie das Capcha, dann verschwidet das "Ich bin kein Roboter" Feld bei der Registrierung und Bestellung als Gast.</p>
+											<p class="help-block">Das Captcha verhindert, dass Personen mit schlechten Absichten ung&uuml;ltige Bestellungen automatisiert ausl&ouml;sen k&ouml;nnen. Deaktivieren Sie das Captcha, verschwindet das "Ich bin kein Roboter"-Feld bei der Registrierung und Bestellung als Gast.</p>
 										</div>
 									</div>
 								</div>
@@ -346,17 +346,10 @@ if(isset($_POST['submit']))
 							</div>
 							<input type="checkbox" id="shippingFormValidation" <?php if(isset($shippment['title'])){ echo "checked='1'"; } ?> style="display:none;">
 							<div class="form-group">
-								<label for="inputShipping" class="col-sm-3 control-label">Packetdienst</label>
+								<label for="inputShipping" class="col-sm-3 control-label">Versandmethode</label>
 								<div class="col-sm-9">
 								  <input type="text" class="form-control" maxlength="100" id="inputShipping" placeholder="Versandart" value="<?php if(isset($shippment['title'])){ echo $shippment['title'];}?>">
-								  <p class="help-block">Wie wird das Packet versendet werden.</p>
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="inputShippingInstruction" class="col-sm-3 control-label">Zahlungsinstruktionen</label>
-								<div class="col-sm-9">
-								<textarea class="form-control" rows="5" maxlength="1000" id="inputShippingInstruction" placeholder="Zahlungsinstruktionen"><?php if(isset($shippment['instructions'])){ echo $shippment['instructions'];}?></textarea>
-								<p class="help-block">Die Zahlungsinstruktionen werden dem Kunden nach abgeschlossener Bestellung via E-Mail zugestellt.</p>
+								  <p class="help-block">Wird dem Kunden während einer Bestellung im Schritt &quot;Versandart&quot; angezeigt.</p>
 								</div>
 							</div>
 							<div class="form-group">
@@ -366,6 +359,13 @@ if(isset($_POST['submit']))
 										<div class="input-group-addon">CHF</div>
 										<input type="number" min="0" step="0.10" max="10000" class="form-control" id="inputPrice" placeholder="Versandkostenpauschale" value="<?php if(isset($shippment['price'])){ echo $shippment['price'];} ?>">
 									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputShippingInstruction" class="col-sm-3 control-label">Zahlungsinstruktionen</label>
+								<div class="col-sm-9">
+								<textarea class="form-control" rows="5" maxlength="1000" id="inputShippingInstruction" placeholder="Zahlungsinstruktionen"><?php if(isset($shippment['instructions'])){ echo $shippment['instructions'];}?></textarea>
+								<p class="help-block">Die Zahlungsinstruktionen für die Vorauskasse werden dem Kunden erst nach abgeschlossener Bestellung via E-Mail zugestellt.</p>
 								</div>
 							</div>
 						</div>
@@ -396,14 +396,14 @@ if(isset($_POST['submit']))
 								<label for="inputPickup" class="col-sm-3 control-label">Abholungsort</label>
 								<div class="col-sm-9">
 									<input type="text" class="form-control" id="inputPickup" placeholder="Abholungsort" maxlength="200" value="<?php if(isset($pickUp['pickupDestination'])){ echo $pickUp['pickupDestination'];}?>">
-									<p class="help-block">Wo kann die Bestellung abgeholt werden. Dieses Feld wird bei der Bestellung angezeit.</p>
+									<p class="help-block">Geben Sie hier an, wo die Bestellung abgeholt werden kann. Dieses Feld wird bei der Bestellung im Schritt &quot;Versandart&quot; angezeigt.</p>
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="inputPickupTime" class="col-sm-3 control-label">Abholzeiten</label>
 								<div class="col-sm-9">
 									<textarea class="form-control" rows="3" id="inputPickupTime" maxlength="500" placeholder="Abholzeiten"><?php if(isset($pickUp['pickupTime'])){ echo $pickUp['pickupTime'];}?></textarea>
-									<p class="help-block">Zu welchen Zeiten kann die Bestellung abgeholt werden. Dieses Feld wird bei der Bestellung angezeit.</p>
+									<p class="help-block">Geben Sie hier an, zu welchen Zeiten die Bestellung abgeholt werden kann. Dieses Feld wird bei der Bestellung nach Auswählen von "Barbezahlung bei Abholung" angezeigt.</p>
 								</div>
 							</div>
 							<input type="checkbox" id="pickupFormValidation" <?php if(isset($pickUp['pickupDestination'])){ echo "checked='1'"; } ?> style="display:none;">

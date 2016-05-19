@@ -68,7 +68,7 @@ $orders = $soap -> getAllOrders();
 									<tr role="row">
 										<td class="sorting_desc" tabindex="0" rowspan="1" colspan="1" aria-label="Bestellnummer" aria-sort="descending" style="width: 275px;">Bestellnummer</td>
 										<td class="sorting_asc" tabindex="0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Datum und Zeit: aktivieren, um Spalte absteigend zu sortieren" style="width: 250px;">Datum</td>
-										<td class="sorting" tabindex="0" aria-controls="data-table-sales" rowspan="1" colspan="1" aria-label="Käufer: aktivieren, um Spalte aufsteigend zu sortieren" style="width: 250px;">Käufer</td>
+										<td class="sorting" tabindex="0" aria-controls="data-table-sales" rowspan="1" colspan="1" aria-label="Besteller: aktivieren, um Spalte aufsteigend zu sortieren" style="width: 250px;">Besteller</td>
 										<td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Gesamtbetrag" style="width: 200px;">Betrag</td>
 										<td class="sorting" tabindex="0" aria-controls="data-table-sales" rowspan="1" colspan="1" aria-label="Bestellstatus" style="width: 220px;">Bestellstatus</td>
 									</tr>
@@ -106,8 +106,8 @@ $orders = $soap -> getAllOrders();
 				<!-- Default panel contents -->
 				<div class="panel-heading">Bestellnummer: <?php echo $order['increment_id']; ?></div>
 				<div class="panel-body">
-					<p><label style="width:70px; font-weight:normal;">Käufer:</label><label style="text-indent: 5em;"><?php echo $order['customer_firstname']. " " .$order['customer_lastname'] ?></label></p>
-					<p><label style="width:70px; font-weight:normal;">Email:</label><label style="text-indent: 5em;"><?php echo $order['customer_email']; ?></label></p>
+					<p><label style="width:70px; font-weight:normal;">Besteller:</label><label style="text-indent: 5em;"><?php echo $order['customer_firstname']. " " .$order['customer_lastname'] ?></label></p>
+					<p><label style="width:70px; font-weight:normal;">E-Mail:</label><label style="text-indent: 5em;"><?php echo $order['customer_email']; ?></label></p>
 					<p><label style="width:70px; font-weight:normal;">Datum und Zeit:</label><label style="text-indent: 5em;"><?php echo formatDate($order['created_at']); ?></label></p>
 					<p><label style="width:70px; font-weight:normal;">Status:</label><label style="text-indent: 5em;"><?php echo $orderStatus; ?></label></p>
 					<?php
@@ -127,7 +127,7 @@ $orders = $soap -> getAllOrders();
 				<table class="table">
 					<thead class="tablebold">
 					<tr>
-						<td>Artikel Name</td>
+						<td>Artikelname</td>
 						<td>Anzahl</td>
 						<td>Einzelpreis</td>
 						<td>Gesamtpreis</td>

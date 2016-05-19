@@ -51,7 +51,7 @@ $soap->openSoap();
                                     <td class="sorting_disabled" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Ort" style="width: 150px;">Ort</td>
                                     <td class="sorting_disabled" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Telefonnr" style="width: 150px;">Telefonnr.</td>
                                     <td class="sorting_disabled" aria-controls="data-table" rowspan="1" colspan="1" aria-label="E-Mail" style="width: 242px;">E-Mail</td>
-                                    <td class="sorting_disabled" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Bday" style="width: 140px;">Geburtstag</td>
+                                    <td class="sorting_disabled" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Bday" style="width: 140px;">Geburtsdatum</td>
                                     <td class="sorting_disabled" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Newsletter" style="width: 140px;">Newsletter</td>
                                     <td class="sorting_disabled" aria-controls="data-table" rowspan="1" colspan="1" aria-label="Löschen" style="width: 140px;">L&ouml;schen</td>
                                 </tr>

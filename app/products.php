@@ -79,7 +79,7 @@ function formatAmount($amount){
                                         <td class="col-sm-3 hidden-xs sorting_disabled" rowspan="1" colspan="1" aria-label="Bild" style="width: 200px;">Bild</td>
                                         <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Bestand" style="width: 150px;">Bestand</td>
                                         <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Preis" style="width: 250px;">Preis</td>
-                                        <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Löschen" style="width: 100px;">L&ouml;schen</td>
+                                        <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="Lï¿½schen" style="width: 100px;">L&ouml;schen</td>
                                     </tr>
                                 </thead>
 
@@ -243,13 +243,13 @@ function formatAmount($amount){
                             </div>
                         </div>
 
-                        <!-- Spezial Preis Input -->
+                        <!-- Spezialpreis Input -->
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Spezial Preis</label>
+                            <label class="col-sm-3 control-label">Spezialpreis</label>
                             <div class="col-sm-6" style="margin-right: -20px">
                                 <div class="input-group">
                                     <div class="input-group-addon">CHF</div>
-                                    <input id="article_update_specialPrice" type="number" min="0" max="10000000" step="0.05" class="form-control" name="specialPrice" value="" placeholder="Spezial Preis (optional)" data-bv-field="price" min="0">
+                                    <input id="article_update_specialPrice" type="number" min="0" max="10000000" step="0.05" class="form-control" name="specialPrice" value="" placeholder="Spezialpreis (optional)" data-bv-field="price" min="0">
                                 </div>
                             </div>
                             <div>
@@ -257,7 +257,7 @@ function formatAmount($amount){
                             </div>
                         </div>
 
-                        <!-- Spezial Preis From Date -->
+                        <!-- Spezialpreis From Date -->
                         <div class="form-group">
                             <label id="article_update_specialDateLabel" class="col-sm-3 control-label" style="font-weight: normal;">G&uuml;ltig (von/bis)</label>
                             <div class='col-md-5' style="padding-left: 30px;">
@@ -452,7 +452,7 @@ function formatAmount($amount){
                     className: "error"}
                 );
             }  else if(amount > 10000000){
-                $("#article_update_amount").notify("Dieses Feld darf nicht gröser als 10'000'000 sein.", {
+                $("#article_update_amount").notify("Dieses Feld darf nicht grï¿½ser als 10'000'000 sein.", {
                     position:"right",
                     className: "error"}
                 );
@@ -462,7 +462,7 @@ function formatAmount($amount){
                     className: "error"}
                 );
             } else if(price > 10000000){
-                $("#article_update_price").notify("Dieses Feld darf nicht grösser als 10'000'000 sein.", {
+                $("#article_update_price").notify("Dieses Feld darf nicht grï¿½sser als 10'000'000 sein.", {
                     position:"right",
                     className: "error"}
                 );
