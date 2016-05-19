@@ -53,6 +53,8 @@ $email = $settingsSoap -> getEmail();
 $capchaState = $settingsSoap->getCapchaState();
 
 $discountRows = $soapProduct->getDiscount();
+$shippment = $settingsSoap->getShippingSettings();
+$pickUp = $settingsSoap->getPickUpSettings();
 
 if(isset($_POST['updateDiscount'])){
 	$id = $_POST['updateDiscount'];
@@ -324,10 +326,6 @@ if(isset($_POST['submit']))
 					<div class="panel-body">
 				<div class="row">
 					<form class="form-horizontal" id="shippmentPaymentForm">
-					<?php
-					$shippment = $settingsSoap->getShippingSettings();
-					$pickUp = $settingsSoap->getPickUpSettings();
-					?>
 						<div id="shippingDiv" <?php if(!isset($shippment['title'])){echo "style='display: none;'";} ?>>
 							<div class="form-group">
 								<div class="col-sm-offset-3 col-sm-9">
@@ -338,18 +336,18 @@ if(isset($_POST['submit']))
 									</div>
 								</div>
 							</div>
-							<input type="checkbox" id="shippingFormValidation" checked="1" style="display:none;">
+							<input type="checkbox" id="shippingFormValidation" <?php if(isset($shippment['title'])){ echo "checked='1'"; } ?> style="display:none;">
 							<div class="form-group">
 								<label for="inputShipping" class="col-sm-3 control-label">Packetdienst</label>
 								<div class="col-sm-9">
-								  <input type="text" class="form-control" maxlength="100" id="inputShipping" placeholder="Versandart" value="<?php echo $shippment['title'];?>">
+								  <input type="text" class="form-control" maxlength="100" id="inputShipping" placeholder="Versandart" value="<?php if(isset($shippment['title'])){ echo $shippment['title'];}?>">
 								  <p class="help-block">Wie wird das Packet versendet werden.</p>
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="inputShippingInstruction" class="col-sm-3 control-label">Zahlungsinstruktionen</label>
 								<div class="col-sm-9">
-								<textarea class="form-control" rows="5" maxlength="1000" id="inputShippingInstruction" placeholder="Zahlungsinstruktionen"><?php echo $shippment['instructions']; ?></textarea>
+								<textarea class="form-control" rows="5" maxlength="1000" id="inputShippingInstruction" placeholder="Zahlungsinstruktionen"><?php if(isset($shippment['instructions'])){ echo $shippment['instructions'];}?></textarea>
 								<p class="help-block">Die Zahlungsinstruktionen werden dem Kunden nach abgeschlossener Bestellung via E-Mail zugestellt.</p>
 								</div>
 							</div>
@@ -358,7 +356,7 @@ if(isset($_POST['submit']))
 								<div class="col-sm-9">
 									<div class="input-group">
 										<div class="input-group-addon">CHF</div>
-										<input type="number" min="0" step="0.10" max="10000" class="form-control" id="inputPrice" placeholder="Versandkostenpauschale" value="<?php echo $shippment['price']; ?>">
+										<input type="number" min="0" step="0.10" max="10000" class="form-control" id="inputPrice" placeholder="Versandkostenpauschale" value="<?php if(isset($shippment['price'])){ echo $shippment['price'];} ?>">
 									</div>
 								</div>
 							</div>
@@ -369,61 +367,52 @@ if(isset($_POST['submit']))
 								<div class="col-sm-offset-0 col-sm-9">
 									<div class="checkbox">
 										<label>
-											<input type="checkbox" id="shippingActiv">Postversand aktiv
+											<input type="checkbox" id="shippingActiv2">Postversand aktiv
 										</label>
 									</div>
 								</div>
 							</div>
-							<input type="checkbox" id="shippingFormValidation" style="display:none;">
 						</div>
-					<?php
-					if(isset($pickUp['pickupDestination'])){
-						?>
-						<hr>
-						<div class="form-group">
-							<div class="col-sm-offset-3 col-sm-9">
-								<div class="checkbox">
-									<label>
-										<input type="checkbox" checked="1" id="pickUpActiv">Abholung aktiv
-									</label>
+						<div id="pickupDiv" <?php if(!isset($pickUp['pickupDestination'])){echo "style='display: none;'";} ?>>
+							<hr>
+							<div class="form-group">
+								<div class="col-sm-offset-3 col-sm-9">
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" checked="1" id="pickUpActiv">Abholung aktiv
+										</label>
+									</div>
 								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<label for="inputPickup" class="col-sm-3 control-label">Abholungsort</label>
-							<div class="col-sm-9">
-								<input type="text" class="form-control" id="inputPickup" placeholder="Abholungsort" maxlength="200" value="<?php echo $pickUp['pickupDestination'];?>">
-								<p class="help-block">Wo kann die Bestellung abgeholt werden. Dieses Feld wird bei der Bestellung angezeit.</p>
+							<div class="form-group">
+								<label for="inputPickup" class="col-sm-3 control-label">Abholungsort</label>
+								<div class="col-sm-9">
+									<input type="text" class="form-control" id="inputPickup" placeholder="Abholungsort" maxlength="200" value="<?php if(isset($pickUp['pickupDestination'])){ echo $pickUp['pickupDestination'];}?>">
+									<p class="help-block">Wo kann die Bestellung abgeholt werden. Dieses Feld wird bei der Bestellung angezeit.</p>
+								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<label for="inputPickupTime" class="col-sm-3 control-label">Abholzeiten</label>
-							<div class="col-sm-9">
-								<textarea class="form-control" rows="3" id="inputPickupTime" maxlength="500" placeholder="Abholzeiten"><?php echo $pickUp['pickupTime']; ?></textarea>
-								<p class="help-block">Zu welchen Zeiten kann die Bestellung abgeholt werden. Dieses Feld wird bei der Bestellung angezeit.</p>
+							<div class="form-group">
+								<label for="inputPickupTime" class="col-sm-3 control-label">Abholzeiten</label>
+								<div class="col-sm-9">
+									<textarea class="form-control" rows="3" id="inputPickupTime" maxlength="500" placeholder="Abholzeiten"><?php if(isset($pickUp['pickupTime'])){ echo $pickUp['pickupTime'];}?></textarea>
+									<p class="help-block">Zu welchen Zeiten kann die Bestellung abgeholt werden. Dieses Feld wird bei der Bestellung angezeit.</p>
+								</div>
 							</div>
+							<input type="checkbox" id="pickupFormValidation" <?php if(isset($pickUp['pickupDestination'])){ echo "checked='1'"; } ?> style="display:none;">
 						</div>
-						<input type="checkbox" id="pickupFormValidation" checked="1" style="display:none;">
-						<?php
-					} else {
-						?>
-						<div id="picupInactivDiv">
+						<div id="pickUpInactivDiv" <?php if(isset($pickUp['pickupDestination'])){echo "style='display: none;'";} ?>>
 							<hr>
 							<h4>Die Abholung ist momentan deaktiviert.</h4>
 							<div class="form-group">
 								<div class="col-sm-offset-0 col-sm-9">
 									<div class="checkbox">
 										<label>
-											<input type="checkbox" id="pickUpActiv">Abholung aktiv
+											<input type="checkbox" id="pickUpActiv2">Abholung aktiv
 										</label>
 									</div>
 								</div>
 							</div>
-							<input type="checkbox" id="pickupFormValidation" style="display:none;">
 						</div>
-						<?php
-					}
-					?>
 						<div class="form-group">
 							<div class="col-sm-offset-3 col-sm-9">
 								<button type="button" class="btn btn-primary" onclick="updateShippmentPayment();">Speichern</button>
@@ -536,8 +525,22 @@ if(isset($_POST['submit']))
 		});
 
 		$("#shippingActiv").change(function() {
-			$('#shippingDiv').toggle();
-
+			$('#shippingDiv').toggle('slow');
+			$('#shippingInactivDiv').toggle('slow');
+		});
+		$("#pickUpActiv").change(function() {
+			$('#pickupDiv').toggle('slow');
+			$('#pickUpInactivDiv').toggle('slow');
+		});
+		$("#shippingActiv2").change(function() {
+			$("#shippingActiv").prop( "checked", true );
+			$('#shippingDiv').toggle('slow');
+			$('#shippingInactivDiv').toggle('slow');
+		});
+		$("#pickUpActiv2").change(function() {
+			$("#pickUpActiv").prop( "checked", true );
+			$('#pickupDiv').toggle('slow');
+			$('#pickUpInactivDiv').toggle('slow');
 		});
 	});
 
@@ -808,6 +811,7 @@ if(isset($_POST['submit']))
 		data.append('shipingInstructions', shipingInstructions);
 		data.append('pickupDestination', pickupDestination);
 		data.append('pickupTime', pickupTime);
+
 		if(shippingValidation && shippingActiv && shippingName == ''){
 			$("#inputShipping").notify("Der Name des Packetdienst darf nicht leer sein.", {
 				position: "left",
