@@ -160,3 +160,7 @@ img#JumbotronImg {
     color: #bab8b8;
     padding-bottom: 18px;
 }
+
+.panel-heading:hover {
+    background-image: linear-gradient(to bottom,#dcdcdc 0,#d0d0d0 100%);
+}

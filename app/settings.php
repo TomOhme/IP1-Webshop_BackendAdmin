@@ -52,6 +52,8 @@ $email = $settingsSoap -> getEmail();
 
 $capchaState = $settingsSoap->getCapchaState();
 
+$discountRows = $soapProduct->getDiscount();
+
 if(isset($_POST['updateDiscount'])){
 	$id = $_POST['updateDiscount'];
 	$discount = $_POST['discount'];
@@ -96,6 +98,10 @@ if(isset($_POST['shippingActiv'])){
 
 if(isset($_POST['capcha'])){
 	$settingsSoap->setCapchaState($_POST['capcha']);
+}
+
+if(isset($_POST['checkDiscountValues'])){
+	echo $discountRows;
 }
 
 if(isset($_POST['shopname']))
@@ -204,17 +210,17 @@ if(isset($_POST['submit']))
 									</div>
 								</div>
 								
-								<div class="col-md-3">
-									<div class="checkbox">
-										<label>
-											<input type="checkbox" <?php if($capchaState){ echo 'checked="1"';}?> id="capchaActiv">Capcha aktiv
-										</label>
-										<p class="help-block">Das Capcha verhindert, dass Personen mit schlechten Absichten ung&uuml;ltige Bestellungen automatisiert ausl&ouml;sen k&ouml;nnen.</p>
+								<div class="col-md-6">
+									<div class="col-sm-12">
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" <?php if($capchaState){ echo 'checked="1"';}?> id="capchaActiv">Capcha aktiv
+											</label>
+											<p class="help-block">Das Capcha verhindert, dass Personen mit schlechten Absichten ung&uuml;ltige Bestellungen automatisiert ausl&ouml;sen k&ouml;nnen.</p>
+										</div>
 									</div>
 								</div>
-								<div class="text-top">
-									<button type="button" onclick="updateWebshop();" style="margin-top: 20px;" class="btn btn-primary">Speichern</button>
-								</div>
+								<button type="button" onclick="updateWebshop();" style="margin-top: 20px; margin-left: 30px" class="btn btn-primary">Speichern</button>
 							</form>
 						</div>
 					</div>
@@ -233,7 +239,6 @@ if(isset($_POST['submit']))
 				<div id="headingContact" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingContactH">
 					<div class="panel-body">
 						<form method="post"  role="form" enctype="multipart/form-data" name="contactSite">
-							<h1>Kontaktseite</h1>
 							<div class="form-group">
 								<label for="title">Titel der Kontaktseite</label>
 								<input type="text" class="form-control" required="true" maxlength="50" name="title" id="title" placeholder="Webshop xy" value="<?php echo $title; ?>">
@@ -279,7 +284,6 @@ if(isset($_POST['submit']))
 				<div id="headingDiscount" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingDiscountH">
 					<div class="panel-body">
 						<div class="row">
-							<h1>Rabatt</h1>
 							<div class="text-top">
 								<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addDiscount">Rabatt hinzuf&uuml;gen</button>
 							</div>
@@ -293,7 +297,6 @@ if(isset($_POST['submit']))
 								</thead>
 								<tbody id="discountValues">
 									<?php
-									$discountRows = $soapProduct->getDiscount();
 									foreach ($discountRows as $row) {
 										?>
 										<tr>
@@ -322,13 +325,12 @@ if(isset($_POST['submit']))
 				<div id="headingShipping" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingShippingH">
 					<div class="panel-body">
 				<div class="row">
-					<h1>Versand und Zahlung</h1>
 					<form class="form-horizontal" id="shippmentPaymentForm">
 					<?php
 					$shippment = $settingsSoap->getShippingSettings();
 					$pickUp = $settingsSoap->getPickUpSettings();
-					if(isset($shippment['title'])){
-						?>
+					?>
+						<div id="shippingDiv" <?php if(!isset($shippment['title'])){echo "style='display: none;'";} ?>>
 							<div class="form-group">
 								<div class="col-sm-offset-3 col-sm-9">
 									<div class="checkbox">
@@ -362,61 +364,65 @@ if(isset($_POST['submit']))
 									</div>
 								</div>
 							</div>
-						<?php
-					} else{
-						?>
-						<h4>Der Postversand ist momentan deaktiviert.</h4>
-						<div class="form-group">
-							<div class="col-sm-offset-0 col-sm-9">
-								<div class="checkbox">
-									<label>
-										<input type="checkbox" id="shippingActiv">Postversand aktiv
-									</label>
-								</div>
-							</div>
 						</div>
-						<input type="checkbox" id="shippingFormValidation" style="display:none;">
-					<?php
-					} if(isset($pickUp['pickupDestination'])){
-						?>
-						<div class="form-group">
-								<label for="inputPickup" class="col-sm-3 control-label">Abholungsort</label>
-								<div class="col-sm-9">
-									<input type="text" class="form-control" id="inputPickup" placeholder="Abholungsort" maxlength="200" value="<?php echo $pickUp['pickupDestination'];?>">
-									<p class="help-block">Wo kann die Bestellung abgeholt werden. Dieses Feld wird bei der Bestellung angezeit.</p>
-								</div>
-							</div>
+						<div id="shippingInactivDiv" <?php if(isset($shippment['title'])){echo "style='display: none;'";} ?>" >
+							<h4>Der Postversand ist momentan deaktiviert.</h4>
 							<div class="form-group">
-								<label for="inputPickupTime" class="col-sm-3 control-label">Abholzeiten</label>
-								<div class="col-sm-9">
-									<textarea class="form-control" rows="3" id="inputPickupTime" maxlength="500" placeholder="Abholzeiten"><?php echo $pickUp['pickupTime']; ?></textarea>
-									<p class="help-block">Zu welchen Zeiten kann die Bestellung abgeholt werden. Dieses Feld wird bei der Bestellung angezeit.</p>
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="col-sm-offset-3 col-sm-9">
+								<div class="col-sm-offset-0 col-sm-9">
 									<div class="checkbox">
 										<label>
-											<input type="checkbox" checked="1" id="pickUpActiv">Abholung aktiv
+											<input type="checkbox" id="shippingActiv">Postversand aktiv
 										</label>
 									</div>
 								</div>
 							</div>
-							<input type="checkbox" id="pickupFormValidation" checked="1" style="display:none;">
-						<?php
-					} else {
+							<input type="checkbox" id="shippingFormValidation" style="display:none;">
+						</div>
+					<?php
+					if(isset($pickUp['pickupDestination'])){
 						?>
-						<h4>Die Abholung ist momentan deaktiviert.</h4>
+						<hr>
 						<div class="form-group">
-							<div class="col-sm-offset-0 col-sm-9">
+							<div class="col-sm-offset-3 col-sm-9">
 								<div class="checkbox">
 									<label>
-										<input type="checkbox" id="pickUpActiv">Abholung aktiv
+										<input type="checkbox" checked="1" id="pickUpActiv">Abholung aktiv
 									</label>
 								</div>
 							</div>
 						</div>
-						<input type="checkbox" id="pickupFormValidation" style="display:none;">
+						<div class="form-group">
+							<label for="inputPickup" class="col-sm-3 control-label">Abholungsort</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="inputPickup" placeholder="Abholungsort" maxlength="200" value="<?php echo $pickUp['pickupDestination'];?>">
+								<p class="help-block">Wo kann die Bestellung abgeholt werden. Dieses Feld wird bei der Bestellung angezeit.</p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="inputPickupTime" class="col-sm-3 control-label">Abholzeiten</label>
+							<div class="col-sm-9">
+								<textarea class="form-control" rows="3" id="inputPickupTime" maxlength="500" placeholder="Abholzeiten"><?php echo $pickUp['pickupTime']; ?></textarea>
+								<p class="help-block">Zu welchen Zeiten kann die Bestellung abgeholt werden. Dieses Feld wird bei der Bestellung angezeit.</p>
+							</div>
+						</div>
+						<input type="checkbox" id="pickupFormValidation" checked="1" style="display:none;">
+						<?php
+					} else {
+						?>
+						<div id="picupInactivDiv">
+							<hr>
+							<h4>Die Abholung ist momentan deaktiviert.</h4>
+							<div class="form-group">
+								<div class="col-sm-offset-0 col-sm-9">
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" id="pickUpActiv">Abholung aktiv
+										</label>
+									</div>
+								</div>
+							</div>
+							<input type="checkbox" id="pickupFormValidation" style="display:none;">
+						</div>
 						<?php
 					}
 					?>
@@ -529,6 +535,11 @@ if(isset($_POST['submit']))
 				['para', ['ul', 'ol', 'paragraph']],
 				['height', ['height']]
 			]
+		});
+
+		$("#shippingActiv").change(function() {
+			$('#shippingDiv').toggle();
+
 		});
 	});
 
@@ -711,8 +722,10 @@ if(isset($_POST['submit']))
 
 	function updateDiscount(id){
 		var id = id;
+		$("#discountValues")
 		var discount = $("#udiscountForm").val();
 		var threashold = $("#uthreasholdForm").val();
+
 		if(discount > 100 || discount < 0){
 			 $("#udiscountForm").notify("Ungültiger Rabattwert. Der Wert darf nicht grösser als 100 sein.", {
 				position:"top",
