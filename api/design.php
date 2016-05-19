@@ -156,41 +156,10 @@ class Design
             return $errorMsg = "Das Bild ist zu gross";
         }
         
-        if($fileName == "logo")
-        {
-            $imgFilePath = "images/" . $fileName . ".png";
-            /*
-            $path = "design/header/logo_src";
-            
-            $stmt = $this -> mysqli->prepare("UPDATE core_config_data SET value=? WHERE path =?");
-            $stmt->bind_param('ss',$imgFilePath, $path);
-            $stmt->execute();
-            $stmt->close();
-            */
-            $imgFilePath = $imgPath . $fileName . ".png";
-
-            foreach (glob($pathStart . "magento/" . $imgPath . $fileName) as $file)
-            {
-                unlink ($file);
-            }
-
-            // TODO Set email logo header. move file to magento/media/email/logo/default/logo.png
-            // TODO Remove Update DB and just replace image file in magento/skin/frontend/webshop/default/images/logo.png
-
-            copy($img['tmp_name'], "magento/media/email/logo/default" . $fileName);
-        }
-        else if($fileName == "jumbotron")
+        if($fileName == "jumbotron")
         {
             $imgFilePath = $imgPath . $fileName . ".png";
-            
-            /*
-                <div class="page-title">
-                <h2>Home Page</h2>
-                <p><img alt="" src="{{media url="wysiwyg/jumbotron_1463132677145.png }}" /></p>
-                <p>{{widget type="catalog/product_widget_new" display_type="all_products" products_count="4" template="catalog/product/widget/new/content/new_grid.phtml"}}</p>
-                </div>
-            */
-            
+
             $content = "<div class=\"page-title\"><h2>Home Page</h2><p><img src=\"{{media url=\"wysiwyg/" . $fileName . ".png }}\" /></p> <p>{{widget type=\"catalog/product_widget_new\" display_type=\"all_products\" products_count=\"4\" template=\"catalog/product/widget/new/content/new_grid.phtml\"}}</p></div>";
             
             $title = "home";
@@ -206,12 +175,24 @@ class Design
             $stmt -> close();
         }
 
-        foreach (glob($pathStart . "magento/" . $imgPath . $fileName) as $file)
+        foreach (glob($pathStart . $imgPath . $fileName . ".png") as $file)
         {
             unlink ($file);
         }
 
         move_uploaded_file($img['tmp_name'], $pathStart . "magento/" . $imgFilePath);
+
+        if($fileName == "logo")
+        {
+            $imgFilePath = $pathStart . "magento/media/email/logo/default/" . $fileName . ".png";
+
+            foreach (glob($imgFilePath) as $file)
+            {
+                unlink($file);
+            }
+
+            copy($pathStart . "magento/" . $imgPath . $fileName . ".png", $imgFilePath);
+        }
     }
 
     /**
@@ -219,7 +200,7 @@ class Design
      */
     public function cleanCache($pathStart)
     {
-        foreach (glob($pathStart . "var/cache/*", GLOB_ONLYDIR) as $dir)
+        foreach (glob($pathStart . "magento/var/cache/*", GLOB_ONLYDIR) as $dir)
         {
             foreach(glob($dir . "/*") as $file)
             {

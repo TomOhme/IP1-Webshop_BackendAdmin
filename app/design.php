@@ -71,7 +71,7 @@ if(isset($_POST["submit"]))
                             <div class="panel panel-default"  style="height: 450px">
                                 <div class="panel-body">
                                     <div class="col-sm-12">
-                                        <img id="logoImg" src="<?php echo $pathStart . $logoPath ?>" />
+                                        <img id="logoImg" src="<?php echo $pathStart . $logoPath ?>?<?php echo date("his"); ?>" />
                                     </div>
                                     <div class="form-group">
                                         <label for="LogoFile">Logo</label>
@@ -181,11 +181,11 @@ if(isset($_POST["submit"]))
 
                 if(logo)
                 {
-                    $("#logoImg").attr( 'src', '../../skin/frontend/webshop/default/images/logo_bh_' + uploadTime + '.png');
+                    $("#logoImg").attr( 'src', '../../magento/skin/frontend/webshop/default/images/logo.png?' + (+new Date()));
                 }
                 if(jumb)
                 {
-                    $("#JumbotronImg").attr('src', '../../media/wysiwyg/jumbotron_' + uploadTime + '.png');
+                    $("#JumbotronImg").attr('src', '../../magento/media/wysiwyg/jumbotron.png?' + (+new Date()));
                 }
             },
             error: function(data)
