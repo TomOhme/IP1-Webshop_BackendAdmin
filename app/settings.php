@@ -60,7 +60,19 @@ if(isset($_POST['updateDiscount'])){
 	$id = $_POST['updateDiscount'];
 	$discount = $_POST['discount'];
 	$threshold = $_POST['threshold'];
-	$soapProduct->updateDiscount($id,$discount,$threshold);
+	$valid = true;
+	foreach ($discountRows as $row) {
+		if($threshold < $row['setAfter'] && $discount > $row['discount']){
+			http_response_code(403);
+			$valid = false;
+		} else if($threshold > $row['setAfter'] && $discount < $row['discount']){
+			http_response_code(403);
+			$valid = false;
+		}
+	}
+	if($valid){
+		$soapProduct->updateDiscount($id,$discount,$threshold);
+	}
 }
 
 if(isset($_POST['discountCreate'])){
@@ -71,10 +83,6 @@ if(isset($_POST['discountCreate'])){
 
 if(isset($_POST['deleteDiscount'])){
 	$soapProduct->deleteDiscount($_POST['deleteDiscount']);
-}
-
-if(isset($_POST['checkDiscountValues'])){
-	echo json_encode($discountRows);
 }
 
 if(isset($_POST['shippingActiv'])){
@@ -730,11 +738,6 @@ if(isset($_POST['submit']))
 	};
 
 	function updateDiscount(id){
-		$.ajax({
-			url: "settings.php",
-			type: "POST",
-			data: {"checkDiscountValues": "true"}
-		});
 		var id = id;
 		$("#discountValues")
 		var discount = $("#udiscountForm").val();
@@ -761,6 +764,8 @@ if(isset($_POST['submit']))
 				$('body').removeClass('modal-open');
 				$('.modal-backdrop').remove();
 				changeSiteUpdate("settings");
+			}, error: function() {
+				alert("Ungültig");
 			}
 		});
 		}

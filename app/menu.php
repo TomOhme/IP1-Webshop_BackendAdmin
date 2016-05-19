@@ -37,6 +37,7 @@ if(!isset($_SESSION['username'])) {
                 <li onclick="changeSite('settings');"><a class="header-link" href="#">Einstellungen</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
+                <li><a href="../documents/Benutzerhandbuch.pdf" target="_blank" class="header-link"><img src="../img/faq-circular-filled-button.png" width="25" height="25" title="Hilfe"></a></li>
                 <li title="Eingeloggter Benutzer"><a class="loggedinuser header-link" href="#">
                 <img src="../img/profile.png" width="25" height="25">&nbsp;<?php echo $_SESSION['username']; ?></a></li>
                 <li><a href="../.." target="_blank" class="visible-xs header-link"><img src="../img/shop.png" width="25" height="25" title="Zum Webshop">&nbsp;Zum Webshop</a></li>
