@@ -214,7 +214,7 @@ if(isset($_POST['submit']))
 											<label>
 												<input type="checkbox" <?php if($capchaState){ echo 'checked="1"';}?> id="capchaActiv">Capcha aktiv
 											</label>
-											<p class="help-block">Das Capcha verhindert, dass Personen mit schlechten Absichten ung&uuml;ltige Bestellungen automatisiert ausl&ouml;sen k&ouml;nnen.</p>
+											<p class="help-block">Das Capcha verhindert, dass Personen mit schlechten Absichten ung&uuml;ltige Bestellungen automatisiert ausl&ouml;sen k&ouml;nnen. Deaktivieren Sie das Capcha, dann verschwidet das "Ich bin kein Roboter" Feld bei der Registrierung und Bestellung als Gast.</p>
 										</div>
 									</div>
 								</div>
