@@ -50,7 +50,5 @@ session_start();
     <meta name="apple-mobile-web-app-title" content="EasyAdmin">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <script type="text/javascript" src='http://maps.google.com/maps/api/js?sensor=false&libraries=places'></script>
-    <script type="text/javascript" src="../plugins/jquery-locationpicker/src/locationpicker.jquery.js"></script>
     <style>html{ -webkit-text-size-adjust: 100%;}</style>
 </head>
