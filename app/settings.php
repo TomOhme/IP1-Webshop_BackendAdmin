@@ -59,18 +59,22 @@ $pickUp = $settingsSoap->getPickUpSettings();
 if(isset($_POST['updateDiscount'])){
 	$id = $_POST['updateDiscount'];
 	$discount = $_POST['discount'];
-	$threashold = $_POST['threashold'];
-	$soapProduct->updateDiscount($id,$discount,$threashold);
+	$threshold = $_POST['threshold'];
+	$soapProduct->updateDiscount($id,$discount,$threshold);
 }
 
 if(isset($_POST['discountCreate'])){
 	$discount = $_POST['discountCreate'];
-	$threashold = $_POST['threashold'];
-	$soapProduct->createDiscount($discount, $threashold);
+	$threshold = $_POST['threshold'];
+	$soapProduct->createDiscount($discount, $threshold);
 }
 
 if(isset($_POST['deleteDiscount'])){
 	$soapProduct->deleteDiscount($_POST['deleteDiscount']);
+}
+
+if(isset($_POST['checkDiscountValues'])){
+	echo json_encode($discountRows);
 }
 
 if(isset($_POST['shippingActiv'])){
@@ -100,10 +104,6 @@ if(isset($_POST['shippingActiv'])){
 
 if(isset($_POST['capcha'])){
 	$settingsSoap->setCapchaState($_POST['capcha']);
-}
-
-if(isset($_POST['checkDiscountValues'])){
-	echo $discountRows;
 }
 
 if(isset($_POST['shopname']))
@@ -301,7 +301,7 @@ if(isset($_POST['submit']))
 										?>
 										<tr>
 											<td id="discount-<?php echo $row[0]; ?>" onclick="editUpdateForm('<?php echo $row[0] ?>');"><?php echo formatDiscount($row[1]); ?></td>
-											<td id="threashold-<?php echo $row[0]; ?>" onclick="editUpdateForm('<?php echo $row[0] ?>');"><?php echo formatPrice($row[2]); ?></td>
+											<td id="threshold-<?php echo $row[0]; ?>" onclick="editUpdateForm('<?php echo $row[0] ?>');"><?php echo formatPrice($row[2]); ?></td>
 											<td onclick="deleteDiscount('<?php echo $row[0] ?>');" style="width: 50px;"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
 										</tr>
 										<?php
@@ -450,7 +450,7 @@ if(isset($_POST['submit']))
 							<div class="col-sm-8">
 								<div class="input-group">
 									<div class="input-group-addon">CHF</div>
-									<input type="number" min="0" class="form-control" id="threasholdForm" required="true" placeholder="Ab diesem Wert wird der Rabatt gew&auml;hrt">
+									<input type="number" min="0" class="form-control" id="thresholdForm" required="true" placeholder="Ab diesem Wert wird der Rabatt gew&auml;hrt">
 								</div>
 							</div>
 						</div>
@@ -483,11 +483,11 @@ if(isset($_POST['submit']))
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="uthreasholdForm" class="col-sm-2 control-label">Schwelle</label>
+							<label for="uthresholdForm" class="col-sm-2 control-label">Schwelle</label>
 							<div class="col-sm-8">
 								<div class="input-group">
 									<div class="input-group-addon">CHF</div>
-									<input type="number" min="0" class="form-control" id="uthreasholdForm" required="true" placeholder="Ab diesem Wert wird der Rabatt gew&auml;hrt">
+									<input type="number" min="0" class="form-control" id="uthresholdForm" required="true" placeholder="Ab diesem Wert wird der Rabatt gew&auml;hrt">
 								</div>
 							</div>
 						</div>
@@ -524,6 +524,7 @@ if(isset($_POST['submit']))
 			]
 		});
 
+		//Animate shipping and payment
 		$("#shippingActiv").change(function() {
 			$('#shippingDiv').toggle('slow');
 			$('#shippingInactivDiv').toggle('slow');
@@ -545,6 +546,7 @@ if(isset($_POST['submit']))
 	});
 
 	function updateContact(oldImg) {
+		//prepare ajax data
 		oldImg = $(".img1 img").attr("src");
 		oldImg = oldImg.split("/");
 		oldImg = oldImg[oldImg.length-1];
@@ -561,6 +563,7 @@ if(isset($_POST['submit']))
 		data.append("village",$("#village").val());
 		data.append("oldImg", oldImg);
 
+		//validate data
 		title = $("#title").val();
 		aboutUs = $("#aboutUs").val();
 		opening = $("#opening").val();
@@ -664,6 +667,7 @@ if(isset($_POST['submit']))
 		var email = document.getElementById("email").value;
 		var capcha = $("#capchaActiv").is(':checked');
 
+		//prepare ajax data
 		var data = new FormData();
 		data.append('submit', 'submitted');
 		data.append('contactFooter', contentContact);
@@ -672,6 +676,7 @@ if(isset($_POST['submit']))
 		data.append('email', email);
 		data.append('capcha', capcha);
 
+		//validate data
 		if(contentContact == '') {
 			$("#contact").notify("Die Kontaktadresse darf nicht leer sein.", {
 				position:"top",
@@ -715,25 +720,33 @@ if(isset($_POST['submit']))
 	function editUpdateForm(id){
 		$('#updateDiscount').modal('show');
 		var discount = $("#discount-"+id).text();
-		var threashold = $("#threashold-"+id).text();
+		var threshold = $("#threshold-"+id).text();
 		discount = discount.split("%");
-		$("#udiscountForm").val(discount);
+		threshold = threshold.split("Fr. ");
+		threshold = threshold[1].replace(",",".");
+		$("#udiscountForm").val(discount[0]);
+		$("#uthresholdForm").val(threshold);
 		$('#saveUpdateDiscount').attr("onclick", "updateDiscount("+id+")");
 	};
 
 	function updateDiscount(id){
+		$.ajax({
+			url: "settings.php",
+			type: "POST",
+			data: {"checkDiscountValues": "true"}
+		});
 		var id = id;
 		$("#discountValues")
 		var discount = $("#udiscountForm").val();
-		var threashold = $("#uthreasholdForm").val();
+		var threshold = $("#uthresholdForm").val();
 
 		if(discount > 100 || discount < 0){
 			 $("#udiscountForm").notify("Ungültiger Rabattwert. Der Wert darf nicht grösser als 100 sein.", {
 				position:"top",
 				className: "error"}
 			);
-		} else if(threashold < 0) {
-			$("#uthreasholdForm").notify("Ungültiger Schwellenwert. Der Wert darf nicht kleiner als 0 sein.", {
+		} else if(threshold < 0) {
+			$("#uthresholdForm").notify("Ungültiger Schwellenwert. Der Wert darf nicht kleiner als 0 sein.", {
 				position:"top",
 				className: "error"}
 			);
@@ -742,7 +755,7 @@ if(isset($_POST['submit']))
 			$.ajax({
 			url: "settings.php",
 			type: "POST",
-			data: {"updateDiscount": id, "discount": discount, "threashold": threashold},
+			data: {"updateDiscount": id, "discount": discount, "threshold": threshold},
 			success: function() {
 				$("#updateDiscount").modal('hide');
 				$('body').removeClass('modal-open');
@@ -766,14 +779,14 @@ if(isset($_POST['submit']))
 	
 	function addDiscount(){
 		var discount = $("#discountForm").val();
-		var threashold = $("#threasholdForm").val();
+		var threshold = $("#thresholdForm").val();
 		if(discount > 100 || discount < 0){
 			 $("#discountForm").notify("Ungültiger Rabattwert. Der Wert darf nicht grösser als 100 sein.", {
 				position:"top",
 				className: "error"}
 			);
-		} else if(threashold < 0) {
-			$("#threasholdForm").notify("Ungültiger Schwellenwert. Der Wert darf nicht kleiner als 0 sein.", {
+		} else if(threshold < 0) {
+			$("#thresholdForm").notify("Ungültiger Schwellenwert. Der Wert darf nicht kleiner als 0 sein.", {
 				position:"top",
 				className: "error"}
 			);
@@ -782,7 +795,7 @@ if(isset($_POST['submit']))
 			$.ajax({
 				url: "settings.php",
 				type: "POST",
-				data: {"discountCreate": discount, "threashold": threashold},
+				data: {"discountCreate": discount, "threshold": threshold},
 				success: function() {
 					$("#addDiscount").modal('hide');
 					$('body').removeClass('modal-open');
