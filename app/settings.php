@@ -265,7 +265,7 @@ if(isset($_POST['submit']))
 								<label for="village">Ort</label>
 								<input type="text" class="form-control" required="true" maxlength="100" name="village" id="village" placeholder="Bern" value="<?php echo $village; ?>">
 							</div>
-							<button type="button" onclick="updateContact();" style="margin-left: 15px;" class="btn btn-primary">Speichern</button>
+							<button type="button" onclick="updateContact();" class="btn btn-primary">Speichern</button>
 						</form>
 					</div>
 				</div>
