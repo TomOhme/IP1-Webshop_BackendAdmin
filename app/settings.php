@@ -128,6 +128,13 @@ if(isset($_POST['contactFooter']))
 	$settingsSoap->setContact($contactFooter);
 }
 
+if(isset($_POST['telefon']))
+{
+	$nr = $_POST["telefon"];
+
+	$settingsSoap->setPhone($nr);
+}
+
 if(isset($_POST['emailSender']))
 {
 	$emailSender = $_POST['emailSender'];
@@ -199,7 +206,7 @@ if(isset($_POST['submit']))
 								<div class="col-md-6">
 									<label class="col-sm-12 control-label">Telefon Nr.</label>
 									<div class="col-sm-12">
-										<input type="text" required="true" maxlength="50" class="form-control" id="telefonnr" value="<?php echo $phone ?>">
+										<input type="number" id="telefonnr" min="1000000000" max="9999999999" class="form-control" value="<?php echo $phone ?>"/>
 										<p class="help-block">In diesem Feld k&ouml;nnen Sie Ihre Telefonnummer angeben, welche in den E-Mails angezeigt wird.</p>
 									</div>
 								</div>
@@ -671,6 +678,7 @@ if(isset($_POST['submit']))
 		var title = "Kontakt";
 		var contentContact = document.getElementById("contact").value;
 		var contentShopname = document.getElementById("shopname").value;
+		var telefonnr = document.getElementById("telefonnr").value;
 		var emailSender = document.getElementById("emailSender").value;
 		var email = document.getElementById("email").value;
 		var capcha = $("#capchaActiv").is(':checked');
@@ -680,6 +688,7 @@ if(isset($_POST['submit']))
 		data.append('submit', 'submitted');
 		data.append('contactFooter', contentContact);
 		data.append('shopname', contentShopname);
+		data.append('telefon', telefonnr);
 		data.append('emailSender', emailSender);
 		data.append('email', email);
 		data.append('capcha', capcha);

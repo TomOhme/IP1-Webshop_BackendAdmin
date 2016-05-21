@@ -129,9 +129,21 @@ class Settings
     public function getPhone()
     {
         $path = "general/store_information/phone";
-                     
+
+        /*
+        SELECT `value`FROM `core_config_data` WHERE path = 'general/store_information/phone'
+
+        $stmt = $this -> mysqli->prepare("SELECT content FROM cms_block WHERE identifier=?");
+        $stmt->bind_param('s', $identifier);
+        $stmt->execute();
+        $stmt->bind_result($result);
+        $stmt->fetch();
+        $stmt->close();
+        */
+
         $stmt = $this -> mysqli -> prepare("SELECT value FROM core_config_data WHERE path =?");
         $stmt -> bind_param('s', $path);
+        $stmt -> execute();
         $stmt->bind_result($result);
         $stmt->fetch();
         $stmt->close();
@@ -163,6 +175,7 @@ class Settings
         
         $stmt = $this -> mysqli -> prepare("SELECT value FROM core_config_data WHERE path =?");
         $stmt -> bind_param('s', $path);
+        $stmt -> execute();
         $stmt -> bind_result($result);
         $stmt -> fetch();
         $stmt -> close();
@@ -222,6 +235,7 @@ class Settings
         
         $stmt = $this -> mysqli -> prepare("SELECT value FROM core_config_data WHERE path =?");
         $stmt -> bind_param('s', $path);
+        $stmt -> execute();
         $stmt -> bind_result($result);
         $stmt -> fetch();
         $stmt -> close();
