@@ -4,6 +4,13 @@
     clear: both;
 }
 
+#dashboardDetails {
+    /*display: table-cell;
+    vertical-align: middle;
+    margin-left: auto;
+    margin-right: auto;*/
+}
+
 .table-responsive {
     overflow-x: hidden;
     width: 100%;
