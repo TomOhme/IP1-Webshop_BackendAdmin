@@ -259,7 +259,7 @@ if(isset($_POST['submit']))
 								<input type="text" class="form-control" required="true" maxlength="50" name="title" id="title" placeholder="Webshop xy" value="<?php echo $title; ?>">
 							</div>
 							<div class="form-group img1">
-								<label>Titelbild</label><br></br>
+								<label>Titelbild</label><br><br>
 								<img style="max-width: 200px; max-height: 200px; width: auto; height: auto; margin-left: 15px; margin-bottom: 15px;" alt="Kontaktbild" src="../../media/wysiwyg<?php echo $img; ?>"/>
 								<input type="file" name="fileToUpload" id="fileToUpload">
 							</div>

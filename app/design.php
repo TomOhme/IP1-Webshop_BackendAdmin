@@ -34,6 +34,12 @@ if(isset($_POST["submit"]))
 
         $errorMsg = $dbDesign -> updatePicture($target_img, $target_dir, "logo", $pathStart);
     }
+    else if(!$_POST["reset"] && $_POST["reset"] == "logo")
+    {
+        $target_dir = "skin/frontend/webshop/default/images/";
+
+        $dbDesign -> resetImg($target_dir, "logo.png", $pathStart);
+    }
 
     if(!empty($imgJumbotron))
     {
@@ -42,6 +48,13 @@ if(isset($_POST["submit"]))
 
         $errorMsg = $dbDesign -> updatePicture($target_img, $target_dir, "jumbotron", $pathStart);
     }
+    else if(!$_POST["reset"] && $_POST["reset"] == "jumb")
+    {
+        $target_dir = "media/wysiwyg/";
+
+        $dbDesign -> resetImg($target_dir, "jumbotron.png", $pathStart);
+    }
+
     $color = $_POST["color"];
 
     $dbDesign -> setSelectedColor($color);
@@ -78,6 +91,9 @@ if(isset($_POST["submit"]))
                                         <input type="file" id="LogoFile" name="file" accept=".png,.jpg,.jpeg,.gif">
                                         <p class="help-block">Das neue Logo ausw&auml;hlen.</p>
                                     </div>
+                                    <div class="col-sm-12">
+                                        <button type="button" class="btn btn-default" onclick="resetLogo(this);" >Logo zurücksetzen</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -91,6 +107,9 @@ if(isset($_POST["submit"]))
                                         <label for="LogoFile">Titelbild</label>
                                         <input type="file" id="JumbotronFile" name="file" accept=".png,.jpg,.jpeg,.gif">
                                         <p class="help-block">Das neue Titelbild ausw&auml;hlen.</p>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <button type="button" class="btn btn-default" onclick="resetJumb(this);" >Titelbild zurücksetzen</button>
                                     </div>
                                 </div>
                             </div>
@@ -187,6 +206,86 @@ if(isset($_POST["submit"]))
                 {
                     $("#JumbotronImg").attr('src', '../../magento/media/wysiwyg/jumbotron.png?' + (+new Date()));
                 }
+            },
+            error: function(data)
+            {
+                $("#importExcel").modal('toggle');
+                $('#Error').empty();
+                $('#Error').html("<strong> Fehler! </strong><?php $errorMsg ?> ");
+                $("#alertError").toggle();
+                $("#alertError").fadeTo(10000, 500).slideUp(500, function () {
+                    $("#alertError").hide();
+                });
+            }
+        });
+    }
+
+    function resetLogo(form) {
+        var data = new FormData();
+        var uploadTime = (+new Date());
+
+        data.append('submit', 'submitted');
+        data.append('time', uploadTime);
+        data.append('reset', 'logo');
+
+        $.ajax({
+            url : 'design.php',
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: data,
+            success: function (data)
+            {
+                $("#importExcel").modal('toggle');
+                $('#Success').empty();
+                $('#Success').html("<strong> Erfolgreich! </strong> Einstellungen übernommen!");
+                $("#alertSuccess").toggle();
+                $("#alertSuccess").fadeTo(10000, 500).slideUp(500, function () {
+                    $("#alertSuccess").hide();
+                });
+
+                $("#logoImg").attr( 'src', '../../magento/skin/frontend/webshop/default/images/logo.png?' + (+new Date()));
+            },
+            error: function(data)
+            {
+                $("#importExcel").modal('toggle');
+                $('#Error').empty();
+                $('#Error').html("<strong> Fehler! </strong><?php $errorMsg ?> ");
+                $("#alertError").toggle();
+                $("#alertError").fadeTo(10000, 500).slideUp(500, function () {
+                    $("#alertError").hide();
+                });
+            }
+        });
+    }
+
+    function resetJumb(form) {
+        var data = new FormData();
+        var uploadTime = (+new Date());
+
+        data.append('submit', 'submitted');
+        data.append('time', uploadTime);
+        data.append('reset', 'jumb');
+
+        $.ajax({
+            url : 'design.php',
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: data,
+            success: function (data)
+            {
+                $("#importExcel").modal('toggle');
+                $('#Success').empty();
+                $('#Success').html("<strong> Erfolgreich! </strong> Einstellungen übernommen!");
+                $("#alertSuccess").toggle();
+                $("#alertSuccess").fadeTo(10000, 500).slideUp(500, function () {
+                    $("#alertSuccess").hide();
+                });
+
+                $("#JumbotronImg").attr('src', '../../magento/media/wysiwyg/jumbotron.png?' + (+new Date()));
             },
             error: function(data)
             {
