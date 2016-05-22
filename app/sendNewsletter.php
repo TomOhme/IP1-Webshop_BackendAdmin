@@ -13,6 +13,9 @@ $mysqli = new mysqli("localhost", $user, $pwd, "magento");
 if ($mysqli->connect_error) {
     die("Connection failed: " . $mysqli->connect_error);
 }
+
+$mysqli->set_charset("utf8");
+
 //Get Template html
 $query = "SELECT template_id, template_text FROM newsletter_template WHERE template_code='Webshop Template'";
 $result = $mysqli->query($query);
@@ -30,9 +33,16 @@ $timetosend->setTime($time[0],$time[1],$time[2]);
 $timetosend->setTimezone(new DateTimeZone('UTC'));
 $ftime = $timetosend->format('Y-m-d H:i:s');
 $title = $_POST["title"];
-$content = $_POST["content"];
+if( $_POST["content"] == 'NULL' || !isset($_POST["content"]) ){
+    $content = '';
+} else { $content = $_POST["content"];
+}
 $conreplace = explode('h1>', $template);
-$html = rtrim($conreplace[0], '<')."<h1>".$title."</h1>".$content."<br>".$conreplace[2];
+if($_POST["specialpr"] == true){
+    //bla
+} else {
+    $html = rtrim($conreplace[0], '<')."<h1>".$title."</h1>".$content."<br>".$conreplace[2];
+}
 
 $insert = "INSERT INTO newsletter_queue(queue_id, template_id, newsletter_type, newsletter_text, newsletter_styles, newsletter_subject, newsletter_sender_name, newsletter_sender_email, queue_status, queue_start_at, queue_finish_at) VALUES (NULL,".$templateid.",NULL,'".$html."',NULL,'".$title."','Test','noreply@fhnw.ch','0','".$ftime."',NULL)";
 $mysqli->query($insert);
