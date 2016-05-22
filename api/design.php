@@ -195,6 +195,26 @@ class Design
         }
     }
 
+    public function resetImg($imgPath, $imgName, $pathStart)
+    {
+        foreach(glob($pathStart . $imgPath . "logo.png") as $file)
+        {
+            unlink ($file);
+        }
+
+        copy($pathStart . "magento/" . $imgPath . "blank.png", $pathStart . "magento/" . $imgPath . $imgName);
+
+        if($imgName = "logo.png")
+        {
+            foreach(glob($pathStart . "magento/media/email/logo/default/". $imgName) as $file)
+            {
+                unlink($file);
+            }
+
+            copy($pathStart . "magento/" . $imgPath . "blank.png", $pathStart . "magento/media/email/logo/default/" . $imgName);
+        }
+    }
+
     /**
      * Cleans the magentocache
      */
