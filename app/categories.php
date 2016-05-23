@@ -70,7 +70,6 @@ if(isset($_POST['productData']) && isset($_POST['categoryDelete'])){
                                                 <?php
                                                 if ($subCategory['children'] != null) {
                                                     getNextCategoryDropdown($subCategory);
-                                                } else {
                                                 }
                                             }
                                         }
