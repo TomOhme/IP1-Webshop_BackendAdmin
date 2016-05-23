@@ -35,14 +35,36 @@ $ftime = $timetosend->format('Y-m-d H:i:s');
 $title = $_POST["title"];
 if( $_POST["content"] == 'NULL' || !isset($_POST["content"]) ){
     $content = '';
-} else { $content = $_POST["content"];
-}
-$conreplace = explode('h1>', $template);
-if($_POST["specialpr"] == true){
-    //bla
 } else {
-    $html = rtrim($conreplace[0], '<')."<h1>".$title."</h1>".$content."<br>".$conreplace[2];
+    $content = $_POST["content"];
 }
+$contentbackup = $content;
+$conreplace = explode('h1>', $template);
+
+if($_POST["specialpr"] == true) {
+    $counter = 0;
+    $content = $content.'<br><br> Die folgenden Produkte sind momentan im Sonderangebot:<br><ul style="list-style-type:square">';
+    //get special products
+    include("../api/product.php");
+    $soapProduct = new Product();
+    $soapProduct -> openSoap();
+    $specialproducts = $soapProduct->getAllProducts();
+    foreach($specialproducts as $specialproduct){
+        $id = $specialproduct['product_id'];
+        $productinfo = $soapProduct->getProductByID($id);
+        if(!is_null($productinfo['special_price'])){
+            $content = $content.'<li><a href="http://pub121.cs.technik.fhnw.ch/'.$productinfo['url_path'].'">'.$productinfo['name'].'</a></li>';
+            $counter++;
+        }
+    }
+    if($counter == 0){
+        $content = $contentbackup.'<br><br>Momentan sind keine Sonderangebote vorhanden.';
+    } else {
+        $content = $content.'</ul>';
+    }
+}
+
+$html = rtrim($conreplace[0], '<')."<h1>".$title."</h1>".$content."<br>".$conreplace[2];
 
 $insert = "INSERT INTO newsletter_queue(queue_id, template_id, newsletter_type, newsletter_text, newsletter_styles, newsletter_subject, newsletter_sender_name, newsletter_sender_email, queue_status, queue_start_at, queue_finish_at) VALUES (NULL,".$templateid.",NULL,'".$html."',NULL,'".$title."','Test','noreply@fhnw.ch','0','".$ftime."',NULL)";
 $mysqli->query($insert);

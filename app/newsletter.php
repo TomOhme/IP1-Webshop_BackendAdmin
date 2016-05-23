@@ -16,7 +16,7 @@ require_once("../api/dbconnect.php");
 <!-- alert -->
 <div class="alert alert-success alert-dismissible" role="alert" style="display: none;" id="alertSendNewsletterSuccess">
     <span class="glyphicon glyphicon glyphicon-ok-sign" aria-hidden="true"></span><p id="sendNewsletterSuccess" style="display:inline;"></p>
-     Der Newsletter wurde erfolgreich versendet!
+    Newsletter erfolgreich gesendet
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 </div>
 
