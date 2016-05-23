@@ -757,8 +757,18 @@ if(isset($_POST['submit']))
 				position:"top",
 				className: "error"}
 			);
+		} else if(discount == ''){
+			 $("#udiscountForm").notify("Der Rabatt darf nicht leer sein.", {
+				position:"top",
+				className: "error"}
+			);
 		} else if(threshold < 0) {
 			$("#uthresholdForm").notify("Ungültiger Schwellenwert. Der Wert darf nicht kleiner als 0 sein.", {
+				position:"top",
+				className: "error"}
+			);
+		} else if(threshold == '') {
+			$("#uthresholdForm").notify("Der Schwellenwert darf nicht leer sein.", {
 				position:"top",
 				className: "error"}
 			);
@@ -799,8 +809,18 @@ if(isset($_POST['submit']))
 				position:"top",
 				className: "error"}
 			);
+		} else if(discount == ''){
+			 $("#udiscountForm").notify("Der Rabatt darf nicht leer sein.", {
+				position:"top",
+				className: "error"}
+			);
 		} else if(threshold < 0) {
 			$("#thresholdForm").notify("Ungültiger Schwellenwert. Der Wert darf nicht kleiner als 0 sein.", {
+				position:"top",
+				className: "error"}
+			);
+		} else if(threshold == '') {
+			$("#uthresholdForm").notify("Der Schwellenwert darf nicht leer sein.", {
 				position:"top",
 				className: "error"}
 			);
