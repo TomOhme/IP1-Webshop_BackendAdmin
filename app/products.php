@@ -179,21 +179,35 @@ function formatAmount($amount){
                         <div class="form-group">
                             <label class="col-sm-3 control-label" id="categoryLbl">Kategorie</label>
                             <div class="col-sm-6">
-                                <?php $categories = $soapProductGroup->getTree(); ?>
+                                <?php
+                                    $categories = $soapProductGroup->getTree();
+                                    $upperCategoryId = '';
+                                ?>
                                 <select multiple="multiple" name="category" id="category" class="form-control required">
-                                    <?php getNextCategoryDropdown($categories); ?>
+                                    <?php
+                                        getNextCategoryDropdown($categories);
+                                    ?>
                                     <?php
                                     function getNextCategoryDropdown($category) {
                                         if ($category['children'] != null) {
-                                            foreach ($category['children'] as $subCategory) { ?>
-                                                <option value="<?php echo $subCategory['category_id']; ?>"> <?php echo $subCategory['name']; ?> </option> <!-- TODO indent sub categories -->
-                                                <?php if ($subCategory['children'] != null) {
+                                            foreach ($category['children'] as $subCategory) {
+                                                $tabs = '';
+                                                if($subCategory['level'] > 2){
+                                                    for($i = 0; $i < ($subCategory['level']-2)*4; $i++){
+                                                        $tabs .= '&nbsp;';
+                                                    }
+
+                                                }
+                                                ?>
+                                                <option value="<?php echo $subCategory['category_id']; ?>"> <?php echo $tabs . $subCategory['name']; ?> </option>
+                                                <?php
+                                                if ($subCategory['children'] != null) {
                                                     getNextCategoryDropdown($subCategory);
-                                                    ?>
-                                                <?php }
+                                                }
                                             }
                                         }
-                                    } ?>
+                                    }
+                                    ?>
                                 </select>
                             </div>
                         </div>
@@ -338,7 +352,35 @@ function formatAmount($amount){
 
         $('#category').multiSelect({ keepOrder:true });
 
-        var myDropzone = new Dropzone("#pictureForm", {autoProcessQueue: false, url:"./updateProduct.php"});
+        var myDropzone = new Dropzone("#pictureForm", 
+            {autoProcessQueue: false,
+            url:"./updateProduct.php",
+            maxFiles: 1,
+            maxFilesize: 10, //mb
+            acceptedFiles: 'image/*',
+            addRemoveLinks: true,
+            accept: function(file, done) {
+                console.log("uploaded");
+                done();
+                //used for enabling the submit button if file exist
+                $( "#submitbtn" ).prop( "disabled", false );
+            },
+
+            init: function() {
+                this.on("maxfilesexceeded", function(file){
+                    alert("Bitte keine Dateien mehr auswählen. Nur ein Bild pro Artikel möglich.");
+                    this.removeFile(file);
+                });
+                var myDropzone = this;
+                $("#submitbtn").on('click',function(e) {
+                    e.preventDefault();
+                    myDropzone.processQueue();
+                });
+                this.on("reset", function (file) {
+                    //used for disabling the submit button if no file exist
+                    $( "#submitbtn" ).prop( "disabled", true );
+                });
+            }});
 
         $('#datetimepickerFrom').datetimepicker({
             locale: 'de'
@@ -623,12 +665,16 @@ function formatAmount($amount){
                 success: function (data) {
                     $("#importExcel").modal('toggle');
                     $('#excelImportSuccess').empty();
-                    //changeSite("products");
+                    $("#alertExcelImportSuccess").hide();
+                    $('body').removeClass('modal-open');
+                    $('.modal-backdrop').remove();
                     changeSiteUpdate('products');
                     $('#excelImportSuccess').html("<strong> Erfolgreich! </strong> Alle Produkte wurden erfolgreich importiert.");
                     $("#alertExcelImportSuccess").toggle();
                     $("#alertExcelImportSuccess").fadeTo(10000, 500).slideUp(500, function(){
                         $("#alertExcelImportSuccess").hide();
+                        $('body').removeClass('modal-open');
+                        $('.modal-backdrop').remove();
                     });
                 },
                 error: function(data){
@@ -638,6 +684,8 @@ function formatAmount($amount){
                     $("#alertExcelImportError").toggle();
                     $("#alertExcelImportError").fadeTo(10000, 500).slideUp(500, function(){
                         $("#alertExcelImportError").hide();
+                        $('body').removeClass('modal-open');
+                        $('.modal-backdrop').remove();
                     });
                 }
             });
@@ -677,44 +725,6 @@ function formatAmount($amount){
                     { "bSortable": false, "aTargets": [ 3, 4, 5 ] } ]
             });
         });
-
-        Dropzone.options.myDropzone = {
-            maxFiles: 1,
-            maxFilesize: 10, //mb
-            acceptedFiles: 'image/*',
-            addRemoveLinks: true,
-            autoProcessQueue: false,// used for stopping auto processing uploads
-            autoDiscover: false,
-            //paramName: 'prod_pic',
-            previewsContainer: '#dropzonePreview', //used for specifying the previews div
-            clickable: false, //used this but now i cannot click on previews div to showup the file select dialog box
-
-            accept: function(file, done) {
-                console.log("uploaded");
-                done();
-                //used for enabling the submit button if file exist
-                $( "#submitbtn" ).prop( "disabled", false );
-            },
-
-            init: function() {
-                this.on("maxfilesexceeded", function(file){
-                    alert("No more files please!Only One image file accepted.");
-                    this.removeFile(file);
-                });
-                var myDropzone = this;
-                $("#submitbtn").on('click',function(e) {
-                    e.preventDefault();
-                    myDropzone.processQueue();
-
-                });
-
-                this.on("reset", function (file) {
-                    //used for disabling the submit button if no file exist
-                    $( "#submitbtn" ).prop( "disabled", true );
-                });
-
-            }
-        };
 
     </script>
 </body>

@@ -48,24 +48,28 @@ if(isset($_POST['productData']) && isset($_POST['categoryDelete'])){
                         <div class="col-sm-6">
                             <?php
                                 $categories = $soapProductGroup->getTree();
-                                $tabs = '';
                             ?>
                             <select name="categoryId" id="categoryId" class="form-control">
                                 <option value="2">-</option> <!-- value 2 for default category -->
                                 <?php
-                                    getNextCategoryDropdown($categories, $tabs);
+                                    getNextCategoryDropdown($categories);
                                 ?>
                                 <?php
-                                    function getNextCategoryDropdown($category, $tabs) {
+                                    function getNextCategoryDropdown($category) {
                                         if ($category['children'] != null) {
-                                            foreach ($category['children'] as $subCategory) { ?>
-                                                <option value="<?php echo $subCategory['category_id']; ?>"> <?php echo $tabs . $subCategory['name']; ?> </option> <!-- TODO indent sub categories -->
+                                            foreach ($category['children'] as $subCategory) {
+                                                $tabs = '';
+                                                if($subCategory['level'] > 2){
+                                                    for($i = 0; $i < ($subCategory['level']-2)*4; $i++){
+                                                        $tabs .= '&nbsp;';
+                                                    }
+
+                                                }
+                                                ?>
+                                                <option value="<?php echo $subCategory['category_id']; ?>"> <?php echo $tabs . $subCategory['name']; ?> </option>
                                                 <?php
                                                 if ($subCategory['children'] != null) {
-                                                    $tabs .= '&nbsp;&nbsp;&nbsp;&nbsp;';
-                                                    getNextCategoryDropdown($subCategory, $tabs);
-                                                } else {
-                                                    $tabs = '';
+                                                    getNextCategoryDropdown($subCategory);
                                                 }
                                             }
                                         }

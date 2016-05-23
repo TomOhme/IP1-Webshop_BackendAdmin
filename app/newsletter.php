@@ -12,6 +12,14 @@ require_once("../api/dbconnect.php");
 <!-- include summernote css/js-->
 <link href="../plugins/dist/summernote.css" rel="stylesheet">
 <script src="../plugins/dist/summernote.js"></script>
+
+<!-- alert -->
+<div class="alert alert-success alert-dismissible" role="alert" style="display: none;" id="alertSendNewsletterSuccess">
+    <span class="glyphicon glyphicon glyphicon-ok-sign" aria-hidden="true"></span><p id="sendNewsletterSuccess" style="display:inline;"></p>
+    Newsletter erfolgreich gesendet
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+</div>
+
 <div id="content">
     <table>
         <td style="width: 600px;">
@@ -28,14 +36,21 @@ require_once("../api/dbconnect.php");
                                 <span class="glyphicon glyphicon-calendar"></span>
                             </span>
                         </div>
+                        <p class="help-block">In diesem Feld k&ouml;nnen Sie die Zeit und das Datum wählen, zu welchem der Newsletter verschickt werden soll.</p>
                     </div>
                     <label class="col-sm-12 control-label">Betreff</label>
                     <div class="col-sm-12">
                         <input style="margin-bottom: 15px;" type="text" class="form-control" name="title" id="title">
+                        <p class="help-block">In diesem Feld k&ouml;nnen Sie den Betreff der Newsletter-Mails ver&auml;ndern.</p>
                     </div>
                     <label class="col-sm-12 control-label">Inhalt</label>
                     <div class="col-sm-12">
-                        <textarea rows="10" id="inhalt">Hello Summernote</textarea>
+                        <textarea rows="10" id="inhalt"></textarea>
+                        <p class="help-block">In diesem Feld k&ouml;nnen Sie den Inhalt ihres Newsletters gestalten.</p>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="control-label">Sonderangebote integrieren?</label>
+                        <input type="checkbox" name="specialproduct" id="specialproduct">
                     </div>
                     <br><button type="button" onclick="sendNewsletter();" style="margin-left: 15px;" class="btn btn-primary">Speichern</button>
                 </div>
@@ -72,18 +87,28 @@ require_once("../api/dbconnect.php");
         var datetime = document.getElementById("dtpicker").value;
         var title = document.getElementById("title").value;
         var content = document.getElementById("inhalt").value;
-        alert(datetime);
 
-        if (datetime == '' || title == '' || content == '') {
+        if($('#specialproduct:checked').val()=='on'){
+            var specialpr = true;
+        }
+        else{
+            var specialpr = false;
+        }
+
+        if (datetime == '' || title == '' || (content == '' && specialpr == false)) {
             alert("Please Fill All Fields");
         } else {
+            if(content='') content = "NULL";
+
             // AJAX code to submit form.
             $.ajax({
                 url: "sendNewsletter.php",
                 type: "POST",
-                data: {datetime: datetime, title: title, content: content},
+                data: {datetime: datetime, title: title, content: content, specialpr: specialpr},
                 success: function() {
-                    alert("Erfolgreich geändert!");
+                    $("#alertSendNewsletterSuccess").fadeTo(10000, 500).slideUp(500, function(){
+                        $("#alertSendNewsletterSuccess").hide();
+                    });
                 }
             });
         }

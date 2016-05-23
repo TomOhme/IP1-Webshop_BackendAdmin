@@ -137,7 +137,13 @@ function validateData($products, $prodAPI, $prodGrpAPI){
 */
 function uploadData($products, $prodAPI, $prodGrpAPI){
     $magentoProducts = $prodAPI -> getAllProducts();
-    $sku = $magentoProducts[count($magentoProducts) -1]['sku'];
+    $sku = $magentoProducts[count($magentoProducts)-1]['sku'];
+    if(file_exists("../config.php")){
+        include("../config.php");
+    } else{
+        include("./config.php");
+    }
+    $mysqli = new mysqli("localhost",  DBUSER,  DBPWD, "magento");
     for($i = 2; $i < count($products)+1; $i++){
         $name = $products[$i]["A"];
         $description = $products[$i]["B"];
@@ -147,9 +153,20 @@ function uploadData($products, $prodAPI, $prodGrpAPI){
         $categories = $products[$i]["F"];
         $categories = explode(",", $categories);
         array_walk($categories, 'trim_value');
-        $attributeSet = $prodAPI -> createCatalogProductEntity($categories,$unit, $name, $description, $price, $amount);
+        $categoryIDs = array();
+        foreach ($categories as $category) {
+            $stmt = $mysqli->prepare("SELECT DISTINCT catalog_category_entity_varchar.entity_id FROM catalog_category_entity_varchar WHERE VALUE=?;");
+            $stmt->bind_param("s", $category);
+            $stmt->execute();
+            $stmt->bind_result($categoryID);
+            $stmt->fetch();
+            array_push($categoryIDs, $categoryID);
+            $stmt->close();
+        }
+        $attributeSet = $prodAPI -> createCatalogProductEntity($categoryIDs,$unit, $name, $description, $price, $amount);
         $sku++;
-        $prodAPI -> createProduct($sku, $attributeSet);
+        $pID = $prodAPI -> createProduct($sku, $attributeSet);
+        $prodAPI -> updateProductByID($pID, $attributeSet);
     }
 }
 

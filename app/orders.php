@@ -124,14 +124,14 @@ $orders = $soap -> getAllOrders();
 				</div>
 
 				<!-- Table -->
-				<table class="table">
+				<table class="table table-responsive table-hover table-striped table-bordered dataTable no-footer">
 					<thead class="tablebold">
-					<tr>
-						<td>Artikelname</td>
-						<td>Anzahl</td>
-						<td>Einzelpreis</td>
-						<td>Gesamtpreis</td>
-					</tr>
+						<tr role="row" style="font-weight: 700; border-bottom-width: 2px !important;">
+							<td>Artikelname</td>
+							<td>Anzahl</td>
+							<td>Einzelpreis</td>
+							<td>Gesamtpreis</td>
+						</tr>
 					</thead>
 					<tbody>
 					<?php
