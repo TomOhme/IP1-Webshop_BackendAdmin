@@ -186,7 +186,7 @@ function formatAmount($amount){
                                     function getNextCategoryDropdown($category) {
                                         if ($category['children'] != null) {
                                             foreach ($category['children'] as $subCategory) { ?>
-                                                <option value="<?php echo $subCategory['category_id']; ?>"> <?php echo $subCategory['name']; ?> </option> <!-- TODO indent sub categories -->
+                                                <option value="<?php echo $subCategory['category_id']; ?>"> <?php echo $subCategory['name']; ?> </option>
                                                 <?php if ($subCategory['children'] != null) {
                                                     getNextCategoryDropdown($subCategory);
                                                     ?>

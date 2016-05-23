@@ -57,15 +57,25 @@ if(isset($_POST['productData']) && isset($_POST['categoryDelete'])){
                                 ?>
                                 <?php
                                     function getNextCategoryDropdown($category, $tabs) {
+                                        var_dump($category);
                                         if ($category['children'] != null) {
-                                            foreach ($category['children'] as $subCategory) { ?>
-                                                <option value="<?php echo $subCategory['category_id']; ?>"> <?php echo $tabs . $subCategory['name']; ?> </option> <!-- TODO indent sub categories -->
+                                            foreach ($category['children'] as $subCategory) {
+                                                $tabs = '';
+                                                if($subCategory['level'] > 2){
+                                                    for($i = 0; $i < ($subCategory['level']-2)*4; $i++){
+                                                        $tabs .= '&nbsp;';
+                                                    }
+
+                                                }
+                                                ?>
+                                                <option value="<?php echo $subCategory['category_id']; ?>"> <?php echo $tabs . $subCategory['name']; ?> </option>
                                                 <?php
                                                 if ($subCategory['children'] != null) {
-                                                    $tabs .= '&nbsp;&nbsp;&nbsp;&nbsp;';
+
+                                                    //$tabs .= '&nbsp;&nbsp;&nbsp;&nbsp;';
                                                     getNextCategoryDropdown($subCategory, $tabs);
                                                 } else {
-                                                    $tabs = '';
+                                                   // $tabs = substr($tabs, $tabs - 6*4);
                                                 }
                                             }
                                         }
