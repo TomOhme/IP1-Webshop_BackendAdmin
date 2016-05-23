@@ -179,21 +179,35 @@ function formatAmount($amount){
                         <div class="form-group">
                             <label class="col-sm-3 control-label" id="categoryLbl">Kategorie</label>
                             <div class="col-sm-6">
-                                <?php $categories = $soapProductGroup->getTree(); ?>
+                                <?php
+                                    $categories = $soapProductGroup->getTree();
+                                    $upperCategoryId = '';
+                                ?>
                                 <select multiple="multiple" name="category" id="category" class="form-control required">
-                                    <?php getNextCategoryDropdown($categories); ?>
+                                    <?php
+                                        getNextCategoryDropdown($categories);
+                                    ?>
                                     <?php
                                     function getNextCategoryDropdown($category) {
                                         if ($category['children'] != null) {
-                                            foreach ($category['children'] as $subCategory) { ?>
-                                                <option value="<?php echo $subCategory['category_id']; ?>"> <?php echo $subCategory['name']; ?> </option> <!-- TODO indent sub categories -->
-                                                <?php if ($subCategory['children'] != null) {
+                                            foreach ($category['children'] as $subCategory) {
+                                                $tabs = '';
+                                                if($subCategory['level'] > 2){
+                                                    for($i = 0; $i < ($subCategory['level']-2)*4; $i++){
+                                                        $tabs .= '&nbsp;';
+                                                    }
+
+                                                }
+                                                ?>
+                                                <option value="<?php echo $subCategory['category_id']; ?>"> <?php echo $tabs . $subCategory['name']; ?> </option>
+                                                <?php
+                                                if ($subCategory['children'] != null) {
                                                     getNextCategoryDropdown($subCategory);
-                                                    ?>
-                                                <?php }
+                                                }
                                             }
                                         }
-                                    } ?>
+                                    }
+                                    ?>
                                 </select>
                             </div>
                         </div>

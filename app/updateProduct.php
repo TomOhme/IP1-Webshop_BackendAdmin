@@ -45,6 +45,9 @@ if (isset($_POST['productId']) && $_POST['product'] == 'updateProduct') {
     $values['category_ids'] = $_POST['category_ids'];
     $productId = isset($values['productId']) ? $values['productId'] : null;
     $values['price'] = unformatPrice($values['price']);
+
+    //TODO save all parent category ids to selected category id (recursion)
+
     if ($values['specialPrice'] != null) {
         $values['specialPrice'] = unformatPrice($values['specialPrice']);
     }
