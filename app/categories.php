@@ -48,16 +48,14 @@ if(isset($_POST['productData']) && isset($_POST['categoryDelete'])){
                         <div class="col-sm-6">
                             <?php
                                 $categories = $soapProductGroup->getTree();
-                                $tabs = '';
                             ?>
                             <select name="categoryId" id="categoryId" class="form-control">
                                 <option value="2">-</option> <!-- value 2 for default category -->
                                 <?php
-                                    getNextCategoryDropdown($categories, $tabs);
+                                    getNextCategoryDropdown($categories);
                                 ?>
                                 <?php
-                                    function getNextCategoryDropdown($category, $tabs) {
-                                        var_dump($category);
+                                    function getNextCategoryDropdown($category) {
                                         if ($category['children'] != null) {
                                             foreach ($category['children'] as $subCategory) {
                                                 $tabs = '';
@@ -71,11 +69,8 @@ if(isset($_POST['productData']) && isset($_POST['categoryDelete'])){
                                                 <option value="<?php echo $subCategory['category_id']; ?>"> <?php echo $tabs . $subCategory['name']; ?> </option>
                                                 <?php
                                                 if ($subCategory['children'] != null) {
-
-                                                    //$tabs .= '&nbsp;&nbsp;&nbsp;&nbsp;';
-                                                    getNextCategoryDropdown($subCategory, $tabs);
+                                                    getNextCategoryDropdown($subCategory);
                                                 } else {
-                                                   // $tabs = substr($tabs, $tabs - 6*4);
                                                 }
                                             }
                                         }
