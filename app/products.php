@@ -651,7 +651,6 @@ function formatAmount($amount){
                 success: function (data) {
                     $("#importExcel").modal('toggle');
                     $('#excelImportSuccess').empty();
-                    //changeSite("products");
                     $("#alertExcelImportSuccess").hide();
                     $('body').removeClass('modal-open');
                     $('.modal-backdrop').remove();

@@ -58,11 +58,7 @@ if (isset($_POST['productId']) && $_POST['product'] == 'updateProduct') {
         $allProducts = $soapProduct->getAllProducts();
         $sku = $allProducts[count($allProducts) -1]['sku'];
         $sku++;
-        $soapProduct->createProduct($sku, $productData);
-        //get last element for product Id
-        $newProducts = $soapProduct->getAllProducts();
-        $product = end($newProducts);
-        $productId = $product['product_id'];
+        $productId = $soapProduct->createProduct($sku, $productData);
     }
     //return update product id or last product id from create product
     echo json_encode(array('id' => $productId));

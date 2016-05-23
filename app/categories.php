@@ -53,22 +53,32 @@ if(isset($_POST['productData']) && isset($_POST['categoryDelete'])){
                             <select name="categoryId" id="categoryId" class="form-control">
                                 <option value="2">-</option> <!-- value 2 for default category -->
                                 <?php
-                                    getNextCategoryDropdown($categories, $tabs);
+                                //var_dump($categories);
+                                foreach ($categories['children'] as $subCategory) {
+                                    $tabs = '';
+                                    getNextCategoryDropdown($subCategory, $tabs);
+                                }
                                 ?>
                                 <?php
                                     function getNextCategoryDropdown($category, $tabs) {
-                                        if ($category['children'] != null) {
-                                            foreach ($category['children'] as $subCategory) { ?>
-                                                <option value="<?php echo $subCategory['category_id']; ?>"> <?php echo $tabs . $subCategory['name']; ?> </option> <!-- TODO indent sub categories -->
+                                        var_dump($category);
+                                        //if (empty($category['children'])) {
+                                        ?>
+                                        <option value="<?php echo $category['category_id']; ?>"> <?php echo $tabs . $category['name']; ?> </option>
+                                        <?php
+                                            foreach ($category['children'] as $subCategory) { 
+                                                $tabs .= '&nbsp;&nbsp;&nbsp;&nbsp;';
+                                                ?>
+                                                <option value="<?php echo $subCategory['category_id']; ?>"> <?php echo $tabs . $subCategory['name']; ?> </option>
                                                 <?php
-                                                if ($subCategory['children'] != null) {
+                                                if (empty($subCategory['children'])) {
                                                     $tabs .= '&nbsp;&nbsp;&nbsp;&nbsp;';
                                                     getNextCategoryDropdown($subCategory, $tabs);
                                                 } else {
-                                                    $tabs = '';
+                                                    $tabs = substr($tabs, $tabs.length - 6*4);
                                                 }
                                             }
-                                        }
+                                        //}
                                     }
                                 ?>
                             </select>
