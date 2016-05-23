@@ -34,7 +34,19 @@ $content = $_POST["content"];
 $conreplace = explode('h1>', $template);
 $html = rtrim($conreplace[0], '<')."<h1>".$title."</h1>".$content."<br>".$conreplace[2];
 
-$insert = "INSERT INTO newsletter_queue(queue_id, template_id, newsletter_type, newsletter_text, newsletter_styles, newsletter_subject, newsletter_sender_name, newsletter_sender_email, queue_status, queue_start_at, queue_finish_at) VALUES (NULL,".$templateid.",NULL,'".$html."',NULL,'".$title."','Test','noreply@fhnw.ch','0','".$ftime."',NULL)";
+$query = "SELECT value FROM core_config_data WHERE path = 'trans_email/ident_general/name'";
+$result = $mysqli->query($query);
+$row = mysqli_fetch_assoc($result);
+
+$sender = $row["value"];
+
+$query = "SELECT value FROM core_config_data WHERE path = 'trans_email/ident_general/email'";
+$result = $mysqli->query($query);
+$row = mysqli_fetch_assoc($result);
+
+$email = $row["value"];
+
+$insert = "INSERT INTO newsletter_queue(queue_id, template_id, newsletter_type, newsletter_text, newsletter_styles, newsletter_subject, newsletter_sender_name, newsletter_sender_email, queue_status, queue_start_at, queue_finish_at) VALUES (NULL,".$templateid.",NULL,'".$html."',NULL,'".$title."','".$sender."','".$email."','0','".$ftime."',NULL)";
 $mysqli->query($insert);
 
 $getid = "SELECT queue_id FROM newsletter_queue WHERE queue_start_at='".$ftime."'";

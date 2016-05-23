@@ -175,7 +175,7 @@ class Design
             $stmt -> close();
         }
 
-        foreach (glob($pathStart . $imgPath . $fileName . ".png") as $file)
+        foreach (glob($pathStart . "magento/" . $imgPath . $fileName . ".png") as $file)
         {
             unlink ($file);
         }
