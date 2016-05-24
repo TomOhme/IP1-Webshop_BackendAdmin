@@ -249,8 +249,6 @@ $(document).ready(function() {
 		},
 		"bLengthChange": false,
 		"pageLength": 10,
-		"aoColumnDefs": [
-		{ "bSortable": false, "aTargets": [ 2 ] } ],
 		order: [[0,'desc']]
 	 });
 } );
