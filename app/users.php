@@ -90,7 +90,6 @@ $soap->openSoap();
                                     $sid = $mysqli->query($newsletter);
                                     $sidr = mysqli_fetch_assoc($sid);
                                     ?>
-
                                     <td class="sorting_1"><?php if(!is_null($user['firstname'])){ echo $user['firstname']; } ?></td>
                                     <td class="sorting_1"><?php if(!is_null($user['lastname'])){ echo $user['lastname']; } ?></td>
                                     <td class="sorting_1"><?php if(!is_null($user['0'])){ echo $user['0']; } ?></td>
