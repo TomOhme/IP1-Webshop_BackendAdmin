@@ -155,11 +155,11 @@ class Design
         {
             return $errorMsg = "Das Bild ist zu gross";
         }
+
+        $imgFilePath = $imgPath . $fileName . ".png";
         
         if($fileName == "jumbotron")
         {
-            $imgFilePath = $imgPath . $fileName . ".png";
-
             $content = "<div class=\"page-title\"><h2>Home Page</h2><p><img src=\"{{media url=\"wysiwyg/" . $fileName . ".png }}\" /></p> <p>{{widget type=\"catalog/product_widget_new\" display_type=\"all_products\" products_count=\"4\" template=\"catalog/product/widget/new/content/new_grid.phtml\"}}</p></div>";
             
             $title = "home";
@@ -175,7 +175,7 @@ class Design
             $stmt -> close();
         }
 
-        foreach (glob($pathStart . $imgPath . $fileName . ".png") as $file)
+        foreach (glob($pathStart . "magento/" . $imgPath . $fileName . ".png") as $file)
         {
             unlink ($file);
         }

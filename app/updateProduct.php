@@ -45,6 +45,9 @@ if (isset($_POST['productId']) && $_POST['product'] == 'updateProduct') {
     $values['category_ids'] = $_POST['category_ids'];
     $productId = isset($values['productId']) ? $values['productId'] : null;
     $values['price'] = unformatPrice($values['price']);
+
+    //TODO save all parent category ids to selected category id (recursion)
+
     if ($values['specialPrice'] != null) {
         $values['specialPrice'] = unformatPrice($values['specialPrice']);
     }
@@ -58,11 +61,7 @@ if (isset($_POST['productId']) && $_POST['product'] == 'updateProduct') {
         $allProducts = $soapProduct->getAllProducts();
         $sku = $allProducts[count($allProducts) -1]['sku'];
         $sku++;
-        $soapProduct->createProduct($sku, $productData);
-        //get last element for product Id
-        $newProducts = $soapProduct->getAllProducts();
-        $product = end($newProducts);
-        $productId = $product['product_id'];
+        $productId = $soapProduct->createProduct($sku, $productData);
     }
     //return update product id or last product id from create product
     echo json_encode(array('id' => $productId));

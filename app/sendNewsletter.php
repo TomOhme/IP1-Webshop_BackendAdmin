@@ -66,7 +66,44 @@ if($_POST["specialpr"] == true) {
 
 $html = rtrim($conreplace[0], '<')."<h1>".$title."</h1>".$content."<br>".$conreplace[2];
 
-$insert = "INSERT INTO newsletter_queue(queue_id, template_id, newsletter_type, newsletter_text, newsletter_styles, newsletter_subject, newsletter_sender_name, newsletter_sender_email, queue_status, queue_start_at, queue_finish_at) VALUES (NULL,".$templateid.",NULL,'".$html."',NULL,'".$title."','Test','noreply@fhnw.ch','0','".$ftime."',NULL)";
+$query2 = 'SELECT value FROM core_config_data WHERE path = "web/secure/base_url"';
+$results2 = $readConnection->fetchAll($query2);
+
+$baseUrl = $results2[0]['value'];
+
+$newsletter_text = "<p>{{template config_path=\"design/email/header\"}} {{inlinecss file=\"email-inline.css\"}}</p>";
+$newsletter_text .= "<table style=\"width: 600px;\" border=\"0\"><tbody><tr><td class=\"full\"><table class=\"columns\" style=\"width: 595px;\">";
+$newsletter_text .= "<tbody><tr><td class=\"email-heading\" colspan=\"2\"><h1>".$title."</h1></td></tr></tbody></table></td></tr><tr>";
+$newsletter_text .= "<td class=\"full\"><table class=\"columns\" style=\"width: 600px; height: 200px;\"><tbody><tr><td>";
+$newsletter_text .= "<img class=\"main-image\" src=\"". $baseUrl ."media/wysiwyg/jumbotron.png\" /></td>";
+$newsletter_text .= "<td class=\"expander\">&nbsp;</td></tr></tbody></table>";
+$newsletter_text .= "<p>".$content."</p>";
+$newsletter_text .= "</td></tr><tr><td><table class=\"row\" style=\"width: 600px;\"><tbody><tr>";
+$newsletter_text .= "<td class=\"half left wrapper\">{{widget type=\"catalog/product_widget_new\" display_type=\"all_products\" products_count=\"4\" template=\"catalog/product/widget/new/content/new_list.phtml\"}}</td>";
+$newsletter_text .= "<td class=\"half right wrapper\">";
+$newsletter_text .= "<h6><strong><span style=\"font-size: small;\">Kontakt:</span></strong></h6>{{depend store_phone}}";
+$newsletter_text .= "<p><b>Telefon:</b>&nbsp;<a href=\"tel:{{var phone}}\">{{var store_phone}}</a></p>{{/depend}} {{depend store_hours}}";
+$newsletter_text .= "<p><span class=\"no-link\">{{var store_hours}}</span></p>{{/depend}} {{depend store_email}}";
+$newsletter_text .= "<p><b>E-Mail:</b>&nbsp;<a href=\"mailto:{{var store_email}}\">{{var store_email}}</a></p>";
+$newsletter_text .= "{{/depend}}</td></tr></tbody></table><table class=\"row\"><tbody><tr><td class=\"full wrapper last\">";
+$newsletter_text .= "<table class=\"columns\" style=\"width: 600px;\"><tbody><tr><td>";
+$newsletter_text .= "<p><a href=\"{{var subscriber.getUnsubscriptionLink()}}\">Newsletter abmelden</a></p>";
+$newsletter_text .= "</td><td class=\"expander\">&nbsp;</td></tr></tbody></table></td></tr></tbody></table></td>";
+$newsletter_text .= "</tr></tbody></table><p>{{template config_path=\"design/email/footer\"}}</p>";
+
+$query3 = "SELECT value FROM core_config_data WHERE path = 'trans_email/ident_general/name'";
+$result3 = $mysqli->query($query3);
+$row3 = mysqli_fetch_assoc($result3);
+
+$sender = $row3["value"];
+
+$query4 = "SELECT value FROM core_config_data WHERE path = 'trans_email/ident_general/email'";
+$result4 = $mysqli->query($query4);
+$row4 = mysqli_fetch_assoc($result4);
+
+$email = $row4["value"];
+
+$insert = "INSERT INTO newsletter_queue(queue_id, template_id, newsletter_type, newsletter_text, newsletter_styles, newsletter_subject, newsletter_sender_name, newsletter_sender_email, queue_status, queue_start_at, queue_finish_at) VALUES (NULL,".$templateid.",NULL,'".$newsletter_text."',NULL,'".$title."','".$sender."','".$email."','0','".$ftime."',NULL)";
 $mysqli->query($insert);
 
 $getid = "SELECT queue_id FROM newsletter_queue WHERE queue_start_at='".$ftime."'";

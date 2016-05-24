@@ -260,7 +260,7 @@ if(isset($_POST['submit']))
 							</div>
 							<div class="form-group img1">
 								<label>Titelbild</label><br><br>
-								<img style="max-width: 200px; max-height: 200px; width: auto; height: auto; margin-left: 15px; margin-bottom: 15px;" alt="Kontaktbild" src="../../media/wysiwyg<?php echo $img; ?>"/>
+								<img id="contactImg" style="max-width: 200px; max-height: 200px; width: auto; height: auto; margin-left: 15px; margin-bottom: 15px;" alt="Kontaktbild" src="../../media/wysiwyg<?php echo $img ?>?<?php echo date("his"); ?>"/>
 								<input type="file" name="fileToUpload" id="fileToUpload">
 							</div>
 							<div class="form-group">
@@ -566,8 +566,11 @@ if(isset($_POST['submit']))
 		oldImg = oldImg.split("/");
 		oldImg = oldImg[oldImg.length-1];
 		var data = new FormData();
+		var img = false;
+
 		jQuery.each(jQuery('#fileToUpload')[0].files, function(i, file) {
 			data.append('file-'+i, file);
+			img = true;
 		});
 		data.append("title",$("#title").val());
 		data.append("aboutUs",$("#aboutUs").val());
@@ -577,6 +580,7 @@ if(isset($_POST['submit']))
 		data.append("plz",$("#plz").val());
 		data.append("village",$("#village").val());
 		data.append("oldImg", oldImg);
+		data.append('submit', 'submitted');
 
 		//validate data
 		title = $("#title").val();
@@ -751,9 +755,15 @@ if(isset($_POST['submit']))
 		$("#discountValues")
 		var discount = $("#udiscountForm").val();
 		var threshold = $("#uthresholdForm").val();
+		var submitted = 'submitted';
 
 		if(discount > 100 || discount < 0){
 			 $("#udiscountForm").notify("Ungültiger Rabattwert. Der Wert darf nicht grösser als 100 sein.", {
+				position:"top",
+				className: "error"}
+			);
+		} else if(discount == ''){
+			 $("#udiscountForm").notify("Der Rabatt darf nicht leer sein.", {
 				position:"top",
 				className: "error"}
 			);
@@ -762,12 +772,17 @@ if(isset($_POST['submit']))
 				position:"top",
 				className: "error"}
 			);
+		} else if(threshold == '') {
+			$("#uthresholdForm").notify("Der Schwellenwert darf nicht leer sein.", {
+				position:"top",
+				className: "error"}
+			);
 		} else{
 			discount = discount/100;
 			$.ajax({
 			url: "settings.php",
 			type: "POST",
-			data: {"updateDiscount": id, "discount": discount, "threshold": threshold},
+			data: {"updateDiscount": id, "discount": discount, "threshold": threshold, "submit": submitted},
 			success: function() {
 				$("#updateDiscount").modal('hide');
 				$('body').removeClass('modal-open');
@@ -799,8 +814,18 @@ if(isset($_POST['submit']))
 				position:"top",
 				className: "error"}
 			);
+		} else if(discount == ''){
+			 $("#udiscountForm").notify("Der Rabatt darf nicht leer sein.", {
+				position:"top",
+				className: "error"}
+			);
 		} else if(threshold < 0) {
 			$("#thresholdForm").notify("Ungültiger Schwellenwert. Der Wert darf nicht kleiner als 0 sein.", {
+				position:"top",
+				className: "error"}
+			);
+		} else if(threshold == '') {
+			$("#uthresholdForm").notify("Der Schwellenwert darf nicht leer sein.", {
 				position:"top",
 				className: "error"}
 			);
@@ -831,6 +856,7 @@ if(isset($_POST['submit']))
 		pickupDestination = $("#inputPickup").val();
 		pickupTime = $("#inputPickupTime").val();
 		var data = new FormData();
+		data.append('submit', 'submitted');
 		data.append('shippingActiv', shippingActiv);
 		data.append('pickUpActiv', pickUpActiv);
 		data.append('shippingName', shippingName);
