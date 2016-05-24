@@ -47,16 +47,27 @@ if (isset($_POST['productId']) && $_POST['product'] == 'updateProduct') {
     $values['price'] = unformatPrice($values['price']);
 
     //get all parent Category ids
-    /*$category = $soapProductGroup->getCategory($values['category_ids']);
-    $path = $category['path'];
-    var_dump($path);
-    $ids = explode('/', $path);
-    unset($ids[0]);*/
+    $categoryPath = array();
+    foreach ($values['category_ids'] as $categoryId) {
+        $category = $soapProductGroup->getCategory($categoryId);
+        $path = $category['path'];
+        $ids = explode('/', $path);
+        unset($ids[0]); //TODO default category
+        $categoryPath[] = $ids;
+    }
+    $categoryIds = '';
+    $lastVal = '';
+    foreach ($categoryPath as $val) {
+        if(strpos($val,$lastVal) !== false) {
+            $categoryIds .= ';'.$val;
+        }
+        $lastVal = $val;
+    }
 
     if ($values['specialPrice'] != null) {
         $values['specialPrice'] = unformatPrice($values['specialPrice']);
     }
-    $productData = $soapProduct->createCatalogProductEntity($ids, $values['unit'], $values['title'], $values['short_description'],
+    $productData = $soapProduct->createCatalogProductEntity($categoryIds, $values['unit'], $values['title'], $values['short_description'],
                                                             $values['price'], $values['stock'], $values['specialPrice'], $values['specialFromDate'], $values['specialToDate']);
     if ($productId != null) {
         //update product
