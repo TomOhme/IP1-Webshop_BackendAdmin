@@ -91,17 +91,17 @@ $newsletter_text .= "<p><a href=\"{{var subscriber.getUnsubscriptionLink()}}\">N
 $newsletter_text .= "</td><td class=\"expander\">&nbsp;</td></tr></tbody></table></td></tr></tbody></table></td>";
 $newsletter_text .= "</tr></tbody></table><p>{{template config_path=\"design/email/footer\"}}</p>";
 
-$query = "SELECT value FROM core_config_data WHERE path = 'trans_email/ident_general/name'";
-$result = $mysqli->query($query);
-$row = mysqli_fetch_assoc($result);
+$query3 = "SELECT value FROM core_config_data WHERE path = 'trans_email/ident_general/name'";
+$result3 = $mysqli->query($query3);
+$row3 = mysqli_fetch_assoc($result3);
 
-$sender = $row["value"];
+$sender = $row3["value"];
 
-$query = "SELECT value FROM core_config_data WHERE path = 'trans_email/ident_general/email'";
-$result = $mysqli->query($query);
-$row = mysqli_fetch_assoc($result);
+$query4 = "SELECT value FROM core_config_data WHERE path = 'trans_email/ident_general/email'";
+$result4 = $mysqli->query($query4);
+$row4 = mysqli_fetch_assoc($result4);
 
-$email = $row["value"];
+$email = $row4["value"];
 
 $insert = "INSERT INTO newsletter_queue(queue_id, template_id, newsletter_type, newsletter_text, newsletter_styles, newsletter_subject, newsletter_sender_name, newsletter_sender_email, queue_status, queue_start_at, queue_finish_at) VALUES (NULL,".$templateid.",NULL,'".$newsletter_text."',NULL,'".$title."','".$sender."','".$email."','0','".$ftime."',NULL)";
 $mysqli->query($insert);
