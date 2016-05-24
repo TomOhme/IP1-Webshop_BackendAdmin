@@ -67,9 +67,10 @@ if($_POST["specialpr"] == true) {
 $html = rtrim($conreplace[0], '<')."<h1>".$title."</h1>".$content."<br>".$conreplace[2];
 
 $query2 = 'SELECT value FROM core_config_data WHERE path = "web/secure/base_url"';
-$results2 = $readConnection->fetchAll($query2);
+$result2 = $mysqli->query($query2);
+$row2 = mysqli_fetch_assoc($result2);
 
-$baseUrl = $results2["value"];
+$baseUrl = $row2["value"];
 
 $newsletter_text = "<p>" .
 "{{template config_path=\"design/email/header\"}} {{inlinecss file=\"email-inline.css\"}}" .
