@@ -19,6 +19,10 @@ require_once("../api/dbconnect.php");
     Newsletter erfolgreich gesendet
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 </div>
+<div class="alert alert-danger alert-dismissible" role="alert" style="display: none;" id="alertSendNewsletterError">
+    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><p id="sendNewsletterError" style="display:inline;"></p>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+</div>
 
 <div id="content">
     <table>
@@ -76,10 +80,13 @@ require_once("../api/dbconnect.php");
             ]
         });
     });
+    var date = new Date();
+    date.setDate(date.getDate());
 
     $('#dtpicker').datetimepicker({
         format: "DD.MM.YYYY - HH.mm.ss",
-        locale: 'de'
+        locale: 'de',
+        minDate: date
     });
 
     function sendNewsletter() {
@@ -96,7 +103,9 @@ require_once("../api/dbconnect.php");
         }
 
         if (datetime == '' || title == '' || (content == '' && specialpr == false)) {
-            alert("Please Fill All Fields");
+            $("#alertSendNewsletterError").fadeTo(10000, 500).slideUp(500, function(){
+                $("#alertSendNewsletterError").hide();
+            });
         } else {
             if(content='') content = "NULL";
 
