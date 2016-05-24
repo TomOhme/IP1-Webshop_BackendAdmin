@@ -45,13 +45,13 @@ if (isset($_POST['productId']) && $_POST['product'] == 'updateProduct') {
     $values['category_ids'] = $_POST['category_ids'];
     $productId = isset($values['productId']) ? $values['productId'] : null;
     $values['price'] = unformatPrice($values['price']);
-
+    var_dump($values['category_ids']);
     //get all parent Category ids
-    /*$category = $soapProductGroup->getCategory($values['category_ids']);
+    $category = $soapProductGroup->getCategory($values['category_ids']);
     $path = $category['path'];
     var_dump($path);
     $ids = explode('/', $path);
-    unset($ids[0]);*/
+    unset($ids[0]);
 
     if ($values['specialPrice'] != null) {
         $values['specialPrice'] = unformatPrice($values['specialPrice']);
