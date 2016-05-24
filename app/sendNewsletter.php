@@ -73,7 +73,7 @@ $baseUrl = $results2[0]['value'];
 
 $newsletter_text = "<p>{{template config_path=\"design/email/header\"}} {{inlinecss file=\"email-inline.css\"}}</p>";
 $newsletter_text .= "<table style=\"width: 600px;\" border=\"0\"><tbody><tr><td class=\"full\"><table class=\"columns\" style=\"width: 595px;\">";
-$newsletter_text .= "<tbody><tr><td class=\"email-heading\" colspan=\"2\"><h1>Willkommen</h1></td></tr></tbody></table></td></tr><tr>";
+$newsletter_text .= "<tbody><tr><td class=\"email-heading\" colspan=\"2\"><h1>".$title."</h1></td></tr></tbody></table></td></tr><tr>";
 $newsletter_text .= "<td class=\"full\"><table class=\"columns\" style=\"width: 600px; height: 200px;\"><tbody><tr><td>";
 $newsletter_text .= "<img class=\"main-image\" src=\"". $baseUrl ."media/wysiwyg/jumbotron.png\" /></td>";
 $newsletter_text .= "<td class=\"expander\">&nbsp;</td></tr></tbody></table>";
