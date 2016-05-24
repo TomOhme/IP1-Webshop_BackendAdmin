@@ -181,7 +181,6 @@ function formatAmount($amount){
                             <div class="col-sm-6">
                                 <?php
                                     $categories = $soapProductGroup->getTree();
-                                    $upperCategoryId = '';
                                 ?>
                                 <select multiple="multiple" name="category" id="category" class="form-control required">
                                     <?php
@@ -192,6 +191,7 @@ function formatAmount($amount){
                                         if ($category['children'] != null) {
                                             foreach ($category['children'] as $subCategory) {
                                                 $tabs = '';
+                                                //for indent sub categories
                                                 if($subCategory['level'] > 2){
                                                     for($i = 0; $i < ($subCategory['level']-2)*4; $i++){
                                                         $tabs .= '&nbsp;';

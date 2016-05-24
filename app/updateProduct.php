@@ -46,12 +46,16 @@ if (isset($_POST['productId']) && $_POST['product'] == 'updateProduct') {
     $productId = isset($values['productId']) ? $values['productId'] : null;
     $values['price'] = unformatPrice($values['price']);
 
-    //TODO save all parent category ids to selected category id (recursion)
+    //get all parent Category ids
+    /*$category = $soapProductGroup->getCategory($values['category_ids']);
+    $path = $category->getPath();
+    $ids = explode('/', $path);
+    unset($ids[0]);*/
 
     if ($values['specialPrice'] != null) {
         $values['specialPrice'] = unformatPrice($values['specialPrice']);
     }
-    $productData = $soapProduct->createCatalogProductEntity($values['category_ids'], $values['unit'], $values['title'], $values['short_description'],
+    $productData = $soapProduct->createCatalogProductEntity($ids, $values['unit'], $values['title'], $values['short_description'],
                                                             $values['price'], $values['stock'], $values['specialPrice'], $values['specialFromDate'], $values['specialToDate']);
     if ($productId != null) {
         //update product
