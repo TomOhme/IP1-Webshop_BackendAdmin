@@ -48,7 +48,8 @@ if (isset($_POST['productId']) && $_POST['product'] == 'updateProduct') {
 
     //get all parent Category ids
     /*$category = $soapProductGroup->getCategory($values['category_ids']);
-    $path = $category->getPath();
+    $path = $category['path'];
+    var_dump($path);
     $ids = explode('/', $path);
     unset($ids[0]);*/
 
