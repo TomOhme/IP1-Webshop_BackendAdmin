@@ -88,6 +88,8 @@ require_once("../api/dbconnect.php");
         var title = document.getElementById("title").value;
         var content = document.getElementById("inhalt").value;
 
+        var data = new FormData();
+
         if($('#specialproduct:checked').val()=='on'){
             var specialpr = true;
         }
@@ -95,16 +97,27 @@ require_once("../api/dbconnect.php");
             var specialpr = false;
         }
 
+        data.append("datetime", datetime);
+        data.append("title", title);
+        data.append("content", content);
+        data.append("specialpr", specialpr);
+
         if (datetime == '' || title == '' || (content == '' && specialpr == false)) {
             alert("Please Fill All Fields");
         } else {
-            if(content='') content = "NULL";
+            if(content='')
+            {
+                content = "NULL";
+            }
 
             // AJAX code to submit form.
             $.ajax({
-                url: "sendNewsletter.php",
-                type: "POST",
-                data: {datetime: datetime, title: title, content: content, specialpr: specialpr},
+                url: 'sendNewsletter.php',
+                type: 'POST',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: data,
                 success: function() {
                     $("#alertSendNewsletterSuccess").fadeTo(10000, 500).slideUp(500, function(){
                         $("#alertSendNewsletterSuccess").hide();

@@ -200,11 +200,11 @@ if(isset($_POST["submit"]))
 
                 if(logo)
                 {
-                    $("#logoImg").attr( 'src', '../../magento/skin/frontend/webshop/default/images/logo.png?' + (+new Date()));
+                    $("#logoImg").attr( 'src', '../../skin/frontend/webshop/default/images/logo.png?' + (+new Date()));
                 }
                 if(jumb)
                 {
-                    $("#JumbotronImg").attr('src', '../../magento/media/wysiwyg/jumbotron.png?' + (+new Date()));
+                    $("#JumbotronImg").attr('src', '../../media/wysiwyg/jumbotron.png?' + (+new Date()));
                 }
             },
             error: function(data)
@@ -245,7 +245,7 @@ if(isset($_POST["submit"]))
                     $("#alertSuccess").hide();
                 });
 
-                $("#logoImg").attr( 'src', '../../magento/skin/frontend/webshop/default/images/logo.png?' + (+new Date()));
+                $("#logoImg").attr( 'src', '../../skin/frontend/webshop/default/images/logo.png?' + (+new Date()));
             },
             error: function(data)
             {
@@ -285,7 +285,7 @@ if(isset($_POST["submit"]))
                     $("#alertSuccess").hide();
                 });
 
-                $("#JumbotronImg").attr('src', '../../magento/media/wysiwyg/jumbotron.png?' + (+new Date()));
+                $("#JumbotronImg").attr('src', '../../media/wysiwyg/jumbotron.png?' + (+new Date()));
             },
             error: function(data)
             {

@@ -77,7 +77,7 @@ $newsletter_text .= "<tbody><tr><td class=\"email-heading\" colspan=\"2\"><h1>".
 $newsletter_text .= "<td class=\"full\"><table class=\"columns\" style=\"width: 600px; height: 200px;\"><tbody><tr><td>";
 $newsletter_text .= "<img class=\"main-image\" src=\"". $baseUrl ."media/wysiwyg/jumbotron.png\" /></td>";
 $newsletter_text .= "<td class=\"expander\">&nbsp;</td></tr></tbody></table>";
-$newsletter_text .= "<p>".$content."</p>";
+$newsletter_text .= $content;
 $newsletter_text .= "</td></tr><tr><td><table class=\"row\" style=\"width: 600px;\"><tbody><tr>";
 $newsletter_text .= "<td class=\"half left wrapper\">{{widget type=\"catalog/product_widget_new\" display_type=\"all_products\" products_count=\"4\" template=\"catalog/product/widget/new/content/new_list.phtml\"}}</td>";
 $newsletter_text .= "<td class=\"half right wrapper\">";

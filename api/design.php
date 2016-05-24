@@ -197,7 +197,7 @@ class Design
 
     public function resetImg($imgPath, $imgName, $pathStart)
     {
-        foreach(glob($pathStart . $imgPath . "logo.png") as $file)
+        foreach(glob($pathStart . "magento/" . $imgPath . "logo.png") as $file)
         {
             unlink ($file);
         }
