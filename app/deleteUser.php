@@ -1,11 +1,10 @@
 <?php
 /**
  * Created by IntelliJ IDEA.
- * User: Evenus
+ * User: Patrick Althaus
  * Date: 24.04.2016
  * Time: 16:38
  */
-//echo "hi ich bin in deleteUser";
 require_once("../api/users.php");
 
 $soap = new User();
