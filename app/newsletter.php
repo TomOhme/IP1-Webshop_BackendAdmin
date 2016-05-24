@@ -114,12 +114,6 @@ require_once("../api/dbconnect.php");
                 $("#alertSendNewsletterError").hide();
             });
         } else {
-            if(content='')
-            {
-                content = "NULL";
-            }
-
-            // AJAX code to submit form.
             $.ajax({
                 url: 'sendNewsletter.php',
                 type: 'POST',
@@ -127,7 +121,7 @@ require_once("../api/dbconnect.php");
                 contentType: false,
                 processData: false,
                 data: data,
-                success: function() {
+                success: function(data) {
                     $("#alertSendNewsletterSuccess").fadeTo(10000, 500).slideUp(500, function(){
                         $("#alertSendNewsletterSuccess").hide();
                     });
