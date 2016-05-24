@@ -21,6 +21,7 @@ require_once("../api/dbconnect.php");
 </div>
 <div class="alert alert-danger alert-dismissible" role="alert" style="display: none;" id="alertSendNewsletterError">
     <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><p id="sendNewsletterError" style="display:inline;"></p>
+    Bitte alle Felder ausfüllen
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 </div>
 
