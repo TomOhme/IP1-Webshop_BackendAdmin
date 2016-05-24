@@ -6,11 +6,19 @@
  * Time: 20:44
  */
 require_once("../api/users.php");
+include("../config.php");
 
 session_start();
 
 if(!isset($_SESSION['username'])) {
  return header('Location: index.php');
+}
+
+$user = DBUSER;
+$pwd = DBPWD;
+$mysqli = new mysqli("localhost", $user, $pwd, "magento");
+if ($mysqli->connect_error) {
+    die("Connection failed: " . $mysqli->connect_error);
 }
 
 function formatDate($date){
@@ -76,6 +84,11 @@ $soap->openSoap();
                                     {
                                         ?><tr role="row" class="odd" id="<?php echo $userid; ?>"><?php
                                     }
+
+
+                                    $newsletter = "SELECT `subscriber_id` FROM `newsletter_subscriber` WHERE `subscriber_id` = (".$user['customer_id'].")";
+                                    $sid = $mysqli->query($newsletter);
+                                    $sidr = mysqli_fetch_assoc($sid);
                                     ?>
 
                                     <td class="sorting_1"><?php if(!is_null($user['firstname'])){ echo $user['firstname']; } ?></td>
@@ -87,12 +100,12 @@ $soap->openSoap();
                                     <td class="sorting_1"><?php if(!is_null($user['email'])){ echo $user['email']; } ?></td> <!-- email -->
                                     <td class="sorting_1"><?php if(!is_null($user['4'])){ echo formatDate($user['4']); } ?></td> <!-- date of birth -->
                                     <td class="sorting_1"><?php if(!isset($user['5']) || $user['5']=='3'){$user['5'] = NULL;}
-                                        if(!is_null($user['5'])){ echo "Ja"; } else { echo "Nein"; }?></td> <!-- newsletter -->
+                                        if (isset($sidr['subscriber_id'])) { echo "Ja"; } else { echo "Nein"; }?></td> <!-- newsletter -->
                                     <td><span class="glyphicon glyphicon-remove" aria-hidden="true" onclick="delete_user(<?php echo $userid; ?>)"></span></td>
                                     </tr><?php
                                 }
 
-
+                                $mysqli->close();
                                 ?>
                                 </tbody>
                             </table>
