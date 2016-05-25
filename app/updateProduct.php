@@ -57,15 +57,11 @@ if (isset($_POST['productId']) && $_POST['product'] == 'updateProduct') {
         $allCategoryPath[] = $ids;
     }
 
-    $allCategoryIds = '';
+    $allCategoryIds = array();
     foreach ($allCategoryPath as $categoryPath) {
         foreach ($categoryPath as $val) {
-            if(strpos($allCategoryIds,$val) === false) {
-                if ($allCategoryIds !== '') {
-                    $allCategoryIds .= ';'.$val;
-                } else {
-                    $allCategoryIds .= $val;
-                }
+            if(!in_array($val,$allCategoryIds)) {
+                $allCategoryIds[] = $val;
             }
         }
     }
