@@ -124,7 +124,7 @@ $users = $soapUser->getAllUsers();
                 <?php
                 $hasNewsletter = array();
                 foreach($users as $user){
-                    $newsletter = "SELECT `subscriber_id` FROM `newsletter_subscriber` WHERE `subscriber_id` = (".$user['customer_id'].")";
+                    $newsletter = "SELECT `subscriber_id` FROM `newsletter_subscriber` WHERE `customer_id` = (".$user['customer_id'].")";
                     $sid = $mysqli->query($newsletter);
                     $sidr = mysqli_fetch_assoc($sid);
                     if (isset($sidr['subscriber_id'])) {

@@ -53,7 +53,7 @@ if (isset($_POST['productId']) && $_POST['product'] == 'updateProduct') {
         $path = $category['path'];
         $ids = explode('/', $path);
         unset($ids[0]);
-        unset($ids[1]);
+        unset($ids[1]); //remove default category with id 2
         $allCategoryPath[] = $ids;
     }
 

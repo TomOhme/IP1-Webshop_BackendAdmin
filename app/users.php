@@ -86,7 +86,7 @@ $soap->openSoap();
                                     }
 
 
-                                    $newsletter = "SELECT `subscriber_id` FROM `newsletter_subscriber` WHERE `subscriber_id` = (".$user['customer_id'].")";
+                                    $newsletter = "SELECT `subscriber_id` FROM `newsletter_subscriber` WHERE `customer_id` = (".$user['customer_id'].")";
                                     $sid = $mysqli->query($newsletter);
                                     $sidr = mysqli_fetch_assoc($sid);
                                     ?>
