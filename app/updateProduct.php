@@ -47,23 +47,25 @@ if (isset($_POST['productId']) && $_POST['product'] == 'updateProduct') {
     $values['price'] = unformatPrice($values['price']);
 
     //get all parent Category ids
-    $categoryPath = array();
+    $allCategoryPath = array();
     foreach ($values['category_ids'] as $categoryId) {
         $category = $soapProductGroup->getCategory($categoryId);
         $path = $category['path'];
         $ids = explode('/', $path);
         unset($ids[0]);
         unset($ids[1]);
-        $categoryPath[] = $ids;
+        $allCategoryPath[] = $ids;
     }
+
     $allCategoryIds = '';
-    foreach ($categoryPath as $val) {
-        $categoryIds = implode(";", $val);
-        if(strpos($allCategoryIds,$categoryIds) === false) {
-            if ($allCategoryIds !== '') {
-                $allCategoryIds .= ';'.$categoryIds; //TODO remove duplicate, how safe categoryIds with , or ;
-            } else {
-                $allCategoryIds .= $categoryIds;
+    foreach ($allCategoryPath as $categoryPath) {
+        foreach ($categoryPath as $val) {
+            if(strpos($allCategoryIds,$val) === false) {
+                if ($allCategoryIds !== '') {
+                    $allCategoryIds .= ';'.$val;
+                } else {
+                    $allCategoryIds .= $val;
+                }
             }
         }
     }
