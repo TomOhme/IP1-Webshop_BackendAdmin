@@ -16,7 +16,7 @@
     <link rel="apple-touch-icon" sizes="300x300" href="apple-touch-icon-300x300.png" />
     <link rel="icon" sizes="300x300" href="apple-touch-icon-300x300.png">
     <meta name="description" content="EasyAdmin for Magento 1.9">
-    <meta name="author" content="Yanick Schraner, Tom Ohme, Janis Angs, Patrick Althaus, François Martin, Jennifer Mueller, Norina Steiner, Stefan Wohlgensinger">
+    <meta name="author" content="Yanick Schraner, Tom Ohme, Janis Angst, Patrick Althaus, François Martin, Jennifer Mueller, Norina Steiner, Stefan Wohlgensinger">
     <title>EasyAdmin</title>
     <link rel="stylesheet" href="../css/bootstrap.min.css"/>
     <link rel="stylesheet" href="../css/loginStyle.css" />

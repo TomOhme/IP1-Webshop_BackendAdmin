@@ -32,40 +32,40 @@ $mysqli->close();
 
 function uploadImg($img){
 
-    $target_dir = "../../magento/media/wysiwyg/"; // Verzeichnis, in welches die Dateien hochgeladen werden sollen
-    $file_name = "kontaktseite"; // Name, mit der die Datei hochgeladen werden soll
+    $target_dir = "../../magento/media/wysiwyg/"; // folder, in which the files should be uploaded
+    $file_name = "kontaktseite"; // name of the file to be uploaded without extension
 
-    $target_file = $target_dir . basename($_FILES["file-0"]["name"]); // Pfad zum Verzeichnis + Dateiname
+    $target_file = $target_dir . basename($_FILES["file-0"]["name"]); // path to the folder concatenated with file name of the uploaded file
     $uploadOk = 1;
-    $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION); // Dateityp des Bildes
-    $save_path = $target_dir . $file_name; // Pfad zur Datei, wie sie gespeichert werden soll ohne Dateiendung
-    $save_file = $save_path . "." . $imageFileType; // Pfad zur Datei, wie sie gespeichert werden soll
-// Überprüfung, ob Datei wirklich ein Bild ist
+    $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION); // file type of the image
+    $save_path = $target_dir . $file_name; // path to the folder concatenated with the defined file name above
+    $save_file = $save_path . "." . $imageFileType; // path to file including the extension
+// Check if file is really an image
     if(isset($_POST["submit"])) {
         $check = getimagesize($_FILES["file-0"]["tmp_name"]);
         if($check !== false) {
-            //echo "Datei ist ein Bild. ";
+            //echo "Datei ist ein Bild.";
             $uploadOk = 1;
         } else {
-            //echo "Datei ist kein Bild. ";
+            //echo "Datei ist kein Bild.";
             $uploadOk = 0;
         }
     }
-// Bildformate auf .jpg, .png und .jpeg beschränken
+// Restrict file formats to .jpg, .png and .jpeg
     if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
         //echo "Bitte nur ein Bild im Format .jpg, .jpeg oder .png hochladen.";
         $uploadOk = 0;
     }
-// Überprüfen, ob $uploadOk durch einen Fehler auf 0 gesetzt wurde
+// Check, if uploadOk was put to 0 by an error
     if ($uploadOk == 0) {
         //echo "Die Datei konnte nicht hochgeladen werden.";
-// Wenn alles ok ist, Datei versuchen hochzuladen
+// If everything is ok, try to upload the file
     } else {
-        // checken, ob eine Datei bereits existiert, wenn ja -> löschen, mit allen Endungen
+        // check if file already exists, if so, delete the file, with all extensions
         foreach (glob("{$save_path}.*") as $delete) {
             unlink($delete);
         }
-
+        // finally upload the file
         if (move_uploaded_file($_FILES["file-0"]["tmp_name"], $save_file)) {
             return $file_name.".".$imageFileType;
         } else {
