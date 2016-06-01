@@ -826,7 +826,7 @@ if(isset($_POST['submit']))
 			);
 		} else if(threshold == '') {
 			$("#thresholdForm").notify("Der Schwellenwert darf nicht leer sein.", {
-				position:"top",
+				position:"bottom",
 				className: "error"}
 			);
 		} else {
