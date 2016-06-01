@@ -815,7 +815,7 @@ if(isset($_POST['submit']))
 				className: "error"}
 			);
 		} else if(discount == ''){
-			 $("#udiscountForm").notify("Der Rabatt darf nicht leer sein.", {
+			 $("#discountForm").notify("Der Rabatt darf nicht leer sein.", {
 				position:"top",
 				className: "error"}
 			);
@@ -825,7 +825,7 @@ if(isset($_POST['submit']))
 				className: "error"}
 			);
 		} else if(threshold == '') {
-			$("#uthresholdForm").notify("Der Schwellenwert darf nicht leer sein.", {
+			$("#thresholdForm").notify("Der Schwellenwert darf nicht leer sein.", {
 				position:"top",
 				className: "error"}
 			);
