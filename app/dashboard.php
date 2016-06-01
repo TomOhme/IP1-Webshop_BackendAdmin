@@ -72,7 +72,7 @@ $users = $soapUser->getAllUsers();
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge"><?php echo $countProductStock; ?></div>
-                                    <div>Geringer Produktemenge</div>
+                                    <div>Geringe Produktemenge</div>
                                     <div>Anzahl Produkte: <?php echo count($products); ?></div>
                                 </div>
                             </div>
